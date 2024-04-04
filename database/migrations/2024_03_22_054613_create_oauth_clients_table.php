@@ -23,6 +23,18 @@ return new class extends Migration
             $table->boolean('revoked');
             $table->timestamps();
         });
+        // Schema::create('oauth_clients', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->unsignedBigInteger('employee_id')->nullable()->index();
+        //     $table->string('name');
+        //     $table->string('secret', 100)->nullable();
+        //     $table->string('provider')->nullable();
+        //     $table->text('redirect');
+        //     $table->boolean('personal_access_client');
+        //     $table->boolean('password_client');
+        //     $table->boolean('revoked');
+        //     $table->timestamps();
+        // });
     }
 
     /**
