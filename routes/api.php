@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Route;
 //function name is store, to be placed on route
 
 Route::prefix("users")->group(function(){
-    //POST: http://localhost:8000/api/users
+    //POST: http://localhost:8000/api/users Register
     Route::post("/", [App\Http\Controllers\UserController::class, 'store']);
 
-    //GET: http://localhost:8000/api/users
+    //GET: http://localhost:8000/api/users  showAll
     Route::get("/", [App\Http\Controllers\UserController::class, 'index']);
 
-    //GET: http://localhost:8000/api/users/{user}
+    //GET: http://localhost:8000/api/users/{user} showSpecific
     Route::get("/{user}", [App\Http\Controllers\UserController::class, 'show']);
 
     //PATCH: http://localhost:8000/api/users/{user}

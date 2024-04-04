@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    //CRUD
+  //CRUD, registration
   //see APP:DEBUG on .env
 
 
@@ -23,9 +23,11 @@ class UserController extends Controller
 public function store(Request $request)
 {
     $validator = validator($request->all(), [
-        "name" => "required|min:4|string|unique:users|max:16",
-        "email" => "required|email|max:64|unique:users",
-        "password" => "required|min:8|max:32|string|confirmed"
+        "username" => "required|min:4|string|unique:users|max:16",
+        "password" => "required|min:8|max:32|string|confirmed",
+        "mobile" => "required|min:11|max:13|",
+        "email" => "required|email|max:64|unique:users"
+
     ]);
 
 
@@ -39,6 +41,10 @@ public function store(Request $request)
 //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
 
     $user = User::create($validator->validated());
+    //$user->user; show user profile when inserting
+    $user->token = $user ->createToken("registration_token")->accessToken;
+
+
     return response()->json([
         "ok" => true,
         "message" => "User has been created!",

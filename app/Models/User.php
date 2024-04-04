@@ -18,9 +18,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
+        'mobile',
+        'email'
     ];
 
     /**
@@ -41,4 +42,14 @@ class User extends Authenticatable
         
         'password' => 'hashed',
     ];
+
+
+
+    public function transaction(){
+        return $this->hasMany(Transaction::class);
+    }
+
 }
+
+
+
