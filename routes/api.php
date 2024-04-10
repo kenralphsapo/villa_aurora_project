@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //create Route:
 //is case sensitive, must use proper casing
-//function name is store, to be placed on route
+
 
 Route::prefix("users")->group(function(){
     //POST: http://localhost:8000/api/users Register
@@ -26,3 +26,22 @@ Route::prefix("users")->group(function(){
 });
 //POST: http://localhost:8000/api/login
 Route::post("/login", [App\Http\Controllers\AuthController::class,'login']);
+
+
+
+Route::prefix("services")->group(function(){
+    //POST: http://localhost:8000/api/services Add Service
+    Route::post("/", [App\Http\Controllers\ServiceController::class, 'addService']);
+
+    //GET: http://localhost:8000/api/services  show All Services
+    Route::get("/", [App\Http\Controllers\ServiceController::class, 'showAllServices']);
+
+    //GET: http://localhost:8000/api/services {service} show specific service
+    Route::get("/{service}", [App\Http\Controllers\serviceController::class, 'showService']);
+
+    //PATCH: http://localhost:8000/api/services/{service} update service
+    Route::PATCH("/{service}", [App\Http\Controllers\serviceController::class, 'updateService']);
+
+    //DELETE: http://localhost:8000/api/services/{service} delete service
+    Route::delete("/{service}", [App\Http\Controllers\serviceController::class, 'destroyService']);    
+});

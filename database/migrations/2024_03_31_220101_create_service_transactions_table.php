@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreign('service_id')->references('id')->on('services');
             $table->unsignedBigInteger('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->float("price"); 
+            //based price in services
         });
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-  //CRUD, registration
+  //CRUD, User Registration
   //see APP:DEBUG on .env
 
 

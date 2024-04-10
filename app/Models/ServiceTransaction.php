@@ -12,4 +12,12 @@ class ServiceTransaction extends Model
 
 
     
+    public function transaction(){
+        return $this->hasOne(Transaction::class);
+    }
+
+    
+    public function service(){
+        return $this->belongsTo(Service::class);
+    }
 }
