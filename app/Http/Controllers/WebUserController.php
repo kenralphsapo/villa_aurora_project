@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -96,24 +97,64 @@ class WebUserController extends Controller
    }
   
 
-   public function login()
-   {
-       return view('pages.login');
-   }
 
-   public function loginPost(Request $request)
-   {
-       $credentials = [
-        'email' => $request->email,
-        'password' => $request->password,
-       ];
-   
-       if (Auth::attempt($credentials)) {
-           // Authentication passed
-           return redirect('/home')->with('success','Login successful');
-       } 
-       return back()->with('error','Email or Password wrong');
-   }
+   public function register()
+    {
+        return view("register");
+    }
+
+    public function registerPost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required',
+            'mobile' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $user = new User();
+        $user->username = $request->username;
+        $user->password = Hash::make($request->password);
+        $user->mobile = $request->mobile;
+        $user->email = $request->email;
+
+        $user->save();
+
+        return back()->with("success", "Registered successfully");
+    }
+
+    public function login()
+    {
+        return view('pages.login');
+    }
+
+    public function loginPost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed
+            return redirect('/home')->with('success', 'Login successful');
+        }
+
+        return back()->with('error', 'Email or Password wrong');
+    }
 
 
 }
