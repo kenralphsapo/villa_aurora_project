@@ -15,7 +15,7 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $validator = validator($request->all(), [
-            'name'=>"required",
+            'username'=>"required",
             'password'=>"required"
         ]);
 

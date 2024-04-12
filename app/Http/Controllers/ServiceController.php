@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    //CRUD on Services
+    //CRUD on Services Table
 
 /**
  * CREATE a user data from request
