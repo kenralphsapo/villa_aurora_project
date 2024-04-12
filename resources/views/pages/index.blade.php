@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="container">
+    <!-- <div class="container">
 
     <h3 class="text-center mt-5">Registration</h3>
     @if(session('success'))
@@ -45,7 +45,7 @@
 
                     </div>
                 </form>
-            </div>
+            </div> -->
 
                 <table class="table mt-5">
                     <thead>

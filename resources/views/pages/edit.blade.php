@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Username</label>
-                            <input type="text" class="form-control" name="user_name" value="{{ $user->username }}">
+                            <input type="text" class="form-control" name="username" value="{{ $user->username }}">
                         </div>
                         <div class="col-md-6">
                             <label>Password</label>
