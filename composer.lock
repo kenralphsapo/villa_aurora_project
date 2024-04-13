@@ -1382,16 +1382,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v12.0.1",
+            "version": "v12.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "37a5b5fbcae25dbb7c6a973957c2ce490e76946e"
+                "reference": "b33d6fce4268d997299547c6e714bada2dab9888"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/37a5b5fbcae25dbb7c6a973957c2ce490e76946e",
-                "reference": "37a5b5fbcae25dbb7c6a973957c2ce490e76946e",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/b33d6fce4268d997299547c6e714bada2dab9888",
+                "reference": "b33d6fce4268d997299547c6e714bada2dab9888",
                 "shasum": ""
             },
             "require": {
@@ -1411,6 +1411,7 @@
                 "nyholm/psr7": "^1.5",
                 "php": "^8.0",
                 "phpseclib/phpseclib": "^2.0|^3.0",
+                "symfony/console": "^6.0|^7.0",
                 "symfony/psr-http-message-bridge": "^2.1|^6.0|^7.0"
             },
             "require-dev": {
@@ -1453,7 +1454,7 @@
                 "issues": "https://github.com/laravel/passport/issues",
                 "source": "https://github.com/laravel/passport"
             },
-            "time": "2024-03-14T16:27:37+00:00"
+            "time": "2024-04-05T15:09:10+00:00"
         },
         {
             "name": "laravel/prompts",
