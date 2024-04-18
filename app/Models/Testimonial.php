@@ -13,4 +13,10 @@ class Testimonial extends Model
     public function transaction(){
         return $this->belongsTo(Transaction::class);
     }
+
+
+    protected $fillable = [
+        'feedback',
+        'rating'
+    ];
 }

@@ -11,6 +11,7 @@ class Service extends Model
 
     public function serviceTransaction(){
         return $this->hasOne(ServiceTransaction::class);
+        
     }
 
     protected $fillable = [

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Transaction extends Model
 {
     use HasFactory;
@@ -16,6 +17,17 @@ class Transaction extends Model
     hasOne = define a one-to-one relationship between two models.
     belongToMany = define a many-to-many relationship between two models.
     */
+
+
+
+    protected $fillable = [
+        'service_id',
+        'transaction_id',
+        'price'
+    ];
+
+
+
     public function user(){
         return $this->hasOne(User::class); // transaction musst belong to a user, this method used one mandatory and many
     }
@@ -30,5 +42,9 @@ class Transaction extends Model
 
     public function room(){
         return $this->hasOne(Room::class);
+    }
+
+    public function service(){
+        $this->belongsToMany(Service::class)->withPivot('id', 'price');
     }
 }

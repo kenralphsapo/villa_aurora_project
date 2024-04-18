@@ -12,4 +12,10 @@ class Room extends Model
     public function transaction(){
         return $this->belongsTo(Transaction::class);
     }
+
+
+    protected $fillable = [
+        'room',
+        'name'
+    ];
 }
