@@ -11,7 +11,7 @@ const checkAuth = (WrappedComponent) => {
     const dispatch = useDispatch();
 
     if (!user) {
-        if(cookies.AUTH_TOKENS){
+        if(cookies.AUTH_TOKEN){
             checkToken(cookies.AUTH_TOKEN).then(res =>{
                 if(res?.ok){
                     dispatch(login(res.data));
