@@ -7,7 +7,7 @@ import { useMediaQuery } from '@mui/material';
 
 function Home() {
   const user = useSelector(state => state.auth.user)
-  
+
   return (
     <Box
       sx={{
@@ -35,4 +35,4 @@ function Home() {
   );
 }
 
-export default checkAuth(Home)
+export default checkAuth(Home);
