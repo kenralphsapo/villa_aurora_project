@@ -25,6 +25,8 @@ export const register = async (body) => {
 
       return await response.json()
     }
+
+    
   
     export const login = async (body) => {
       const response = await fetch(`${url}/login`, {

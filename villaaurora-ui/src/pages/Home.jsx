@@ -14,13 +14,14 @@ function Home() {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: '#f5f5f5',
+        margin: 0,
+        padding: 0,
       }}
     >
-      <Typography sx={{ marginBottom: '2rem' }}>
+      <Typography variant='h2' >
         Welcome to Villa Aurora {user?.username ?? "Guest"}
       </Typography>
-      <Typography sx={{ marginBottom: '2rem' }}>
+      <Typography variant='h4' >
         Discover amazing things here!
       </Typography>
       <Link to="/login">
