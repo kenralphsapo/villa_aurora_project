@@ -51,7 +51,7 @@ class ServiceTransactionController extends Controller
   * @return \Illuminate\Http\Response
   */
  
- public function showServiceTransactions(){
+ public function showAllServiceTransactions(){
      return response()->json([
      "ok" => true,
      "message" => "Service Transactions have been retrieved",
@@ -60,7 +60,7 @@ class ServiceTransactionController extends Controller
  }
  
  
- //Retrieve specific user using ID
+ //Retrieve specific ST using ID
  /**
   * GET: /api/serviceTransaction/{serviceTransaction}
   * @param ServiceTransaction
@@ -68,7 +68,7 @@ class ServiceTransactionController extends Controller
   */
  
  
- public function show(ServiceTransaction $serviceTransaction){
+ public function showServiceTransaction(ServiceTransaction $serviceTransaction){
      return response()->json([
          "ok" =>true,
          "message" => "Service Transactions has been retrieved.",
@@ -86,7 +86,7 @@ class ServiceTransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
  
-     public function update(Request $request, ServiceTransaction $serviceTransaction){
+     public function updateServiceTransaction(Request $request, ServiceTransaction $serviceTransaction){
          $validator = validator($request->all(), [
              "service_id" => "required|min:1|max:999|numeric,$serviceTransaction->service_id|max:999|alpha_dash",
              "transaction_id" => "required|min:8|max:999|numeric,$serviceTransaction->transaction_id|max:999",
@@ -120,7 +120,7 @@ class ServiceTransactionController extends Controller
   */
  
  
- public function destroy(ServiceTransaction $serviceTransaction){
+ public function deleteServiceTransaction(ServiceTransaction $serviceTransaction){
      $serviceTransaction->delete();
      return response()->json([
          "ok" =>true,

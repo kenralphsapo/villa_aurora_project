@@ -41,13 +41,11 @@ public function store(Request $request)
 //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
 
     $user = User::create($validator->validated());
-    //$user->user; show user profile when inserting
-    $user->token = $user ->createToken("registration_token")->accessToken;
 
 
     return response()->json([
         "ok" => true,
-        "message" => "User has been created!",
+        "message" => "Account has been created!",
         "data" => $user
         ], 201);
 }
@@ -55,39 +53,41 @@ public function store(Request $request)
 
 /**
  * RETRIEVE all users
- * GET: /api/users
+ * @param Request
  * @return \Illuminate\Http\Response
  */
 
-public function index(){
+public function index(Request $request){
     return response()->json([
     "ok" => true,
-    "message" => "users has been retrieved",
+    "message" => "User info has been retrieved",
     "data" => User::all()
-    ]);
+    ], 200);
 }
 
 
 //Retrieve specific user using ID
 /**
  * GET: /api/users/{user}
+ * @param Request
  * @param User
  * @return \Illuminate\Http\Response
  */
 
 
-public function show(User $user){
+public function show(Request $request, User $user){
     return response()->json([
         "ok" =>true,
         "message" => "User has been retrieved.",
         "data" => $user
-    ]);
+    ], 200);
     }
 
 
 
 
     /**
+     * Update specific user using inputs from request and id from URI
     * PATCH: /api/users/{user}
     * @param Request
     * @param User
@@ -96,9 +96,10 @@ public function show(User $user){
 
     public function update(Request $request, User $user){
         $validator = validator($request->all(), [
-            "name" => "sometimes|min:4|string|unique:users,name,$user->id|max:16|alpha_dash",
-            "email" => "sometimes|email|max:64|unique:users,email,$user->id",
-            "password" => "sometimes|min:8|max:32|string|confirmed"
+            "username" => "sometimes|min:4|string|unique:users|max:32",
+            "password" => "sometimes|min:8|max:32|string|confirmed",
+            "mobile" => "sometimes|min:11|max:13|",
+            "email" => "sometimes|email|max:64|unique:users"
         ]);
 
         if($validator->fails())
@@ -111,11 +112,12 @@ public function show(User $user){
         }
 
         $user->update($validator->validated());
+
         return response()->json([
                 "ok" => true,
                 "message" => "User has been updated!",
                 "data" => $user
-        ]);
+        ], 200);
     }
 
 
@@ -128,20 +130,13 @@ public function show(User $user){
  */
 
 
-public function destroy(User $user){
+public function destroy(Request $request, User $user){
     $user->delete();
     return response()->json([
         "ok" =>true,
         "message" => "User has been deleted.",
         "data" => $user
-    ]);
+    ], 200);
     }
-
-
-
-
-
-
-
 
 }
