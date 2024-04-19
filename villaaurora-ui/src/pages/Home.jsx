@@ -3,9 +3,11 @@ import { Box, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import checkAuth from '../hoc/checkAuth';
+import { useMediaQuery } from '@mui/material';
 
 function Home() {
   const user = useSelector(state => state.auth.user)
+  
   return (
     <Box
       sx={{
