@@ -107,6 +107,8 @@ Route::prefix("rooms")->group(function(){
 
 
 //Transaction Table
+
+//  http://localhost:8000/api/transactions/
 Route::prefix("transactions")->group(function(){
 
     Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);

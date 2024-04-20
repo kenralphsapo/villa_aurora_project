@@ -12,13 +12,16 @@ use app\Models\User;
 class TransactionController extends Controller
 {
 
+
     public function transaction(Request $request)
     {
     $validator = Validator::make($request->all(),[
-        'user_id' => 'required|exists:user,id',
-        'room_id' => 'required|exists:room,room',
+        'user_id' => 'required|exists:users,id',
+        'room_id' => 'required|exists:rooms,id',
         'rent_start' => 'required|date|date_format:Y-m-d',
-        'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start' 
+        'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start',
+        'service_id' => 'required|array|min:1',
+        'service_id.*' => 'exists:services,id'
         
     ]);
 
@@ -31,26 +34,12 @@ class TransactionController extends Controller
         }
 
         $validated = $validator->validated();
-        $transaction_input = $validator->safe()->except(['services_id']);
+        $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
         $transaction = Transaction::create($transaction_input);
 
-        if (isset($validated['service_id'])){
-            $addons = [];
-            foreach($validated['service_id'] as $key => $service){
-                $services[$service] = [
-                    "id" => $validated['services_id'][$key] ?? 1,
-                    "price" => $services::find($service)->price
-                ];
-            }
-            $transaction->services()->sync($services);
-        }
+        $transaction->services()->sync($validated["service_id"]);
 
-        $user = User::find($transaction_input['id']);
-        $room = Room::find($transaction_input['room']);
-        $transaction->user()->associate($user);
-        $transaction->room()->associate($room);
-
-        $transaction->save();
+        $transaction->services;
 
         return response()->json([
             'success' => true,
@@ -59,4 +48,5 @@ class TransactionController extends Controller
         ], 201);
 
     }
-}
+
+    }

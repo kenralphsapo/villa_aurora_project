@@ -20,23 +20,21 @@ class Transaction extends Model
 
 
 
-    protected $fillable = [
-        'service_id',
-        'transaction_id',
-        'price'
-    ];
+    // protected $fillable = [
+    //     'service_id',
+    //     'transaction_id',
+    //     'price'
+    // ];
 
     public function services(){
         return $this->belongsToMany(Service::class);
      }
 
     public function user(){
-        return $this->hasOne(User::class); // transaction musst belong to a user, this method used one mandatory and many
+        return $this->hasOne(User::class); 
+        // transaction musst belong to a user, this method used one mandatory and many
     }
 
-    public function serviceTransaction(){
-        return $this->hasOne(ServiceTransaction::class);
-    }
 
     public function testimonial(){
         return $this->hasOne(Testimonial::class);
