@@ -12,7 +12,6 @@ class ServiceTransaction extends Model
 
 
 
-
     protected $fillable = [
         'service_id',
         'transaction_id',

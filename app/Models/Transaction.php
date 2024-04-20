@@ -26,7 +26,9 @@ class Transaction extends Model
         'price'
     ];
 
-
+    public function services(){
+        return $this->belongsToMany(Service::class);
+     }
 
     public function user(){
         return $this->hasOne(User::class); // transaction musst belong to a user, this method used one mandatory and many
@@ -44,7 +46,5 @@ class Transaction extends Model
         return $this->hasOne(Room::class);
     }
 
-    public function service(){
-        $this->belongsToMany(Service::class)->withPivot('id', 'price');
-    }
+
 }
