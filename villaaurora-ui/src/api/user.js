@@ -11,3 +11,17 @@ export const index = async (token) => {
 
       return await response.json()
 }
+
+export const store = async (body, token) => {
+    const response = await fetch(`${url}/users`, {
+        method: 'POST',
+        headers: {
+          Accept: "application/json",
+"Content-Type": 'application/json'
+          Authorization: `Bearer ${token}`
+        },
+body: JSON.stringify(body)
+      })
+
+      return await response.json()
+}
