@@ -7,7 +7,7 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
-import Admin from './pages/Home';
+import Admin from './pages/Admin';
 
 function App() {
   const router = createBrowserRouter([

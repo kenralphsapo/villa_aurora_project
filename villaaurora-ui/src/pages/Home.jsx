@@ -10,7 +10,7 @@ import logo from './images/logo.jpg';
 import bgmockup from './images/background.jpg';
 
 function Home() {
-  const user = useSelector(state => state.auth.user)
+  const user = useSelector(state => state.auth.user);
 
   return (
     <Box className="container-fluid">
@@ -36,6 +36,11 @@ function Home() {
             <Link href="index.html" className="navbar-brand">
               <img src={logo} className="logo-image img-fluid" alt="Logo" />
             </Link>
+            {user ? (
+                  <Typography variant='h6'>
+                    {user?.username}
+                  </Typography>
+                ) : null}
             <Box component="ul" className="nav flex-column">
               <Box component="li" className="nav-item">
                 <Link href="#section_1" className="nav-link click-scroll">
@@ -63,27 +68,45 @@ function Home() {
                 </Link>
               </Box>
               <Box component="li" className="nav-item">
+                {user ? (
+                  <Box>
+                    <Box>
+                      <Link to="/admin" className="nav-link click-scroll">
+                        Admin
+                      </Link>
+                    </Box>
+                    <Box>
+                      <Link to="#" className="nav-link click-scroll">
+                        Logout
+                      </Link>
+                    </Box>
+                  </Box>
+                ) : 
                 <Link to="/login" className="nav-link click-scroll">
-                {user?.username ?? "Login"}
-                </Link>
+                    Login
+                  </Link>}
               </Box>
             </Box>
           </Box>
         </Box>
         <Box className="col-md-8 ms-sm-auto col-lg-9 p-0">
-          <Box variant="section"
+          <Box
+            variant="section"
             className="hero-section d-flex justify-content-center align-items-center"
             id="section_1"
           >
             <Box className="container">
               <Box className="row">
                 <Box className="col-lg-8 col-12">
-                  <Typography variant="h1" className="text-white mb-lg-3 mb-4 sz-60px">
+                  <Typography
+                    variant="h1"
+                    className="text-white mb-lg-3 mb-4 sz-60px"
+                  >
                     Villa Aurora Private Resort
                   </Typography>
-                  <p className="text-black">
+                  <Typography className="text-black">
                     Don't miss out! Reserve your spot at our luxurious resort today.
-                  </p>
+                  </Typography>
                   <br />
                   <Link
                     className="btn custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2"
@@ -92,7 +115,10 @@ function Home() {
                     About Us
                   </Link>
 
-                  <Link className="btn custom-btn smoothscroll mb-2" href="#section_3">
+                  <Link
+                    className="btn custom-btn smoothscroll mb-2"
+                    href="#section_3"
+                  >
                     What we have
                   </Link>
                 </Box>
@@ -106,11 +132,16 @@ function Home() {
                 alt="background-mockup"
               />
 
-              <h4>
-                <strong className="text-white sz-20px">Reserve your spot at paradise.</strong>
-              </h4>
+              <Typography variant="h4">
+                <strong className="text-white sz-20px">
+                  Reserve your spot at paradise.
+                </strong>
+              </Typography>
 
-              <Link href="#booking-section" className="smoothscroll btn custom-btn custom-btn-italic mt-3">
+              <Link
+                href="#booking-section"
+                className="smoothscroll btn custom-btn custom-btn-italic mt-3"
+              >
                 Make a Reservation
               </Link>
             </Box>
