@@ -7,7 +7,7 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
-import Welcome from './pages/Welcome';
+import Admin from './pages/Home';
 
 function App() {
   const router = createBrowserRouter([
@@ -24,8 +24,8 @@ function App() {
       element: <Register />
     },
     {
-      path: '/Welcome',
-      element: <Welcome />
+      path: '/admin',
+      element: <Admin />
     },
     {
       path: '*',
