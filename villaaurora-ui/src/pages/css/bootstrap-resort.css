@@ -95,6 +95,19 @@ strong {
   transform: scale(1.1);
 }
 
+#logoname {
+  margin-bottom: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 5rem;
+  color: gold;
+}
+
+
+#font{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+
 
 /*---------------------------------------
   SECTION               
@@ -132,6 +145,24 @@ strong {
 -----------------------------------------*/
 #bgcolor{
   background-image: linear-gradient(#2998dd,white, #a1c8e7);
+}
+
+#bglogin {
+  background-image: url(../images/backgroundlogin.jpg);
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#bgregister{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 
