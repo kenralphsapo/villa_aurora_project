@@ -7,9 +7,12 @@ import { useCookies } from 'react-cookie';
 import { index } from '../api/user';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
+import { toast } from 'react-toastify';
 
 function Admin() {
     const user = useSelector(state => state.auth.user);
+const [createDialog ,setCreateDialog] = useState(false);
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(false);
     const [warnings, setWarning] = useState({});
@@ -31,35 +34,45 @@ function Admin() {
     }
     useEffect(refreshData, []);
 
-    const onSubmit = (e) => {
+    const onCreate = (e) => {
         e.preventDefault();
-        loginAPI({
-          username,
-          password,
-        }).then(res => {
-          if(res?.ok){
-            setCookie("AUTH_TOKEN", res.data.token);
-            dispatch(login(res.data));
-            navigate("/");
-            toast.success(res?.message ?? "Logged in successfully.");
-          }else{
+const body = {
+        username: $("#username").val(),
+        password: $("#password").val(),
+        password_confirmation: $("#password_confirmation").val(),
+        mobile: $("#mobile").val(),
+        email: $("#email").val(),
+      };
+       store(body, cookies.AUTH_TOKEN).then(res => {
+if (res?.ok) {
+            toast.success(res?.message ?? "Account has been created);
+setCreateDialog(false);
+setWarning({});
+refreshData();
+          } else {
             toast.error(res?.message ?? "Something went wrong.");
+            setWarning(res?.errors);
           }
-        });
+});
       };
     return (
         <Box>
             <Typography>Hello {user?.username ?? "Who are you??"}</Typography>
             {
                 user ? (
-                    <Box sx={{ mt: 2 }}>
+                   <Box sx=((mt: 2}}>
+setCreateDialog(value: React.SetStateAction<boolean>):
+<Box sx={{display: 'flex', justifyContent: 'end', py: 2}}>
+void
+<Button sx=((mr:5}} onClick={() => setCreateDialog(true) }>Create User</Button>
+</Box>
                         <DataGrid sx={{height: '500px'}} columns={columns} rows={rows} />
-                        <Dialog open={true}>
+                        <Dialog open={createDialog}>
                         <DialogTitle>Edit Form</DialogTitle>
                         <DialogContent>
       <Box
         component="form"
-        onSubmit={onSubmit}
+        onSubmit={onCreate}
       >
         <Box>
           <TextField
@@ -141,7 +154,7 @@ function Admin() {
         </Box>
 
         <Box>
-          <Button disabled={loading} type="submit" variant="contained" fullWidth>
+          <Button id="submit_btn" disabled={loading} type="submit"  sx=<{{display: 'none'}}>
             Submit
           </Button>
         </Box>
@@ -149,8 +162,8 @@ function Admin() {
                             
                         </DialogContent>
                         <DialogActions>
-                            <Button color="info">Close</Button>
-                            <Button onClick={onsubmit}>Create</Button>
+                            <Button color="info" onClick={() => setCreateDialog(false) }>Close</Button>
+                            <Button onClick={() => {$("#submit_btn").trigger ("click")}}>Create</Button>
                         </DialogActions>
                         </Dialog>
                     </Box>
