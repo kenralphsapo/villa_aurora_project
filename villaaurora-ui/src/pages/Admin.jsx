@@ -4,7 +4,7 @@ import checkAuth from '../hoc/checkAuth';
 import { useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
 import { useCookies } from 'react-cookie';
-import { index, store } from '../api/user';
+import { index } from '../api/user';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 function Admin() {
     const user = useSelector(state => state.auth.user);
 const [createDialog ,setCreateDialog] = useState(false);
+const [deleteDialog, setDeleteDialog] = useState(null);
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(false);
     const [warnings, setWarning] = useState({});
@@ -22,6 +23,17 @@ const [createDialog ,setCreateDialog] = useState(false);
         { field: 'username', headerName: 'Username' },
         { field: 'mobile', headerName: 'Mobile' },
         { field: 'email', headerName: 'Email' },
+{field: 'actions', headerName: '', sortable: false, filterable:false renderCell: params => (
+<Box sx={{display: 'flex', gap: 1, justify content: 'center', alignItems: 'center', height: '100%'}}>
+<Button variant="contained" color="warning">
+Edit
+</Button>
+<Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id) }>
+Delete
+</Button>
+</Box>
+) , width: 200},
+
     ];
     const refreshData = () => {
         index(cookies.AUTH_TOKEN).then(res => {
@@ -35,6 +47,7 @@ const [createDialog ,setCreateDialog] = useState(false);
     useEffect(refreshData, []);
 
     const onCreate = (e) => {
+if (!loading) {
         e.preventDefault();
 const body = {
         username: $("#username").val(),
@@ -53,7 +66,10 @@ refreshData();
             toast.error(res?.message ?? "Something went wrong.");
             setWarning(res?.errors);
           }
-});
+}).finally(() => {
+          setLoading(false);
+        });
+
       };
     return (
         <Box>
@@ -68,7 +84,7 @@ void
 </Box>
                         <DataGrid sx={{height: '500px'}} columns={columns} rows={rows} />
                         <Dialog open={createDialog}>
-                        <DialogTitle>Edit Form</DialogTitle>
+                        <DialogTitle>Create Form</DialogTitle>
                         <DialogContent>
       <Box
         component="form"
@@ -166,6 +182,24 @@ void
                             <Button onClick={() => {$("#submit_btn").trigger ("click")}}>Create</Button>
                         </DialogActions>
                         </Dialog>
+<Dialog open={deleteDialog}>
+<DialogTitle> 
+Are you sure?
+</DialogTitle>
+<DialogContent>
+<Typography>
+Do you want to delete this user ID: {deleteDialog}
+<Typography>
+</DialogContent>
+<DialogActions>
+<Button onClick={() => setCreateDialog(null) }>
+Cancel
+</Button>
+<Button>
+Confirm
+</Button>
+</DialogActions>
+</Dialog>
                     </Box>
                 ) : null
             }
