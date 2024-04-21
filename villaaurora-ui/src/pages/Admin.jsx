@@ -4,7 +4,7 @@ import checkAuth from '../hoc/checkAuth';
 import { useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
 import { useCookies } from 'react-cookie';
-import { index } from '../api/user';
+import { index, store } from '../api/user';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
