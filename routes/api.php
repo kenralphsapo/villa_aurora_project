@@ -67,26 +67,6 @@ Route::prefix("services")->group(function(){
 });
 
 
-//Service Transaction Table
-Route::prefix("serviceTransaction")->group(function(){
-    //POST: http://localhost:8000/api/serviceTransaction Add ST
-    Route::post("/", [App\Http\Controllers\ServiceTransactionController::class, 'addServiceTransaction']);
-
-    //GET: http://localhost:8000/api/serviceTransactions  show All STs
-    Route::get("/", [App\Http\Controllers\ServiceTransactionController::class, 'showAllServiceTransactions']);
-
-    //GET: http://localhost:8000/api/rooms {room} show specific room
-    Route::get("/{serviceTransaction}", [App\Http\Controllers\ServiceTransactionController::class, 'showServiceTransaction']);
-
-    //PATCH: http://localhost:8000/api/serviceTransactions/{serviceTransaction} update ST
-    Route::PATCH("/{serviceTransaction}", [App\Http\Controllers\ServiceTransactionController::class, 'updateServiceTransaction']);
-
-    //DELETE: http://localhost:8000/api/serviceTransactions/{serviceTransaction} delete ST
-    Route::delete("/{serviceTransaction}", [App\Http\Controllers\ServiceTransactionController::class, 'deleteServiceTransaction']);    
-});
-
-
-
 //Rooms Table
 Route::prefix("rooms")->group(function(){
     //POST: http://localhost:8000/api/rooms Add Room
@@ -107,11 +87,12 @@ Route::prefix("rooms")->group(function(){
 
 
 //Transaction Table
-
-//  http://localhost:8000/api/transactions/
 Route::prefix("transactions")->group(function(){
-
+       //POST: http://localhost:8000/api/transactions
     Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);
+
+      //GET: http://localhost:8000/api/transactions  show All Transactions
+      Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
 });
 
 
