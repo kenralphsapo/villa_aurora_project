@@ -19,7 +19,9 @@ return new class extends Migration
             $table->date("rent_start");
             $table->date("rent_end");
             $table->timestamps();
-            $table->foreign("id")->references("id")->on("users");
+            $table->foreign("user_id")->references("id")->on("users");
+
+            
         });
     }
 
