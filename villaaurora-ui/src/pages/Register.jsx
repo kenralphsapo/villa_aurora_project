@@ -47,7 +47,7 @@ export default function Register() {
   };
 
   return (
-    <Box id="bgregister"
+    <Box id="bglogin"
     >
       <Box sx={{}}>
       <Box
