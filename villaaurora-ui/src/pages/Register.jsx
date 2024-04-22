@@ -47,14 +47,9 @@ export default function Register() {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
+    <Box id="bgregister"
     >
+      <Box sx={{}}>
       <Box
         component="form"
         onSubmit={onSubmit}
@@ -161,6 +156,7 @@ export default function Register() {
             <Typography>Already have an account? Login</Typography>
           </Link>
         </Box>
+      </Box>
       </Box>
     </Box>
   );

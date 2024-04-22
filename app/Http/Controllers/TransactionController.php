@@ -49,6 +49,7 @@ class TransactionController extends Controller
 
     }
 
+<<<<<<< HEAD
 
     /**
  * RETRIEVE all transactions
@@ -145,4 +146,14 @@ class TransactionController extends Controller
 
 
 
+=======
+    public function showAllTransactions(Request $request){
+        return response()->json([
+        "ok" => true,
+        "message" => "Transaction info has been retrieved",
+        "data" => Transaction::all()
+        ], 200);
+    }
+
+>>>>>>> ea49dfa0dd9a70963908af63c442c511bc738262
     }

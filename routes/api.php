@@ -88,10 +88,18 @@ Route::prefix("rooms")->group(function(){
 
 //Transaction Table
 Route::prefix("transactions")->group(function(){
+<<<<<<< HEAD
     //POST: http://localhost:8000/api/transactions Add Transaction
     Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);
     //GET: http://localhost:8000/api/transactions  show All Transactions
     Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
+=======
+       //POST: http://localhost:8000/api/transactions
+    Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);
+
+      //GET: http://localhost:8000/api/transactions  show All Transactions
+      Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
+>>>>>>> ea49dfa0dd9a70963908af63c442c511bc738262
 });
 
 

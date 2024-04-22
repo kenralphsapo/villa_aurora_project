@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { login } from '../redux/authSlice';
+import './css/bootstrap-resort.css';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -33,17 +34,14 @@ export default function Login() {
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)',
-        height: '100vh',
-      }}
+      id="bglogin"
     >
+       <Typography id="logoname" variant="h2" sx={{ textAlign: 'center' }}>
+          Villa Aurora
+        </Typography>
       <Box component="form" onSubmit={onSubmit} sx={{ p: 2, maxWidth: 300, width: '100%', border: '2px solid black',
-        borderRadius: '10px', }}>
-        <Typography variant="h2" sx={{ textAlign: 'center' }}>
+        borderRadius: '10px', backgroundColor: 'white',}}>
+        <Typography id="font" variant="h2" sx={{ textAlign: 'center' }}>
           Login
         </Typography>
         <TextField
