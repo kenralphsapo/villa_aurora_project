@@ -17,7 +17,7 @@ class AuthController extends Controller
         $validator = validator($request->all(), [
             "username" => "required|min:4|string|unique:users|max:32",
             "password" => "required|min:8|max:32|string|confirmed",
-            "mobile" => "required|min:11|max:13|",
+            "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users"
     
         ]);

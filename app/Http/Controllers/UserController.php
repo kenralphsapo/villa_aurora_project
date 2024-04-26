@@ -25,7 +25,7 @@ public function store(Request $request)
     $validator = validator($request->all(), [
         "username" => "required|min:4|string|unique:users|max:32",
         "password" => "required|min:8|max:32|string|confirmed",
-        "mobile" => "required|min:11|max:13|",
+        "mobile" => "required|min:11|max:13|phone:PH",
         "email" => "required|email|max:64|unique:users"
 
     ]);
@@ -98,6 +98,8 @@ public function show(Request $request, User $user){
         $validator = validator($request->all(), [
             "username" => "sometimes|min:4|string|unique:users|max:32",
             "password" => "sometimes|min:8|max:32|string|confirmed",
+            "mobile" => "sometimes|min:11|max:13|phone:PH",
+            "email" => "sometimes|email|max:64|unique:users"
             "mobile" => "sometimes|min:11|max:13|",
             "email" => "sometimes|email|max:64|unique:users",
             

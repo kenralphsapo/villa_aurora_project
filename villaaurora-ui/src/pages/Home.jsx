@@ -1,17 +1,32 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Box, Typography, Button, Grid } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import checkAuth from '../hoc/checkAuth';
 import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
 import './css/bootstrap-icons.css';
 import logo from './images/logo.jpg';
 import bgmockup from './images/background.jpg';
+import event from './images/event.jpg';
+import catering from './images/catering.jpg';
+import { useCookies } from 'react-cookie';
+import { toast } from 'react-toastify';
+
 
 function Home() {
   const user = useSelector(state => state.auth.user);
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const logout = () => {
+    removeCookie("AUTH_TOKEN");
+    toast.success("Logged out successfully.");
+    navigate("/");
+    dispatch();
+  };
+  
   return (
     <Box className="container-fluid">
       <Box className="row">
@@ -76,7 +91,7 @@ function Home() {
                       </Link>
                     </Box>
                     <Box>
-                      <Link to="#" className="nav-link click-scroll">
+                      <Link onClick={logout} className="nav-link click-scroll">
                         Logout
                       </Link>
                     </Box>
@@ -147,7 +162,32 @@ function Home() {
             </Box>
           </Box>
         </Box>
-      </Box>
+    {/* <section class="about-section section-padding" id="section_2">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-12 mx-auto">
+            <h2 class="mb-4">Services</h2>
+            <div class="border-bottom pb-3 mb-5">
+              <p>Perfect place for you to <strong>rest, relax, recharge, and enjoy!</strong></p>
+              <p>Also, celebrate birthdays, baptisms, weddings, reunions, and other special occasions with us. We are located in Angono, Rizal.</p>
+            </div>
+          </div>
+            <Box className="custom-block-bg-overlay-wrap me-lg-5 mb-5 mb-lg-0">
+              <img src={catering} className="custom-block-bg-overlay-image img-fluid" alt="" />
+              <div className="team-info d-flex align-items-center flex-wrap">
+                <p className="mb-0">Birthday</p>
+              </div>
+            </Box>
+            <Box className="custom-block-bg-overlay-wrap mt-4 mt-lg-0 mb-5 mb-lg-0">
+              <img src={event} className="custom-block-bg-overlay-image img-fluid" alt="" />
+              <div className="team-info d-flex align-items-center flex-wrap">
+                <p className="mb-0">Wedding</p>
+              </div>
+            </Box>
+        </div>
+      </div>
+    </section> */}
+    </Box>
     </Box>
   );
 }
