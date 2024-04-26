@@ -41,7 +41,7 @@ public function store(Request $request)
 //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
 
     $user = User::create($validator->validated());
-
+    
 
     return response()->json([
         "ok" => true,
@@ -99,7 +99,9 @@ public function show(Request $request, User $user){
             "username" => "sometimes|min:4|string|unique:users|max:32",
             "password" => "sometimes|min:8|max:32|string|confirmed",
             "mobile" => "sometimes|min:11|max:13|",
-            "email" => "sometimes|email|max:64|unique:users"
+            "email" => "sometimes|email|max:64|unique:users",
+            
+            //"role" => User::in(["Administrator", "Guest"])
         ]);
 
         if($validator->fails())
@@ -112,7 +114,12 @@ public function show(Request $request, User $user){
         }
 
         $user->update($validator->validated());
-
+           /*
+            if($request()->user->role != "Administrator")
+            {
+                unset($validator['role']);
+            }
+            */
         return response()->json([
                 "ok" => true,
                 "message" => "User has been updated!",

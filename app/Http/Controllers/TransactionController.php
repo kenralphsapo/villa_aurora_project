@@ -21,8 +21,7 @@ class TransactionController extends Controller
         'rent_start' => 'required|date|date_format:Y-m-d',
         'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start',
         'service_id' => 'required|array|min:1',
-        'service_id.*' => 'exists:services,id'
-        
+        'service_id.*' => 'exists:services,id',
     ]);
 
     if($validator->fails()){
@@ -35,10 +34,12 @@ class TransactionController extends Controller
 
         $validated = $validator->validated();
         $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
+        
+        //code unsure
         $transaction = Transaction::create($transaction_input);
-
+        
         $transaction->services()->sync($validated["service_id"]);
-
+        
         $transaction->services;
 
         return response()->json([
