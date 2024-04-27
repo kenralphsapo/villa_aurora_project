@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import './css/bootstrap-resort.css'
+import './css/resort.css'
 
 export default function NotFound() {
   return (
     <Box
-        id="bgcolor"
+        id="notfoundbg"
       sx={{
         display: 'flex',
         flexDirection: 'column',

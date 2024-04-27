@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie';
 import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
 import $ from 'jquery';
-import './css/bootstrap-resort.css';
+
 import { Link, useNavigate } from 'react-router-dom';
 
 function Admin() {

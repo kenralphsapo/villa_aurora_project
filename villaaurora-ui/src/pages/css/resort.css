@@ -1,0 +1,118 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+#notfoundbg{
+    background-image: linear-gradient(lightblue, aliceblue, white);
+}
+
+#sidebarMenu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d6a354;
+}
+
+#sidebarMenu img{
+    height: 50px;
+    margin: 10px;
+}
+
+#logoTitle a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+
+
+/*---------------------------------------
+  HERO        
+-----------------------------------------*/
+
+#hero-section{
+    background-image: url('../images/background.jpg');
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    padding: 50px;
+    padding-bottom: 0;
+    min-height: 665px;
+    border-bottom: 15px solid #d6a354;
+}
+
+@media screen and (min-width: 991px) {
+    .hero-section {
+      height: calc(100vh - 0px);
+    }
+  }
+  
+  .hero-section::after {
+    content: "";
+    background: linear-gradient(90deg, #FDBB2D 0%, #22C1C3 100%);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.65;
+  }
+  
+  .hero-section .container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .custom-block {
+    border: 10px solid #d6a354;
+    border-radius: 100%;
+    position: absolute;
+    z-index: 2;
+    bottom: -60px;
+    right: -60px;
+    padding: 50px 90px 50px 50px;
+    width: 360px;
+    height: 360px;
+  }
+  
+  .custom-block .custom-btn {
+    background: #d6a354;
+  }
+  
+  .custom-block .custom-btn:hover {
+    background: #c12828;
+  }
+  
+  .custom-block-image {
+    border: 10px solid #d6a354;
+    border-radius: 100%;
+    position: absolute;
+    top: -60px;
+    right: 20px;
+    left: 0;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    object-fit: cover;
+  }
+
+#navcolumn ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+#navcolumn li{
+    margin: 1px 10px;
+}
+
+#navcolumn a{
+    color: black;
+}
