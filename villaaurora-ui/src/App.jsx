@@ -8,6 +8,7 @@ import NotFound from './pages/NotFound';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import Admin from './pages/Admin';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,10 @@ function App() {
     {
       path: '/admin',
       element: <Admin />
+    },
+    {
+      path: '/forgotpass',
+      element: <ForgotPassword />
     },
     {
       path: '*',

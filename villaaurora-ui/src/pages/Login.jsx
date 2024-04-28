@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography} from '@mui/material';
+import { Box, TextField, Button, Typography, styled} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { login as loginAPI } from '../api/auth';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { login } from '../redux/authSlice';
+import './css/resort.css';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -35,8 +36,8 @@ export default function Login() {
     <Box
       id="bglogin"
     >
-       <Typography id="logoname" variant="h2" sx={{ textAlign: 'center' }}>
-          Villa Aurora
+       <Typography id="login-logo" variant="h2" sx={{ textAlign: 'center', color:'white' }}>
+          Welcome Villa Aurora
         </Typography>
       <Box component="form" onSubmit={onSubmit} sx={{ p: 2, maxWidth: 300, width: '100%', border: '2px solid black',
         borderRadius: '10px', backgroundColor: 'white',}}>
@@ -65,13 +66,20 @@ export default function Login() {
         <Button type="submit" variant="contained" fullWidth>
           Login
         </Button>
-
-        <Box  sx={{ textAlign: 'center', cursor: 'pointer'}}>
-          <Link to="/register">
-            <Typography>
-              Don't have an account yet?
-            </Typography>
-          </Link>
+        <Box  sx={{ textAlign: 'center', cursor: 'pointer', mt: 1}}>
+        <Link to="/forgotpass" id="custompass">
+          <Typography>
+            <b>Forgot Password?</b>
+          </Typography>
+        </Link>
+        </Box>
+        <Box id="breakLine"></Box>
+        <Box  sx={{ textAlign: 'center', cursor: 'pointer', mt: 1}}>
+        <Link to="/register" id="customlink">
+          <Typography>
+            Don't have an account yet?
+          </Typography>
+        </Link>
         </Box>
       </Box>
     </Box>
