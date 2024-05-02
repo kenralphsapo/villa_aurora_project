@@ -106,9 +106,9 @@ public function show(Request $request, User $user){
         "role" => "sometimes|in:guest,scheduler,admin"
     ]);
 
-    // if ($request->user()->role !== "admin") {
-    //     unset($validator['role']);
-    // }
+    if ($request->user()->role !== "admin") {
+        unset($validator['role']);
+    }
 
     // if ($request->user()->role !== "admin") {
     //     $validator->sometimes('role', 'required|in:guest,scheduler,admin', function ($input) {
