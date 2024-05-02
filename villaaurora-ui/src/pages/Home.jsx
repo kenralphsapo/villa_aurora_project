@@ -14,9 +14,9 @@ import billiard from './images/billiard.jpg';
 import catering from './images/catering.jpg';
 import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
-import './css/resort.css';
+import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
-
+import './css/bootstrap-icon.css';
 
 function Home() {
   const user = useSelector(state => state.auth.user);
@@ -70,7 +70,7 @@ function Home() {
             {user ? (
                 <>
                 <Box variant="li" className="nav-item">
-                    <Link to="/admin" className="nav-link click-scroll">Admin</Link>
+                    <Link to="/admin" className="nav-link click-scroll">{user?.role}</Link>
                 </Box>
 
                 <Box variant="li" className="nav-item">
@@ -143,9 +143,10 @@ function Home() {
                                 </Box>
                             </Box>
                         </Box>
-                    </section>
-                  {/* Mockup Section */}
-                    <section className="mockup-section section-padding">
+        </section>
+
+        {/* Mockup Section */}
+        <section className="mockup-section section-padding">
                         <Box className="section-overlay"></Box>
 
                         <Box className="container">
@@ -161,9 +162,10 @@ function Home() {
 
                             </Box>
                         </Box>
-                    </section>
-                  {/* Features Section */}
-                  <section className="features-section section-padding" id="section_3">
+        </section>
+
+        {/* Features Section */}
+        <section className="features-section section-padding" id="section_3">
                         <Box className="container">
                             {
                                 user ? (
@@ -179,7 +181,8 @@ function Home() {
                                             </Box>
                                         </Box>
                                     </Box>
-                                ): <Box className="row">
+                                ): 
+                                    <Box className="row">
 
                                 <Box className="col-lg-12 col-12">
                                     <Typography variant='h2' className="mb-5">Features</Typography>
@@ -227,12 +230,13 @@ function Home() {
                                     </Box>
                                 </Box>
 
-                            </Box>
+                                    </Box>
                             }
                         </Box>
-                    </section>
-                  {/* Booking Section */}
-                  <section className="booking-section section-padding" id="booking-section">
+        </section>
+
+        {/* Booking Section */}
+        <section className="booking-section section-padding" id="booking-section">
                     <Box className="container">
                         <Box className="row">
                             <Box className="col-lg-10 col-12 mx-auto">
@@ -248,62 +252,72 @@ function Home() {
                                         <Grid container spacing={2}>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-name"
-                                              label="Full name"
-                                              required
+                                              id="name"
+                                              label="Fullname"
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
+                                              required
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-phone"
+                                              id="mobile"
                                               label="Mobile"
                                               type="number"
-                                              required
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
-                                            />
-                                          </Grid>
-                                          {/* <Grid item xs={12} lg={6}>
-                                            <TextField
-                                              id="bb-date-start"
-                                              label="Date Start"
-                                              type="date"
                                               required
-                                              fullWidth
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-date-end"
+                                              id="date-start"
+                                              label="Date Start"
+                                              type="date"
+                                              variant="outlined"
+                                              margin="normal"
+                                              fullWidth
+                                              required
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} lg={6}>
+                                            <TextField
+                                              id="date-end"
                                               label="Date End"
                                               type="date"
-                                              required
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
+                                              required
                                             />
-                                          </Grid> */}
+                                          </Grid>
                                         <Grid item xs={12} lg={6} >
                                         <TextField
-                                            id="bb-time"
+                                            id="time"
                                             type="time"
-                                            fullWidth
                                             label="Time"
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
                                             required
                                             />
                                         </Grid>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-number"
+                                              id="numofpeople"
                                               label="Number of People"
                                               type="number"
-                                              placeholder="Number of People"
-                                              required
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
+                                              required
                                             />
                                           </Grid>
                                         </Grid>
-                                        {/* <TextareaAutosize sx={{mt:1}} name="bb-message" rows="3" className="form-control" id="bb-message" placeholder="Comment (Optionals)"></TextareaAutosize> */}
+                                        <TextareaAutosize sx={{mt:1}} name="message" rows="3" className="form-control" id="message" placeholder="Comment (Optionals)"></TextareaAutosize>
                                         </Box>
-                                        
 
                                         <Box className="col-lg-4 col-md-10 col-8 mx-auto">
                                             <Button sx={{mt:5}} type="submit" className="form-control">Submit</Button>
@@ -313,9 +327,10 @@ function Home() {
                         </Box>
                     </Box>
                     </Box>
-                    </section>
-                    {/* Price Section */}
-                    <section className="price-list-section section-padding" id="section_4">
+        </section>
+
+        {/* Price Section */}
+        <section className="price-list-section section-padding" id="section_4">
                         <Box className="container">
                             <Box className="row">
                                 {/* Price List */}
@@ -354,9 +369,10 @@ function Home() {
 
                             </Box>
                         </Box>
-                    </section>
-                    {/* Contact Section */}
-                    <section className="contact-section" id="section_5">
+        </section>
+                    
+        {/* Contact Section */}
+        <section className="contact-section" id="section_5">
                     <Box className="section-padding section-bg">
                         <Box className="container">
                             <Box className="row">   
@@ -442,9 +458,26 @@ function Home() {
                             </Box>
                         </Box>
                     </Box>
-                    </section>
-                 
+        </section>
+        
+        {/* Footer Section */}
+        <footer className="site-footer">
+            <Box className="site-footer-bottom">
+                <Box className="container">
+                    <Box className="row align-items-center">
+
+                        <Box className="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto">
+                            <span id="szten">Back to the top</span>
+                            <a href="#section_1" className="back-top-icon smoothscroll" title="Back Top">
+                                <i className="bi-arrow-up-circle"></i>
+                            </a>
+                        </Box>
+
                     </Box>
+                </Box>
+            </Box>
+        </footer>
+      </Box>
     </Box>
   );
 }

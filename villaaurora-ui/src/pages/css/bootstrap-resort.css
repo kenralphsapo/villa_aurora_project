@@ -195,10 +195,11 @@
     transform: scale(1.1);
   }
 
-/*---------------------------------------
-  NAVIGATION
------------------------------------------*/
 
+
+/*---------------------------------------
+  NAVIGATION              
+-----------------------------------------*/
 /* #sidebarMenu{
     background-color: #d6a354;
     position: absolute;
@@ -263,9 +264,7 @@
     object-fit: cover;
 } */
 
-/*---------------------------------------
-  NAVIGATION              
------------------------------------------*/
+
 #navcolumn ul li{
     list-style-type: none;
     text-align: center;
@@ -500,7 +499,7 @@
     font-weight: 300;
   }
   
-  /*---------------------------------------
+/*---------------------------------------
   CUSTOM BLOCK BACKGROUND OVERLAY               
 -----------------------------------------*/
 .custom-block-bg-overlay-wrap {
@@ -527,7 +526,7 @@
     bottom: 10px;
   }
 
-  /*---------------------------------------
+ /*---------------------------------------
   CUSTOM BUTTON               
 -----------------------------------------*/
 .custom-btn {
@@ -819,4 +818,181 @@
     background: #FDBB2D;
     border-color: transparent;
   }
+
+
+/*---------------------------------------
+  SITE FOOTER              
+-----------------------------------------*/
+.site-footer {
+  position: relative;
+  padding: 80px 50px;
+  padding-top: 0;
+}
+
+.site-footer::after {
+  content: "";
+  background: linear-gradient(90deg, #FDBB2D 0%, #22C1C3 100%);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+}
+
+.site-footer-links {
+  padding-left: 0;
+}
+
+.site-footer-link-item {
+  list-style: none;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.site-footer strong {
+  display: block;
+  color: #c12828;
+}
+
+.copyright-text {
+  font-size: 14px;
+}
+
+
+/*---------------------------------------
+  SOCIAL ICON               
+-----------------------------------------*/
+.social-icon {
+  margin: 0;
+  padding: 0;
+}
+
+.social-icon-item {
+  list-style: none;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.social-icon-link {
+  background: #c12828;
+  border-radius: 100px;
+  color: white;
+  font-size: 14px;
+  display: block;
+  margin: 0 3px;
+  text-align: center;
+  width: 35px;
+  height: 35px;
+  line-height: 36px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.social-icon-link:hover {
+  background: #d6a354;
+  color: white;
+}
+
+.social-icon-link span {
+  display: block;
+}
+
+
+/*---------------------------------------
+  RESPONSIVE STYLES               
+-----------------------------------------*/
+@media screen and (max-width: 1200px) {
+  h1 {
+    font-size: 62px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  h1 {
+    font-size: 54px;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  h3 {
+    font-size: 32px;
+  }
+
+  h4 {
+    font-size: 28px;
+  }
+
+  h5 {
+    font-size: 20px;
+  }
+
+  h6 {
+    font-size: 18px;
+  }
+
+  .section-padding,
+  .hero-section {
+    padding: 50px 25px;
+  }
+
+  .custom-block {
+    display: none;
+  }
   
+  .navbar {
+    background-color: #000000;
+  }
+
+  .navbar-expand-lg .navbar-nav {
+    padding-bottom: 30px;
+  }
+
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding: 0;
+  }
+
+  .booking-form {
+    padding: 45px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .custom-btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 38px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  h3 {
+    font-size: 26px;
+  }
+
+  h4 {
+    font-size: 22px;
+  }
+
+  h5 {
+    font-size: 20px;
+  }
+
+  .services-info h4 {
+    font-size: 20px;
+  }
+
+  .booking-form {
+    padding: 35px;
+  }
+}
+
+

@@ -99,8 +99,13 @@ public function show(Request $request, User $user){
             "username" => "sometimes|min:4|string|unique:users|max:32",
             "password" => "sometimes|min:8|max:32|string|confirmed",
             "mobile" => "sometimes|min:11|max:13|phone:PH",
-            "email" => "sometimes|email|max:64|unique:users"
+            "email" => "sometimes|email|max:64|unique:users",
+            "role" => "sometimes|Rule::in([guest,scheduler,admin])"
         ]);
+
+        if($request()->user()->role !="admin"){
+            unset($validator['role']);
+        }
 
         if($validator->fails())
         {

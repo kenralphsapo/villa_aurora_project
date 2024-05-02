@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/authSlice';
-import './css/resort.css';
+import './css/bootstrap-resort.css';
 
 export default function Register() {
   const [warnings, setWarning] = useState({});
