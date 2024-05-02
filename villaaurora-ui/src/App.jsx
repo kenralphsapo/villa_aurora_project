@@ -9,6 +9,7 @@ import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import Admin from './pages/Admin';
 import ForgotPassword from './pages/ForgotPassword';
+import Myaccount from './pages/Myaccount';
 
 function App() {
   const router = createBrowserRouter([
@@ -31,6 +32,10 @@ function App() {
     {
       path: '/forgotpass',
       element: <ForgotPassword />
+    },
+    {
+      path: '/guest',
+      element: <Myaccount />
     },
     {
       path: '*',
