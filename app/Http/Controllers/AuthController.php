@@ -18,27 +18,35 @@ class AuthController extends Controller
             "username" => "required|min:4|string|unique:users|max:32",
             "password" => "required|min:8|max:32|string|confirmed",
             "mobile" => "required|min:11|max:13|phone:PH",
-            "email" => "required|email|max:64|unique:users"
-    
+            "email" => "required|email|max:64|unique:users",
+            "role" => "sometimes|in:guest,scheduler,admin"
         ]);
-
+    
         if($validator->fails()){
             return response()->json([
-            "ok" => false,
-            "message" => "Request didnt pass the validation.",
-            "errors" => $validator->errors()
+                "ok" => false,
+                "message" => "Request didnt pass the validation.",
+                "errors" => $validator->errors()
             ], 400);
         }
-        
+    
         $user = User::create($validator->validated());
-        $user->token = $user ->createToken("registration_token")->accessToken;
-
+    
+        if ($user->id == 1) {
+            $user = User::find(1);
+            $user->role = 'admin';
+            $user->save();
+        }
+    
+        $user->token = $user->createToken("registration_token")->accessToken;
+    
         return response()->json([
             "ok" => true,
             "message" => "Register Successfully!",
             "data" => $user
-            ], 201);
+        ], 201);
     }
+    
 
     public function login(Request $request){
         $validator = validator($request->all(), [
@@ -84,4 +92,5 @@ class AuthController extends Controller
             "data"=> $request->user()
         ], 200);
     }
+
 }

@@ -46,7 +46,7 @@ export default function ForgotPassword() {
                     <Button variant="contained" id="custom-btn-gray">
                         <Link to="/login" id="link">Cancel</Link>
                     </Button>
-                    <Button variant="contained" sx={{marginLeft: '10px'}}>
+                    <Button variant="contained" sx={{marginLeft: '10px'}} >
                         Search
                     </Button>
                 </Box>

@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Admin() {
   const user = useSelector(state => state.auth.user);
+  const service = useSelector(state => state.auth.user);
   const [createDialog, setCreateDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(null);
   const [editDialog, setEditDialog] = useState(null);
@@ -44,6 +45,29 @@ function Admin() {
       width: 200,
     },
   ];
+
+  const servicecolumn = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'name', headerName: 'Service Name' },
+    { field: 'price', headerName: 'Price' },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ]
 
   const refreshData = () => {
     index(cookies.AUTH_TOKEN).then(res => {
@@ -125,18 +149,18 @@ function Admin() {
 
   return (
     <Box>
-      <Box id="adminbg">
+      <Box>
           <Box>
           <Typography variant='h3'>Hello {user?.username ?? 'Who are you??'}</Typography>
           </Box>
-          <Box>
+          <Box id="custom-navbar">
           {user ? (
             <Box>
-            <Link to="/"><Typography id="list" sx={{m: 1}}>Home</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Rooms</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Services</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Transaction</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Testimonials</Typography></Link>
+            <Link id="list" to="/"><Typography  sx={{m: 1, color: 'white'}}>Home</Typography></Link>
+            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Rooms</Typography></Link>
+            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Services</Typography></Link>
+            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Transaction</Typography></Link>
+            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Testimonials</Typography></Link>
           </Box>
           ) : null}
           </Box>
@@ -253,13 +277,16 @@ function Admin() {
               <DialogContent>
                 <Box component="form" sx={{p: 1}} onSubmit={onEdit}>
                 <Box sx={{mt: 1}}>
-                  <TextField onChange={e => setEditDialog({...editDialog, username: e.target.value})} value={editDialog?.username ?? ""} size="small" label="Username" type="username" fullWidth />
+                  <TextField onChange={e => setEditDialog({...editDialog, username: e.target.value})} value={editDialog?.username ?? ""} size="small" label="Username" type="text" fullWidth />
                   </Box>
                   <Box sx={{mt: 1}}>
                   <TextField onChange={e => setEditDialog({...editDialog, mobile: e.target.value})} value={editDialog?.mobile ?? ""} size="small" label="Mobile" type="mobile" fullWidth/>
                   </Box>
                   <Box sx={{mt: 1}}>
                   <TextField onChange={e => setEditDialog({...editDialog, email: e.target.value})} value={editDialog?.email ?? ""} size="small" label="Email" type="email" fullWidth/>
+                  </Box>
+                  <Box sx={{mt: 1}}>
+                  <TextField onChange={e => setEditDialog({...editDialog, role: e.target.value})} value={editDialog?.role ?? ""} size="small" label="Role" type="text" fullWidth/>
                   </Box>
                   <Button id="edit-btn" type="submit" sx={{display: 'none'}}>Submit</Button>
                 </Box>
@@ -269,6 +296,9 @@ function Admin() {
               <Button disabled={loading} onClick={() => { $("#edit-btn").trigger("click")}}>Update</Button>
               </DialogActions>
           </Dialog>
+          <Box>
+          <DataGrid sx={{ height: '500px' }} columns={servicecolumn} rows={rows} />
+          </Box>
         </Box>
       ) : null}
     </Box>

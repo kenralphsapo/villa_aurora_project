@@ -40,4 +40,19 @@ export const register = async (body) => {
 
       return await response.json()
     }
+    
+
+    // export const forgotpassword =  async (body, token) =>{
+    //   const response = await fetch(`${url}/forgotpassword`,{
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": 'application/json',
+    //       Authorization: `Bearer ${token}`
+    //     },
+    //     body: JSON.stringify(body)
+    //   })
+
+    //   return await response.json()
+    // }
   

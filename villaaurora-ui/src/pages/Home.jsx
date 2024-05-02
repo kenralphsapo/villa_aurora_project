@@ -14,7 +14,7 @@ import billiard from './images/billiard.jpg';
 import catering from './images/catering.jpg';
 import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
-import './css/resort.css';
+import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
 
 
@@ -69,9 +69,12 @@ function Home() {
             </Box>
             {user ? (
                 <>
-                <Box variant="li" className="nav-item">
-                    <Link to="/admin" className="nav-link click-scroll">Admin</Link>
-                </Box>
+                {user?.role !== 'guest' && (
+                    <Box variant="li" className="nav-item">
+                        <Link to="/admin" className="nav-link click-scroll">{user?.role}</Link>
+                    </Box>
+                )}
+
 
                 <Box variant="li" className="nav-item">
                     <Link onClick={logout} className="nav-link click-scroll">Logout</Link>
@@ -95,9 +98,9 @@ function Home() {
                         <Typography variant="h1" sx={{color: 'white'}} className="text-white mb-lg-3 mb-4 sz-60px">Villa Aurora Private Resort</Typography> 
                         <Typography id="custom-text-big">Don't miss out! Reserve your spot at our luxurious resort today.</Typography>
 
-                        <Link href="#section_2" className="custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2" style={{textDecoration:'none'}}>About Us</Link>
+                        <Link href="#section_2" className="custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2" style={{textDecoration:'none', fontSize:'20px'}}>About Us</Link>
 
-                        <Link href="#section_3" className="custom-btn smoothscroll mb-2" style={{textDecoration:'none'}}>What we have</Link>
+                        <Link href="#section_3" className="custom-btn smoothscroll mb-2" style={{textDecoration:'none', fontSize:'20px'}}>What we have</Link>
                     </Box>
                 </Box>
             </Box>
@@ -143,9 +146,10 @@ function Home() {
                                 </Box>
                             </Box>
                         </Box>
-                    </section>
-                  {/* Mockup Section */}
-                    <section className="mockup-section section-padding">
+        </section>
+
+        {/* Mockup Section */}
+        <section className="mockup-section section-padding">
                         <Box className="section-overlay"></Box>
 
                         <Box className="container">
@@ -161,9 +165,10 @@ function Home() {
 
                             </Box>
                         </Box>
-                    </section>
-                  {/* Features Section */}
-                  <section className="features-section section-padding" id="section_3">
+        </section>
+
+        {/* Features Section */}
+        <section className="features-section section-padding" id="section_3">
                         <Box className="container">
                             {
                                 user ? (
@@ -179,7 +184,8 @@ function Home() {
                                             </Box>
                                         </Box>
                                     </Box>
-                                ): <Box className="row">
+                                ): 
+                                    <Box className="row">
 
                                 <Box className="col-lg-12 col-12">
                                     <Typography variant='h2' className="mb-5">Features</Typography>
@@ -227,12 +233,13 @@ function Home() {
                                     </Box>
                                 </Box>
 
-                            </Box>
+                                    </Box>
                             }
                         </Box>
-                    </section>
-                  {/* Booking Section */}
-                  <section className="booking-section section-padding" id="booking-section">
+        </section>
+
+        {/* Booking Section */}
+        <section className="booking-section section-padding" id="booking-section">
                     <Box className="container">
                         <Box className="row">
                             <Box className="col-lg-10 col-12 mx-auto">
@@ -248,62 +255,69 @@ function Home() {
                                         <Grid container spacing={2}>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-name"
-                                              label="Full name"
-                                              required
+                                              id="name"
+                                              label="Fullname"
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
+                                              required
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-phone"
+                                              id="mobile"
                                               label="Mobile"
                                               type="number"
-                                              required
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
-                                            />
-                                          </Grid>
-                                          {/* <Grid item xs={12} lg={6}>
-                                            <TextField
-                                              id="bb-date-start"
-                                              label="Date Start"
-                                              type="date"
                                               required
-                                              fullWidth
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-date-end"
-                                              label="Date End"
+                                              id="date-start"
                                               type="date"
-                                              required
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
+                                              required
                                             />
-                                          </Grid> */}
+                                          </Grid>
+                                          <Grid item xs={12} lg={6}>
+                                            <TextField
+                                              id="date-end"
+                                              type="date"
+                                              variant="outlined"
+                                              margin="normal"
+                                              fullWidth
+                                              required
+                                            />
+                                          </Grid>
                                         <Grid item xs={12} lg={6} >
                                         <TextField
-                                            id="bb-time"
+                                            id="time"
                                             type="time"
+                                            variant="outlined"
+                                            margin="normal"
                                             fullWidth
-                                            label="Time"
                                             required
                                             />
                                         </Grid>
                                           <Grid item xs={12} lg={6}>
                                             <TextField
-                                              id="bb-number"
+                                              id="numofpeople"
                                               label="Number of People"
                                               type="number"
-                                              placeholder="Number of People"
-                                              required
+                                              variant="outlined"
+                                              margin="normal"
                                               fullWidth
+                                              required
                                             />
                                           </Grid>
                                         </Grid>
-                                        {/* <TextareaAutosize sx={{mt:1}} name="bb-message" rows="3" className="form-control" id="bb-message" placeholder="Comment (Optionals)"></TextareaAutosize> */}
+                                        <TextareaAutosize sx={{mt:1}} name="message" rows="3" className="form-control" id="message" placeholder="Comment (Optionals)"></TextareaAutosize>
                                         </Box>
-                                        
 
                                         <Box className="col-lg-4 col-md-10 col-8 mx-auto">
                                             <Button sx={{mt:5}} type="submit" className="form-control">Submit</Button>
@@ -313,9 +327,10 @@ function Home() {
                         </Box>
                     </Box>
                     </Box>
-                    </section>
-                    {/* Price Section */}
-                    <section className="price-list-section section-padding" id="section_4">
+        </section>
+
+        {/* Price Section */}
+        <section className="price-list-section section-padding" id="section_4">
                         <Box className="container">
                             <Box className="row">
                                 {/* Price List */}
@@ -354,9 +369,10 @@ function Home() {
 
                             </Box>
                         </Box>
-                    </section>
-                    {/* Contact Section */}
-                    <section className="contact-section" id="section_5">
+        </section>
+                    
+        {/* Contact Section */}
+        <section className="contact-section" id="section_5">
                     <Box className="section-padding section-bg">
                         <Box className="container">
                             <Box className="row">   
@@ -375,45 +391,49 @@ function Home() {
                                 <Box className="col-lg-6 col-12">
                                     <Typography variant='h5' className="mb-3"><strong>Contact</strong> Information</Typography>
 
-                                    <p className="text-white d-flex mb-1">
-                                        <Link href="" className="site-footer-link">
+                                    <Box className="text-white d-flex mb-1">
+                                    <Link href="" className="site-footer-link" style={{textDecoration: 'none'}}>
                                             <ul>
                                                 <li>for inquries Call or msg us </li>
                                                 <li> Globe 09453200320 </li>
                                                 <li>  Globe/Viber 09955185002</li>
                                             </ul>
                                         </Link>
-                                    </p>
+                                    </Box>
 
                                     <p className="text-white d-flex">
-                                        <a href="example@yourgmail.com" className="site-footer-link">
+                                        <Link to="example@gmail.com" style={{textDecoration: 'none'}}>
                                             villaarurora@gmail.com
-                                        </a>
+                                        </Link>
                                     </p>
 
                                     <ul className="social-icon">
                                         <li className="social-icon-item">
-                                            <Link href="https://www.facebook.com/profile.php?id=100070173077878" class="social-icon-link bi-facebook">
+                                            <Link className="social-icon-link" to="https://www.facebook.com/profile.php?id=100070173077878">
+                                            <i className="fab fa-facebook-f"></i>
                                             </Link>
                                         </li>
             
                                         <li className="social-icon-item">
-                                            <Link href="#" className="social-icon-link bi-twitter">
+                                            <Link href="#" className="social-icon-link">
+                                                <i className="fab fa-twitter"></i>
                                             </Link>
                                         </li>
             
                                         <li className="social-icon-item">
-                                            <Link href="#" className="social-icon-link bi-instagram">
+                                            <Link href="#" className="social-icon-link">
+                                                <i className="fab fa-instagram"></i>
                                             </Link>
                                         </li>
 
                                         <li className="social-icon-item">
-                                            <Link href="#" className="social-icon-link bi-youtube">
+                                            <Link href="#" className="social-icon-link">
+                                                <i className="fab fa-youtube"></i>
                                             </Link>
                                         </li>
-
                                         <li className="social-icon-item">
-                                            <Link href="#" className="social-icon-link bi-whatsapp">
+                                            <Link href="#" className="social-icon-link">
+                                            <i className="fab fa-whatsapp"></i>
                                             </Link>
                                         </li>
                                     </ul>
@@ -422,7 +442,9 @@ function Home() {
                                 <Box className="col-lg-5 col-12 contact-block-wrap mt-5 mt-lg-0 pt-4 pt-lg-0 mx-auto">
                                     <Box className="contact-block">
                                         <Typography variant='h6' className="mb-0">
-                                            <i className="custom-icon bi-shop me-3"></i>
+                                            <Box className="custom-icon text-white">
+                                                <i className="fas fa-store"></i>
+                                            </Box>
 
                                             <strong>Open Daily</strong>
 
@@ -434,7 +456,7 @@ function Home() {
 
                                 <Box className="col-lg-12 col-12 mx-auto mt-5 pt-5">
                                     <Box className="iframe-container">
-                                        <iframe className="google-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.135607282014!2d121.1004689148258!3d14.533207089826607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c75ea60f9533%3A0x5c7ae1dbd8f8ab5a!2sVilla%20Aurora%20Private%20Resort%2C%20G4MR%2B7P2%2C%20Lakeview%20subd%20Baytown%20Coastal%20Road%2C%201930%20Rizal!5e0!3m2!1sen!2sph!4v1647605421232!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                        <iframe className="google-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.135607282014!2d121.1004689148258!3d14.533207089826607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c75ea60f9533%3A0x5c7ae1dbd8f8ab5a!2sVilla%20Aurora%20Private%20Resort%2C%20G4MR%2B7P2%2C%20Lakeview%20subd%20Baytown%20Coastal%20Road%2C%201930%20Rizal!5e0!3m2!1sen!2sph!4v1647605421232!5m2!1sen!2sph" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                                     </Box>
                                 </Box>                
                                 
@@ -442,9 +464,27 @@ function Home() {
                             </Box>
                         </Box>
                     </Box>
-                    </section>
-                 
+        </section>
+        
+        {/* Footer Section */}
+        <footer className="site-footer">
+            <Box className="site-footer-bottom">
+                <Box className="container">
+                    <Box className="row align-items-center">
+
+                        <Box className="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto">
+                        <span className="fs-6">Back to the top</span>
+                            <a href="#section_1" className="back-top-icon smoothscroll" title="Back Top">
+                                <i className="bi-arrow-up-circle"></i>
+                            </a>
+                        </Box>
+
                     </Box>
+                </Box>
+            </Box>
+        </footer>
+      
+      </Box>
     </Box>
   );
 }

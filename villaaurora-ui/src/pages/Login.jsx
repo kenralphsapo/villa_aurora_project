@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { login } from '../redux/authSlice';
-import './css/resort.css';
+import './css/bootstrap-resort.css';
 
 export default function Login() {
   const [username, setUsername] = useState("");
