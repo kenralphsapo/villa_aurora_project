@@ -100,8 +100,7 @@ public function show(Request $request, User $user){
             "password" => "sometimes|min:8|max:32|string|confirmed",
             "mobile" => "sometimes|min:11|max:13|phone:PH",
             "email" => "sometimes|email|max:64|unique:users"
-            "mobile" => "sometimes|min:11|max:13|",
-            "email" => "sometimes|email|max:64|unique:users",
+
             
             //"role" => User::in(["Administrator", "Guest"])
         ]);

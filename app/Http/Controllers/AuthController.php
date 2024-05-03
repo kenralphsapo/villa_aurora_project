@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
-     * Login
+     * LOGIN
      * POST: /api/login
      * @param Request
      * @param \Illuminate\Http\Response
@@ -17,7 +17,7 @@ class AuthController extends Controller
         $validator = validator($request->all(), [
             "username" => "required|min:4|string|unique:users|max:32",
             "password" => "required|min:8|max:32|string|confirmed",
-            "mobile" => "required|min:11|max:13|phone:PH",
+            "mobile" => "required|min:11|max:13",
             "email" => "required|email|max:64|unique:users"
     
         ]);

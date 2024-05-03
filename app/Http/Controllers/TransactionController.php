@@ -34,12 +34,13 @@ class TransactionController extends Controller
 
         $validated = $validator->validated();
         $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
-        
-        //code unsure
         $transaction = Transaction::create($transaction_input);
         
-        $transaction->services()->sync($validated["service_id"]);
+        //must sync price
+        //$transaction->services()->sync($validated["price"]);
+
         
+        $transaction->services()->sync($validated["service_id"]);
         $transaction->services;
 
         return response()->json([
