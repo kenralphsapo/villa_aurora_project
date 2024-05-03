@@ -27,3 +27,23 @@ npm i react-toastify
 <!-- ommand is used to install the react-router-dom package in a React project -->
 npm i react-router-dom
 
+
+ php artisan make:migration create_employee_table
+
+ php artisan make:migration create_room_table
+
+ php artisan make:migration create_transaction_table
+
+ php artisan make:migration create_service_table
+
+ php artisan make:migration create_testimonial_table
+
+ php artisan make:migration create_service_transaction_table
+
+
+composer create-project laravel/laravel login-website
+php artisan --version
+php artisan make:controller UserController --resource
+php artisan make:model User
+composer create-project --prefer-dist laravel/laravel REST_API
+composer require laravel/passport

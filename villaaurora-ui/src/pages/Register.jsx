@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/authSlice';
+import './css/bootstrap-resort.css';
 
 export default function Register() {
   const [warnings, setWarning] = useState({});
@@ -151,9 +152,9 @@ export default function Register() {
           </Button>
         </Box>
 
-        <Box sx={{ textAlign: 'center', cursor: 'pointer' }}>
-          <Link to="/login">
-            <Typography>Already have an account? Login</Typography>
+        <Box sx={{ textAlign: 'center', cursor: 'pointer', mt: 1}}>
+          <Link to="/login" id="customlink">
+            <Typography>Already have an account? <b>Login</b></Typography>
           </Link>
         </Box>
       </Box>
