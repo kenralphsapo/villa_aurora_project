@@ -1,57 +1,70 @@
+import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { useCookies } from 'react-cookie';
+import { useSelector } from 'react-redux';
+import { destroy, update } from '../api/user';
+import { toast } from 'react-toastify';
+import checkAuth from '../hoc/checkAuth';
 
-export default function Myaccount(props) {
-  const { username } = props;
-  const [open, setOpen] = useState(false);
-  const [newUsername, setNewUsername] = useState('');
+function Myaccount() {
+  const user = useSelector(state => state.auth.user);
 
-  const handleEdit = () => {
-    setOpen(true);
-  };
+  
+  const [loading, setLoading] = useState(false);
+  const [warnings, setWarnings] = useState({});
+  const [cookies] = useCookies(['AUTH_TOKEN']);
 
-  const handleSave = () => {
-    // Add your save logic here
-    console.log(`New username: ${newUsername}`);
-    setOpen(false);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleUsernameChange = (event) => {
-    setNewUsername(event.target.value);
-  };
-
-  return (
+  const onEdit = (e) => {
+    e.preventDefault();
+    if(!loading){
+      setLoading(true);
+      update({
+        username: user.username,
+        mobile: user.mobile,
+        email: user.email,
+      }, user.id, cookies.AUTH_TOKEN).then(res => {
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Account has updated');
+          setEditDialog(null);
+          refreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  }
+  
+  return(
     <Box>
-      <Typography variant="body1">Username: {username}</Typography>
-      <Button onClick={handleEdit}>Edit</Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Username</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="New Username"
-            fullWidth
-            value={newUsername}
-            onChange={handleUsernameChange}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave}>Save</Button>
-        </DialogActions>
-      </Dialog>
+    <Box>
+    {user ? (
+  <Box className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+    <Box sx={{boxShadow: '0 0 10px black', borderRadius: '10px', width: '400px'}} component="form" onSubmit={onEdit}>
+      <Typography variant='h3' sx={{textAlign:'center'}}>EDIT</Typography>
+      <Box sx={{mt: 1}}>
+        <TextField value={user?.username ?? ""} size="small" label="Username" type="text" fullWidth />
+      </Box>
+      <Box sx={{mt: 1}}>
+        <TextField value={user?.mobile ?? ""} size="small" label="Mobile" type="mobile" fullWidth/>
+      </Box>
+      <Box sx={{mt: 1}}>
+        <TextField value={user?.email ?? ""} size="small" label="Email" type="email" fullWidth/>
+      </Box>
+      <Button id="edit-btn" type="submit" color='success' disabled={loading}>Submit</Button>
+      <Button type="submit" color='info' href="/">Cancel</Button>
     </Box>
+  </Box> 
+) : null}
+    </Box>
+
+    </Box>
+    
+    
   );
-      }
+}
+
+export default checkAuth(Myaccount);
+
+

@@ -10,6 +10,8 @@ import $ from 'jquery';
 import { Link, useNavigate } from 'react-router-dom';
 import { showAllServices } from "../api/service";
 import { showAllRooms} from "../api/room";
+import { showAllTransactions } from "../api/transaction";
+import { showAllTestimonials } from "../api/testimonial";
 
 function Admin() {
   const user = useSelector(state => state.auth.user);
@@ -26,7 +28,91 @@ function Admin() {
   const [rows, setRows] = useState([]);
   const [serviceRows, setServiceRows] = useState([]);
   const [roomRows, setRoomRows] = useState([]);
-  // const [roomRows, setRoomRows] = useState([]);
+  const [transactionRows, setTransactionRows] = useState([]);
+  const [testiomonialRows, setTestimonialRows] = useState([]);
+
+  // For Testimonials
+
+  const testimonialcolumns = [
+    { field: 'id', headerName: 'Transaction ID' },
+    { field: 'feedback', headerName: 'Feedback', width: 200 },
+    { field: 'rating', headerName: 'Rating' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ];
+
+  
+  const TestrefreshData = () => {
+    showAllTestimonials().then(res => {
+      console.log(res)
+      if (res?.ok) {
+        setTestimonialRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  useEffect(TestrefreshData, []);
+
+
+  // For Transactions
+  const transactioncolumns = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'user_id', headerName: 'User ID' },
+    { field: 'room_id', headerName: 'Room ID' },
+    { field: 'rent_start', headerName: 'Rent Start' },
+    { field: 'rent_end', headerName: 'Rent End' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ];
+
+  
+  const TrefreshData = () => {
+    showAllTransactions().then(res => {
+      console.log(res)
+      if (res?.ok) {
+        setTransactionRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  useEffect(TrefreshData, []);
+  
 
   // For Rooms
   const roomcolumns = [
@@ -205,6 +291,7 @@ function Admin() {
         username: editDialog.username,
         mobile: editDialog.mobile,
         email: editDialog.email,
+        role: editDialog.role,
       }, editDialog.id, cookies.AUTH_TOKEN).then(res => {
         if (res?.ok) {
           toast.success(res?.message ?? 'Account has updated');
@@ -229,10 +316,10 @@ function Admin() {
           {user ? (
             <Box>
             <Link id="list" to="/"><Typography  sx={{m: 1, color: 'white'}}>Home</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Services</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Rooms</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Transaction</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Testimonials</Typography></Link>
+            <a id="list" href="#section_2"><Typography  sx={{m: 1, color: 'white'}}>Services</Typography></a>
+            <a id="list" href="#section_3"><Typography  sx={{m: 1, color: 'white'}}>Rooms</Typography></a>
+            <a id="list" href="#section_4"><Typography  sx={{m: 1, color: 'white'}}>Transaction</Typography></a>
+            <a id="list" href="#section_5"><Typography  sx={{m: 1, color: 'white'}}>Testimonials</Typography></a>
           </Box>
           ) : null}
           </Box>
@@ -371,9 +458,26 @@ function Admin() {
               </DialogActions>
           </Dialog>
 
-          <Box>
+          <Box id="table">
+            <section id="#section_2">
+            <Typography variant='h2'>Services</Typography>
             <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
+            </section>
+
+            <section id="#section_3">
+            <Typography variant='h2'>Rooms</Typography>
             <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
+            </section>
+
+            <section id="#section_4">
+            <Typography variant='h2'>Transactions</Typography>
+            <DataGrid autoHeight columns={transactioncolumns} rows={transactionRows} />
+            </section>
+            
+            <section id="#section_5">
+            <Typography variant='h2'>Testimonials</Typography>
+            <DataGrid autoHeight columns={testimonialcolumns} rows={testiomonialRows} />
+            </section>
           </Box>
         </Box>
       ) : null}

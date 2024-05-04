@@ -3,6 +3,7 @@ import { Box, Typography, Button, Grid, TextField, TextareaAutosize } from '@mui
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import checkAuth from '../hoc/checkAuth';
+
 import logo from './images/logo.jpg';
 import bgmockup from './images/background.jpg';
 import event from './images/event.jpg';
@@ -74,22 +75,34 @@ function Home() {
             </Box>
             {user ? (
                 <>
-                {user?.role !== 'guest' && (
+                    {user?.role !== 'guest' && user?.role !== 'scheduler' && (
                     <Box variant="li" className="nav-item">
-                        <Link to="/admin" className="nav-link click-scroll">{user?.role}</Link>
+                        <Link to="/admin" className="nav-link click-scroll">
+                        {user?.role}
+                        </Link>
                     </Box>
-                )}
+                    )}
+                    {user?.role !== 'admin' && (
+                    <Box variant="li" className="nav-item">
+                        <Link to="/guest" className="nav-link click-scroll">
+                        {user?.role}
+                        </Link>
+                    </Box>
+                    )}
 
-
-                <Box variant="li" className="nav-item">
-                    <Link onClick={logout} className="nav-link click-scroll">Logout</Link>
-                </Box>
+                    <Box variant="li" className="nav-item">
+                    <Link onClick={logout} className="nav-link click-scroll">
+                        Logout
+                    </Link>
+                    </Box>
                 </>
-            ) : (
+                ) : (
                 <Box variant="li" className="nav-item">
-                    <Link to="/login" className="nav-link click-scroll">Login</Link>
+                    <Link to="/login" className="nav-link click-scroll">
+                    Login
+                    </Link>
                 </Box>
-            )}
+                )}
           </Box>
         </Box>
         </Box>

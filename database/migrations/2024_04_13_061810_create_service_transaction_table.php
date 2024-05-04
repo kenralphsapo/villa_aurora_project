@@ -15,10 +15,10 @@ return new class extends Migration
             $table->unsignedBigInteger("service_id");
             $table->unsignedBigInteger("transaction_id");
             
-                        $table->foreign("service_id")->references("id")->on("services")->onDelete("cascade");
-                        $table->foreign("transaction_id")->references("id")->on("transactions")->onDelete("cascade");
+            $table->foreign("service_id")->references("id")->on("services")->onDelete("cascade");
+            $table->foreign("transaction_id")->references("id")->on("transactions")->onDelete("cascade");
             
-                        $table->primary(["service_id", "transaction_id"]);
+            $table->primary(["service_id", "transaction_id"]);
             
         });
     }

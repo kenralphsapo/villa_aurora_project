@@ -47,3 +47,12 @@ php artisan make:controller UserController --resource
 php artisan make:model User
 composer create-project --prefer-dist laravel/laravel REST_API
 composer require laravel/passport
+
+
+ <!-- {user?.role == null && (
+                    <Box variant="li" className="nav-item">
+                        <Link to="/myaccount" className="nav-link click-scroll">
+                        Setting
+                        </Link>
+                    </Box>
+                    )} -->
