@@ -6,27 +6,34 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useCookies } from 'react-cookie';
 import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
-import $ from 'jquery';
-
+import $ from 'jquery'; 
 import { Link, useNavigate } from 'react-router-dom';
+import { showAllServices } from "../api/service";
+import { showAllRooms} from "../api/room";
 
 function Admin() {
   const user = useSelector(state => state.auth.user);
-  const service = useSelector(state => state.auth.user);
   const [createDialog, setCreateDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(null);
   const [editDialog, setEditDialog] = useState(null);
-  const [rows, setRows] = useState([]);
+
+  
   const [loading, setLoading] = useState(false);
   const [warnings, setWarnings] = useState({});
   const [cookies] = useCookies(['AUTH_TOKEN']);
 
-  const columns = [
+
+  const [rows, setRows] = useState([]);
+  const [serviceRows, setServiceRows] = useState([]);
+  const [roomRows, setRoomRows] = useState([]);
+  // const [roomRows, setRoomRows] = useState([]);
+
+  // For Rooms
+  const roomcolumns = [
     { field: 'id', headerName: 'ID' },
-    { field: 'username', headerName: 'Username' },
-    { field: 'mobile', headerName: 'Mobile' },
-    { field: 'email', headerName: 'Email' },
-    { field: 'role', headerName: 'Role' },
+    { field: 'name', headerName: 'Room Name' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
     {
       field: 'actions',
       headerName: '',
@@ -46,10 +53,27 @@ function Admin() {
     },
   ];
 
-  const servicecolumn = [
+  
+  const RrefreshData = () => {
+    showAllRooms().then(res => {
+      console.log(res)
+      if (res?.ok) {
+        setRoomRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  useEffect(RrefreshData, []);
+  
+
+  // For Services
+  const servicecolumns = [
     { field: 'id', headerName: 'ID' },
     { field: 'name', headerName: 'Service Name' },
     { field: 'price', headerName: 'Price' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
     {
       field: 'actions',
       headerName: '',
@@ -67,10 +91,56 @@ function Admin() {
       ),
       width: 200,
     },
-  ]
+  ];
 
+  const SrefreshData = () => {
+    showAllServices().then(res => {
+      console.log(res)
+      if (res?.ok) {
+        setServiceRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  
+
+  useEffect(SrefreshData, []);
+  
+
+
+  //For Users
+  const columns = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'username', headerName: 'Username' },
+    { field: 'mobile', headerName: 'Mobile' },
+    { field: 'email', headerName: 'Email' },
+    { field: 'role', headerName: 'Role' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ];
+  
+  
   const refreshData = () => {
     index(cookies.AUTH_TOKEN).then(res => {
+      console.log(res)
       if (res?.ok) {
         setRows(res.data);
       } else {
@@ -78,6 +148,8 @@ function Admin() {
       }
     });
   };
+
+  
 
   useEffect(refreshData, []);
 
@@ -151,14 +223,14 @@ function Admin() {
     <Box>
       <Box>
           <Box>
-          <Typography variant='h3'>Hello {user?.username ?? 'Who are you??'}</Typography>
+          <Typography variant='h2'>Hello {user?.username ?? 'Who are you??'}</Typography>
           </Box>
           <Box id="custom-navbar">
           {user ? (
             <Box>
             <Link id="list" to="/"><Typography  sx={{m: 1, color: 'white'}}>Home</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Rooms</Typography></Link>
             <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Services</Typography></Link>
+            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Rooms</Typography></Link>
             <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Transaction</Typography></Link>
             <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Testimonials</Typography></Link>
           </Box>
@@ -171,6 +243,8 @@ function Admin() {
             <Button sx={{ mr: 5 }} onClick={() => setCreateDialog(true)}>Create User</Button>
           </Box>
           <DataGrid sx={{ height: '500px' }} columns={columns} rows={rows} />
+
+          {/* CREATE FORM DIALOG */}
           <Dialog open={!!createDialog}>
             <DialogTitle>Create Form</DialogTitle>
             <DialogContent>
@@ -255,7 +329,7 @@ function Admin() {
             </DialogActions>
           </Dialog>
           
-          {/* Delete dialog */}
+          {/* DELETE FORM DIALOG */}
           <Dialog open={!!deleteDialog}>
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogContent>
@@ -269,7 +343,7 @@ function Admin() {
             </DialogActions>
           </Dialog>
 
-          {/* Edit Dialog */}
+          {/* EDIT FORM DIALOG */}
           <Dialog open={!!editDialog}>
               <DialogTitle>
                 Edit User
@@ -296,11 +370,14 @@ function Admin() {
               <Button disabled={loading} onClick={() => { $("#edit-btn").trigger("click")}}>Update</Button>
               </DialogActions>
           </Dialog>
+
           <Box>
-          <DataGrid sx={{ height: '500px' }} columns={servicecolumn} rows={rows} />
+            <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
+            <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
           </Box>
         </Box>
       ) : null}
+         
     </Box>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, styled} from '@mui/material';
+import { Box, TextField, Button, Typography} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { login as loginAPI } from '../api/auth';
 import { useCookies } from 'react-cookie';
@@ -48,7 +48,7 @@ export default function Login() {
           onChange={(e) => setUsername(e.target.value)}
           value={username}
           id="username"
-          label="Username"
+          label="Username or Email"
           variant="outlined"
           margin="normal"
           fullWidth

@@ -19,7 +19,7 @@ class RoomController extends Controller
  public function addRoom(Request $request)
  {
      $validator = validator($request->all(), [
-         "room" => "required|min:1|max:50|string"
+         "name" => "required|min:1|max:50|string"
      ]);
  
  
@@ -30,6 +30,7 @@ class RoomController extends Controller
          "errors" => $validator->errors()
          ], 400);
      }
+     
  //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
  
      $room = Room::create($validator->validated());

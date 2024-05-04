@@ -13,7 +13,7 @@ class TransactionController extends Controller
 {
 
 
-    public function transaction(Request $request)
+    public function addTransaction(Request $request)
     {
     $validator = Validator::make($request->all(),[
         'user_id' => 'required|exists:users,id',
@@ -58,10 +58,10 @@ class TransactionController extends Controller
 
  public function showAllTransactions(){
     return response()->json([
-    "ok" => true,
-    "message" => "All Transactions has been retrieved",
-    "data" => Transaction::all()
-    ]);
+        "ok" => true,
+        "message" => "All Transactions has been retrieved",
+        "data" => Transaction::all()
+        ]);
 }
 
 

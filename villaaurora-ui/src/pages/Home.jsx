@@ -18,6 +18,7 @@ import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
 
 
+
 function Home() {
   const user = useSelector(state => state.auth.user);
   const [cookies, setCookie, removeCookie] = useCookies();
@@ -31,11 +32,15 @@ function Home() {
     dispatch();
   };
   return (
-    <Box>
-      <Box>
-        <Button type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-          <Box variant="span"></Box>
+    <Box id="homebg"> 
+      <Box className="row">
+
+        
+        <Button className="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <Box variant="span" className="navbar-toggler-icon"></ Box>
         </Button>
+
+        
         <Box id="sidebarMenu" className="col-md-4 col-lg-3 d-md-block sidebar collapse p-0">
 
           <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
@@ -74,9 +79,6 @@ function Home() {
                         <Link to="/admin" className="nav-link click-scroll">{user?.role}</Link>
                     </Box>
                 )}
-                  <Box variant="li" className="nav-item">
-                        <Link to="/guest" className="nav-link click-scroll">{user?.role}</Link>
-                    </Box>
 
 
                 <Box variant="li" className="nav-item">

@@ -104,10 +104,11 @@
     font-family: 'Courier New', Courier, monospace;
   }
 
-  body {
-    background-color: white;
-    font-family: 'Unbounded', cursive; 
+  #homebg{
+    animation: appear 1s linear;
   }
+
+  
   
   
   /*---------------------------------------
@@ -186,15 +187,6 @@
   b,
   strong {
     font-weight: 20px;
-  }
-  
-  
-  #color-w{
-    color: white;
-  }
-  
-  #szten{
-    font-size: 10px;
   }
   
   
