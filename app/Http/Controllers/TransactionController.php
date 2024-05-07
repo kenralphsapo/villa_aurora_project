@@ -58,12 +58,18 @@ class TransactionController extends Controller
 
  public function showAllTransactions(){
     return response()->json([
-        "ok" => true,
-        "message" => "All Transactions has been retrieved",
-        "data" => Transaction::all()
-        ]);
+    "ok" => true,
+    "message" => "All Transactions has been retrieved",
+    "data" => Transaction::all()
+    ]);
 }
+   // $transactions = Transaction::with('services')->get();
 
+    // return response()->json([
+    //     'success' => true,
+    //     'message' => 'Transactions retrieved successfully',
+    //     'data' => $transactions,
+    // ], 200);
 
 
 //Retrieve specific Transaction using ID
@@ -74,7 +80,7 @@ class TransactionController extends Controller
  */
 
 
- public function showService(Transaction $transaction){
+ public function showTransaction(Transaction $transaction){
     return response()->json([
         "ok" =>true,
         "message" => "Transaction has been retrieved.",
@@ -90,36 +96,39 @@ class TransactionController extends Controller
     * @return \Illuminate\Http\Response
     */
 
-    public function updateTransaction(Request $request, Transaction $transaction){
-        $validator = validator($request->all(), [
-            /*
-            on create:
-            'user_id' => 'required|exists:users,id',
-            'room_id' => 'required|exists:rooms,id',
-            'rent_start' => 'required|date|date_format:Y-m-d',
-            'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start',
-            'service_id' => 'required|array|min:1',
-            'service_id.*' => 'exists:services,id'
-            */
-        ]);
+    public function updateTransaction(Request $request, Transaction $transaction)
+{
+    $validator = Validator::make($request->all(), [
+        'user_id' => 'sometimes|exists:users,id',
+        'room_id' => 'sometimes|exists:rooms,id',
+        'rent_start' => 'sometimes|date|date_format:Y-m-d',
+        'rent_end' => 'sometimes|date|date_format:Y-m-d|after_or_equal:rent_start',
+        'service_id' => 'sometimes|array|min:1',
+        'service_id.*' => 'exists:services,id'
+    ]);
 
-        if($validator->fails())
-        {
-            return response()->json([
-                "ok" => false,
-            "message" => "Request didnt pass the validation",
-            "errors" => $validator->errors()
-            ], 400);
-        }
-
-        $transaction->update($validator->validated());
+    if ($validator->fails()) {
         return response()->json([
-                "ok" => true,
-                "message" => "Transaction has been updated!",
-                "data" => $transaction
-        ]);
+            "ok" => false,
+            "message" => "Transaction update failed",
+            "errors" => $validator->errors()
+        ], 400);
     }
 
+    $validated = $validator->validated();
+    $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
+    $transaction->update($transaction_input);
+
+    $transaction->services()->sync($validated["service_id"]);
+
+    $transaction->services;
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Transaction updated successfully',
+        'data' => $transaction,
+    ], 200);
+}
 
 
 

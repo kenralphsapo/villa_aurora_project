@@ -47,3 +47,32 @@ php artisan make:controller UserController --resource
 php artisan make:model User
 composer create-project --prefer-dist laravel/laravel REST_API
 composer require laravel/passport
+
+ php artisan make:migration create_employee_table
+
+ php artisan make:migration create_room_table
+
+ php artisan make:migration create_transaction_table
+
+ php artisan make:migration create_service_table
+
+ php artisan make:migration create_testimonial_table
+
+ php artisan make:migration create_service_transaction_table
+
+
+composer create-project laravel/laravel login-website
+php artisan --version
+php artisan make:controller UserController --resource
+php artisan make:model User
+composer create-project --prefer-dist laravel/laravel REST_API
+composer require laravel/passport
+
+
+ <!-- {user?.role == null && (
+                    <Box variant="li" className="nav-item">
+                        <Link to="/myaccount" className="nav-link click-scroll">
+                        Setting
+                        </Link>
+                    </Box>
+                    )} -->

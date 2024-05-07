@@ -8,8 +8,6 @@ import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
 import $ from 'jquery'; 
 import { Link, useNavigate } from 'react-router-dom';
-import { showAllServices } from "../api/service";
-import { showAllRooms} from "../api/room";
 
 function Admin() {
   const user = useSelector(state => state.auth.user);
@@ -22,94 +20,6 @@ function Admin() {
   const [warnings, setWarnings] = useState({});
   const [cookies] = useCookies(['AUTH_TOKEN']);
 
-
-  const [rows, setRows] = useState([]);
-  const [serviceRows, setServiceRows] = useState([]);
-  const [roomRows, setRoomRows] = useState([]);
-  // const [roomRows, setRoomRows] = useState([]);
-
-  // For Rooms
-  const roomcolumns = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: 'Room Name' },
-    { field: 'created_at', headerName: 'Create At', width: 200 },
-    { field: 'updated_at', headerName: 'Update At', width: 200 },
-    {
-      field: 'actions',
-      headerName: '',
-      sortable: false,
-      filterable: false,
-      renderCell: params => (
-        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
-            Edit
-          </Button>
-          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
-            Delete
-          </Button>
-        </Box>
-      ),
-      width: 200,
-    },
-  ];
-
-  
-  const RrefreshData = () => {
-    showAllRooms().then(res => {
-      console.log(res)
-      if (res?.ok) {
-        setRoomRows(res.data);
-      } else {
-        toast.error(res?.message ?? 'Something went wrong.');
-      }
-    });
-  };
-  useEffect(RrefreshData, []);
-  
-
-  // For Services
-  const servicecolumns = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: 'Service Name' },
-    { field: 'price', headerName: 'Price' },
-    { field: 'created_at', headerName: 'Create At', width: 200 },
-    { field: 'updated_at', headerName: 'Update At', width: 200 },
-    {
-      field: 'actions',
-      headerName: '',
-      sortable: false,
-      filterable: false,
-      renderCell: params => (
-        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
-            Edit
-          </Button>
-          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
-            Delete
-          </Button>
-        </Box>
-      ),
-      width: 200,
-    },
-  ];
-
-  const SrefreshData = () => {
-    showAllServices().then(res => {
-      console.log(res)
-      if (res?.ok) {
-        setServiceRows(res.data);
-      } else {
-        toast.error(res?.message ?? 'Something went wrong.');
-      }
-    });
-  };
-  
-
-  useEffect(SrefreshData, []);
-  
-
-
-  //For Users
   const columns = [
     { field: 'id', headerName: 'ID' },
     { field: 'username', headerName: 'Username' },
@@ -205,6 +115,7 @@ function Admin() {
         username: editDialog.username,
         mobile: editDialog.mobile,
         email: editDialog.email,
+        role: editDialog.role,
       }, editDialog.id, cookies.AUTH_TOKEN).then(res => {
         if (res?.ok) {
           toast.success(res?.message ?? 'Account has updated');
@@ -228,11 +139,11 @@ function Admin() {
           <Box id="custom-navbar">
           {user ? (
             <Box>
-            <Link id="list" to="/"><Typography  sx={{m: 1, color: 'white'}}>Home</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Services</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Rooms</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Transaction</Typography></Link>
-            <Link id="list"><Typography  sx={{m: 1, color: 'white'}}>Testimonials</Typography></Link>
+            <Link to="/"><Typography id="list" sx={{m: 1}}>Home</Typography></Link>
+            <Link><Typography id="list" sx={{m: 1}}>Rooms</Typography></Link>
+            <Link><Typography id="list" sx={{m: 1}}>Services</Typography></Link>
+            <Link><Typography id="list" sx={{m: 1}}>Transaction</Typography></Link>
+            <Link><Typography id="list" sx={{m: 1}}>Testimonials</Typography></Link>
           </Box>
           ) : null}
           </Box>
@@ -370,11 +281,6 @@ function Admin() {
               <Button disabled={loading} onClick={() => { $("#edit-btn").trigger("click")}}>Update</Button>
               </DialogActions>
           </Dialog>
-
-          <Box>
-            <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
-            <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
-          </Box>
         </Box>
       ) : null}
          

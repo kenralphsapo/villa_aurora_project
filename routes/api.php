@@ -63,7 +63,7 @@ Route::prefix("services")->group(function(){
     Route::PATCH("/{service}", [App\Http\Controllers\serviceController::class, 'updateService']);
 
     //DELETE: http://localhost:8000/api/services/{service} delete service
-    Route::delete("/{service}", [App\Http\Controllers\serviceController::class, 'destroyService']);    
+    Route::delete("/{service}", [App\Http\Controllers\serviceController::class, 'deleteService']);    
 });
 
 
@@ -92,7 +92,32 @@ Route::prefix("transactions")->group(function(){
     Route::post("/", [App\Http\Controllers\TransactionController::class, 'addTransaction']);
 
       //GET: http://localhost:8000/api/transactions  show All Transactions
-      Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
+    Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
+
+      //PATCH: http://localhost:8000/api/transactions/{transaction} update transaction
+    Route::PATCH("/{transaction}", [App\Http\Controllers\TransactionController::class, 'updateTransaction']);
+
+    
+    //DELETE: http://localhost:8000/api/transactions/{transaction} delete transaction
+    Route::delete("/{testimonial}", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']);
 });
 
+
+//Testimonial Table
+Route::prefix("testimonials")->group(function(){
+    //POST: http://localhost:8000/api/testimonials Add Testimonial
+    Route::post("/", [App\Http\Controllers\TestimonialController::class, 'addTestimonial']);
+
+    //GET: http://localhost:8000/api/testimonials  show Allestimonials
+    Route::get("/", [App\Http\Controllers\TestimonialController::class, 'showAllTestimonials']);
+
+    //GET: http://localhost:8000/api/testimonials {testimonial} show specific testimonial
+    Route::get("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'showTestimonal']);
+
+    //PATCH: http://localhost:8000/api/testimonials/{testimonial} update testimonial
+    Route::PATCH("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'updateTestimonial']);
+
+    //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
+    Route::delete("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
+});
 

@@ -86,27 +86,27 @@ class ServiceController extends Controller
     */
 
     public function updateService(Request $request, Service $service){
-        $validator = validator($request->all(), [
-
-            "name" => "sometimes|min:1|max:50|string,$service->id|max:50|alpha_dash",
-            "price" => "sometimes|min:1|max:50|float,$service->id"            
-        ]);
-
-        if($validator->fails())
-        {
+            $validator = validator($request->all(), [
+                "name" => "sometimes|min:1|max:50|string",
+                "price" => "sometimes|min:1|max:100000|numeric"
+            ]);
+        
+            if($validator->fails()){
+                return response()->json([
+                    "ok" => false,
+                    "message" => "Service Update failed.",
+                    "errors" => $validator->errors()
+                ], 400);
+            }
+        
+            $service->update($request->only(['name', 'price']));
+            // $service->update($validator->validated());
             return response()->json([
-                "ok" => false,
-            "message" => "Request didnt pass the validation",
-            "errors" => $validator->errors()
-            ], 400);
-        }
-
-        $service->update($validator->validated());
-        return response()->json([
                 "ok" => true,
                 "message" => "Service has been updated!",
                 "data" => $service
-        ]);
+            ], 200);
+        
     }
 
 
