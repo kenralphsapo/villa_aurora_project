@@ -88,9 +88,7 @@ class RoomController extends Controller
     public function updateRoom(Request $request, Room $room){
         $validator = validator($request->all(), [
 
-            "name" => "required|min:1|max:50|string,$room->name|max:50|alpha_dash"
-            /* Room Price? 
-            "price" => "sometimes|min:1|max:50|float,$service->id"  */          
+            "name" => "required|min:1|max:50|string|max:50"     
         ]);
 
         if($validator->fails())
@@ -101,7 +99,8 @@ class RoomController extends Controller
             "errors" => $validator->errors()
             ], 400);
         }
-
+        
+        //$room->update($request->only(['name']));
         $room->update($validator->validated());
         return response()->json([
                 "ok" => true,

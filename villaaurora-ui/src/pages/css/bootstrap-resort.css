@@ -35,6 +35,16 @@
   #login-logo {
     animation: appear 1s linear;
   }
+
+
+  .none1, .none2, .none3, .none4{
+    display: none;
+  }
+
+  .appear1, .appear2, .appear3, .appear4{
+    display: block;
+  }
+
   
 /*---------------------------------------
   CUSTOM
@@ -62,11 +72,19 @@
     background-color: #379ae8;
   }
 
-  #custom-navbar #list{
+  #custom-navbar .list{
     text-decoration: none;
+    padding: 1px 10px ;
   }
-  
-  
+
+  .list:hover{
+    background-color: #153554;
+
+  }
+
+  .list:nth-child(1){
+    background-color: #76b9ed;
+  }
   
   #customlink:hover {
     cursor: pointer;
@@ -85,6 +103,15 @@
   #custom-btn-gray #link{
     color: white;
     text-decoration: none;
+  }
+
+  .customback-color{
+    background-color: #379ae8;
+    text-decoration: none;
+  }
+
+  .customback-color:hover{
+    background-color: #153554;
   }
   
   

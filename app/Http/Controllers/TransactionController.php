@@ -57,19 +57,17 @@ class TransactionController extends Controller
  */
 
  public function showAllTransactions(){
+    // $transactions = Transaction::with('services')->get();
+
     return response()->json([
     "ok" => true,
     "message" => "All Transactions has been retrieved",
     "data" => Transaction::all()
     ]);
 }
-   // $transactions = Transaction::with('services')->get();
+  
 
-    // return response()->json([
-    //     'success' => true,
-    //     'message' => 'Transactions retrieved successfully',
-    //     'data' => $transactions,
-    // ], 200);
+
 
 
 //Retrieve specific Transaction using ID

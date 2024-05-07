@@ -7,7 +7,12 @@ import { useCookies } from 'react-cookie';
 import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
 import $ from 'jquery'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { addService, showAllServices } from "../api/service";
+import { showAllRooms} from "../api/room";
+import { showAllTransactions } from "../api/transaction";
+import { showAllTestimonials } from "../api/testimonial";
+import { onRoomNav, onServiceNav, onTestimonialNav, onTransactionNav, onUserNav } from './js/custom-nav';
 
 function Admin() {
   const user = useSelector(state => state.auth.user);
@@ -15,11 +20,180 @@ function Admin() {
   const [deleteDialog, setDeleteDialog] = useState(null);
   const [editDialog, setEditDialog] = useState(null);
 
-  
+  const [createServDialog, setCreateServDialog] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [warnings, setWarnings] = useState({});
   const [cookies] = useCookies(['AUTH_TOKEN']);
 
+
+  const [rows, setRows] = useState([]);
+  const [serviceRows, setServiceRows] = useState([]);
+  const [roomRows, setRoomRows] = useState([]);
+  const [transactionRows, setTransactionRows] = useState([]);
+  const [testiomonialRows, setTestimonialRows] = useState([]);
+
+  // For Testimonials
+
+  const testimonialcolumns = [
+    { field: 'id', headerName: 'Transaction ID' },
+    { field: 'feedback', headerName: 'Feedback', width: 200 },
+    { field: 'rating', headerName: 'Rating' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ];
+
+  
+  const TestrefreshData = () => {
+    showAllTestimonials().then(res => {
+      if (res?.ok) {
+        setTestimonialRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  useEffect(TestrefreshData, []);
+
+
+  // For Transactions
+  const transactioncolumns = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'user_id', headerName: 'User ID' },
+    { field: 'room_id', headerName: 'Room ID' },
+    { field: 'rent_start', headerName: 'Rent Start' },
+    { field: 'rent_end', headerName: 'Rent End' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ];
+
+  
+  const TrefreshData = () => {
+    showAllTransactions().then(res => {
+      if (res?.ok) {
+        setTransactionRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  useEffect(TrefreshData, []);
+  
+
+  // For Rooms
+  const roomcolumns = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'name', headerName: 'Room Name' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ];
+
+  
+  const RrefreshData = () => {
+    showAllRooms().then(res => {
+      if (res?.ok) {
+        setRoomRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  useEffect(RrefreshData, []);
+  
+
+  // For Services
+  const servicecolumns = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'name', headerName: 'Service Name' },
+    { field: 'price', headerName: 'Price' },
+    { field: 'created_at', headerName: 'Create At', width: 200 },
+    { field: 'updated_at', headerName: 'Update At', width: 200 },
+    {
+      field: 'actions',
+      headerName: '',
+      sortable: false,
+      filterable: false,
+      renderCell: params => (
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+            Delete
+          </Button>
+        </Box>
+      ),
+      width: 200,
+    },
+  ];
+
+  const SrefreshData = () => {
+    showAllServices().then(res => {
+      if (res?.ok) {
+        setServiceRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+  
+
+  useEffect(SrefreshData, []);
+  
+
+
+  //For Users
   const columns = [
     { field: 'id', headerName: 'ID' },
     { field: 'username', headerName: 'Username' },
@@ -50,7 +224,6 @@ function Admin() {
   
   const refreshData = () => {
     index(cookies.AUTH_TOKEN).then(res => {
-      console.log(res)
       if (res?.ok) {
         setRows(res.data);
       } else {
@@ -83,6 +256,29 @@ function Admin() {
         } else {
           toast.error(res?.message ?? 'Something went wrong.');
           setWarnings(res?.errors);
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  };
+
+  const onCreateService = (e) => {
+    e.preventDefault();
+    if (!loading) {
+      const body = {
+        name: $("#name").val(),
+        price: $("#price").val(),
+      };
+
+      addService(body).then(res => {
+        console.log(res);
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Service has been created');
+          setCreateServDialog(false);
+          refreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');;
         }
       }).finally(() => {
         setLoading(false);
@@ -131,7 +327,7 @@ function Admin() {
   }
 
   return (
-    <Box>
+    <Box id="custom-admin">
       <Box>
           <Box>
           <Typography variant='h2'>Hello {user?.username ?? 'Who are you??'}</Typography>
@@ -139,21 +335,24 @@ function Admin() {
           <Box id="custom-navbar">
           {user ? (
             <Box>
-            <Link to="/"><Typography id="list" sx={{m: 1}}>Home</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Rooms</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Services</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Transaction</Typography></Link>
-            <Link><Typography id="list" sx={{m: 1}}>Testimonials</Typography></Link>
+            <Link className="list" to="/"><Typography  sx={{m: 1, color: 'white'}} id="home">Home</Typography></Link>
+            <Link className="list" onClick={onUserNav}><Typography  sx={{m: 1, color: 'white'}}  id="usernav">Users</Typography></Link>
+            <Link className="list" onClick={onServiceNav}><Typography  sx={{m: 1, color: 'white'}}  id="servicenav">Services</Typography></Link>
+            <Link className="list" onClick={onRoomNav}><Typography  sx={{m: 1, color: 'white'}}  id="roomnav">Rooms</Typography></Link>
+            <Link className="list" onClick={onTransactionNav}><Typography  sx={{m: 1, color: 'white'}}   id="transactionnav">Transactions</Typography></Link>
+            <Link className="list" onClick={onTestimonialNav}><Typography  sx={{m: 1, color: 'white'}}  id="testimonialnav">Testimonials</Typography></Link>
           </Box>
           ) : null}
           </Box>
       </Box>
       {user ? (
-        <Box sx={{ mt: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'end', py: 2 }}>
+        <Box>
+          <Box sx={{ mt: 2 }} id="section1">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }}>
+            <Typography variant="h2">Users</Typography>
             <Button sx={{ mr: 5 }} onClick={() => setCreateDialog(true)}>Create User</Button>
           </Box>
-          <DataGrid sx={{ height: '500px' }} columns={columns} rows={rows} />
+          <DataGrid autoHeight columns={columns} rows={rows} />
 
           {/* CREATE FORM DIALOG */}
           <Dialog open={!!createDialog}>
@@ -281,6 +480,71 @@ function Admin() {
               <Button disabled={loading} onClick={() => { $("#edit-btn").trigger("click")}}>Update</Button>
               </DialogActions>
           </Dialog>
+
+    
+        </Box>
+        <Box id="table">
+            <Box id="section2">
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2 }}>
+              <Typography variant='h2'>Services</Typography>
+              <Button sx={{ mr: 5 }} onClick={() => setCreateServDialog(true)}>Create Service</Button>
+            </Box>
+              <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
+              <Dialog open={!!createServDialog}>
+
+            <DialogTitle>Create Service Form</DialogTitle>
+            <DialogContent>
+              <Box component="form" onSubmit={onCreateService}>
+                <Box>
+                  <TextField
+                    id="name"
+                    label="Name"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    required
+                  />
+                </Box>
+                <Box>
+                  <TextField
+                    id="price"
+                    label="Price"
+                    variant="outlined"
+                    margin="normal"
+                    type="number"
+                    fullWidth
+                    required
+                  />
+                </Box>
+                <Box>
+                  <Button id="servubmit_btn" disabled={loading} type="submit" sx={{display: 'none'}}>
+                    Submit
+                  </Button>
+                </Box>
+              </Box>
+            </DialogContent>
+            <DialogActions>
+              <Button color="info" onClick={() => setCreateServDialog(false)}>Close</Button>
+              <Button onClick={() => { $("servubmit_btn").trigger("click")}}>Create</Button>
+            </DialogActions>
+          </Dialog>
+            </Box>
+
+            <Box id="section3">
+              <Typography variant='h2'>Rooms</Typography>
+              <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
+            </Box>
+
+            <Box id="section4">
+              <Typography variant='h2'>Transactions</Typography>
+              <DataGrid autoHeight columns={transactioncolumns} rows={transactionRows} />
+            </Box>
+            
+            <Box id="section5">
+              <Typography variant='h2'>Testimonials</Typography>
+              <DataGrid autoHeight columns={testimonialcolumns} rows={testiomonialRows} />
+            </Box>
+          </Box>
         </Box>
       ) : null}
          

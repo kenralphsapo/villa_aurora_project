@@ -7,3 +7,12 @@ export const showAllServices = async () => {
 
       return await response.json()
 }
+
+export const addService = async (body) => {
+  const response = await fetch(`${url}/services`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+
+  return await response.json();
+};

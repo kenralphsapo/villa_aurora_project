@@ -99,8 +99,8 @@ class ServiceController extends Controller
                 ], 400);
             }
         
-            $service->update($request->only(['name', 'price']));
-            // $service->update($validator->validated());
+            // $service->update($request->only(['name', 'price']));
+            $service->update($validator->validated());
             return response()->json([
                 "ok" => true,
                 "message" => "Service has been updated!",

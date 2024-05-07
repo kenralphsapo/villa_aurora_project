@@ -75,9 +75,21 @@ function Home() {
             </Box>
             {user ? (
                 <>
-                <Box variant="li" className="nav-item">
-                    <Link to="/admin" className="nav-link click-scroll">Admin</Link>
-                </Box>
+                    {user?.role !== 'guest' && user?.role !== 'scheduler' && (
+                    <Box variant="li" className="nav-item">
+                        <Link to="/admin" className="nav-link click-scroll">
+                        {user?.role}
+                        </Link>
+                    </Box>
+                    )}
+
+                    {user?.role !== 'admin' && (
+                    <Box variant="li" className="nav-item">
+                        <Link to="/guest" className="nav-link click-scroll">
+                        Myaccount
+                        </Link>
+                    </Box>
+                    )}
 
                     <Box variant="li" className="nav-item">
                     <Link onClick={logout} className="nav-link click-scroll">
