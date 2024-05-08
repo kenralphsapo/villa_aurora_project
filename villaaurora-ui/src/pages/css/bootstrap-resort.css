@@ -18,11 +18,8 @@
     background-image: url('../images/backgroundlogin.jpg');
     background-size: cover;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
   }
+  
   @keyframes appear {
     0% {
       opacity: 0;

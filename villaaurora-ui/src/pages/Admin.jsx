@@ -8,10 +8,10 @@ import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
 import $ from 'jquery'; 
 import { Link } from 'react-router-dom';
-import { addService, showAllServices } from "../api/service";
-import { showAllRooms} from "../api/room";
+import { addService, deleteService, showAllServices, updateService } from "../api/service";
+import { addRoom, deleteRoom, showAllRooms} from "../api/room";
 import { showAllTransactions } from "../api/transaction";
-import { showAllTestimonials } from "../api/testimonial";
+import { deleteTestimonial, showAllTestimonials } from "../api/testimonial";
 import { onRoomNav, onServiceNav, onTestimonialNav, onTransactionNav, onUserNav } from './js/custom-nav';
 
 function Admin() {
@@ -20,7 +20,17 @@ function Admin() {
   const [deleteDialog, setDeleteDialog] = useState(null);
   const [editDialog, setEditDialog] = useState(null);
 
+
+  // For Services
   const [createServDialog, setCreateServDialog] = useState(false);
+  const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
+
+  // For Rooms
+  const [deleteRoomDialog, setRoomDeleteDialog] = useState(null);
+  const [editServiceDialog, setEditServiceDialog] = useState(null);
+
+  //For Testimonials
+  const [deleteTestimonialDialog, setTestimonialDeleteDialog] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [warnings, setWarnings] = useState({});
@@ -51,7 +61,7 @@ function Admin() {
           <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
             Edit
           </Button>
-          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+          <Button variant="contained" color="error" onClick={() => setTestimonialDeleteDialog(params.row.id)}>
             Delete
           </Button>
         </Box>
@@ -130,7 +140,7 @@ function Admin() {
           <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
             Edit
           </Button>
-          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+          <Button variant="contained" color="error" onClick={() => setRoomDeleteDialog(params.row.id)}>
             Delete
           </Button>
         </Box>
@@ -166,10 +176,10 @@ function Admin() {
       filterable: false,
       renderCell: params => (
         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+          <Button variant="contained" color="warning" onClick={() => setEditServiceDialog({...params.row})}>
             Edit
           </Button>
-          <Button variant="contained" color="error" onClick={() => setDeleteDialog(params.row.id)}>
+          <Button variant="contained" color="error" onClick={() => setServiceDeleteDialog(params.row.id)}>
             Delete
           </Button>
         </Box>
@@ -190,7 +200,68 @@ function Admin() {
   
 
   useEffect(SrefreshData, []);
+
+  const onCreateService = (e) => {
+    e.preventDefault();
+    if (!loading) {
+      const body = {
+        name: $("#name").val(),
+        price: $("#price").val(),
+      };
+
+      addService(body).then(res => {
+        console.log(res);
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Service has been created');
+          setCreateServDialog(false);
+          refreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');;
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  };
+
+  const onDeleteService = (e) => {
+    if(!loading){
+      setLoading(true);
+      deleteService(deleteServiceDialog).then(res => {
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Service has deleted');
+          setServiceDeleteDialog(null);
+          SrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  };
   
+  const onEditService = (e) => {
+    e.preventDefault();
+    if(!loading){
+      setLoading(true);
+      updateService({
+        name: editDialog.name,
+        price: editDialog.price,
+      }, editDialog.id).then(res => {
+        console.log(res);
+      //   if (res?.ok) {
+      //     toast.success(res?.message ?? 'Service has updated');
+      //     setEditServiceDialog(null);
+      //     SrefreshData();
+      //   } else {
+      //     toast.error(res?.message ?? 'Something went wrong.');
+      //   }
+      // }).finally(() => {
+      //   setLoading(false);
+      });
+    }
+  }
 
 
   //For Users
@@ -240,7 +311,7 @@ function Admin() {
     e.preventDefault();
     if (!loading) {
       const body = {
-        username: $("#username").val(),
+        name: $("#name").val(),
         password: $("#password").val(),
         password_confirmation: $("#password_confirmation").val(),
         mobile: $("#mobile").val(),
@@ -263,22 +334,37 @@ function Admin() {
     }
   };
 
-  const onCreateService = (e) => {
-    e.preventDefault();
-    if (!loading) {
-      const body = {
-        name: $("#name").val(),
-        price: $("#price").val(),
-      };
 
-      addService(body).then(res => {
-        console.log(res);
+
+  const onDeleteRoom = (e) => {
+    if(!loading){
+      setLoading(true);
+      deleteRoom(deleteRoomDialog).then(res => {
         if (res?.ok) {
-          toast.success(res?.message ?? 'Service has been created');
-          setCreateServDialog(false);
-          refreshData();
+         
+          toast.success(res?.message ?? 'Room has deleted');
+          setRoomDeleteDialog(null);
+          RrefreshData();
         } else {
-          toast.error(res?.message ?? 'Something went wrong.');;
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  };
+
+  const onDeleteTestimonial = (e) => {
+    if(!loading){
+      setLoading(true);
+      deleteTestimonial(deleteTestimonialDialog).then(res => {
+        if (res?.ok) {
+         
+          toast.success(res?.message ?? 'Room has deleted');
+          setTestimonialDeleteDialog(null);
+          TestrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
         }
       }).finally(() => {
         setLoading(false);
@@ -361,7 +447,7 @@ function Admin() {
               <Box component="form" onSubmit={onCreate}>
                 <Box>
                   <TextField
-                    id="username"
+                    id="name"
                     label="Username"
                     variant="outlined"
                     margin="normal"
@@ -490,15 +576,15 @@ function Admin() {
               <Button sx={{ mr: 5 }} onClick={() => setCreateServDialog(true)}>Create Service</Button>
             </Box>
               <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
-              <Dialog open={!!createServDialog}>
-
+              {/* Create Service */}
+            <Dialog open={!!createServDialog}>
             <DialogTitle>Create Service Form</DialogTitle>
             <DialogContent>
               <Box component="form" onSubmit={onCreateService}>
                 <Box>
                   <TextField
                     id="name"
-                    label="Name"
+                    label="Service Name"
                     variant="outlined"
                     margin="normal"
                     fullWidth
@@ -516,23 +602,68 @@ function Admin() {
                     required
                   />
                 </Box>
-                <Box>
-                  <Button id="servubmit_btn" disabled={loading} type="submit" sx={{display: 'none'}}>
+                <Box className="d-flex justify-content-center align-items-center">
+                  <Button id="submitbtn" disabled={loading} type="submit">
                     Submit
                   </Button>
+                  <Button color="info" onClick={() => setCreateServDialog(false)}>Close</Button>
                 </Box>
               </Box>
             </DialogContent>
-            <DialogActions>
-              <Button color="info" onClick={() => setCreateServDialog(false)}>Close</Button>
-              <Button onClick={() => { $("servubmit_btn").trigger("click")}}>Create</Button>
+            </Dialog>
+
+          {/* Delete Service */}
+          <Dialog open={!!deleteServiceDialog}>
+            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogContent>
+              <Typography>
+                Do you want to delete this Service ID: {deleteServiceDialog}
+              </Typography>
+            </DialogContent>
+            <DialogActions sx={{display: !!deleteServiceDialog ? "flex" : 'none'}}>
+              <Button onClick={() => setServiceDeleteDialog(null)}>Cancel</Button>
+              <Button disabled={loading} onClick={onDeleteService}>Confirm</Button>
             </DialogActions>
+          </Dialog>
+
+          <Dialog open={!!editServiceDialog}>
+              <DialogTitle>
+                Edit User
+              </DialogTitle>
+              <DialogContent>
+                <Box component="form" sx={{p: 1}} onSubmit={onEditService}>
+                <Box sx={{mt: 1}}>
+                  <TextField onChange={e => setEditServiceDialog({...editServiceDialog, name: e.target.value})} value={editServiceDialog?.name ?? ""} size="small" label="Service name" type="text" fullWidth />
+                  </Box>
+                  <Box sx={{mt: 1}}>
+                  <TextField onChange={e => setEditServiceDialog({...editServiceDialog, price: e.target.value})} value={editServiceDialog?.price ?? ""} size="small" label="Price" type="number" fullWidth/>
+                  </Box>
+                  <Button id="service-btn" type="submit">Submit</Button>
+                </Box>
+              </DialogContent>
+              <DialogActions>
+              <Button onClick={() => setEditServiceDialog(null)}>Cancel</Button>
+              <Button disabled={loading} onClick={() => { $("#service-btn").trigger("click")}}>Update</Button>
+              </DialogActions>
           </Dialog>
             </Box>
 
             <Box id="section3">
               <Typography variant='h2'>Rooms</Typography>
               <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
+              {/* Delete Room */}
+              <Dialog open={!!deleteRoomDialog}>
+                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogContent>
+                  <Typography>
+                    Do you want to delete this Room ID: {deleteRoomDialog}
+                  </Typography>
+                </DialogContent>
+                <DialogActions sx={{display: !!deleteRoomDialog ? "flex" : 'none'}}>
+                  <Button onClick={() => setRoomDeleteDialog(null)}>Cancel</Button>
+                  <Button disabled={loading} onClick={onDeleteRoom}>Confirm</Button>
+                </DialogActions>
+              </Dialog>
             </Box>
 
             <Box id="section4">
@@ -543,6 +674,19 @@ function Admin() {
             <Box id="section5">
               <Typography variant='h2'>Testimonials</Typography>
               <DataGrid autoHeight columns={testimonialcolumns} rows={testiomonialRows} />
+              {/* Delete Testimonial */}
+              <Dialog open={!!deleteTestimonialDialog}>
+                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogContent>
+                  <Typography>
+                    Do you want to delete this Testimonial ID: {deleteTestimonialDialog}
+                  </Typography>
+                </DialogContent>
+                <DialogActions sx={{display: !!deleteTestimonialDialog ? "flex" : 'none'}}>
+                  <Button onClick={() => setTestimonialDeleteDialog(null)}>Cancel</Button>
+                  <Button disabled={loading} onClick={onDeleteTestimonial}>Confirm</Button>
+                </DialogActions>
+              </Dialog>
             </Box>
           </Box>
         </Box>

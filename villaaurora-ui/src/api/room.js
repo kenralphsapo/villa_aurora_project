@@ -7,3 +7,22 @@ export const showAllRooms = async () => {
 
       return await response.json()
 }
+
+
+export const addRoom = async (body) => {
+  const response = await fetch(`${url}/rooms`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+
+  return await response.json();
+};
+
+
+export const deleteRoom = async (id) => {
+  const response = await fetch(`${url}/rooms/${id}?_method=DELETE`, {
+    method: 'POST'
+  });
+
+  return await response.json();
+};

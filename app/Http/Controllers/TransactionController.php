@@ -146,10 +146,4 @@ class TransactionController extends Controller
         "data" => $transaction
     ]);
     }
-
-
-
-
-
-
-    }
+}

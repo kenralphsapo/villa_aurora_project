@@ -16,3 +16,19 @@ export const addService = async (body) => {
 
   return await response.json();
 };
+
+export const updateService = async (id) => {
+  const response = await fetch(`${url}/services/${id}?_method=PATCH`, {
+    method: 'POST'
+  });
+
+  return await response.json();
+};
+
+export const deleteService = async (id) => {
+  const response = await fetch(`${url}/services/${id}?_method=DELETE`, {
+    method: 'POST'
+  });
+
+  return await response.json();
+};

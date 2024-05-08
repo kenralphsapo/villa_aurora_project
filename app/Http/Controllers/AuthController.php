@@ -62,10 +62,10 @@ class AuthController extends Controller
         ], 400);
     }
 
-    $credentials = $request->only('username', 'password');
+    $credentials = $request->only("username", "password");
     // Check if the user can be authenticated using either email or username
-    if(auth()->attempt(['email' => $credentials['username'], 'password' => $credentials['password']]) ||
-       auth()->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+    if(auth()->attempt(["email" => $credentials["username"], "password" => $credentials["password"]]) ||
+       auth()->attempt(["username" => $credentials["username"], "password" => $credentials["password"]])) {
         $user = auth()->user();
         $user->token = $user->createToken("api-token")->accessToken;
         return response()->json([

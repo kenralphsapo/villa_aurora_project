@@ -11,9 +11,9 @@ import './css/bootstrap-resort.css';
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export default function Login() {
 
   return (
     <Box
-      id="bglogin"
+      id="bglogin" className="d-flex flex-column justify-content-center align-items-center"
     >
        <Typography id="login-logo" variant="h2" sx={{ textAlign: 'center', color:'white' }}>
           Welcome Villa Aurora

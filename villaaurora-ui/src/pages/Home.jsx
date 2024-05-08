@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import checkAuth from '../hoc/checkAuth';
 
+
 import logo from './images/logo.jpg';
 import bgmockup from './images/background.jpg';
 import event from './images/event.jpg';
@@ -32,6 +33,10 @@ function Home() {
     navigate("/");
     dispatch();
   };
+
+
+  
+  
   return (
     <Box id="homebg"> 
       <Box className="row">

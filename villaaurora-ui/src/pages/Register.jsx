@@ -48,7 +48,7 @@ export default function Register() {
   };
 
   return (
-    <Box id="bglogin"
+    <Box id="bglogin" className="d-flex flex-column justify-content-center align-items-center"
     >
       <Box sx={{}}>
       <Box

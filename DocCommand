@@ -69,10 +69,13 @@ composer create-project --prefer-dist laravel/laravel REST_API
 composer require laravel/passport
 
 
- <!-- {user?.role == null && (
-                    <Box variant="li" className="nav-item">
-                        <Link to="/myaccount" className="nav-link click-scroll">
-                        Setting
-                        </Link>
-                    </Box>
-                    )} -->
+
+INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (1,'Great service!',5,NOW(),NOW());
+
+INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (1,'Amazing experience!',4,'2024-05-08 12:19:00','2024-05-08 12:19:00');
+
+INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (1,'Very satisfied with the product',5,NOW(),NOW());
+
+INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (1,'Excellent customer support!',5,NOW(),NOW());
+
+INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (1,'Highly recommend!',4,'2024-05-08 12:19:00','2024-05-08 12:19:00');
