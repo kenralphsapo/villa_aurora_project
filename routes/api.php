@@ -114,7 +114,7 @@ Route::prefix("testimonials")->group(function(){
 });
     //GET: http://localhost:8000/api/transactions  show All Transactions
     Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
-});
+
 
 
 //Testimonials
