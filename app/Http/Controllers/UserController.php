@@ -34,19 +34,7 @@ class UserController extends Controller
      if ($request->user()->role !== "admin") {
         unset($validator->rules()['role']);
     }
-<<<<<<< HEAD
-//error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
-
-    $user = User::create($validator->validated());
-    
-
-    return response()->json([
-        "ok" => true,
-        "message" => "Account has been created!",
-        "data" => $user
-        ], 201);
-}
-=======
+ //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
  
      if($validator->fails()){
          return response()->json([
@@ -65,7 +53,6 @@ class UserController extends Controller
      ], 201);
  }
  
->>>>>>> c29b539c2aea1ab3cb767fafffb3e6afab71ce61
 
 
 /**

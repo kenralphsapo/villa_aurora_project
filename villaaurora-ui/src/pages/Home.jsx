@@ -74,9 +74,6 @@ function Home() {
                         <Link to="/admin" className="nav-link click-scroll">{user?.role}</Link>
                     </Box>
                 )}
-                  <Box variant="li" className="nav-item">
-                        <Link to="/guest" className="nav-link click-scroll">{user?.role}</Link>
-                    </Box>
 
 
                 <Box variant="li" className="nav-item">

@@ -51,12 +51,12 @@ class TransactionController extends Controller
 
     }
 
-
+//TO-DO: MUST INCLUDE PRICE FROM SERVICES
     /**
- * RETRIEVE all transactions
- * GET: /api/transactions
- * @return \Illuminate\Http\Response
- */
+    * RETRIEVE all transactions
+    * GET: /api/transactions
+    * @return \Illuminate\Http\Response
+    */
 
  public function showAllTransactions(){
     return response()->json([
@@ -84,8 +84,8 @@ class TransactionController extends Controller
     ]);
     }
 
-//TO-DO
-/**
+
+    /**
     * PATCH: /api/transactions/{transaction}
     * @param Request
     * @param Transaction
@@ -94,15 +94,13 @@ class TransactionController extends Controller
 
     public function updateTransaction(Request $request, Transaction $transaction){
         $validator = validator($request->all(), [
-            /*
-            on create:
-            'user_id' => 'required|exists:users,id',
-            'room_id' => 'required|exists:rooms,id',
-            'rent_start' => 'required|date|date_format:Y-m-d',
-            'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start',
-            'service_id' => 'required|array|min:1',
+
+            'room_id' => 'sometimes|exists:rooms,id',
+            'rent_start' => 'sometimes|date|date_format:Y-m-d',
+            'rent_end' => 'sometimes|date|date_format:Y-m-d|after_or_equal:rent_start',
+            'service_id' => 'sometimes|array|min:1',
             'service_id.*' => 'exists:services,id'
-            */
+ 
         ]);
 
         if($validator->fails())

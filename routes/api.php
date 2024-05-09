@@ -6,28 +6,18 @@ use Illuminate\Support\Facades\Route;
 //create Route:
 //is case sensitive, must use proper casing
 
-//create Route:
-//is case sensitive, must use proper casing
-
 //User Register
-
 //POST: http://localhost:8000/api/register
-
-Route::post("/register", [App\Http\Controllers\AuthController::class,'register']);
-
+    Route::post("/register", [App\Http\Controllers\AuthController::class,'register']);
 //User Login
-
 //POST: http://localhost:8000/api/login
-
-Route::post("/login", [App\Http\Controllers\AuthController::class,'login']);
-
+    Route::post("/login", [App\Http\Controllers\AuthController::class,'login']);
 //User CheckToken
-
 //POST: http://localhost:8000/api/checkToken
-Route::middleware("auth:api")->get("/checkToken", [App\Http\Controllers\AuthController::class,"checkToken"]);
+    Route::middleware("auth:api")->get("/checkToken", [App\Http\Controllers\AuthController::class,"checkToken"]);
 
 
-//Users Table
+//Users
 Route::prefix("users")->middleware("auth:api")->group(function(){
     //POST: http://localhost:8000/api/users Register
     Route::post("/", [App\Http\Controllers\UserController::class, 'store']);
@@ -48,7 +38,7 @@ Route::prefix("users")->middleware("auth:api")->group(function(){
 
 
 
-//Services Table
+//Services
 Route::prefix("services")->group(function(){
     //POST: http://localhost:8000/api/services Add Service
     Route::post("/", [App\Http\Controllers\ServiceController::class, 'addService']);
@@ -67,7 +57,7 @@ Route::prefix("services")->group(function(){
 });
 
 
-//Rooms Table
+//Rooms
 Route::prefix("rooms")->group(function(){
     //POST: http://localhost:8000/api/rooms Add Room
     Route::post("/", [App\Http\Controllers\RoomController::class, 'addRoom']);
@@ -86,13 +76,30 @@ Route::prefix("rooms")->group(function(){
 });
 
 
-//Transaction Table
+//Transaction
 Route::prefix("transactions")->group(function(){
-       //POST: http://localhost:8000/api/transactions
+    //POST: http://localhost:8000/api/transactions
     Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);
 
-      //GET: http://localhost:8000/api/transactions  show All Transactions
-      Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
+    //GET: http://localhost:8000/api/transactions  show All Transactions
+    Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
 });
 
 
+//Testimonials
+Route::prefix("testimonials")->group(function(){
+    //POST: http://localhost:8000/api/testimonials Add testimonial
+    Route::post("/", [App\Http\Controllers\TestimonialController::class, 'addTestimonial']);
+
+    //GET: http://localhost:8000/api/testimonials  show All testimonials
+    Route::get("/", [App\Http\Controllers\TestimonialController::class, 'showAllTestimonials']);
+
+    //GET: http://localhost:8000/api/testimonials {testimonial} show specific testimonial
+    Route::get("/{room}", [App\Http\Controllers\TestimonialController::class, 'showTestimonial']);
+
+    //PATCH: http://localhost:8000/api/testimonials/{testimonial} update testimonial
+    Route::PATCH("/{room}", [App\Http\Controllers\TestimonialController::class, 'updateTestimonial']);
+
+    //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
+    Route::delete("/{room}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
+});
