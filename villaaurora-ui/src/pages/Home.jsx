@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, Grid, TextField, TextareaAutosize } from '@mui/material';
+import { Box, Typography, Button, Grid, TextField, TextareaAutosize, Autocomplete } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import checkAuth from '../hoc/checkAuth';
@@ -18,6 +18,8 @@ import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
+import { faSun } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 
@@ -182,7 +184,7 @@ function Home() {
                                 <Box className="col-lg-10 col-12 mx-auto">
                                     <Typography variant='h2' className="mb-3 text-white">Puro drawing parin ba?</Typography>
 
-                                    <p>arat na Beat the Summer Heat 🌞😎</p>
+                                    <Typography>Arat na Beat the Summer Heat <FontAwesomeIcon icon={faSun} /></Typography>
 
                                     <a href="https://www.facebook.com/VAPRII/" className="trans-scale"><strong>For inquiries please check our fb page for details.</strong></a>
                                 </Box>
@@ -285,6 +287,7 @@ function Home() {
                                               margin="normal"
                                               fullWidth
                                               required
+                                              value={user?.username ?? null}
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
@@ -296,6 +299,7 @@ function Home() {
                                               margin="normal"
                                               fullWidth
                                               required
+                                              value={user?.mobile ?? null}
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
@@ -318,29 +322,24 @@ function Home() {
                                               required
                                             />
                                           </Grid>
-                                        <Grid item xs={12} lg={6} >
-                                        <TextField
-                                            id="time"
-                                            type="time"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            required
+                                        <Grid item xs={12} lg={6} style={{marginBottom: '10px', marginTop: '5px'}}    >
+                                        <Autocomplete
+                                            disablePortal
+                                            id="combo-box-demo"
+                                            // options={top100Films}
+                                            renderInput={(params) => <TextField {...params} label="Services" />}
                                             />
                                         </Grid>
-                                          <Grid item xs={12} lg={6}>
-                                            <TextField
-                                              id="numofpeople"
-                                              label="Number of People"
-                                              type="number"
-                                              variant="outlined"
-                                              margin="normal"
-                                              fullWidth
-                                              required
+                                          <Grid item xs={12} lg={6} style={{marginBottom: '10px', marginTop: '5px'}}>
+                                          <Autocomplete
+                                            disablePortal
+                                            id="combo-box-demo"
+                                            // options={top100Films}
+                                            renderInput={(params) => <TextField {...params} label="Rooms Available" />}
                                             />
                                           </Grid>
                                         </Grid>
-                                        <TextareaAutosize sx={{mt:1}} name="message" rows="3" className="form-control" id="message" placeholder="Comment (Optionals)"></TextareaAutosize>
+                                        <TextareaAutosize name="message" rows="3" className="form-control" id="message" placeholder="Comment (Optionals)"></TextareaAutosize>
                                         </Box>
 
                                         <Box className="col-lg-4 col-md-10 col-8 mx-auto">

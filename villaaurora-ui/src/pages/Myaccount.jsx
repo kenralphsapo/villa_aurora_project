@@ -86,7 +86,7 @@ function Myaccout() {
             </Link>
           
           {user ? (
-            <Typography variant="h6" sx={{color: 'gray', mt: 2}}>{user?.username}</Typography>
+            <Typography variant="h6" sx={{color: 'gray', mt: 2}}>@Username:{user?.username}</Typography>
           ) : null}
         </Box>
         </Box>
@@ -135,7 +135,7 @@ function Myaccout() {
                 <DialogTitle>Are you sure?</DialogTitle>
                 <DialogContent>
                   <Typography>
-                    Do you want to delete this user ID: {deleteDialog}
+                    Do you want to delete this Account
                   </Typography>
                 </DialogContent>
                 <DialogActions sx={{display: !!deleteDialog ? "flex" : 'none'}}>

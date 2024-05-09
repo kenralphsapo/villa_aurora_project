@@ -9,10 +9,12 @@ import { toast } from 'react-toastify';
 import $ from 'jquery'; 
 import { Link } from 'react-router-dom';
 import { addService, deleteService, showAllServices, updateService } from "../api/service";
-import { addRoom, deleteRoom, showAllRooms} from "../api/room";
+import { addRoom, deleteRoom, showAllRooms, updateRoom} from "../api/room";
 import { showAllTransactions } from "../api/transaction";
 import { deleteTestimonial, showAllTestimonials } from "../api/testimonial";
 import { onRoomNav, onServiceNav, onTestimonialNav, onTransactionNav, onUserNav } from './js/custom-nav';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBed, faBriefcase, faCoffee, faComment, faHome, faReceipt, faUser } from '@fortawesome/free-solid-svg-icons'
 
 function Admin() {
   const user = useSelector(state => state.auth.user);
@@ -24,10 +26,12 @@ function Admin() {
   // For Services
   const [createServDialog, setCreateServDialog] = useState(false);
   const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
+  const [editServiceDialog, setEditServiceDialog] = useState(null);
 
   // For Rooms
   const [deleteRoomDialog, setRoomDeleteDialog] = useState(null);
-  const [editServiceDialog, setEditServiceDialog] = useState(null);
+  const [editRoomDialog, setEditRoomDialog] = useState(null);
+  
 
   //For Testimonials
   const [deleteTestimonialDialog, setTestimonialDeleteDialog] = useState(null);
@@ -36,7 +40,7 @@ function Admin() {
   const [warnings, setWarnings] = useState({});
   const [cookies] = useCookies(['AUTH_TOKEN']);
 
-
+  //Retrieve all rows
   const [rows, setRows] = useState([]);
   const [serviceRows, setServiceRows] = useState([]);
   const [roomRows, setRoomRows] = useState([]);
@@ -44,7 +48,6 @@ function Admin() {
   const [testiomonialRows, setTestimonialRows] = useState([]);
 
   // For Testimonials
-
   const testimonialcolumns = [
     { field: 'id', headerName: 'Transaction ID' },
     { field: 'feedback', headerName: 'Feedback', width: 200 },
@@ -83,6 +86,26 @@ function Admin() {
   useEffect(TestrefreshData, []);
 
 
+
+  const onDeleteTestimonial = (e) => {
+    if(!loading){
+      setLoading(true);
+      deleteTestimonial(deleteTestimonialDialog).then(res => {
+        if (res?.ok) {
+         
+          toast.success(res?.message ?? 'Room has deleted');
+          setTestimonialDeleteDialog(null);
+          TestrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  };
+
+
   // For Transactions
   const transactioncolumns = [
     { field: 'id', headerName: 'ID' },
@@ -111,7 +134,27 @@ function Admin() {
     },
   ];
 
-  
+  const onEditTransaction = (e) => {
+    e.preventDefault();
+    if(!loading){
+      setLoading(true);
+      updateTransaction({
+        name: editTransactionDialog.name,
+      }, editTransactionDialog.id).then(res => {
+        console.log(res);
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Transaction has updated');
+          setEditTransactionDialog(null);
+          TrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  }
+
   const TrefreshData = () => {
     showAllTransactions().then(res => {
       if (res?.ok) {
@@ -121,6 +164,7 @@ function Admin() {
       }
     });
   };
+
   useEffect(TrefreshData, []);
   
 
@@ -137,7 +181,7 @@ function Admin() {
       filterable: false,
       renderCell: params => (
         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+          <Button variant="contained" color="warning" onClick={() => setEditRoomDialog({...params.row})}>
             Edit
           </Button>
           <Button variant="contained" color="error" onClick={() => setRoomDeleteDialog(params.row.id)}>
@@ -148,7 +192,6 @@ function Admin() {
       width: 200,
     },
   ];
-
   
   const RrefreshData = () => {
     showAllRooms().then(res => {
@@ -159,6 +202,28 @@ function Admin() {
       }
     });
   };
+
+  const onEditRoom = (e) => {
+    e.preventDefault();
+    if(!loading){
+      setLoading(true);
+      updateRoom({
+        name: editRoomDialog.name,
+      }, editRoomDialog.id).then(res => {
+        console.log(res);
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Room has updated');
+          setEditRoomDialog(null);
+          RrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  }
+
   useEffect(RrefreshData, []);
   
 
@@ -198,7 +263,6 @@ function Admin() {
     });
   };
   
-
   useEffect(SrefreshData, []);
 
   const onCreateService = (e) => {
@@ -246,28 +310,50 @@ function Admin() {
     if(!loading){
       setLoading(true);
       updateService({
-        name: editDialog.name,
-        price: editDialog.price,
-      }, editDialog.id).then(res => {
+        name: editServiceDialog.name,
+        price: editServiceDialog.price,
+      }, editServiceDialog.id).then(res => {
         console.log(res);
-      //   if (res?.ok) {
-      //     toast.success(res?.message ?? 'Service has updated');
-      //     setEditServiceDialog(null);
-      //     SrefreshData();
-      //   } else {
-      //     toast.error(res?.message ?? 'Something went wrong.');
-      //   }
-      // }).finally(() => {
-      //   setLoading(false);
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Service has updated');
+          setEditServiceDialog(null);
+          SrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
       });
     }
   }
+
+  const onDeleteRoom = (e) => {
+    if(!loading){
+      setLoading(true);
+      deleteRoom(deleteRoomDialog).then(res => {
+        if (res?.ok) {
+         
+          toast.success(res?.message ?? 'Room has deleted');
+          setRoomDeleteDialog(null);
+          RrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  };
+
+ 
+
+  
 
 
   //For Users
   const columns = [
     { field: 'id', headerName: 'ID' },
-    { field: 'username', headerName: 'Username' },
+    { field: 'username', headerName: 'Username', width: 100},
     { field: 'mobile', headerName: 'Mobile' },
     { field: 'email', headerName: 'Email' },
     { field: 'role', headerName: 'Role' },
@@ -303,8 +389,6 @@ function Admin() {
     });
   };
 
-  
-
   useEffect(refreshData, []);
 
   const onCreate = (e) => {
@@ -327,44 +411,6 @@ function Admin() {
         } else {
           toast.error(res?.message ?? 'Something went wrong.');
           setWarnings(res?.errors);
-        }
-      }).finally(() => {
-        setLoading(false);
-      });
-    }
-  };
-
-
-
-  const onDeleteRoom = (e) => {
-    if(!loading){
-      setLoading(true);
-      deleteRoom(deleteRoomDialog).then(res => {
-        if (res?.ok) {
-         
-          toast.success(res?.message ?? 'Room has deleted');
-          setRoomDeleteDialog(null);
-          RrefreshData();
-        } else {
-          toast.error(res?.message ?? 'Something went wrong.');
-        }
-      }).finally(() => {
-        setLoading(false);
-      });
-    }
-  };
-
-  const onDeleteTestimonial = (e) => {
-    if(!loading){
-      setLoading(true);
-      deleteTestimonial(deleteTestimonialDialog).then(res => {
-        if (res?.ok) {
-         
-          toast.success(res?.message ?? 'Room has deleted');
-          setTestimonialDeleteDialog(null);
-          TestrefreshData();
-        } else {
-          toast.error(res?.message ?? 'Something went wrong.');
         }
       }).finally(() => {
         setLoading(false);
@@ -412,21 +458,23 @@ function Admin() {
     }
   }
 
+
   return (
     <Box id="custom-admin">
       <Box>
           <Box>
-          <Typography variant='h2'>Hello {user?.username ?? 'Who are you??'}</Typography>
+            <Typography variant='h2'>Hello {user?.username ?? 'Who are you??'}</Typography>
           </Box>
           <Box id="custom-navbar">
           {user ? (
             <Box>
-            <Link className="list" to="/"><Typography  sx={{m: 1, color: 'white'}} id="home">Home</Typography></Link>
-            <Link className="list" onClick={onUserNav}><Typography  sx={{m: 1, color: 'white'}}  id="usernav">Users</Typography></Link>
-            <Link className="list" onClick={onServiceNav}><Typography  sx={{m: 1, color: 'white'}}  id="servicenav">Services</Typography></Link>
-            <Link className="list" onClick={onRoomNav}><Typography  sx={{m: 1, color: 'white'}}  id="roomnav">Rooms</Typography></Link>
-            <Link className="list" onClick={onTransactionNav}><Typography  sx={{m: 1, color: 'white'}}   id="transactionnav">Transactions</Typography></Link>
-            <Link className="list" onClick={onTestimonialNav}><Typography  sx={{m: 1, color: 'white'}}  id="testimonialnav">Testimonials</Typography></Link>
+            <Link className="list" to="/"><Typography  sx={{m: 1, color: 'white'}} id="home">Home <FontAwesomeIcon icon={faHome} /></Typography></Link>
+            <Link className="list" onClick={onUserNav}><Typography  sx={{m: 1, color: 'white'}}  id="usernav">Users <FontAwesomeIcon icon={faUser} /></Typography></Link>
+            <Link className="list" onClick={onServiceNav}><Typography  sx={{m: 1, color: 'white'}}  id="servicenav">Services <FontAwesomeIcon icon={faBriefcase} /></Typography></Link>
+            <Link className="list" onClick={onRoomNav}><Typography  sx={{m: 1, color: 'white'}}  id="roomnav">Rooms <FontAwesomeIcon icon={faBed} /></Typography></Link>
+            <Link className="list" onClick={onTransactionNav}><Typography  sx={{m: 1, color: 'white'}}   id="transactionnav">Transactions <FontAwesomeIcon icon={faReceipt} /></Typography></Link>
+            <Link className="list" onClick={onTestimonialNav}><Typography  sx={{m: 1, color: 'white'}}  id="testimonialnav">Testimonials <FontAwesomeIcon icon={faComment} /></Typography></Link>
+           
           </Box>
           ) : null}
           </Box>
@@ -440,7 +488,7 @@ function Admin() {
           </Box>
           <DataGrid autoHeight columns={columns} rows={rows} />
 
-          {/* CREATE FORM DIALOG */}
+          {/* CREATE USER FORM DIALOG */}
           <Dialog open={!!createDialog}>
             <DialogTitle>Create Form</DialogTitle>
             <DialogContent>
@@ -525,7 +573,7 @@ function Admin() {
             </DialogActions>
           </Dialog>
           
-          {/* DELETE FORM DIALOG */}
+          {/* DELETE USER FORM DIALOG */}
           <Dialog open={!!deleteDialog}>
             <DialogTitle>Are you sure?</DialogTitle>
             <DialogContent>
@@ -539,7 +587,7 @@ function Admin() {
             </DialogActions>
           </Dialog>
 
-          {/* EDIT FORM DIALOG */}
+          {/* EDIT USER FORM DIALOG */}
           <Dialog open={!!editDialog}>
               <DialogTitle>
                 Edit User
@@ -576,7 +624,7 @@ function Admin() {
               <Button sx={{ mr: 5 }} onClick={() => setCreateServDialog(true)}>Create Service</Button>
             </Box>
               <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
-              {/* Create Service */}
+            {/* Create Service */}
             <Dialog open={!!createServDialog}>
             <DialogTitle>Create Service Form</DialogTitle>
             <DialogContent>
@@ -612,40 +660,41 @@ function Admin() {
             </DialogContent>
             </Dialog>
 
-          {/* Delete Service */}
-          <Dialog open={!!deleteServiceDialog}>
-            <DialogTitle>Are you sure?</DialogTitle>
-            <DialogContent>
-              <Typography>
-                Do you want to delete this Service ID: {deleteServiceDialog}
-              </Typography>
-            </DialogContent>
-            <DialogActions sx={{display: !!deleteServiceDialog ? "flex" : 'none'}}>
-              <Button onClick={() => setServiceDeleteDialog(null)}>Cancel</Button>
-              <Button disabled={loading} onClick={onDeleteService}>Confirm</Button>
-            </DialogActions>
-          </Dialog>
-
-          <Dialog open={!!editServiceDialog}>
-              <DialogTitle>
-                Edit User
-              </DialogTitle>
+            {/* Delete Service */}
+            <Dialog open={!!deleteServiceDialog}>
+              <DialogTitle>Are you sure?</DialogTitle>
               <DialogContent>
-                <Box component="form" sx={{p: 1}} onSubmit={onEditService}>
-                <Box sx={{mt: 1}}>
-                  <TextField onChange={e => setEditServiceDialog({...editServiceDialog, name: e.target.value})} value={editServiceDialog?.name ?? ""} size="small" label="Service name" type="text" fullWidth />
-                  </Box>
-                  <Box sx={{mt: 1}}>
-                  <TextField onChange={e => setEditServiceDialog({...editServiceDialog, price: e.target.value})} value={editServiceDialog?.price ?? ""} size="small" label="Price" type="number" fullWidth/>
-                  </Box>
-                  <Button id="service-btn" type="submit">Submit</Button>
-                </Box>
+                <Typography>
+                  Do you want to delete this Service ID: {deleteServiceDialog}
+                </Typography>
               </DialogContent>
-              <DialogActions>
-              <Button onClick={() => setEditServiceDialog(null)}>Cancel</Button>
-              <Button disabled={loading} onClick={() => { $("#service-btn").trigger("click")}}>Update</Button>
+              <DialogActions sx={{display: !!deleteServiceDialog ? "flex" : 'none'}}>
+                <Button onClick={() => setServiceDeleteDialog(null)}>Cancel</Button>
+                <Button disabled={loading} onClick={onDeleteService}>Confirm</Button>
               </DialogActions>
-          </Dialog>
+            </Dialog>
+            
+            {/* Edit Service */}
+            <Dialog open={!!editServiceDialog}>
+                <DialogTitle>
+                  Edit User
+                </DialogTitle>
+                <DialogContent>
+                  <Box component="form" sx={{p: 1}} onSubmit={onEditService}>
+                  <Box sx={{mt: 1}}>
+                    <TextField onChange={e => setEditServiceDialog({...editServiceDialog, name: e.target.value})} value={editServiceDialog?.name ?? ""} size="small" label="Service name" type="text" fullWidth />
+                    </Box>
+                    <Box sx={{mt: 1}}>
+                    <TextField onChange={e => setEditServiceDialog({...editServiceDialog, price: e.target.value})} value={editServiceDialog?.price ?? ""} size="small" label="Price" type="number" fullWidth/>
+                    </Box>
+                    <Button id="service-btn" type="submit" sx={{display: 'none'}}>Submit</Button>
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={() => setEditServiceDialog(null)}>Cancel</Button>
+                <Button disabled={loading} onClick={() => { $("#service-btn").trigger("click")}}>Update</Button>
+                </DialogActions>
+            </Dialog>
             </Box>
 
             <Box id="section3">
@@ -662,6 +711,25 @@ function Admin() {
                 <DialogActions sx={{display: !!deleteRoomDialog ? "flex" : 'none'}}>
                   <Button onClick={() => setRoomDeleteDialog(null)}>Cancel</Button>
                   <Button disabled={loading} onClick={onDeleteRoom}>Confirm</Button>
+                </DialogActions>
+              </Dialog>
+
+              {/* Edit Room */}
+              <Dialog open={!!editRoomDialog}>
+                <DialogTitle>
+                  Edit Room
+                </DialogTitle>
+                <DialogContent>
+                  <Box component="form" sx={{p: 1}} onSubmit={onEditRoom}>
+                  <Box sx={{mt: 1}}>
+                    <TextField onChange={e => setEditRoomDialog({...editRoomDialog, name: e.target.value})} value={editRoomDialog?.name ?? ""} size="small" label="Room name" type="text" fullWidth />
+                    </Box>
+                    <Button id="room-btn" type="submit" sx={{display: 'none'}}>Submit</Button>
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={() => setEditRoomDialog(null)}>Cancel</Button>
+                <Button disabled={loading} onClick={() => { $("#room-btn").trigger("click")}}>Update</Button>
                 </DialogActions>
               </Dialog>
             </Box>

@@ -19,6 +19,15 @@ export const addRoom = async (body) => {
 };
 
 
+export const updateRoom = async (body, id) => {
+  const response = await fetch(`${url}/rooms/${id}?_method=PATCH`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+
+  return await response.json();
+};
+
 export const deleteRoom = async (id) => {
   const response = await fetch(`${url}/rooms/${id}?_method=DELETE`, {
     method: 'POST'

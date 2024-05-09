@@ -57,13 +57,13 @@ Route::prefix("services")->group(function(){
     Route::get("/", [App\Http\Controllers\ServiceController::class, 'showAllServices']);
 
     //GET: http://localhost:8000/api/services {service} show specific service
-    Route::get("/{service}", [App\Http\Controllers\serviceController::class, 'showService']);
+    Route::get("/{service}", [App\Http\Controllers\ServiceController::class, 'showService']);
 
     //PATCH: http://localhost:8000/api/services/{service} update service
-    Route::PATCH("/{service}", [App\Http\Controllers\serviceController::class, 'updateService']);
+    Route::PATCH("/{service}", [App\Http\Controllers\ServiceController::class, 'updateService']);
 
     //DELETE: http://localhost:8000/api/services/{service} delete service
-    Route::delete("/{service}", [App\Http\Controllers\serviceController::class, 'deleteService']);    
+    Route::delete("/{service}", [App\Http\Controllers\ServiceController::class, 'deleteService']);    
 });
 
 

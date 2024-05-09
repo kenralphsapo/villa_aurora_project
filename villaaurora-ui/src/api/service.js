@@ -17,9 +17,10 @@ export const addService = async (body) => {
   return await response.json();
 };
 
-export const updateService = async (id) => {
+export const updateService = async (body, id) => {
   const response = await fetch(`${url}/services/${id}?_method=PATCH`, {
-    method: 'POST'
+    method: 'POST',
+    body: JSON.stringify(body),
   });
 
   return await response.json();
