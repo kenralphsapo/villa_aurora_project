@@ -57,12 +57,12 @@ class TransactionController extends Controller
  */
 
  public function showAllTransactions(){
-    // $transactions = Transaction::with('services')->get();
+    $transactions = Transaction::with('services')->get();
 
     return response()->json([
     "ok" => true,
     "message" => "All Transactions has been retrieved",
-    "data" => Transaction::all()
+    "data" => $transactions
     ]);
 }
   

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, Grid, TextField, TextareaAutosize, Autocomplete } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +20,9 @@ import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
 import { faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DataGrid } from '@mui/x-data-grid';
+import { showAllServices } from '../api/service';
+import { showAllRooms } from '../api/room';
 
 
 
@@ -29,6 +32,38 @@ function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [selectedService, setSelectedService] = useState(null);
+  const [serviceRows, setServiceRows] = useState([]);
+
+  const SrefreshData = () => {
+    showAllServices().then(res => {
+      if (res?.ok) {
+        setServiceRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+
+  useEffect(SrefreshData, []);
+  
+  const [roomRows, setRoomRows] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
+  const RrefreshData = () => {
+    showAllRooms().then(res => {
+      if (res?.ok) {
+        setRoomRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+
+  useEffect(RrefreshData, []);
+
+
+  
   const logout = () => {
     removeCookie("AUTH_TOKEN");
     toast.success("Logged out successfully.");
@@ -42,8 +77,6 @@ function Home() {
   return (
     <Box id="homebg"> 
       <Box className="row">
-
-        
         <Button className="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
           <Box variant="span" className="navbar-toggler-icon"></ Box>
         </Button>
@@ -324,18 +357,34 @@ function Home() {
                                           </Grid>
                                         <Grid item xs={12} lg={6} style={{marginBottom: '10px', marginTop: '5px'}}    >
                                         <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            // options={top100Films}
-                                            renderInput={(params) => <TextField {...params} label="Services" />}
+                                            options={serviceRows.map(row => row.name)}
+                                            value={selectedService}
+                                            onChange={(event, newValue) => {
+                                            setSelectedService(newValue);
+                                            }}
+                                            renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Service Name"
+                                                variant="outlined"
                                             />
+                                            )}
+                                        />
                                         </Grid>
                                           <Grid item xs={12} lg={6} style={{marginBottom: '10px', marginTop: '5px'}}>
                                           <Autocomplete
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            // options={top100Films}
-                                            renderInput={(params) => <TextField {...params} label="Rooms Available" />}
+                                              options={roomRows.map(row => row.name)}
+                                              value={selectedRoom}
+                                              onChange={(event, newValue) => {
+                                              setSelectedRoom(newValue);
+                                              }}
+                                              renderInput={(params) => (
+                                              <TextField
+                                                  {...params}
+                                                  label="Room Name"
+                                                  variant="outlined"
+                                              />
+                                              )}
                                             />
                                           </Grid>
                                         </Grid>

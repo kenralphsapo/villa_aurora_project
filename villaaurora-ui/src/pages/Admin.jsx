@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
 import checkAuth from '../hoc/checkAuth';
 import { useSelector } from 'react-redux';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GRID_ACTIONS_COLUMN_TYPE } from '@mui/x-data-grid';
 import { useCookies } from 'react-cookie';
 import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
@@ -49,7 +49,7 @@ function Admin() {
 
   // For Testimonials
   const testimonialcolumns = [
-    { field: 'id', headerName: 'Transaction ID' },
+    { field: 'id', headerName: 'Transaction ID', width: 200 },
     { field: 'feedback', headerName: 'Feedback', width: 200 },
     { field: 'rating', headerName: 'Rating' },
     { field: 'created_at', headerName: 'Create At', width: 200 },
@@ -109,10 +109,10 @@ function Admin() {
   // For Transactions
   const transactioncolumns = [
     { field: 'id', headerName: 'ID' },
-    { field: 'user_id', headerName: 'User ID' },
-    { field: 'room_id', headerName: 'Room ID' },
-    { field: 'rent_start', headerName: 'Rent Start' },
-    { field: 'rent_end', headerName: 'Rent End' },
+    { field: 'user_id', headerName: 'User ID', width: 130  },
+    { field: 'room_id', headerName: 'Room ID', width: 130 },
+    { field: 'rent_start', headerName: 'Rent Start', width: 160  },
+    { field: 'rent_end', headerName: 'Rent End', width: 160  },
     { field: 'created_at', headerName: 'Create At', width: 200 },
     { field: 'updated_at', headerName: 'Update At', width: 200 },
     {
@@ -171,7 +171,7 @@ function Admin() {
   // For Rooms
   const roomcolumns = [
     { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: 'Room Name' },
+    { field: 'name', headerName: 'Room Name', width: 160 },
     { field: 'created_at', headerName: 'Create At', width: 200 },
     { field: 'updated_at', headerName: 'Update At', width: 200 },
     {
@@ -230,7 +230,7 @@ function Admin() {
   // For Services
   const servicecolumns = [
     { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: 'Service Name' },
+    { field: 'name', headerName: 'Service Name', width: 160 },
     { field: 'price', headerName: 'Price' },
     { field: 'created_at', headerName: 'Create At', width: 200 },
     { field: 'updated_at', headerName: 'Update At', width: 200 },
@@ -253,15 +253,15 @@ function Admin() {
     },
   ];
 
-  const SrefreshData = () => {
-    showAllServices().then(res => {
-      if (res?.ok) {
-        setServiceRows(res.data);
-      } else {
-        toast.error(res?.message ?? 'Something went wrong.');
-      }
-    });
-  };
+    const SrefreshData = () => {
+      showAllServices().then(res => {
+        if (res?.ok) {
+          setServiceRows(res.data);
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      });
+    };
   
   useEffect(SrefreshData, []);
 
@@ -345,7 +345,13 @@ function Admin() {
     }
   };
 
+
+
+  
  
+
+
+  
 
   
 
@@ -353,9 +359,9 @@ function Admin() {
   //For Users
   const columns = [
     { field: 'id', headerName: 'ID' },
-    { field: 'username', headerName: 'Username', width: 100},
-    { field: 'mobile', headerName: 'Mobile' },
-    { field: 'email', headerName: 'Email' },
+    { field: 'username', headerName: 'Username', width: 150 },
+    { field: 'mobile', headerName: 'Mobile', width: 150 },
+    { field: 'email', headerName: 'Email', width: 150 },
     { field: 'role', headerName: 'Role' },
     { field: 'created_at', headerName: 'Create At', width: 200 },
     { field: 'updated_at', headerName: 'Update At', width: 200 },
@@ -457,6 +463,7 @@ function Admin() {
       });
     }
   }
+  
 
 
   return (
