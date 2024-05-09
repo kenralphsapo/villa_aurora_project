@@ -47,13 +47,13 @@ Route::prefix("services")->group(function(){
     Route::get("/", [App\Http\Controllers\ServiceController::class, 'showAllServices']);
 
     //GET: http://localhost:8000/api/services {service} show specific service
-    Route::get("/{service}", [App\Http\Controllers\serviceController::class, 'showService']);
+    Route::get("/{service}", [App\Http\Controllers\ServiceController::class, 'showService']);
 
     //PATCH: http://localhost:8000/api/services/{service} update service
-    Route::PATCH("/{service}", [App\Http\Controllers\serviceController::class, 'updateService']);
+    Route::PATCH("/{service}", [App\Http\Controllers\ServiceController::class, 'updateService']);
 
     //DELETE: http://localhost:8000/api/services/{service} delete service
-    Route::delete("/{service}", [App\Http\Controllers\serviceController::class, 'destroyService']);    
+    Route::delete("/{service}", [App\Http\Controllers\ServiceController::class, 'deleteService']);    
 });
 
 
@@ -78,9 +78,40 @@ Route::prefix("rooms")->group(function(){
 
 //Transaction
 Route::prefix("transactions")->group(function(){
+       //POST: http://localhost:8000/api/transactions
+    Route::post("/", [App\Http\Controllers\TransactionController::class, 'addTransaction']);
     //POST: http://localhost:8000/api/transactions
     Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);
 
+      //GET: http://localhost:8000/api/transactions  show All Transactions
+    Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
+
+      //PATCH: http://localhost:8000/api/transactions/{transaction} update transaction
+    Route::PATCH("/{transaction}", [App\Http\Controllers\TransactionController::class, 'updateTransaction']);
+
+    
+    //DELETE: http://localhost:8000/api/transactions/{transaction} delete transaction
+    Route::delete("/{testimonial}", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']);
+});
+
+
+//Testimonial Table
+Route::prefix("testimonials")->group(function(){
+    //POST: http://localhost:8000/api/testimonials Add Testimonial
+    Route::post("/", [App\Http\Controllers\TestimonialController::class, 'addTestimonial']);
+
+    //GET: http://localhost:8000/api/testimonials  show Allestimonials
+    Route::get("/", [App\Http\Controllers\TestimonialController::class, 'showAllTestimonials']);
+
+    //GET: http://localhost:8000/api/testimonials {testimonial} show specific testimonial
+    Route::get("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'showTestimonal']);
+
+    //PATCH: http://localhost:8000/api/testimonials/{testimonial} update testimonial
+    Route::PATCH("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'updateTestimonial']);
+
+    //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
+    Route::delete("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
+});
     //GET: http://localhost:8000/api/transactions  show All Transactions
     Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
 });

@@ -18,11 +18,8 @@
     background-image: url('../images/backgroundlogin.jpg');
     background-size: cover;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
   }
+  
   @keyframes appear {
     0% {
       opacity: 0;
@@ -35,6 +32,16 @@
   #login-logo {
     animation: appear 1s linear;
   }
+
+
+  .none1, .none2, .none3, .none4{
+    display: none;
+  }
+
+  .appear1, .appear2, .appear3, .appear4{
+    display: block;
+  }
+
   
 /*---------------------------------------
   CUSTOM
@@ -62,11 +69,19 @@
     background-color: #379ae8;
   }
 
-  #custom-navbar #list{
+  #custom-navbar .list{
     text-decoration: none;
+    padding: 1px 10px ;
   }
-  
-  
+
+  .list:hover{
+    background-color: #153554;
+
+  }
+
+  .list:nth-child(1){
+    background-color: #76b9ed;
+  }
   
   #customlink:hover {
     cursor: pointer;
@@ -86,6 +101,15 @@
     color: white;
     text-decoration: none;
   }
+
+  .customback-color{
+    background-color: #379ae8;
+    text-decoration: none;
+  }
+
+  .customback-color:hover{
+    background-color: #153554;
+  }
   
   
   #breakLine{
@@ -104,10 +128,16 @@
     font-family: 'Courier New', Courier, monospace;
   }
 
-  body {
-    background-color: white;
-    font-family: 'Unbounded', cursive; 
+  #homebg{
+    animation: appear 1s linear;
   }
+
+  #homebg h3{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+  }
+
+  
   
   
   /*---------------------------------------
@@ -189,15 +219,6 @@
   }
   
   
-  #color-w{
-    color: white;
-  }
-  
-  #szten{
-    font-size: 10px;
-  }
-  
-  
   
   .trans-scale:hover{
     transform: scale(1.1);
@@ -208,69 +229,6 @@
 /*---------------------------------------
   NAVIGATION              
 -----------------------------------------*/
-/* #sidebarMenu{
-    background-color: #d6a354;
-    position: absolute;
-    width: 250px;
-    padding: 10px;
-    text-align: center;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-}
-
-
-#sidebarMenu img{
-    width: 100px;
-    display: block;
-    margin:  10px auto;
-}
-
-#sidebarMenu #link{
-    color: white;
-    text-decoration: none;
-}
-
-
-#nav-column #nav-link{
-    color: white;
-    text-decoration: none;
-    font-size: 25px;
-}
-
-#custom-block {
-    border: 10px solid #d6a354;
-    border-radius: 100%;
-    position: absolute;
-    z-index: 2;
-    bottom: -60px;
-    right: -60px;
-    padding: 50px 90px 50px 50px;
-    width: 360px;
-    height: 360px;
-}
-  
-#custom-block .custom-btn {
-    background: #d6a354;
-}
-  
-#custom-block .custom-btn:hover {
-    background: #c12828;
-}
-  
-#custom-block-image {
-    border: 10px solid #d6a354;
-    border-radius: 100%;
-    position: absolute;
-    top: -60px;
-    right: 20px;
-    left: 0;
-    width: 120px;
-    height: 120px;
-    margin: auto;
-    object-fit: cover;
-} */
 
 
 #navcolumn ul li{

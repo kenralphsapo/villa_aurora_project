@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, styled} from '@mui/material';
+import { Box, TextField, Button, Typography} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { login as loginAPI } from '../api/auth';
 import { useCookies } from 'react-cookie';
@@ -11,9 +11,9 @@ import './css/bootstrap-resort.css';
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export default function Login() {
 
   return (
     <Box
-      id="bglogin"
+      id="bglogin" className="d-flex flex-column justify-content-center align-items-center"
     >
        <Typography id="login-logo" variant="h2" sx={{ textAlign: 'center', color:'white' }}>
           Welcome Villa Aurora
@@ -48,7 +48,7 @@ export default function Login() {
           onChange={(e) => setUsername(e.target.value)}
           value={username}
           id="username"
-          label="Username"
+          label="Username or Email"
           variant="outlined"
           margin="normal"
           fullWidth

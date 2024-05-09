@@ -13,7 +13,7 @@ class TransactionController extends Controller
 {
 
 
-    public function transaction(Request $request)
+    public function addTransaction(Request $request)
     {
     $validator = Validator::make($request->all(),[
         'user_id' => 'required|exists:users,id',
@@ -59,12 +59,16 @@ class TransactionController extends Controller
     */
 
  public function showAllTransactions(){
+    $transactions = Transaction::with('services')->get();
+
     return response()->json([
     "ok" => true,
     "message" => "All Transactions has been retrieved",
-    "data" => Transaction::all()
+    "data" => $transactions
     ]);
 }
+  
+
 
 
 
@@ -76,7 +80,7 @@ class TransactionController extends Controller
  */
 
 
- public function showService(Transaction $transaction){
+ public function showTransaction(Transaction $transaction){
     return response()->json([
         "ok" =>true,
         "message" => "Transaction has been retrieved.",
@@ -103,23 +107,28 @@ class TransactionController extends Controller
  
         ]);
 
-        if($validator->fails())
-        {
-            return response()->json([
-                "ok" => false,
-            "message" => "Request didnt pass the validation",
-            "errors" => $validator->errors()
-            ], 400);
-        }
-
-        $transaction->update($validator->validated());
+    if ($validator->fails()) {
         return response()->json([
-                "ok" => true,
-                "message" => "Transaction has been updated!",
-                "data" => $transaction
-        ]);
+            "ok" => false,
+            "message" => "Transaction update failed",
+            "errors" => $validator->errors()
+        ], 400);
     }
 
+    $validated = $validator->validated();
+    $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
+    $transaction->update($transaction_input);
+
+    $transaction->services()->sync($validated["service_id"]);
+
+    $transaction->services;
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Transaction updated successfully',
+        'data' => $transaction,
+    ], 200);
+}
 
 
 
@@ -139,10 +148,4 @@ class TransactionController extends Controller
         "data" => $transaction
     ]);
     }
-
-
-
-
-
-
-    }
+}

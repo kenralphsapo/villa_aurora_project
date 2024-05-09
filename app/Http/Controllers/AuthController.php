@@ -25,7 +25,7 @@ class AuthController extends Controller
         if($validator->fails()){
             return response()->json([
                 "ok" => false,
-                "message" => "Request didnt pass the validation.",
+                "message" => "Request didn't pass the validation.",
                 "errors" => $validator->errors()
             ], 400);
         }
@@ -50,35 +50,49 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $validator = validator($request->all(), [
-            'username'=>"required",
+            'username'=>"required ",
             'password'=>"required"
         ]);
 
         if($validator->fails()){
             return response()->json([
             "ok" => false,
-            "message"=>"Request didnt pass validation",
+            "message"=>"Request didn't pass validation",
             "errors"=>$validator->errors()
         ], 400);
     }
 
-    if(auth()->attempt($validator->validated())){
-        $user=auth()->user();
+    $credentials = $request->only("username", "password");
+    // Check if the user can be authenticated using either email or username
+    if(auth()->attempt(["email" => $credentials["username"], "password" => $credentials["password"]]) ||
+       auth()->attempt(["username" => $credentials["username"], "password" => $credentials["password"]])) {
+        $user = auth()->user();
         $user->token = $user->createToken("api-token")->accessToken;
         return response()->json([
             "ok" => true,
-            "message" =>"Login Success",
+            "message" => "Login Success",
             "data" => $user
         ], 200);
+    }
+    
+    // if(auth()->attempt($validator->validated())){
+    //     $user=auth()->user();
+    //     $user->token = $user->createToken("api-token")->accessToken;
+    //     return response()->json([
+    //         "ok" => true,
+    //         "message" =>"Login Success",
+    //         "data" => $user
+    //     ], 200);
         
-        }
-
+    //     }
+        
+        // Fail message
         return response()->json([
             "ok"=>false,
-            "message"=>"Invalid Credentials!",
+            "message"=>"Incorrect username or password",
         ], 401);
 }
- /**
+    /**
      * Retrieve the user info using bearer token
      * GET: /api/checkToken
      * @param Request

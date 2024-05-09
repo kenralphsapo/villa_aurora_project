@@ -1,8 +1,10 @@
-import React from 'react';
-import { Box, Typography, Button, Grid, TextField, TextareaAutosize } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Button, Grid, TextField, TextareaAutosize, Autocomplete } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import checkAuth from '../hoc/checkAuth';
+
+
 import logo from './images/logo.jpg';
 import bgmockup from './images/background.jpg';
 import event from './images/event.jpg';
@@ -16,6 +18,12 @@ import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
+import { faSun } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DataGrid } from '@mui/x-data-grid';
+import { showAllServices } from '../api/service';
+import { showAllRooms } from '../api/room';
+
 
 
 function Home() {
@@ -24,18 +32,56 @@ function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [selectedService, setSelectedService] = useState(null);
+  const [serviceRows, setServiceRows] = useState([]);
+
+  const SrefreshData = () => {
+    showAllServices().then(res => {
+      if (res?.ok) {
+        setServiceRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+
+  useEffect(SrefreshData, []);
+  
+  const [roomRows, setRoomRows] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
+  const RrefreshData = () => {
+    showAllRooms().then(res => {
+      if (res?.ok) {
+        setRoomRows(res.data);
+      } else {
+        toast.error(res?.message ?? 'Something went wrong.');
+      }
+    });
+  };
+
+  useEffect(RrefreshData, []);
+
+
+  
   const logout = () => {
     removeCookie("AUTH_TOKEN");
     toast.success("Logged out successfully.");
     navigate("/");
     dispatch();
   };
+
+
+  
+  
   return (
-    <Box>
-      <Box>
-        <Button type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-          <Box variant="span"></Box>
+    <Box id="homebg"> 
+      <Box className="row">
+        <Button className="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <Box variant="span" className="navbar-toggler-icon"></ Box>
         </Button>
+
+        
         <Box id="sidebarMenu" className="col-md-4 col-lg-3 d-md-block sidebar collapse p-0">
 
           <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
@@ -69,22 +115,35 @@ function Home() {
             </Box>
             {user ? (
                 <>
-                {user?.role !== 'guest' && (
+                    {user?.role !== 'guest' && user?.role !== 'scheduler' && (
                     <Box variant="li" className="nav-item">
-                        <Link to="/admin" className="nav-link click-scroll">{user?.role}</Link>
+                        <Link to="/admin" className="nav-link click-scroll">
+                        {user?.role}
+                        </Link>
                     </Box>
-                )}
+                    )}
 
+                    {user?.role !== 'admin' && (
+                    <Box variant="li" className="nav-item">
+                        <Link to="/guest" className="nav-link click-scroll">
+                        Myaccount
+                        </Link>
+                    </Box>
+                    )}
 
-                <Box variant="li" className="nav-item">
-                    <Link onClick={logout} className="nav-link click-scroll">Logout</Link>
-                </Box>
+                    <Box variant="li" className="nav-item">
+                    <Link onClick={logout} className="nav-link click-scroll">
+                        Logout
+                    </Link>
+                    </Box>
                 </>
-            ) : (
+                ) : (
                 <Box variant="li" className="nav-item">
-                    <Link to="/login" className="nav-link click-scroll">Login</Link>
+                    <Link to="/login" className="nav-link click-scroll">
+                    Login
+                    </Link>
                 </Box>
-            )}
+                )}
           </Box>
         </Box>
         </Box>
@@ -158,7 +217,7 @@ function Home() {
                                 <Box className="col-lg-10 col-12 mx-auto">
                                     <Typography variant='h2' className="mb-3 text-white">Puro drawing parin ba?</Typography>
 
-                                    <p>arat na Beat the Summer Heat 🌞😎</p>
+                                    <Typography>Arat na Beat the Summer Heat <FontAwesomeIcon icon={faSun} /></Typography>
 
                                     <a href="https://www.facebook.com/VAPRII/" className="trans-scale"><strong>For inquiries please check our fb page for details.</strong></a>
                                 </Box>
@@ -261,6 +320,7 @@ function Home() {
                                               margin="normal"
                                               fullWidth
                                               required
+                                              value={user?.username ?? null}
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
@@ -272,6 +332,7 @@ function Home() {
                                               margin="normal"
                                               fullWidth
                                               required
+                                              value={user?.mobile ?? null}
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
@@ -294,29 +355,40 @@ function Home() {
                                               required
                                             />
                                           </Grid>
-                                        <Grid item xs={12} lg={6} >
-                                        <TextField
-                                            id="time"
-                                            type="time"
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            required
-                                            />
-                                        </Grid>
-                                          <Grid item xs={12} lg={6}>
+                                        <Grid item xs={12} lg={6} style={{marginBottom: '10px', marginTop: '5px'}}    >
+                                        <Autocomplete
+                                            options={serviceRows.map(row => row.name)}
+                                            value={selectedService}
+                                            onChange={(event, newValue) => {
+                                            setSelectedService(newValue);
+                                            }}
+                                            renderInput={(params) => (
                                             <TextField
-                                              id="numofpeople"
-                                              label="Number of People"
-                                              type="number"
-                                              variant="outlined"
-                                              margin="normal"
-                                              fullWidth
-                                              required
+                                                {...params}
+                                                label="Service Name"
+                                                variant="outlined"
+                                            />
+                                            )}
+                                        />
+                                        </Grid>
+                                          <Grid item xs={12} lg={6} style={{marginBottom: '10px', marginTop: '5px'}}>
+                                          <Autocomplete
+                                              options={roomRows.map(row => row.name)}
+                                              value={selectedRoom}
+                                              onChange={(event, newValue) => {
+                                              setSelectedRoom(newValue);
+                                              }}
+                                              renderInput={(params) => (
+                                              <TextField
+                                                  {...params}
+                                                  label="Room Name"
+                                                  variant="outlined"
+                                              />
+                                              )}
                                             />
                                           </Grid>
                                         </Grid>
-                                        <TextareaAutosize sx={{mt:1}} name="message" rows="3" className="form-control" id="message" placeholder="Comment (Optionals)"></TextareaAutosize>
+                                        <TextareaAutosize name="message" rows="3" className="form-control" id="message" placeholder="Comment (Optionals)"></TextareaAutosize>
                                         </Box>
 
                                         <Box className="col-lg-4 col-md-10 col-8 mx-auto">

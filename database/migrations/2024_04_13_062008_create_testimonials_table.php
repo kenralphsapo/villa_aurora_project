@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('testimonials', function (Blueprint $table) {
             $table->unsignedBigInteger("id")->primary();
+            // $table->id()->primary();
             $table->string('feedback');
             $table->unsignedInteger('rating');
             $table->foreign("id")->references("id")->on("transactions");
