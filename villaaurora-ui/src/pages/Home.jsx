@@ -87,7 +87,7 @@ function Home() {
           <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
             <Link to="/" id="link" className="navbar-brand">
               <img src={logo}  alt="Logo" className="logo-image img-fluid"/>
-              <Typography variant="h5" sx={{color: 'white'}}> Villa Aurora Private Resort</Typography>
+              <Typography variant="h5" sx={{color: 'white'}} className='h5'> Villa Aurora Private Resort</Typography>
             </Link>
           
           {user ? (
@@ -154,7 +154,7 @@ function Home() {
             <Box className="container">
                 <Box className="row">
                     <Box className="col-lg-8 col-12">
-                        <Typography variant="h1" sx={{color: 'white'}} className="text-white mb-lg-3 mb-4 sz-60px">Villa Aurora Private Resort</Typography> 
+                    <Typography variant="h1" sx={{color: 'white'}} className="text-white mb-lg-3 mb-4 sz-60px">Villa Aurora Private Resort</Typography>
                         <Typography id="custom-text-big">Don't miss out! Reserve your spot at our luxurious resort today.</Typography>
 
                         <Link href="#section_2" className="custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2" style={{textDecoration:'none', fontSize:'20px'}}>About Us</Link>
@@ -320,7 +320,7 @@ function Home() {
                                               margin="normal"
                                               fullWidth
                                               required
-                                              value={user?.username ?? null}
+                                              value={user?.username}
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
@@ -332,7 +332,7 @@ function Home() {
                                               margin="normal"
                                               fullWidth
                                               required
-                                              value={user?.mobile ?? null}
+                                              value={user?.mobile ?? ""}
                                             />
                                           </Grid>
                                           <Grid item xs={12} lg={6}>
