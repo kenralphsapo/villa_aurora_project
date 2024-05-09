@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
-     * Login
+     * LOGIN
      * POST: /api/login
      * @param Request
      * @param \Illuminate\Http\Response

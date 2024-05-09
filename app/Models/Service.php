@@ -9,11 +9,6 @@ class Service extends Model
 {
     use HasFactory;
 
-    /* public function serviceTransaction(){
-        return $this->belongsToMany(ServiceTransaction::class);
-        
-    }
-    */
 
     public function transactions(){
         return $this->belongsToMany(Transaction::class);

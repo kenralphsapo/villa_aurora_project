@@ -30,9 +30,11 @@ class UserController extends Controller
          "role" => "sometimes|in:guest,scheduler,admin"
      ]);
 
-     /*if ($request->user()->role !== "admin") {
-        unset($validator['role']);
-     }*/
+     
+     if ($request->user()->role !== "admin") {
+        unset($validator->rules()['role']);
+    }
+ //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
  
      if($validator->fails()){
          return response()->json([
@@ -43,7 +45,6 @@ class UserController extends Controller
      }
  
      $user = User::create($validator->validated());
-      
  
      return response()->json([
          "ok" => true,
