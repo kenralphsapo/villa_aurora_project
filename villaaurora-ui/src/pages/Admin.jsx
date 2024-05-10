@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
 import checkAuth from '../hoc/checkAuth';
 import { useSelector } from 'react-redux';
-import { DataGrid, GRID_ACTIONS_COLUMN_TYPE } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { useCookies } from 'react-cookie';
 import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
@@ -278,7 +278,7 @@ function Admin() {
         if (res?.ok) {
           toast.success(res?.message ?? 'Service has been created');
           setCreateServDialog(false);
-          refreshData();
+          SrefreshData();
         } else {
           toast.error(res?.message ?? 'Something went wrong.');;
         }

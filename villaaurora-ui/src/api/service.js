@@ -11,6 +11,9 @@ export const showAllServices = async () => {
 export const addService = async (body) => {
   const response = await fetch(`${url}/services`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(body),
   });
 
