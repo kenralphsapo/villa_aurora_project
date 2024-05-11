@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
 import { destroy, update } from '../api/user';
+import Home from './Home';
 
 
 
@@ -37,7 +38,7 @@ function Myaccout() {
       }, user.id, cookies.AUTH_TOKEN).then(res => {
         if(res?.ok){
           navigate("/");
-          dispatch();
+          dispatch(updateUser(res.data));
           toast.success(res?.message ?? "Updated in successfully.");
         }else{
           toast.error(res?.message ?? "Something went wrong.");
@@ -51,10 +52,10 @@ function Myaccout() {
       setLoading(true);
       destroy(deleteDialog, cookies.AUTH_TOKEN).then(res => {
         if (res?.ok) {
-          console.log(res)
           toast.success(res?.message ?? 'Account has deleted');
           setDeleteDialog(null);
           navigate("/");
+          dispatch(update(res.data));
         } else {
           toast.error(res?.message ?? 'Something went wrong.');
         }
@@ -86,7 +87,7 @@ function Myaccout() {
           </Link>
         
         {user ? (
-          <Typography variant="h6" sx={{color: 'gray', mt: 2}}>@Username:{user?.username}</Typography>
+          <Typography variant="h6" sx={{color: 'black', mt: 2}}>Welcome {user?.username}</Typography>
         ) : null}
       
       </Box>
@@ -97,7 +98,7 @@ function Myaccout() {
               <Box className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
                 <Box sx={{ boxShadow: '0 0 10px black', borderRadius: '10px', width: '400px' }} component="form" onSubmit={onSubmit}>
                   <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                    EDIT
+                    EDIT ACCOUNT
                   </Typography>
                   <Box sx={{ mt: 1 }}>
                     <TextField  
@@ -106,6 +107,7 @@ function Myaccout() {
                     type="text"
                     onChange={(e) => setUsername(e.target.value)}
                     value={username}
+                    placeholder={user.username}
                     fullWidth />
                   </Box>
                   <Box sx={{ mt: 1 }}>
@@ -115,6 +117,7 @@ function Myaccout() {
                     size="small"
                     label="Mobile"
                     type="text"
+                    placeholder={user.mobile}
                     fullWidth />
                   </Box>
                   <Box sx={{ mt: 1 }}>
@@ -124,15 +127,16 @@ function Myaccout() {
                     size="small"
                     label="Email"
                     type="email"
+                    placeholder={user.email}
                     fullWidth />
                   </Box>
-                  <Button id="edit-btn" type="submit" color="success" disabled={loading}>
-                    Submit
+                  <Button type="submit" id="custom-edit" disabled={loading}>
+                    Edit 
                   </Button>
-                  <Button type="submit" color="info" href="/" >
+                  <Button type="submit" color="info" href="/" id="custom-submit">
                     Cancel
                   </Button>
-                  <Button color="error" onClick={() => setDeleteDialog(user.id)}>Delete</Button>
+                  <Button onClick={() => setDeleteDialog(user.id)} id="custom-deletebtn">Delete </Button>
                   <Dialog open={!!deleteDialog}>
                     <DialogTitle>Are you sure?</DialogTitle>
                     <DialogContent>

@@ -18,7 +18,7 @@ import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import './css/bootstrap-resort.css';
 import './css/bootstrap-min.css';
-import { faSun } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DataGrid } from '@mui/x-data-grid';
 import { showAllServices } from '../api/service';
@@ -72,10 +72,13 @@ function Home() {
   };
 
 
+
+
   
   
   return (
-    <Box id="homebg"> 
+
+    <Box id="homebg">
       <Box className="row">
         <Button className="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
           <Box variant="span" className="navbar-toggler-icon"></ Box>
@@ -547,7 +550,7 @@ function Home() {
                         <Box className="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto">
                         <span className="fs-6">Back to the top</span>
                             <a href="#section_1" className="back-top-icon smoothscroll" title="Back Top">
-                                <i className="bi-arrow-up-circle"></i>
+                                <FontAwesomeIcon icon={faArrowUp} id='circle'/>
                             </a>
                         </Box>
 

@@ -22,24 +22,26 @@ class UserController extends Controller
 
  public function store(Request $request)
  {
-     $validator = validator($request->all(), [
+     $rules = [
          "username" => "required|min:4|string|unique:users|max:32",
          "password" => "required|min:8|max:32|string|confirmed",
          "mobile" => "required|min:11|max:13|phone:PH",
          "email" => "required|email|max:64|unique:users",
          "role" => "sometimes|in:guest,scheduler,admin"
-     ]);
-
-     
-     if ($request->user()->role !== "admin") {
-        unset($validator->rules()['role']);
-    }
- //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
+     ];
  
-     if($validator->fails()){
+     // If the user creating the account is not an admin, remove the 'role' rule
+     if ($request->user()->role !== "admin") {
+         unset($rules['role']);
+     }
+ 
+     $validator = validator($request->all(), $rules);
+ 
+     // Error 400: Response status code, 200 (OK), 201 (Created), 400 (Bad Request/Client Error)
+     if ($validator->fails()) {
          return response()->json([
              "ok" => false,
-             "message" => "Request didnt pass the validation.",
+             "message" => "Request didn't pass the validation.",
              "errors" => $validator->errors()
          ], 400);
      }
@@ -52,6 +54,7 @@ class UserController extends Controller
          "data" => $user
      ], 201);
  }
+ 
  
 
 

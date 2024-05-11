@@ -78,20 +78,21 @@ Route::prefix("rooms")->group(function(){
 
 //Transaction
 Route::prefix("transactions")->group(function(){
-       //POST: http://localhost:8000/api/transactions
-    Route::post("/", [App\Http\Controllers\TransactionController::class, 'addTransaction']);
     //POST: http://localhost:8000/api/transactions
-    Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);
+    Route::post("/", [App\Http\Controllers\TransactionController::class, 'addTransaction']);
 
-      //GET: http://localhost:8000/api/transactions  show All Transactions
+    //GET: http://localhost:8000/api/transactions  show All Transactions
     Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
+
+    //GET: http://localhost:8000/api/transactions  show specific Transaction
+    // Route::get("/", [App\Http\Controllers\TransactionController::class, 'showTransaction']);
 
       //PATCH: http://localhost:8000/api/transactions/{transaction} update transaction
     Route::PATCH("/{transaction}", [App\Http\Controllers\TransactionController::class, 'updateTransaction']);
 
     
     //DELETE: http://localhost:8000/api/transactions/{transaction} delete transaction
-    Route::delete("/{testimonial}", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']);
+    Route::delete("/{transaction}", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']);
 });
 
 
@@ -112,8 +113,6 @@ Route::prefix("testimonials")->group(function(){
     //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
     Route::delete("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
 });
-    //GET: http://localhost:8000/api/transactions  show All Transactions
-    Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
 
 
 
