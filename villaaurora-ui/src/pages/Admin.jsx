@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
 import checkAuth from '../hoc/checkAuth';
 import { useSelector } from 'react-redux';
-import { DataGrid, GRID_ACTIONS_COLUMN_TYPE } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { useCookies } from 'react-cookie';
 import { destroy, index, store, update } from '../api/user';
 import { toast } from 'react-toastify';
@@ -11,10 +11,10 @@ import { Link } from 'react-router-dom';
 import { addService, deleteService, showAllServices, updateService } from "../api/service";
 import { addRoom, deleteRoom, showAllRooms, updateRoom} from "../api/room";
 import { deleteTransaction, showAllTransactions, updateTransaction } from "../api/transaction";
-import { deleteTestimonial, showAllTestimonials } from "../api/testimonial";
+import { deleteTestimonial, showAllTestimonials, updateTestimonial } from "../api/testimonial";
 import { onRoomNav, onServiceNav, onTestimonialNav, onTransactionNav, onUserNav } from './js/custom-nav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBed, faBriefcase, faCoffee, faComment, faHome, faReceipt, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBed, faBriefcase, faComment, faHome, faReceipt, faUser } from '@fortawesome/free-solid-svg-icons'
 
 function Admin() {
   const user = useSelector(state => state.auth.user);
@@ -36,7 +36,7 @@ function Admin() {
 
   //For Testimonials
   const [deleteTestimonialDialog, setDeleteTestimonialDialog] = useState(null);
-  
+  const [editTestimonialDialog, setEditTestimonialDialog] = useState(null);
 
   //For Transactions
   const [deleteTransactionDialog, setDeleteTransactionDialog] = useState(null);
@@ -67,7 +67,7 @@ function Admin() {
       filterable: false,
       renderCell: params => (
         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <Button variant="contained" color="warning" onClick={() => setEditDialog({...params.row})}>
+          <Button variant="contained" color="warning" onClick={() => setEditTestimonialDialog({...params.row})}>
             Edit
           </Button>
           <Button variant="contained" color="error" onClick={() => setDeleteTestimonialDialog(params.row.id)}>
@@ -90,6 +90,27 @@ function Admin() {
     });
   };
   useEffect(TestrefreshData, []);
+
+  const onEditTestimonial = (e) => {
+    e.preventDefault();
+    if(!loading){
+      setLoading(true);
+      updateTestimonial({
+        feedback: editTestimonialDialog.feedback,
+        rating: editTestimonialDialog.rating,
+      }, editTestimonialDialog.id).then(res => {
+        if (res?.ok) {
+          toast.success(res?.message ?? 'Testimonial has updated');
+          setEditTestimonialDialog(null);
+          TestrefreshData();
+        } else {
+          toast.error(res?.message ?? 'Something went wrong.');
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
+    }
+  }
 
 
 
@@ -145,7 +166,8 @@ function Admin() {
     if(!loading){
       setLoading(true);
       updateTransaction({
-        name: editTransactionDialog.name,
+        rent_start: editTransactionDialog.rent_start,
+        rent_end: editTransactionDialog.rent_end,
       }, editTransactionDialog.id).then(res => {
         if (res?.ok) {
           toast.success(res?.message ?? 'Transaction has updated');
@@ -821,19 +843,19 @@ function Admin() {
                   Edit Transaction
                 </DialogTitle>
                 <DialogContent>
-                  <Box component="form" sx={{p: 1}} onSubmit={onEditService}>
+                  <Box component="form" sx={{p: 1}} onSubmit={onEditTransaction}>
                   <Box sx={{mt: 1}}>
-                    <TextField onChange={e => setEditServiceDialog({...editTransactionDialog, name: e.target.value})} value={editServiceDialog?.name ?? ""} size="small" label="Service name" type="text" fullWidth />
+                    <TextField onChange={e => setEditTransactionDialog({...editTransactionDialog, rent_start: e.target.value})} value={editTransactionDialog?.rent_start ?? ""} size="small" label="Rent Start" type="date" fullWidth />
                     </Box>
                     <Box sx={{mt: 1}}>
-                    <TextField onChange={e => setEditServiceDialog({...editTransactionDialog, price: e.target.value})} value={editServiceDialog?.price ?? ""} size="small" label="Price" type="number" fullWidth/>
+                    <TextField onChange={e => setEditTransactionDialog({...editTransactionDialog, rent_end: e.target.value})} value={editTransactionDialog?.rent_end ?? ""} size="small" label="Rent End" type="date" fullWidth/>
                     </Box>
-                    <Button id="service-btn" type="submit" sx={{display: 'none'}}>Submit</Button>
+                    <Button id="transaction-btn" type="submit" sx={{display: 'none'}}>Submit</Button>
                   </Box>
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={() => setEditTransactionDialog(null)}>Cancel</Button>
-                <Button disabled={loading} onClick={() => { $("#service-btn").trigger("click")}}>Update</Button>
+                <Button disabled={loading} onClick={() => { $("#transaction-btn").trigger("click")}}>Update</Button>
                 </DialogActions>
             </Dialog>
               {/* Delete Transaction */}
@@ -867,6 +889,27 @@ function Admin() {
                   <Button disabled={loading} onClick={onDeleteTestimonial}>Confirm</Button>
                 </DialogActions>
               </Dialog>
+                {/* EDIT Testimonial */}
+              <Dialog open={!!editTestimonialDialog}>
+                <DialogTitle>
+                  Edit Testimonial
+                </DialogTitle>
+                <DialogContent>
+                  <Box component="form" sx={{p: 1}} onSubmit={onEditTestimonial}>
+                  <Box sx={{mt: 1}}>
+                    <TextField onChange={e => setEditTestimonialDialog({...editTestimonialDialog, feedback: e.target.value})} value={editTestimonialDialog?.feedback ?? ""} size="small" label="Feedback" type="text" fullWidth />
+                    </Box>
+                    <Box sx={{mt: 1}}>
+                    <TextField onChange={e => setEditTestimonialDialog({...editTestimonialDialog, rating: e.target.value})} value={editTestimonialDialog?.rating ?? ""} size="small" label="Rating" type="number" fullWidth/>
+                    </Box>
+                    <Button id="testimonial-btn" type="submit" sx={{display: 'none'}}>Submit</Button>
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={() => setEditTestimonialDialog(null)}>Cancel</Button>
+                <Button disabled={loading} onClick={() => { $("#testimonial-btn").trigger("click")}}>Update</Button>
+                </DialogActions>
+            </Dialog>
             </Box>
           </Box>
         </Box>
