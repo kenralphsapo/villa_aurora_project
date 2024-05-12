@@ -768,7 +768,7 @@ function Admin() {
             <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
             {/* Create Room */}
             <Dialog open={!!createRoomDialog}>
-              <DialogTitle>Create Service Form</DialogTitle>
+              <DialogTitle>Create Room Form</DialogTitle>
                 <DialogContent>
                   <Box component="form" onSubmit={onCreateRoom}>
                     <Box>

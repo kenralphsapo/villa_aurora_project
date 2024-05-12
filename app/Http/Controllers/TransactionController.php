@@ -106,27 +106,43 @@ class TransactionController extends Controller
  
         ]);
 
-    if ($validator->fails()) {
+    // if ($validator->fails()) {
+    //     return response()->json([
+    //         "ok" => false,
+    //         "message" => "Transaction update failed",
+    //         "errors" => $validator->errors()
+    //     ], 400);
+    // }
+
+    // $validated = $validator->validated();
+    // $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
+    // $transaction->update($transaction_input);
+
+    // $transaction->services()->sync($validated["service_id"]);
+
+    // $transaction->services;
+
+    // return response()->json([
+    //     'success' => true,
+    //     'message' => 'Transaction updated successfully',
+    //     'data' => $transaction,
+    // ], 200);
+
+    if($validator->fails()){
         return response()->json([
             "ok" => false,
-            "message" => "Transaction update failed",
+            "message" => "Transaction Update failed.",
             "errors" => $validator->errors()
         ], 400);
     }
 
-    $validated = $validator->validated();
-    $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
-    $transaction->update($transaction_input);
-
-    $transaction->services()->sync($validated["service_id"]);
-
-    $transaction->services;
-
+    $transaction->update($validator->validated());
     return response()->json([
-        'success' => true,
-        'message' => 'Transaction updated successfully',
-        'data' => $transaction,
+        "ok" => true,
+        "message" =>"Transaction has been updated!",
+        "data" => $transaction
     ], 200);
+
 }
 
 
