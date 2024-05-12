@@ -83,3 +83,7 @@ INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at
 
 -- try to insert try icon in the tables
 -- try to retrieve the need in the tables in services in home
+
+openssl req -x509 -out localhost.crt -keyout localhost.key -newkey rsa:2048 -nodes -sha256 -subj "/CN=localhost" 
+
+https://regery.com/en/security/ssl-tools/self-signed-certificate-generator
