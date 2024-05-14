@@ -9,8 +9,17 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    
+    protected $fillable = [
+        'user_id',
+        'room_id',
+        'room_price',
+        'rent_start',
+        'rent_end',
+        'service_id',
 
-    protected $guarded=[];
+    ];
 
     public function services(){
         return $this->belongsToMany(Service::class);

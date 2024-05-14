@@ -18,6 +18,7 @@ class TransactionController extends Controller
     $validator = Validator::make($request->all(),[
         'user_id' => 'required|exists:users,id',
         'room_id' => 'required|exists:rooms,id',
+        'room_price' => 'required|numeric|min:1|max:100000',
         'rent_start' => 'required|date|date_format:Y-m-d',
         'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start',
         'service_id' => 'required|array|min:1',
@@ -33,14 +34,13 @@ class TransactionController extends Controller
         }
 
         $validated = $validator->validated();
-        $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
+        $transaction_input = $validator->safe()->only(['user_id', 'room_id','room_price', 'rent_start', 'rent_end']);
         $transaction = Transaction::create($transaction_input);
         
-        //must sync price
-        //$transaction->services()->sync($validated["price"]);
-
-        
         $transaction->services()->sync($validated["service_id"]);
+        //must sync price
+        $transaction->services()->sync($validated["price"]);
+        
         $transaction->services;
 
         return response()->json([
