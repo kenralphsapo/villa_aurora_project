@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Service;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use app\Models\Service;
-use app\Models\ServiceTransaction;
-use app\Models\Room;
-use app\Models\User;
+
 
 class TransactionController extends Controller
 {
@@ -37,9 +35,17 @@ class TransactionController extends Controller
         $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
         $transaction = Transaction::create($transaction_input);
 
-        $transaction->services()->sync($validated["service_id"]);
+        $serviceIdPrice = [];
 
-        $transaction->services;
+        foreach ($validated["service_id"] as $serviceId) {
+            $service = Service::find($serviceId);
+            $serviceIdPrice[$serviceId] = ["price" => $service->price];
+        }
+    
+        $transaction->services()->sync($serviceIdPrice);
+
+
+        $transaction->service;
 
         return response()->json([
             'success' => true,
@@ -50,12 +56,12 @@ class TransactionController extends Controller
     }
 
 
-/**
- * RETRIEVE all transactions
- * GET: /api/transactions
- * @return \Illuminate\Http\Response
- */
-
+//TO-DO: MUST INCLUDE PRICE FROM SERVICES
+    /**
+    * RETRIEVE all transactions
+    * GET: /api/transactions
+    * @return \Illuminate\Http\Response
+    */
 
  public function showAllTransactions(){
     $transactions = Transaction::with('services')->get();
@@ -106,43 +112,27 @@ class TransactionController extends Controller
  
         ]);
 
-    // if ($validator->fails()) {
-    //     return response()->json([
-    //         "ok" => false,
-    //         "message" => "Transaction update failed",
-    //         "errors" => $validator->errors()
-    //     ], 400);
-    // }
-
-    // $validated = $validator->validated();
-    // $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
-    // $transaction->update($transaction_input);
-
-    // $transaction->services()->sync($validated["service_id"]);
-
-    // $transaction->services;
-
-    // return response()->json([
-    //     'success' => true,
-    //     'message' => 'Transaction updated successfully',
-    //     'data' => $transaction,
-    // ], 200);
-
-    if($validator->fails()){
+    if ($validator->fails()) {
         return response()->json([
             "ok" => false,
-            "message" => "Transaction Update failed.",
+            "message" => "Transaction update failed",
             "errors" => $validator->errors()
         ], 400);
     }
 
-    $transaction->update($validator->validated());
-    return response()->json([
-        "ok" => true,
-        "message" =>"Transaction has been updated!",
-        "data" => $transaction
-    ], 200);
+    $validated = $validator->validated();
+    $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
+    $transaction->update($transaction_input);
 
+    $transaction->services()->sync($validated["service_id"]);
+
+    $transaction->services;
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Transaction updated successfully',
+        'data' => $transaction,
+    ], 200);
 }
 
 
@@ -156,7 +146,6 @@ class TransactionController extends Controller
 
 
  public function deleteTransaction(Transaction $transaction){
-    
     $transaction->delete();
     return response()->json([
         "ok" =>true,
