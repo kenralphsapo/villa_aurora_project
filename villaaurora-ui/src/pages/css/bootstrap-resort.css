@@ -186,6 +186,18 @@
     font-style: normal;
   }
 
+  #sztext{
+    font-size: 6rem;
+    color: white;
+  }
+
+  #btnchange{
+    background-color: #d6a354;
+    border-radius: 50%;
+    width: 40px;
+    margin-top: 10px;
+  }
+
   
   
   
@@ -983,6 +995,15 @@
 @media screen and (max-width: 480px) {
   h1 {
     font-size: 38px;
+  }
+
+  #sztext{
+    font-size: 3rem;
+    text-align: justify;
+  }
+
+  #bglogin{
+    height: 105vh;
   }
 
   h2 {

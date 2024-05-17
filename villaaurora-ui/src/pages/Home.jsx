@@ -80,7 +80,7 @@ function Home() {
 
     <Box id="homebg">
       <Box className="row">
-        <Button className="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <Button className="navbar-toggler d-md-none collapsed position-absolute" id='btnchange' type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
           <Box variant="span" className="navbar-toggler-icon"></ Box>
         </Button>
 
@@ -157,7 +157,7 @@ function Home() {
             <Box className="container">
                 <Box className="row">
                     <Box className="col-lg-8 col-12">
-                    <Typography variant="h1" sx={{color: 'white'}} className="text-white mb-lg-3 mb-4 sz-60px">Villa Aurora Private Resort</Typography>
+                    <h1 id='sztext'>Villa Aurora Private Resort</h1>
                         <Typography id="custom-text-big">Don't miss out! Reserve your spot at our luxurious resort today.</Typography>
 
                         <Link href="#section_2" className="custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2" style={{textDecoration:'none', fontSize:'20px'}}>About Us</Link>
@@ -222,7 +222,7 @@ function Home() {
 
                                     <Typography>Arat na Beat the Summer Heat <FontAwesomeIcon icon={faSun} /></Typography>
 
-                                    <a href="https://www.facebook.com/VAPRII/" className="trans-scale"><strong>For inquiries please check our fb page for details.</strong></a>
+                                    <a href="https://www.facebook.com/VAPRII/" className="trans-scale text-white"><strong>For inquiries, please check our Facebook page for details.</strong></a>
                                 </Box>
 
                             </Box>
@@ -464,16 +464,15 @@ function Home() {
                             <Box className="row">
 
                                 <Box className="col-lg-6 col-12">
-                                    <Typography variant='h5' className="mb-3"><strong>Contact</strong> Information</Typography>
+                                    <Typography variant='h5' className="mb-3">Contact Us</Typography>
 
                                     <Box className="text-white d-flex mb-1">
-                                    <Link href="" className="site-footer-link" style={{textDecoration: 'none'}}>
+                                    <Box className="site-footer-link" style={{textDecoration: 'none'}}>
                                             <ul>
-                                                <li>for inquries Call or msg us </li>
-                                                <li> Globe 09453200320 </li>
-                                                <li>  Globe/Viber 09955185002</li>
+                                                <li> <Link to="tel:+639453200320">0945 3200 320</Link> (Globe)</li>
+                                                <li><Link to="tel:+639955185002">09955185002</Link> (Globe/Viber)</li>
                                             </ul>
-                                        </Link>
+                                        </Box>
                                     </Box>
 
                                     <p className="text-white d-flex">
@@ -504,11 +503,6 @@ function Home() {
                                         <li className="social-icon-item">
                                             <Link href="#" className="social-icon-link">
                                                 <i className="fab fa-youtube"></i>
-                                            </Link>
-                                        </li>
-                                        <li className="social-icon-item">
-                                            <Link href="#" className="social-icon-link">
-                                            <i className="fab fa-whatsapp"></i>
                                             </Link>
                                         </li>
                                     </ul>
@@ -546,9 +540,7 @@ function Home() {
             <Box className="site-footer-bottom">
                 <Box className="container">
                     <Box className="row align-items-center">
-
                         <Box className="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto">
-                        <span className="fs-6">Back to the top</span>
                             <a href="#section_1" className="back-top-icon smoothscroll" title="Back Top">
                                 <FontAwesomeIcon icon={faArrowUp} id='circle'/>
                             </a>

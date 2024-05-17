@@ -152,7 +152,7 @@ export default function Register() {
           </Button>
         </Box>
 
-        <Box sx={{ textAlign: 'center', cursor: 'pointer', mt: 1}}>
+        <Box sx={{ textAlign: 'center', cursor: 'pointer'}}>
           <Link to="/login" id="customlink">
             <Typography>Already have an account? <b>Login</b></Typography>
           </Link>
