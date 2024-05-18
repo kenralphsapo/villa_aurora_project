@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use app\Models\Service;
-use app\Models\ServiceTransaction;
-use app\Models\Room;
-use app\Models\User;
+use App\Models\Service;
+use App\Models\ServiceTransaction;
+use App\Models\Room;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
@@ -36,11 +36,12 @@ class TransactionController extends Controller
         $validated = $validator->validated();
         $transaction_input = $validator->safe()->only(['user_id', 'room_id','room_price', 'rent_start', 'rent_end']);
         $transaction = Transaction::create($transaction_input);
-        
-        $transaction->services()->sync($validated["service_id"]);
-        //must sync price
-        $transaction->services()->sync($validated["price"]);
-        
+        //dd($validated["service_id"]);
+        $array = [];
+        foreach($validated["service_id"] as $service_id){
+            $array[$service_id] = ["price" => Service::find($service_id) -> price];
+        }
+        $transaction->services()->sync($array);
         $transaction->services;
 
         return response()->json([
@@ -102,6 +103,7 @@ class TransactionController extends Controller
             'room_id' => 'sometimes|exists:rooms,id',
             'rent_start' => 'sometimes|date|date_format:Y-m-d',
             'rent_end' => 'sometimes|date|date_format:Y-m-d|after_or_equal:rent_start',
+            'room_price' => 'sometimes|numeric|min:1|max:100000',
             'service_id' => 'sometimes|array|min:1',
             'service_id.*' => 'exists:services,id'
  
