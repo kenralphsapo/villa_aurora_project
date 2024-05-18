@@ -35,14 +35,19 @@ class TransactionController extends Controller
         $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
         $transaction = Transaction::create($transaction_input);
 
-        $serviceIdPrice = [];
+        // $serviceIdPrice = [];
 
-        foreach ($validated["service_id"] as $serviceId) {
-            $service = Service::find($serviceId);
-            $serviceIdPrice[$serviceId] = ["price" => $service->price];
-        }
+        // foreach ($validated["service_id"] as $serviceId) {
+        //     $service = Service::find($serviceId);
+        //     $serviceIdPrice[$serviceId] = ["price" => $service->price];
+        // }
     
-        $transaction->services()->sync($serviceIdPrice);
+        // $transaction->services()->sync($serviceIdPrice);
+        $array = [];
+        foreach($validated["service_id"] as $service_id){
+            $array[$service_id] = ["price" => Service::find($service_id) -> price];
+        }
+        $transaction->services()->sync($array);
 
 
         $transaction->service;

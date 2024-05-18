@@ -193,7 +193,7 @@
 
   #btnchange{
     background-color: #d6a354;
-    border-radius: 50%;
+    border-radius: 20px;
     width: 40px;
     margin-top: 10px;
   }
@@ -998,8 +998,7 @@
   }
 
   #sztext{
-    font-size: 3rem;
-    text-align: justify;
+    font-size: 50px;
   }
 
   #bglogin{
@@ -1031,4 +1030,10 @@
   }
 }
 
+
+@media screen and (max-width: 375px){
+  #sztext{
+    font-size: 50px;
+  }
+}
 

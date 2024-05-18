@@ -33,3 +33,4 @@ $(document).ready(function(){
     $('#sidebarMenu .nav-item .nav-link').eq(0).addClass('active');
     $('#sidebarMenu .nav-item .nav-link:link').eq(0).removeClass('inactive');
 });
+
