@@ -107,10 +107,6 @@ public function show(Request $request, User $user){
         "role" => "sometimes|in:guest,scheduler,admin"
     ]);
 
-    // if ($request->user()->role !== "admin") {
-    //     unset($validator['role']);
-    // }
-
     if($validator->fails())
     {
         return response()->json([

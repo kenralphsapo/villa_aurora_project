@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-    //CRUD, Testimonials
-  //see APP:DEBUG on .env
 
 
 

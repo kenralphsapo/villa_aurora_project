@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button, Grid, TextField, TextareaAutosize, Autocomplete } from "@mui/material";
+import {
+    Box,
+    Typography,
+    Button,
+    Grid,
+    TextField,
+    TextareaAutosize,
+    Autocomplete,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
@@ -30,6 +38,13 @@ function Home() {
 
     const [selectedService, setSelectedService] = useState(null);
     const [serviceRows, setServiceRows] = useState([]);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Code to update the user and serviceRows state here
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     const SrefreshData = () => {
         showAllServices().then((res) => {
@@ -93,11 +108,11 @@ function Home() {
                                 className="logo-image img-fluid"
                             />
                             <Typography
+                                id="customheader"
                                 variant="h5"
                                 sx={{ color: "white" }}
                                 className="h5"
                             >
-                                {" "}
                                 Villa Aurora Private Resort
                             </Typography>
                         </Link>
@@ -278,7 +293,7 @@ function Home() {
 
                                 <Box className="border-bottom pb-3 mb-5">
                                     <p>
-                                        Perfect place for you to{" "}
+                                        Perfect place for you to
                                         <strong>
                                             rest, relax, recharge, and enjoy!
                                         </strong>
@@ -334,7 +349,7 @@ function Home() {
                                 </Typography>
 
                                 <Typography>
-                                    Arat na Beat the Summer Heat{" "}
+                                    Arat na Beat the Summer Heat
                                     <FontAwesomeIcon icon={faSun} />
                                 </Typography>
 
@@ -342,7 +357,7 @@ function Home() {
                                     href="https://www.facebook.com/VAPRII/"
                                     className="trans-scale text-white"
                                 >
-                                    <strong>
+                                    <strong id="custom-blue">
                                         For inquiries, please check our Facebook
                                         page for details.
                                     </strong>
@@ -358,22 +373,6 @@ function Home() {
                     id="section_3"
                 >
                     <Box className="container">
-                        {user ? (
-                            <Box className="row">
-                                <Box className="col-lg-12 col-12">
-                                    <Typography variant="h2" className="mb-5">
-                                        Features
-                                    </Typography>
-                                </Box>
-                                <Box className="col-lg-6 col-12 mb-4">
-                                    <Box className="features-thumb">
-                                        <Box className="features-info d-flex align-items-end">
-                                            <h4 className="mb-0">Bedroom</h4>
-                                        </Box>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        ) : (
                             <Box className="row">
                                 <Box className="col-lg-12 col-12">
                                     <Typography variant="h2" className="mb-5">
@@ -437,7 +436,6 @@ function Home() {
                                     </Box>
                                 </Box>
                             </Box>
-                        )}
                     </Box>
                 </section>
 
@@ -478,7 +476,9 @@ function Home() {
                                                         margin="normal"
                                                         fullWidth
                                                         required
-                                                        value={user?.username}
+                                                        value={
+                                                            user?.username || ""
+                                                        }
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} lg={6}>

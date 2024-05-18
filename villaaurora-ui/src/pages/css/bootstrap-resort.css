@@ -102,6 +102,16 @@
   #customlink b{
     color: #379ae8;
   }
+
+  #customheader {
+    text-wrap: wrap;
+    font-weight: bold;
+    text-shadow: 0 0 10px #000000;
+  }
+
+  #custom-blue{
+    color: #3799e8;
+  }
   
   #custompass b{
     color: #379ae8;
@@ -983,6 +993,24 @@
   .booking-form {
     padding: 45px;
   }
+
+  #custom-account{
+    box-shadow: 0 0 10px black;
+    max-width: 800px;
+    padding: 10px;
+  }
+
+  #custom-account::after{
+    content: "Welcome to Villa Aurora";
+    position: fixed;
+    text-align: center;
+    top: 0;
+    right: 0;
+    left: 0;
+    font-size: 30px;
+    background-color: orange;
+    z-index: 999;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -1034,6 +1062,24 @@
 @media screen and (max-width: 375px){
   #sztext{
     font-size: 50px;
+  }
+
+  #custom-account{
+    box-shadow: 0 0 10px black;
+    max-width: 300px;
+    padding: 10px;
+  }
+
+  #custom-account::after{
+    content: "Welcome to Villa Aurora";
+    position: fixed;
+    text-align: center;
+    top: 0;
+    right: 0;
+    left: 0;
+    font-size: 30px;
+    background-color: orange;
+    z-index: 999;
   }
 }
 
