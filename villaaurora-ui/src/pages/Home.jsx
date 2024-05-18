@@ -125,7 +125,6 @@ function Home() {
                                     href="#section_2"
                                     className="nav-link click-scroll"
                                 >
-                                    {" "}
                                     Services
                                 </a>
                             </Box>
