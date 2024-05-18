@@ -72,7 +72,6 @@ function Home() {
     };
 
     useEffect(RrefreshData, []);
-
     const logout = () => {
         removeCookie("AUTH_TOKEN");
         toast.success("Logged out successfully.");
