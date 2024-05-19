@@ -935,6 +935,10 @@
 }
 
 
+.close-btn {
+  display: none;
+}
+
 /*---------------------------------------
   RESPONSIVE STYLES               
 -----------------------------------------*/
@@ -942,6 +946,9 @@
   h1 {
     font-size: 62px;
   }
+
+ 
+  
 }
 
 @media screen and (max-width: 991px) {
@@ -1008,7 +1015,7 @@
     right: 0;
     left: 0;
     font-size: 30px;
-    background-color: orange;
+    background-color: #d6a354;
     z-index: 999;
   }
 }
@@ -1078,8 +1085,22 @@
     right: 0;
     left: 0;
     font-size: 30px;
-    background-color: orange;
+    background-color:#d6a354;
     z-index: 999;
+  }
+
+  .arrow{
+    display: none;
+  }
+
+  #sidebarMenu{
+    background-color:#d6a354;
+    width: 375px;
+    height: 100vh;
+  }
+
+  .close-btn {
+    display: block;
   }
 }
 

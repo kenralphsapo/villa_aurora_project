@@ -7,6 +7,7 @@ import {
     TextField,
     TextareaAutosize,
     Autocomplete,
+    Drawer,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,13 +39,6 @@ function Home() {
 
     const [selectedService, setSelectedService] = useState(null);
     const [serviceRows, setServiceRows] = useState([]);
-    useEffect(() => {
-        const interval = setInterval(() => {
-            // Code to update the user and serviceRows state here
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, []);
 
     const SrefreshData = () => {
         showAllServices().then((res) => {
@@ -72,12 +66,49 @@ function Home() {
     };
 
     useEffect(RrefreshData, []);
-    
+
     const logout = () => {
         removeCookie("AUTH_TOKEN");
-        toast.success("Logged out successfully.");
+        toast.success(res?.message ?? "Logged out successfully.");
         navigate("/");
         dispatch();
+    };
+
+    const [scrollVisible, setScrollVisible] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const handleScrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
+
+    useEffect(() => {
+        const toggleScrollUpButton = () => {
+            if (
+                document.body.scrollTop > 20 ||
+                document.documentElement.scrollTop > 20
+            ) {
+                setScrollVisible(true);
+            } else {
+                setScrollVisible(false);
+            }
+        };
+
+        const handleScroll = () => {
+            toggleScrollUpButton();
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    const toggleDrawer = () => {
+        setDrawerOpen(!drawerOpen);
     };
 
     return (
@@ -92,13 +123,150 @@ function Home() {
                     aria-controls="sidebarMenu"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
+                    onClick={toggleDrawer}
                 >
                     <Box variant="span" className="navbar-toggler-icon"></Box>
                 </Button>
+                <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
+                    <Box id="sidebarMenu">
+                        <button
+                            className="close-btn"
+                            id="closeBtn"
+                            onClick={toggleDrawer}
+                        >
+                            &#10006;
+                        </button>
+                        <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+                            <Link to="/" id="link" className="navbar-brand">
+                                <img
+                                    src={logo}
+                                    alt="Logo"
+                                    className="logo-image img-fluid"
+                                />
+                                <Typography
+                                    id="customheader"
+                                    variant="h5"
+                                    sx={{ color: "white" }}
+                                    className="h5"
+                                >
+                                    Villa Aurora Private Resort
+                                </Typography>
+                            </Link>
+                            {user ? (
+                                <Typography
+                                    variant="h6"
+                                    sx={{ color: "gray", mt: 2 }}
+                                >
+                                    {user?.username}
+                                </Typography>
+                            ) : null}
+                            <Box id="nav-column" className="nav flex-column">
+                                <Box variant="li" className="nav-item">
+                                    <a
+                                        href="#section_1"
+                                        className="nav-link click-scroll"
+                                        onClick={toggleDrawer}
+                                    >
+                                        Home
+                                    </a>
+                                </Box>
 
+                                <Box variant="li" className="nav-item">
+                                    <a
+                                        href="#section_2"
+                                        className="nav-link click-scroll"
+                                        onClick={toggleDrawer}
+                                    >
+                                        Services
+                                    </a>
+                                </Box>
+
+                                <Box variant="li" className="nav-item">
+                                    <a
+                                        href="#section_3"
+                                        className="nav-link click-scroll"
+                                        onClick={toggleDrawer}
+                                    >
+                                        Features
+                                    </a>
+                                </Box>
+
+                                <Box variant="li" className="nav-item">
+                                    <a
+                                        href="#section_4"
+                                        className="nav-link click-scroll"
+                                        onClick={toggleDrawer}
+                                    >
+                                        Price List
+                                    </a>
+                                </Box>
+
+                                <Box variant="li" className="nav-item">
+                                    <a
+                                        href="#section_5"
+                                        className="nav-link click-scroll"
+                                        onClick={toggleDrawer}
+                                    >
+                                        Contact
+                                    </a>
+                                </Box>
+                                {user ? (
+                                    <>
+                                        {user?.role !== "guest" &&
+                                            user?.role !== "scheduler" && (
+                                                <Box
+                                                    variant="li"
+                                                    className="nav-item"
+                                                >
+                                                    <Link
+                                                        to="/admin"
+                                                        className="nav-link click-scroll"
+                                                    >
+                                                        {user?.role}
+                                                    </Link>
+                                                </Box>
+                                            )}
+
+                                        {user?.role !== "admin" && (
+                                            <Box
+                                                variant="li"
+                                                className="nav-item"
+                                            >
+                                                <Link
+                                                    to="/guest"
+                                                    className="nav-link click-scroll"
+                                                >
+                                                    Myaccount
+                                                </Link>
+                                            </Box>
+                                        )}
+
+                                        <Box variant="li" className="nav-item">
+                                            <Link
+                                                onClick={logout}
+                                                className="nav-link click-scroll"
+                                            >
+                                                Logout
+                                            </Link>
+                                        </Box>
+                                    </>
+                                ) : (
+                                    <Box variant="li" className="nav-item">
+                                        <Link
+                                            to="/login"
+                                            className="nav-link click-scroll"
+                                        >
+                                            Login
+                                        </Link>
+                                    </Box>
+                                )}
+                            </Box>
+                        </Box>
+                    </Box>
+                </Drawer>
                 <Box
                     id="sidebarMenu"
-                    className="col-md-4 col-lg-3 d-md-block sidebar collapse p-0"
+                    className="col-md-4 col-lg-2 d-md-block sidebar collapse p-0"
                 >
                     <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                         <Link to="/" id="link" className="navbar-brand">
@@ -116,7 +284,6 @@ function Home() {
                                 Villa Aurora Private Resort
                             </Typography>
                         </Link>
-
                         {user ? (
                             <Typography
                                 variant="h6"
@@ -221,7 +388,21 @@ function Home() {
                     </Box>
                 </Box>
             </Box>
-            <Box className="col-md-8 ms-sm-auto col-lg-9 p-0">
+            <Box className="col-md-8 ms-sm-auto col-lg-10 p-0">
+                <Button
+                    variant="contained"
+                    color="warning"
+                    style={{
+                        position: "fixed",
+                        bottom: "20px",
+                        right: "20px",
+                        zIndex: "999",
+                        display: scrollVisible ? "block" : "none",
+                    }}
+                    onClick={handleScrollToTop}
+                >
+                    <FontAwesomeIcon icon={faArrowUp} />
+                </Button>
                 {/* Hero Section */}
                 <section
                     id="section_1"
@@ -350,7 +531,6 @@ function Home() {
 
                                 <Typography>
                                     Arat na Beat the Summer Heat
-                                    <FontAwesomeIcon icon={faSun} />
                                 </Typography>
 
                                 <a
@@ -373,69 +553,69 @@ function Home() {
                     id="section_3"
                 >
                     <Box className="container">
-                            <Box className="row">
-                                <Box className="col-lg-12 col-12">
-                                    <Typography variant="h2" className="mb-5">
-                                        Features
-                                    </Typography>
-                                </Box>
+                        <Box className="row">
+                            <Box className="col-lg-12 col-12">
+                                <Typography variant="h2" className="mb-5">
+                                    Features
+                                </Typography>
+                            </Box>
 
-                                <Box className="col-lg-6 col-12 mb-4">
-                                    <Box className="features-thumb">
-                                        <img
-                                            src={room}
-                                            className="service-image img-fluid"
-                                            alt="Event"
-                                        />
+                            <Box className="col-lg-6 col-12 mb-4">
+                                <Box className="features-thumb">
+                                    <img
+                                        src={room}
+                                        className="service-image img-fluid"
+                                        alt="Event"
+                                    />
 
-                                        <Box className="features-info d-flex align-items-end">
-                                            <h4 className="mb-0">Bedroom</h4>
-                                        </Box>
-                                    </Box>
-                                </Box>
-
-                                <Box className="col-lg-6 col-12 mb-4">
-                                    <Box className="features-thumb">
-                                        <img
-                                            src={karaoke}
-                                            className="service-image img-fluid"
-                                            alt="Event"
-                                        />
-
-                                        <Box className="features-info d-flex align-items-end">
-                                            <h4 className="mb-0">Karaoke</h4>
-                                        </Box>
-                                    </Box>
-                                </Box>
-
-                                <Box className="col-lg-6 col-12 mb-4 mb-lg-0">
-                                    <Box className="features-thumb">
-                                        <img
-                                            src={billiard}
-                                            className="service-image img-fluid"
-                                            alt="Event"
-                                        />
-
-                                        <Box className="features-info d-flex align-items-end">
-                                            <h4 className="mb-0">Billiards</h4>
-                                        </Box>
-                                    </Box>
-                                </Box>
-
-                                <Box className="col-lg-6 col-12">
-                                    <Box className="features-thumb">
-                                        <img
-                                            src={kiddiepool}
-                                            className="service-image img-fluid"
-                                            alt="Event"
-                                        />
-
-                                        <Box className="features-info d-flex align-items-end">
-                                            <h4 className="mb-0">Kiddiepool</h4>
-                                        </Box>
+                                    <Box className="features-info d-flex align-items-end">
+                                        <h4 className="mb-0">Bedroom</h4>
                                     </Box>
                                 </Box>
                             </Box>
+
+                            <Box className="col-lg-6 col-12 mb-4">
+                                <Box className="features-thumb">
+                                    <img
+                                        src={karaoke}
+                                        className="service-image img-fluid"
+                                        alt="Event"
+                                    />
+
+                                    <Box className="features-info d-flex align-items-end">
+                                        <h4 className="mb-0">Karaoke</h4>
+                                    </Box>
+                                </Box>
+                            </Box>
+
+                            <Box className="col-lg-6 col-12 mb-4 mb-lg-0">
+                                <Box className="features-thumb">
+                                    <img
+                                        src={billiard}
+                                        className="service-image img-fluid"
+                                        alt="Event"
+                                    />
+
+                                    <Box className="features-info d-flex align-items-end">
+                                        <h4 className="mb-0">Billiards</h4>
+                                    </Box>
+                                </Box>
+                            </Box>
+
+                            <Box className="col-lg-6 col-12">
+                                <Box className="features-thumb">
+                                    <img
+                                        src={kiddiepool}
+                                        className="service-image img-fluid"
+                                        alt="Event"
+                                    />
+
+                                    <Box className="features-info d-flex align-items-end">
+                                        <h4 className="mb-0">Kiddiepool</h4>
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
                     </Box>
                 </section>
 
@@ -690,16 +870,15 @@ function Home() {
                                         >
                                             <ul>
                                                 <li>
-                                                    {" "}
                                                     <Link to="tel:+639453200320">
                                                         0945 3200 320
-                                                    </Link>{" "}
+                                                    </Link>
                                                     (Globe)
                                                 </li>
                                                 <li>
                                                     <Link to="tel:+639955185002">
                                                         0995 5185 002
-                                                    </Link>{" "}
+                                                    </Link>
                                                     (Globe/Viber)
                                                 </li>
                                             </ul>
@@ -767,7 +946,7 @@ function Home() {
                                             <strong>Open Daily</strong>
 
                                             <span className="ms-auto">
-                                                10:00 AM - 8:00 PM
+                                                10:00 AM - 8:00 PM <br />
                                             </span>
                                             <span className="text-white">
                                                 Located at: Angono, Calabarzon,
@@ -798,7 +977,8 @@ function Home() {
                     <Box className="site-footer-bottom">
                         <Box className="container">
                             <Box className="row align-items-center">
-                                <Box className="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto">
+                                <Box className="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto arrow">
+                                    Back to Top
                                     <a
                                         href="#section_1"
                                         className="back-top-icon smoothscroll"

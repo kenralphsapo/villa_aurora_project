@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import Admin from './pages/Admin';
 import ForgotPassword from './pages/ForgotPassword';
 import Myaccount from './pages/Myaccount';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   const router = createBrowserRouter([
@@ -40,6 +41,10 @@ function App() {
     {
       path: '*',
       element: <NotFound />
+    },
+    {
+      path: '/toji',
+      element: <LandingPage />
     }
   ]);
 
