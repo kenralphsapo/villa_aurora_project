@@ -23,7 +23,7 @@ export default function NotFound() {
             <Typography variant="body1" align="center" gutterBottom>
                 The page you are looking for does not exist.
             </Typography>
-            <Button variant="contained" color="primary" href="/">
+            <Button variant="contained" href="/">
                 Go Home
             </Button>
         </Box>

@@ -152,10 +152,7 @@ function Home() {
                                 </Typography>
                             </Link>
                             {user ? (
-                                <Typography
-                                    variant="h6"
-                                    className="mt-2"
-                                >
+                                <Typography variant="h6" className="mt-2">
                                     {user?.username}
                                 </Typography>
                             ) : null}
@@ -283,10 +280,7 @@ function Home() {
                             </Typography>
                         </Link>
                         {user ? (
-                            <Typography
-                                variant="h6"
-                                className="mt-2"
-                            >
+                            <Typography variant="h6" className="mt-2">
                                 {user?.username}
                             </Typography>
                         ) : null}
@@ -409,7 +403,9 @@ function Home() {
                     <Box className="container">
                         <Box className="row">
                             <Box className="col-lg-8 col-12">
-                                <h1 id="sztext">Villa Aurora Private Resort</h1>
+                                <h1 id="custom-header">
+                                    Villa Aurora Private Resort
+                                </h1>
                                 <Typography id="custom-text-big">
                                     Don't miss out! Reserve your spot at our
                                     luxurious resort today.
@@ -422,7 +418,6 @@ function Home() {
                                         textDecoration: "none",
                                         fontSize: "20px",
                                     }}
-
                                 >
                                     About Us
                                 </a>
@@ -529,7 +524,8 @@ function Home() {
                                 </Typography>
 
                                 <Typography>
-                                    Arat na Beat the Summer Heat  <FontAwesomeIcon icon={faSun} />
+                                    Arat na Beat the Summer Heat{" "}
+                                    <FontAwesomeIcon icon={faSun} />
                                 </Typography>
 
                                 <a

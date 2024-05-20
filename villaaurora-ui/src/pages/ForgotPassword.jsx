@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography, AppBar, Toolbar } from "@mui/material";
+import {
+    Box,
+    TextField,
+    Button,
+    Typography,
+    AppBar,
+    Toolbar,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { login as loginAPI } from "../api/auth";
 import { useCookies } from "react-cookie";
@@ -148,8 +155,11 @@ export default function ForgotPassword() {
                                 mt: 5,
                             }}
                         >
-                            <Button variant="contained" id="custom-btn-gray">
-                                <Link to="/login" id="link">
+                            <Button variant="contained">
+                                <Link
+                                    to="/login"
+                                    className="text-white text-decoration-none"
+                                >
                                     Cancel
                                 </Link>
                             </Button>

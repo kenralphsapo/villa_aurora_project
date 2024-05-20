@@ -84,6 +84,10 @@ function Admin() {
     const [transactionRows, setTransactionRows] = useState([]);
     const [testiomonialRows, setTestimonialRows] = useState([]);
 
+    if (user?.role !== "admin") {
+        return <NotFound />;
+    }
+
     let section1 = document.getElementById("section1");
     let section2 = document.getElementById("section2");
     let section3 = document.getElementById("section3");
@@ -725,12 +729,12 @@ function Admin() {
                     <Box>
                         <Box id="custom-navbar">
                             <Typography variant="h3">
-                                Welcome{" "}
+                                Welcome
                                 {user?.username ?? "Wait, Who are you??"}
                             </Typography>
 
                             <Box>
-                                <Link className="list" to="/">
+                                <Link className="custom-list" to="/">
                                     <Typography
                                         sx={{ m: 1, color: "white" }}
                                         id="home"
@@ -738,7 +742,10 @@ function Admin() {
                                         Home <FontAwesomeIcon icon={faHome} />
                                     </Typography>
                                 </Link>
-                                <Link className="list" onClick={onUserNav}>
+                                <Link
+                                    className="custom-list"
+                                    onClick={onUserNav}
+                                >
                                     <Typography
                                         sx={{ m: 1, color: "white" }}
                                         id="usernav"
@@ -746,7 +753,10 @@ function Admin() {
                                         Users <FontAwesomeIcon icon={faUser} />
                                     </Typography>
                                 </Link>
-                                <Link className="list" onClick={onServiceNav}>
+                                <Link
+                                    className="custom-list"
+                                    onClick={onServiceNav}
+                                >
                                     <Typography
                                         sx={{ m: 1, color: "white" }}
                                         id="servicenav"
@@ -755,7 +765,10 @@ function Admin() {
                                         <FontAwesomeIcon icon={faBriefcase} />
                                     </Typography>
                                 </Link>
-                                <Link className="list" onClick={onRoomNav}>
+                                <Link
+                                    className="custom-list"
+                                    onClick={onRoomNav}
+                                >
                                     <Typography
                                         sx={{ m: 1, color: "white" }}
                                         id="roomnav"
@@ -764,26 +777,26 @@ function Admin() {
                                     </Typography>
                                 </Link>
                                 <Link
-                                    className="list"
+                                    className="custom-list"
                                     onClick={onTransactionNav}
                                 >
                                     <Typography
                                         sx={{ m: 1, color: "white" }}
                                         id="transactionnav"
                                     >
-                                        Transactions{" "}
+                                        Transactions
                                         <FontAwesomeIcon icon={faReceipt} />
                                     </Typography>
                                 </Link>
                                 <Link
-                                    className="list"
+                                    className="custom-list"
                                     onClick={onTestimonialNav}
                                 >
                                     <Typography
                                         sx={{ m: 1, color: "white" }}
                                         id="testimonialnav"
                                     >
-                                        Testimonials{" "}
+                                        Testimonials
                                         <FontAwesomeIcon icon={faComment} />
                                     </Typography>
                                 </Link>

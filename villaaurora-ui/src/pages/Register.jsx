@@ -57,20 +57,9 @@ export default function Register() {
                 <Box
                     component="form"
                     onSubmit={onSubmit}
-                    sx={{
-                        p: 2,
-                        maxWidth: 300,
-                        width: "100%",
-                        border: "2px solid black",
-                        borderRadius: "10px",
-                        boxShadow: "0px 0px 10px black",
-                        backgroundColor: "#f5f5f5",
-                    }}
+                    className="login-form"
                 >
-                    <Typography
-                        variant="h2"
-                        sx={{ textAlign: "center", color: "black" }}
-                    >
+                    <Typography variant="h2" id="login-logo">
                         Register
                     </Typography>
                     <Box>
@@ -155,7 +144,7 @@ export default function Register() {
                         <Button
                             disabled={loading}
                             type="submit"
-                            variant="contained"
+                            id="submit-button"
                             fullWidth
                         >
                             Register
@@ -163,11 +152,12 @@ export default function Register() {
                     </Box>
 
                     <Box sx={{ textAlign: "center", cursor: "pointer" }}>
-                        <Link to="/login" id="customlink">
-                            <Typography>
-                                Already have an account? <b>Login</b>
-                            </Typography>
-                        </Link>
+                        <Typography className="register-link pt-3">
+                            Already have an account?
+                            <Link to="/login" id="link">
+                                Login
+                            </Link>
+                        </Typography>
                     </Box>
                 </Box>
             </Box>
