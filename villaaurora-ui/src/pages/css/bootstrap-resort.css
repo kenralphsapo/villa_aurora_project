@@ -56,6 +56,10 @@
   CUSTOM
 -----------------------------------------*/
 
+#custom-colorup{
+  background-color: #d6a354;
+}
+
 #custom-deletebtn{
   float: right;
   background-color: lightcoral;
@@ -198,7 +202,7 @@
 
   #sztext{
     font-size: 6rem;
-    color: white;
+    color: #fff;
   }
 
   #btnchange{
@@ -350,7 +354,7 @@
   
   #sidebarMenu .nav-link.active, 
   #sidebarMenu .nav-link:hover {
-    color: white;
+    color: #fff;
   }
   
   .navbar-toggler {
@@ -396,7 +400,7 @@
   }
   
   .navbar-toggler .navbar-toggler-icon {
-    background: white;
+    background: #fff;
     transition: background 10ms 300ms ease;
     display: block;
     margin: auto;
@@ -590,8 +594,8 @@
   }
   
   .custom-btn-bg-white {
-    border-color: white;
-    color: white;
+    border-color: #fff;
+    color: #fff;
   }
   
   .custom-btn-italic {
@@ -616,7 +620,7 @@
   }
   
   .team-info {
-    background: white;
+    background: #fff;
     border-radius: 100px;
     position: absolute;
     bottom: 0;
@@ -644,7 +648,7 @@
   }
   
   .mockup-section p {
-    color: white;
+    color: #fff;
   }
   
   .mockup-section strong {
@@ -691,7 +695,7 @@
   
   .features-info {
     border-radius: 20px;
-    border: 1px solid white;
+    border: 1px solid #fff;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -703,7 +707,7 @@
   }
   
   .features-info h4 {
-    color: white;
+    color: #fff;
   }
   
 /*---------------------------------------
@@ -718,7 +722,7 @@
   }
   
   .booking-form {
-    background: white;
+    background: #fff;
     border-radius: 20px;
     padding: 65px;
   }
@@ -745,7 +749,7 @@
     background: #c12828;
     border: none;
     border-radius: 100px;
-    color: white;
+    color: #fff;
     font-size: 20px;
     font-weight: var(--font-weight-medium);
     transition: all 0.3s;
@@ -814,7 +818,7 @@
   
   .contact-block strong {
     display: block;
-    color: white;
+    color: #fff;
     text-transform: uppercase;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -1025,6 +1029,10 @@
     font-size: 14px;
     padding: 10px 20px;
   }
+
+  #sidebarMenu{
+    background-color:#d6a354;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -1062,6 +1070,10 @@
 
   .booking-form {
     padding: 35px;
+  }
+
+  #sidebarMenu{
+    background-color:#d6a354;
   }
 }
 

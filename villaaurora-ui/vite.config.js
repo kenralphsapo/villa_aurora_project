@@ -5,12 +5,12 @@ import fs from 'fs'
 export default defineConfig({
   
   plugins: [react()],
-  // server: {
-  //   https: {
-  //     key:fs.readFileSync("./localhost.key"),
-  //     cert:fs.readFileSync("./localhost.crt")
-  //   }
+  server: {
+    https: {
+      key:fs.readFileSync("./localhost.key"),
+      cert:fs.readFileSync("./localhost.crt")
+    }
     
-  // }
+  }
 
 })

@@ -146,8 +146,7 @@ function Home() {
                                 <Typography
                                     id="customheader"
                                     variant="h5"
-                                    sx={{ color: "white" }}
-                                    className="h5"
+                                    className="h5 text-white"
                                 >
                                     Villa Aurora Private Resort
                                 </Typography>
@@ -155,7 +154,7 @@ function Home() {
                             {user ? (
                                 <Typography
                                     variant="h6"
-                                    sx={{ color: "gray", mt: 2 }}
+                                    className="mt-2"
                                 >
                                     {user?.username}
                                 </Typography>
@@ -278,8 +277,7 @@ function Home() {
                             <Typography
                                 id="customheader"
                                 variant="h5"
-                                sx={{ color: "white" }}
-                                className="h5"
+                                className="h5 text-white"
                             >
                                 Villa Aurora Private Resort
                             </Typography>
@@ -287,7 +285,7 @@ function Home() {
                         {user ? (
                             <Typography
                                 variant="h6"
-                                sx={{ color: "gray", mt: 2 }}
+                                className="mt-2"
                             >
                                 {user?.username}
                             </Typography>
@@ -390,15 +388,15 @@ function Home() {
             </Box>
             <Box className="col-md-8 ms-sm-auto col-lg-10 p-0">
                 <Button
-                    variant="contained"
-                    color="warning"
                     style={{
                         position: "fixed",
                         bottom: "20px",
                         right: "20px",
                         zIndex: "999",
+                        color: "white",
                         display: scrollVisible ? "block" : "none",
                     }}
+                    id="custom-colorup"
                     onClick={handleScrollToTop}
                 >
                     <FontAwesomeIcon icon={faArrowUp} />
@@ -417,18 +415,19 @@ function Home() {
                                     luxurious resort today.
                                 </Typography>
 
-                                <Link
+                                <a
                                     href="#section_2"
                                     className="custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2"
                                     style={{
                                         textDecoration: "none",
                                         fontSize: "20px",
                                     }}
+
                                 >
                                     About Us
-                                </Link>
+                                </a>
 
-                                <Link
+                                <a
                                     href="#section_3"
                                     className="custom-btn smoothscroll mb-2"
                                     style={{
@@ -437,7 +436,7 @@ function Home() {
                                     }}
                                 >
                                     What we have
-                                </Link>
+                                </a>
                             </Box>
                         </Box>
                     </Box>
@@ -530,7 +529,7 @@ function Home() {
                                 </Typography>
 
                                 <Typography>
-                                    Arat na Beat the Summer Heat
+                                    Arat na Beat the Summer Heat  <FontAwesomeIcon icon={faSun} />
                                 </Typography>
 
                                 <a
@@ -773,9 +772,8 @@ function Home() {
 
                                         <Box className="col-lg-4 col-md-10 col-8 mx-auto">
                                             <Button
-                                                sx={{ mt: 5 }}
                                                 type="submit"
-                                                className="form-control"
+                                                className="form-control mt-5"
                                             >
                                                 Submit
                                             </Button>
@@ -971,29 +969,6 @@ function Home() {
                         </Box>
                     </Box>
                 </section>
-
-                {/* Footer Section */}
-                <footer className="site-footer">
-                    <Box className="site-footer-bottom">
-                        <Box className="container">
-                            <Box className="row align-items-center">
-                                <Box className="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto arrow">
-                                    Back to Top
-                                    <a
-                                        href="#section_1"
-                                        className="back-top-icon smoothscroll"
-                                        title="Back Top"
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faArrowUp}
-                                            id="circle"
-                                        />
-                                    </a>
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Box>
-                </footer>
             </Box>
         </Box>
     );
