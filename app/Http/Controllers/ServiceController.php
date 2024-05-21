@@ -34,7 +34,7 @@ class ServiceController extends Controller
  //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
  
      $service = Service::create($validator->validated());
-     //$user->user; show user profile when inserting
+     //$service->service; show service when inserting
  
      return response()->json([
          "ok" => true,

@@ -20,7 +20,7 @@ class RoomController extends Controller
  {
      $validator = validator($request->all(), [
          "name" => "required|min:1|max:50|string",
-         "price" => "required|min:1|max:10000|numeric"
+         "price" => "required|min:1|max:100000|numeric"
      ]);
  
  
@@ -89,7 +89,8 @@ class RoomController extends Controller
     public function updateRoom(Request $request, Room $room){
         $validator = validator($request->all(), [
 
-            "name" => "required|min:1|max:50|string|max:50"     
+            "name" => "sometimes|min:1|max:50|string|max:50",
+            "price" => "sometimes|min:1|max:100000|numeric" 
         ]);
 
         if($validator->fails())

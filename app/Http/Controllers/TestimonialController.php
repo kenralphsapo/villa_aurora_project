@@ -22,7 +22,7 @@ class TestimonialController extends Controller
  public function addTestimonial(Request $request)
  {
      $validator = validator($request->all(), [
-         "feedback" => "required|min:4|string||max:500",
+         "feedback" => "sometimes|min:4|string||max:500",
          "rating" => "required|min:0|max:5|int",
          'transaction_id' => 'required|exists:transactions,id'
      ]);
