@@ -331,28 +331,24 @@ function Home() {
                             </Box>
                             {user ? (
                                 <>
-                                    {user?.role !== "guest" &&
-                                        user?.role !== "scheduler" && (
-                                            <Box
-                                                variant="li"
-                                                className="nav-item"
-                                            >
-                                                <Link
-                                                    to="/admin"
-                                                    className="nav-link click-scroll"
-                                                >
-                                                    {user?.role}
-                                                </Link>
-                                            </Box>
-                                        )}
-
-                                    {user?.role !== "admin" && (
+                                    {user?.role == "guest" && (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/guest"
                                                 className="nav-link click-scroll"
                                             >
                                                 Myaccount
+                                            </Link>
+                                        </Box>
+                                    )}
+
+                                    {user?.role == "admin" && (
+                                        <Box variant="li" className="nav-item">
+                                            <Link
+                                                to="/admin"
+                                                className="nav-link click-scroll"
+                                            >
+                                                {user?.role}
                                             </Link>
                                         </Box>
                                     )}

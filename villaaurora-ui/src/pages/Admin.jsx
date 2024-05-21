@@ -724,7 +724,7 @@ function Admin() {
 
     return (
         <Box>
-            {user?.role !== "guest" ? (
+            {user?.role == "admin" ? (
                 <Box id="custom-admin">
                     <Box>
                         <Box id="custom-navbar">
