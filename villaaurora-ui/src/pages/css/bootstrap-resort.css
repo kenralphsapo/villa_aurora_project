@@ -50,14 +50,16 @@
 .none1,
 .none2,
 .none3,
-.none4 {
+.none4,
+.none5 {
     display: none;
 }
 
 .appear1,
 .appear2,
 .appear3,
-.appear4 {
+.appear4,
+.appear5 {
     display: block;
 }
 

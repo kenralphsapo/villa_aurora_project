@@ -92,12 +92,14 @@ function Admin() {
     let section2 = document.getElementById("section2");
     let section3 = document.getElementById("section3");
     let section4 = document.getElementById("section4");
+    let section5 = document.getElementById("section5");
 
     const onUserNav = () => {
         section1.setAttribute("class", "appear1");
         section2.setAttribute("class", "none2");
         section3.setAttribute("class", "none3");
         section4.setAttribute("class", "none4");
+        section5.setAttribute("class", "none5");
     };
 
     const onServiceNav = () => {
@@ -105,12 +107,15 @@ function Admin() {
         section1.setAttribute("class", "none1");
         section3.setAttribute("class", "none3");
         section4.setAttribute("class", "none4");
+        section5.setAttribute("class", "none5");
     };
 
     const onRoomNav = () => {
         section3.setAttribute("class", "appear3");
         section1.setAttribute("class", "none1");
         section2.setAttribute("class", "none2");
+        section4.setAttribute("class", "none4");
+        section5.setAttribute("class", "none5");
     };
 
     const onTransactionNav = () => {
@@ -118,9 +123,11 @@ function Admin() {
         section1.setAttribute("class", "none1");
         section2.setAttribute("class", "none2");
         section3.setAttribute("class", "none3");
+        section5.setAttribute("class", "none5");
     };
 
     const onTestimonialNav = () => {
+        section5.setAttribute("class", "appear5");
         section1.setAttribute("class", "none1");
         section2.setAttribute("class", "none2");
         section3.setAttribute("class", "none3");
@@ -785,7 +792,7 @@ function Admin() {
                                         sx={{ m: 1, color: "white" }}
                                         id="transactionnav"
                                     >
-                                        Transactions
+                                        Transactions{" "}
                                         <FontAwesomeIcon icon={faReceipt} />
                                     </Typography>
                                 </Link>
@@ -797,7 +804,7 @@ function Admin() {
                                         sx={{ m: 1, color: "white" }}
                                         id="testimonialnav"
                                     >
-                                        Testimonials
+                                        Testimonials{" "}
                                         <FontAwesomeIcon icon={faComment} />
                                     </Typography>
                                 </Link>
