@@ -345,6 +345,7 @@ function Admin() {
     const roomcolumns = [
         { field: "id", headerName: "ID" },
         { field: "name", headerName: "Room Name", width: 160 },
+        { field: "price", headerName: "Room Price" },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
         {

@@ -11,8 +11,8 @@ class Service extends Model
 
 
     public function transactions(){
-        return $this->belongsToMany(Transaction::class);
-     }
+        return $this->belongsToMany(Transaction::class)->withPivot("price");
+    }
 
     protected $fillable = [
         'name',

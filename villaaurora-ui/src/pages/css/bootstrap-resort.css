@@ -117,6 +117,7 @@
     text-wrap: wrap;
     font-weight: bold;
     text-shadow: 0 0 10px #000000;
+    color: white;
 }
 
 #custom-blue {
@@ -519,7 +520,7 @@ strong {
   HERO OR LANDING PAGE
 -----------------------------------------*/
 .hero-section {
-    background-image: url("../images/background.jpg");
+    background-image: url(../images/background.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -687,7 +688,7 @@ strong {
   MOCKUP        
 -----------------------------------------*/
 .mockup-section {
-    background-image: url("../images/background.jpg");
+    background-image: url(../images/background.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -765,7 +766,7 @@ strong {
   BOOKING               
 -----------------------------------------*/
 .booking-section {
-    background-image: url("../images/mockup.jpg");
+    background-image: url(./images/mockup.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;

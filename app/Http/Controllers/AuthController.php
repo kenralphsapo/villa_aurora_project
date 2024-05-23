@@ -18,7 +18,8 @@ class AuthController extends Controller
             "username" => "required|min:4|string|unique:users|max:32",
             "password" => "required|min:8|max:32|string|confirmed",
             "mobile" => "required|min:11|max:13|phone:PH",
-            "email" => "required|email|max:64|unique:users"
+            "email" => "required|email|max:64|unique:users",
+            "role" => "sometimes|in:guest,scheduler,admin"
         ]);
     
         if($validator->fails()){
@@ -82,7 +83,8 @@ class AuthController extends Controller
     //         "message" =>"Login Success",
     //         "data" => $user
     //     ], 200);
-    //}
+        
+    //     }
         
         // Fail message
         return response()->json([

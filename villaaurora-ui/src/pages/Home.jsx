@@ -143,13 +143,11 @@ function Home() {
                                     alt="Logo"
                                     className="logo-image img-fluid"
                                 />
-                                <Typography
+                                <h5
                                     id="customheader"
-                                    variant="h5"
-                                    className="h5 text-white"
                                 >
                                     Villa Aurora Private Resort
-                                </Typography>
+                                </h5>
                             </Link>
                             {user ? (
                                 <Typography variant="h6" className="mt-2">
@@ -208,8 +206,7 @@ function Home() {
                                 </Box>
                                 {user ? (
                                     <>
-                                        {user?.role !== "guest" &&
-                                            user?.role !== "scheduler" && (
+                                        {user?.role == "guest" && (
                                                 <Box
                                                     variant="li"
                                                     className="nav-item"
@@ -229,7 +226,7 @@ function Home() {
                                                 className="nav-item"
                                             >
                                                 <Link
-                                                    to="/guest"
+                                                    to="/admin"
                                                     className="nav-link click-scroll"
                                                 >
                                                     Myaccount
@@ -271,13 +268,11 @@ function Home() {
                                 alt="Logo"
                                 className="logo-image img-fluid"
                             />
-                            <Typography
+                            <h5
                                 id="customheader"
-                                variant="h5"
-                                className="h5 text-white"
                             >
                                 Villa Aurora Private Resort
-                            </Typography>
+                            </h5>
                         </Link>
                         {user ? (
                             <Typography variant="h6" className="mt-2">

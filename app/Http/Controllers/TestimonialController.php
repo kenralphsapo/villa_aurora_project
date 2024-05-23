@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
+    //CRUD, Testimonials
+  //see APP:DEBUG on .env
 
 
 
@@ -20,9 +22,9 @@ class TestimonialController extends Controller
  public function addTestimonial(Request $request)
  {
      $validator = validator($request->all(), [
-         "feedback" => "required|min:4|string||max:500",
+         "feedback" => "sometimes|min:4|string||max:500",
          "rating" => "required|min:0|max:5|int",
-         "transaction_id" => "required|min:1|int",
+         'transaction_id' => 'required|exists:transactions,id'
      ]);
 
  //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
@@ -91,9 +93,9 @@ public function showTestimonial(Request $request, Testimonial $testimonial){
 
     public function updateTestimonial(Request $request, Testimonial $testimonial){
     $validator = validator($request->all(), [
-        "feedback" => "sometimes|min:4|string|max:500|max:500",
-        "rating" => "sometimes|min:0|max:5|int|max:5",
-        "transaction_id" => "required|min:1|int",   
+        "feedback" => "sometimes|min:4|string|max:500,$testimonial->id|max:500",
+        "rating" => "sometimes|min:0|max:5|int,$testimonial->id|max:5",
+        'transaction_id' => 'sometimes|exists:transactions,id' 
     ]);
 
     if($validator->fails())

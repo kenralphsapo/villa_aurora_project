@@ -9,10 +9,10 @@ class Room extends Model
 {
     use HasFactory;
 
-    public function transaction(){
-        return $this->belongsTo(Transaction::class);
-    }
 
+    public function transactions(){
+        return $this->belongsToMany(Transaction::class)->withPivot("price");
+    }
 
     protected $fillable = [
         'name',

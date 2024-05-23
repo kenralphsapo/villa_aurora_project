@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     
     protected $fillable = [
         'user_id',
         'room_id',
-        'room_price',
+        //'room_price',
         'rent_start',
         'rent_end',
         'service_id',
@@ -21,7 +22,7 @@ class Transaction extends Model
     ];
 
     public function services(){
-        return $this->belongsToMany(Service::class);
+        return $this->belongsToMany(Service::class)->withPivot("price");
      }
 
     public function user(){
@@ -34,7 +35,7 @@ class Transaction extends Model
     }
 
     public function room(){
-        return $this->hasOne(Room::class);
+        return $this->hasOne(Room::class)->withPivot("price");
     }
 
 
