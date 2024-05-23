@@ -754,7 +754,7 @@ function Home() {
                                                 rows="3"
                                                 className="form-control"
                                                 id="message"
-                                                placeholder="Comment (Optionals)"
+                                                placeholder="Comments (Optional)"
                                             ></TextareaAutosize>
                                         </Box>
 
@@ -954,13 +954,13 @@ function Home() {
                                 </Box>
 
                                 <Box className="col-lg-5 col-12 mt-5 mt-lg-0 pt-4 pt-lg-0 mx-auto">
-                                    <Box className="iframe-container iframe-500px">
+                                    <Box className="iframe-container">
                                         <iframe
                                             className="google-map"
                                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.135607282014!2d121.1004689148258!3d14.533207089826607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c75ea60f9533%3A0x5c7ae1dbd8f8ab5a!2sVilla%20Aurora%20Private%20Resort%2C%20G4MR%2B7P2%2C%20Lakeview%20subd%20Baytown%20Coastal%20Road%2C%201930%20Rizal!5e0!3m2!1sen!2sph!4v1647605421232!5m2!1sen!2sph"
-                                            allowFullScreen=""
                                             loading="lazy"
                                             referrerPolicy="no-referrer-when-downgrade"
+                                            id="custom-iframe"
                                         ></iframe>
                                     </Box>
                                 </Box>

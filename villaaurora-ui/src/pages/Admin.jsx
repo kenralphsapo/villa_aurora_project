@@ -94,17 +94,17 @@ function Admin() {
     let section4 = document.getElementById("section4");
 
     const onUserNav = () => {
-        section1.setAttribute("class", "apper1");
-        section2.setAttribute("class", "appear2");
-        section3.setAttribute("class", "appear3");
-        section4.setAttribute("class", "appear4");
+        section1.setAttribute("class", "appear1");
+        section2.setAttribute("class", "none2");
+        section3.setAttribute("class", "none3");
+        section4.setAttribute("class", "none4");
     };
 
     const onServiceNav = () => {
         section2.setAttribute("class", "appear2");
         section1.setAttribute("class", "none1");
-        section3.setAttribute("class", "appear3");
-        section4.setAttribute("class", "appear4");
+        section3.setAttribute("class", "none3");
+        section4.setAttribute("class", "none4");
     };
 
     const onRoomNav = () => {
