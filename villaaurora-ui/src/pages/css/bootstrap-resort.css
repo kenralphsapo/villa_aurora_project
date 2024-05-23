@@ -169,6 +169,14 @@
     color: #fff;
 }
 
+.custom-marginleft {
+    margin-left: 10px;
+}
+
+.custom-marginright {
+    margin-right: 10px;
+}
+
 /*---------------------------------------
   Home Appearance 
 -----------------------------------------*/
@@ -870,8 +878,10 @@ strong {
     margin-top: 20px;
     margin-bottom: 10px;
 }
-#ml{
-    margin-left: 20px;
+
+.h-30 {
+    background-color: red;
+    height: 100px;
 }
 
 /*---------------------------------------
@@ -1041,15 +1051,15 @@ strong {
         background-color: #d6a354;
     }
 
-
     .close-btn {
         /* background-color: red; */
-        float: inline-end;
+        /* float: inline-end;
         padding: 1px 10px;
-        display: block;
-        /* position: fixed;
+        display: block; */
+        position: fixed;
         right: 0;
-        top: 0; */
+        top: 0;
+        z-index: 999;
     }
 }
 
@@ -1084,21 +1094,13 @@ strong {
         background-color: #d6a354;
         width: 375px;
         height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
     }
 
     .close-btn {
-        /* background-color: red; */
-        /* float: inline-end;
-        padding: 1px 10px;
-        display: block;
-        border: 10px solid red; */
         position: fixed;
         right: 0;
         top: 0;
+        z-index: 999;
     }
 
     .login-form {

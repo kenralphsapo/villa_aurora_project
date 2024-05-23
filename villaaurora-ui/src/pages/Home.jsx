@@ -26,7 +26,12 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import "./css/bootstrap-resort.css";
 import "./css/bootstrap-min.css";
-import { faArrowUp, faPhone, faSun } from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowUp,
+    faEnvelope,
+    faPhone,
+    faSun,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showAllServices } from "../api/service";
 import { showAllRooms } from "../api/room";
@@ -143,9 +148,7 @@ function Home() {
                                     alt="Logo"
                                     className="logo-image img-fluid"
                                 />
-                                <h5
-                                    id="customheader"
-                                >
+                                <h5 id="customheader">
                                     Villa Aurora Private Resort
                                 </h5>
                             </Link>
@@ -207,18 +210,18 @@ function Home() {
                                 {user ? (
                                     <>
                                         {user?.role == "guest" && (
-                                                <Box
-                                                    variant="li"
-                                                    className="nav-item"
+                                            <Box
+                                                variant="li"
+                                                className="nav-item"
+                                            >
+                                                <Link
+                                                    to="/admin"
+                                                    className="nav-link click-scroll"
                                                 >
-                                                    <Link
-                                                        to="/admin"
-                                                        className="nav-link click-scroll"
-                                                    >
-                                                        {user?.role}
-                                                    </Link>
-                                                </Box>
-                                            )}
+                                                    {user?.role}
+                                                </Link>
+                                            </Box>
+                                        )}
 
                                         {user?.role == "admin" && (
                                             <Box
@@ -268,9 +271,7 @@ function Home() {
                                 alt="Logo"
                                 className="logo-image img-fluid"
                             />
-                            <h5
-                                id="customheader"
-                            >
+                            <h5 id="customheader">
                                 Villa Aurora Private Resort
                             </h5>
                         </Link>
@@ -796,8 +797,10 @@ function Home() {
                                             variant="h6"
                                             className="d-flex"
                                         >
-                                            10{" "}hour stay:
-                                            <strong className="ml-2">P3,000</strong>
+                                            10 hour stay:
+                                            <strong className="ml-2">
+                                                P3,000
+                                            </strong>
                                         </Typography>
                                     </Box>
 
@@ -806,8 +809,10 @@ function Home() {
                                             variant="h6"
                                             className="d-flex"
                                         >
-                                            22{" "}hours stay:
-                                            <strong className="ml-2">P5,000</strong>
+                                            22 hours stay:
+                                            <strong className="ml-2">
+                                                P5,000
+                                            </strong>
                                         </Typography>
                                     </Box>
                                 </Box>
@@ -847,37 +852,47 @@ function Home() {
                                     </Typography>
 
                                     <Box className="text-white d-flex mb-1">
-                                        <Box
-                                            className="site-footer-link"
-                                            style={{ textDecoration: "none" }}
-                                        >
+                                        <Box className="site-footer-link">
                                             <ul>
                                                 <li>
                                                     <Link to="tel:+639453200320">
-                                                    <FontAwesomeIcon icon={faPhone} className="text-black"/>
+                                                        <FontAwesomeIcon
+                                                            icon={faPhone}
+                                                            className="text-black custom-marginright"
+                                                        />
                                                         0945 3200 320
                                                     </Link>
-                                                    <span>(Globe)</span>
+                                                    <span className="custom-marginleft">
+                                                        (Globe)
+                                                    </span>
                                                 </li>
                                                 <li>
                                                     <Link to="tel:+639955185002">
-                                                    <FontAwesomeIcon icon={faPhone} className="text-black"/>
-                                                        0995 5185 002       <span>(Globe/Viber)</span>
+                                                        <FontAwesomeIcon
+                                                            icon={faPhone}
+                                                            className="text-black custom-marginright"
+                                                        />
+                                                        0995 5185 002
                                                     </Link>
-                                              
+                                                    <span className="custom-marginleft">
+                                                        (Globe/Viber)
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <Link to="example@gmail.com">
+                                                        <FontAwesomeIcon
+                                                            icon={faEnvelope}
+                                                            className="text-black custom-marginright"
+                                                        />
+                                                        villaarurora@gmail.com
+                                                    </Link>
+                                                    <span className="custom-marginleft">
+                                                        (Email)
+                                                    </span>
                                                 </li>
                                             </ul>
                                         </Box>
                                     </Box>
-
-                                    <p className="text-white d-flex">
-                                        <Link
-                                            to="example@gmail.com"
-                                            style={{ textDecoration: "none" }}
-                                        >
-                                            villaarurora@gmail.com
-                                        </Link>
-                                    </p>
 
                                     <ul className="social-icon">
                                         <li className="social-icon-item">
@@ -916,33 +931,30 @@ function Home() {
                                             </Link>
                                         </li>
                                     </ul>
-                                </Box>
-
-                                <Box className="col-lg-5 col-12 contact-block-wrap mt-5 mt-lg-0 pt-4 pt-lg-0 mx-auto">
-                                    <Box className="contact-block">
-                                        <Typography
-                                            variant="h6"
-                                            className="mb-0 text-black"
-                                        >
-                                            <Box className="custom-icon">
-                                                <i className="fas fa-store"></i>
-                                            </Box>
-
-                                            Open Daily{" "}
-
-                                            <span className="ms-auto">
-                                                10:00 AM - 8:00 PM <br />
-                                            </span>
-                                            <span>
-                                                Located at: Angono, Calabarzon,
-                                                Philippines
-                                            </span>
-                                        </Typography>
+                                    <Box className="col-lg-9 col-12 contact-block-wrap mt-lg-0 pt-4 pt-lg-0 mx-auto">
+                                        <Box className="contact-block mt-5">
+                                            <Typography
+                                                variant="h6"
+                                                className="mb-0 text-black"
+                                            >
+                                                <Box className="custom-icon">
+                                                    <i className="fas fa-store"></i>
+                                                </Box>
+                                                Open Daily{" "}
+                                                <span className="ms-auto">
+                                                    10:00 AM - 8:00 PM,{" "}
+                                                </span>
+                                                <span>
+                                                    Located at: Angono,
+                                                    Calabarzon, Philippines
+                                                </span>
+                                            </Typography>
+                                        </Box>
                                     </Box>
                                 </Box>
 
-                                <Box className="col-lg-12 col-12 mx-auto mt-5 pt-5">
-                                    <Box className="iframe-container">
+                                <Box className="col-lg-5 col-12 mt-5 mt-lg-0 pt-4 pt-lg-0 mx-auto">
+                                    <Box className="iframe-container iframe-500px">
                                         <iframe
                                             className="google-map"
                                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.135607282014!2d121.1004689148258!3d14.533207089826607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c75ea60f9533%3A0x5c7ae1dbd8f8ab5a!2sVilla%20Aurora%20Private%20Resort%2C%20G4MR%2B7P2%2C%20Lakeview%20subd%20Baytown%20Coastal%20Road%2C%201930%20Rizal!5e0!3m2!1sen!2sph!4v1647605421232!5m2!1sen!2sph"
