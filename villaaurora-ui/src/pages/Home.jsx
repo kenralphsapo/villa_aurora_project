@@ -26,7 +26,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import "./css/bootstrap-resort.css";
 import "./css/bootstrap-min.css";
-import { faArrowUp, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faPhone, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showAllServices } from "../api/service";
 import { showAllRooms } from "../api/room";
@@ -150,7 +150,7 @@ function Home() {
                                 </h5>
                             </Link>
                             {user ? (
-                                <Typography variant="h6" className="mt-2">
+                                <Typography className="mt-2">
                                     {user?.username}
                                 </Typography>
                             ) : null}
@@ -220,7 +220,7 @@ function Home() {
                                                 </Box>
                                             )}
 
-                                        {user?.role !== "admin" && (
+                                        {user?.role == "admin" && (
                                             <Box
                                                 variant="li"
                                                 className="nav-item"
@@ -258,6 +258,7 @@ function Home() {
                     </Box>
                 </Drawer>
                 <Box
+                    id="sidebarMenu"
                     className="col-md-4 col-lg-2 d-md-block sidebar collapse p-0"
                 >
                     <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
@@ -514,7 +515,7 @@ function Home() {
                                 </Typography>
 
                                 <Typography>
-                                    Arat na Beat the Summer Heat{" "}
+                                    Arat na! Beat the Summer Heat{" "}
                                     <FontAwesomeIcon icon={faSun} />
                                 </Typography>
 
@@ -522,7 +523,7 @@ function Home() {
                                     href="https://www.facebook.com/VAPRII/"
                                     className="trans-scale text-white"
                                 >
-                                    <strong id="custom-blue">
+                                    <strong className="text-black">
                                         For inquiries, please check our Facebook
                                         page for details.
                                     </strong>
@@ -795,9 +796,8 @@ function Home() {
                                             variant="h6"
                                             className="d-flex"
                                         >
-                                            10hour stay:
-                                            <span className="price-list-thumb-Boxider"></span>
-                                            <strong>P3,000</strong>
+                                            10{" "}hour stay:
+                                            <strong className="ml-2">P3,000</strong>
                                         </Typography>
                                     </Box>
 
@@ -806,9 +806,8 @@ function Home() {
                                             variant="h6"
                                             className="d-flex"
                                         >
-                                            22hours stay:
-                                            <span className="price-list-thumb-Boxider"></span>
-                                            <strong>P5,000</strong>
+                                            22{" "}hours stay:
+                                            <strong className="ml-2">P5,000</strong>
                                         </Typography>
                                     </Box>
                                 </Box>
@@ -855,15 +854,17 @@ function Home() {
                                             <ul>
                                                 <li>
                                                     <Link to="tel:+639453200320">
+                                                    <FontAwesomeIcon icon={faPhone} className="text-black"/>
                                                         0945 3200 320
                                                     </Link>
-                                                    (Globe)
+                                                    <span>(Globe)</span>
                                                 </li>
                                                 <li>
                                                     <Link to="tel:+639955185002">
-                                                        0995 5185 002
+                                                    <FontAwesomeIcon icon={faPhone} className="text-black"/>
+                                                        0995 5185 002       <span>(Globe/Viber)</span>
                                                     </Link>
-                                                    (Globe/Viber)
+                                              
                                                 </li>
                                             </ul>
                                         </Box>
@@ -921,18 +922,18 @@ function Home() {
                                     <Box className="contact-block">
                                         <Typography
                                             variant="h6"
-                                            className="mb-0"
+                                            className="mb-0 text-black"
                                         >
-                                            <Box className="custom-icon text-white">
+                                            <Box className="custom-icon">
                                                 <i className="fas fa-store"></i>
                                             </Box>
 
-                                            <strong>Open Daily</strong>
+                                            Open Daily{" "}
 
                                             <span className="ms-auto">
                                                 10:00 AM - 8:00 PM <br />
                                             </span>
-                                            <span className="text-white">
+                                            <span>
                                                 Located at: Angono, Calabarzon,
                                                 Philippines
                                             </span>

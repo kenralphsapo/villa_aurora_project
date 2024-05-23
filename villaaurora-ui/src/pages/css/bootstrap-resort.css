@@ -762,7 +762,7 @@ strong {
   BOOKING               
 -----------------------------------------*/
 .booking-section {
-    background-image: url(./images/mockup.jpg);
+    background-image: url(../images/background.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -834,14 +834,14 @@ strong {
 }
 
 .contact-block-wrap {
-    background: #d6a354;
+    background: #22c1c3;
     border-radius: 20px;
     padding: 0;
     min-height: 200px;
 }
 
 .contact-block {
-    background-color: #22c1c3;
+    background-color: #d6a354;
     border-radius: 20px;
     transform: rotate(8deg);
     height: 100%;
@@ -853,7 +853,7 @@ strong {
 }
 
 .contact-block .custom-icon {
-    background: #d6a354;
+    background: #22c1c3;
     border-radius: 100px;
     display: block;
     width: 50px;
@@ -869,6 +869,9 @@ strong {
     text-transform: uppercase;
     margin-top: 20px;
     margin-bottom: 10px;
+}
+#ml{
+    margin-left: 20px;
 }
 
 /*---------------------------------------
