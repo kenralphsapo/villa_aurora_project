@@ -258,7 +258,6 @@ function Home() {
                     </Box>
                 </Drawer>
                 <Box
-                    id="sidebarMenu"
                     className="col-md-4 col-lg-2 d-md-block sidebar collapse p-0"
                 >
                     <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
@@ -283,7 +282,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_1"
-                                    className="nav-link click-scroll"
+                                    className="nav-link click-scroll text-black"
                                 >
                                     Home
                                 </a>
@@ -292,7 +291,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_2"
-                                    className="nav-link click-scroll"
+                                    className="nav-link click-scroll text-black"
                                 >
                                     Services
                                 </a>
@@ -301,7 +300,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_3"
-                                    className="nav-link click-scroll"
+                                    className="nav-link click-scroll text-black"
                                 >
                                     Features
                                 </a>
@@ -310,7 +309,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_4"
-                                    className="nav-link click-scroll"
+                                    className="nav-link click-scroll text-black"
                                 >
                                     Price List
                                 </a>
@@ -319,7 +318,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_5"
-                                    className="nav-link click-scroll"
+                                    className="nav-link click-scroll text-black"
                                 >
                                     Contact
                                 </a>
@@ -330,7 +329,7 @@ function Home() {
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/guest"
-                                                className="nav-link click-scroll"
+                                                className="nav-link click-scroll text-black"
                                             >
                                                 Myaccount
                                             </Link>
@@ -341,7 +340,7 @@ function Home() {
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/admin"
-                                                className="nav-link click-scroll"
+                                                className="nav-link click-scroll text-black"
                                             >
                                                 {user?.role}
                                             </Link>
@@ -351,7 +350,7 @@ function Home() {
                                     <Box variant="li" className="nav-item">
                                         <Link
                                             onClick={logout}
-                                            className="nav-link click-scroll"
+                                            className="nav-link click-scroll text-black"
                                         >
                                             Logout
                                         </Link>
@@ -361,7 +360,7 @@ function Home() {
                                 <Box variant="li" className="nav-item">
                                     <Link
                                         to="/login"
-                                        className="nav-link click-scroll"
+                                        className="nav-link click-scroll text-black"
                                     >
                                         Login
                                     </Link>
