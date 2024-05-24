@@ -83,3 +83,13 @@ INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at
 
 -- try to insert try icon in the tables
 -- try to retrieve the need in the tables in services in home
+
+node/v14.4.0/lib/node_modules/npm/bin/npm-cli.js
+/home/teacher/.nvm/versions/node/v14.4.0/bin/npx -> /home/teacher/.nvm/versions/node/v14.4.0/lib/node_modules/npm/bin/npx-cli.js
+npm WARN notsup Unsupported engine for npm@10.8.0: wanted: {"node":"^18.17.0 || >=20.5.0"} (current: {"node":"14.4.0","npm":"6.14.5"})
+npm WARN notsup Not compatible with your version of node/npm: npm@10.8.0
+
++ npm@10.8.0
+added 96 packages from 25 contributors, removed 325 packages and updated 110 packages in 10.468s
+
+
