@@ -14,7 +14,7 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'room_id',
-        //'room_price',
+        'room_price',
         'rent_start',
         'rent_end',
         'service_id',
@@ -34,8 +34,8 @@ class Transaction extends Model
         return $this->hasOne(Testimonial::class);
     }
 
-    public function room(){
-        return $this->hasOne(Room::class)->withPivot("price");
+    public function rooms(){
+        return $this->hasOne(Room::class);
     }
 
 

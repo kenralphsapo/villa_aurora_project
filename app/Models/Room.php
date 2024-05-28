@@ -11,7 +11,7 @@ class Room extends Model
 
 
     public function transactions(){
-        return $this->belongsToMany(Transaction::class)->withPivot("price");
+        return $this->belongsToMany(Transaction::class);
     }
 
     protected $fillable = [

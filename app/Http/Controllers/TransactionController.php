@@ -17,8 +17,7 @@ class TransactionController extends Controller
     {
     $validator = Validator::make($request->all(),[
         'user_id' => 'required|exists:users,id',
-        'room_id' => 'required|exists:rooms,id',
-        'room_price' => 'required|numeric|min:1|max:100000',
+        'room_id' => 'sometimes|exists:rooms,id',
         'rent_start' => 'required|date|date_format:Y-m-d',
         'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start',
         'service_id' => 'required|array|min:1',
@@ -34,29 +33,20 @@ class TransactionController extends Controller
         }
 
         $validated = $validator->validated();
-        //$transaction_input = $validator->safe()->only(['user_id', 'room_id','room_price', 'rent_start', 'rent_end']);
-        $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
+        $transaction_input = $validator->safe()->only(['user_id','room_id','rent_start', 'rent_end']);
+        //Get Price from Room based on Room's ID
+        $room = Room::find($validated["room_id"]);
+        $transaction_input["room_price"] = $room -> price;
         $transaction = Transaction::create($transaction_input);
         //dd($validated["service_id"]);
         
         //Service Price
         $arrayServicePrice = [];
         foreach($validated["service_id"] as $service_id){
-            $array[$service_id] = ["price" => Service::find($service_id) -> price];
+            $arrayServicePrice[$service_id] = ["price" => Service::find($service_id) -> price];
         }
         $transaction->services()->sync($arrayServicePrice);
         $transaction->services;
-
-
-        //Room Price
-        $arrayRoomPrice = [];
-        foreach($validated["room_id"] as $room_id){
-            $array[$room_id] = ["price" => Room::find($room_id) -> price];
-        }
-        $transaction->room()->sync($arrayRoomPrice);
-        $transaction->room;
-
-
 
         return response()->json([
             'success' => true,
@@ -115,9 +105,9 @@ class TransactionController extends Controller
         $validator = validator($request->all(), [
 
             'room_id' => 'sometimes|exists:rooms,id',
+            'room_price' => 'sometimes|min:1|max:100000|numeric',
             'rent_start' => 'sometimes|date|date_format:Y-m-d',
             'rent_end' => 'sometimes|date|date_format:Y-m-d|after_or_equal:rent_start',
-            'room_price' => 'sometimes|numeric|min:1|max:100000',
             'service_id' => 'sometimes|array|min:1',
             'service_id.*' => 'exists:services,id'
  
