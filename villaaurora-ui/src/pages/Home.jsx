@@ -203,7 +203,7 @@ function Home() {
                             </Box>
                             {user ? (
                                 <>
-                                    {user?.role == "guest" && (
+                                    {user?.role !== "admin" && (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/guest"

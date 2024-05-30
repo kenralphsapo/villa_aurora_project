@@ -30,15 +30,6 @@ npm i react-router-dom
 
 --  php artisan make:migration create_employee_table
 
---  php artisan make:migration create_room_table
-
---  php artisan make:migration create_transaction_table
-
---  php artisan make:migration create_service_table
-
---  php artisan make:migration create_testimonial_table
-
---  php artisan make:migration create_service_transaction_table
 
 
 -- composer create-project laravel/laravel login-website
@@ -48,43 +39,7 @@ npm i react-router-dom
 -- composer create-project --prefer-dist laravel/laravel REST_API
 -- composer require laravel/passport
 
---  php artisan make:migration create_employee_table
-
---  php artisan make:migration create_room_table
-
---  php artisan make:migration create_transaction_table
-
---  php artisan make:migration create_service_table
-
---  php artisan make:migration create_testimonial_table
-
---  php artisan make:migration create_service_transaction_table
-
-
--- composer create-project laravel/laravel login-website
--- php artisan --version
--- php artisan make:controller UserController --resource
--- php artisan make:model User
--- composer create-project --prefer-dist laravel/laravel REST_API
--- composer require laravel/passport
-
-
-
-INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (1,'Great service!',5,NOW(),NOW());
-
-INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (2,'Amazing experience!',4,'2024-05-08 12:19:00','2024-05-08 12:19:00');
-
-INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (3,'Very satisfied with the product',5,NOW(),NOW());
-
-INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (4,'Excellent customer support!',5,NOW(),NOW());
-
-INSERT INTO `testimonials`(`id`, `feedback`, `rating`, `created_at`, `updated_at`) VALUES (5,'Highly recommend!',4,'2024-05-08 12:19:00','2024-05-08 12:19:00');
 
 
 -- try to insert try icon in the tables
 -- try to retrieve the need in the tables in services in home
-
-
-
--- try to add some image in database
--- try to find a way on fixing image

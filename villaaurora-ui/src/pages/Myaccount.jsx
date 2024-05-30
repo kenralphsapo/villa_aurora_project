@@ -35,9 +35,10 @@ function Myaccout() {
 
     const [deleteDialog, setDeleteDialog] = useState(null);
     const [deletePermanentDialog, setDeletePermanentDialog] = useState(null);
-    if (user?.role !== "guest") {
+
+    /*if (user?.role == "guest") {
         return <NotFound />;
-    }
+    }*/
 
     const onSubmit = (e) => {
         e.preventDefault();
