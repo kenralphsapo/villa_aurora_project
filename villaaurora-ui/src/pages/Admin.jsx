@@ -62,8 +62,9 @@ function Admin() {
     let section5 = document.getElementById("section5");
 
     const [showTable, setShowTable] = useState(false);
-
+    let table = document.getElementById("table");
     const onUserNav = () => {
+      
         section1.setAttribute("class", "appear1");
         section2.setAttribute("class", "none2");
         section3.setAttribute("class", "none3");
@@ -71,6 +72,7 @@ function Admin() {
         section5.setAttribute("class", "none5");
     };
     const onServiceNav = () => {
+        table.setAttribute("class" , "appear");
         section2.setAttribute("class", "appear2");
         section1.setAttribute("class", "none1");
         section3.setAttribute("class", "none3");
@@ -79,6 +81,7 @@ function Admin() {
     };
 
     const onRoomNav = () => {
+        table.setAttribute("class" , "appear");
         section3.setAttribute("class", "appear3");
         section1.setAttribute("class", "none1");
         section2.setAttribute("class", "none2");
@@ -87,6 +90,7 @@ function Admin() {
     };
 
     const onTransactionNav = () => {
+        table.setAttribute("class" , "appear");
         section4.setAttribute("class", "appear4");
         section1.setAttribute("class", "none1");
         section2.setAttribute("class", "none2");
@@ -95,6 +99,7 @@ function Admin() {
     };
 
     const onTestimonialNav = () => {
+        table.setAttribute("class" , "appear");
         section5.setAttribute("class", "appear5");
         section1.setAttribute("class", "none1");
         section2.setAttribute("class", "none2");
@@ -244,7 +249,7 @@ function Admin() {
                     <Box>
                         <Box id="custom-navbar">
                             <Typography variant="h3">
-                                Welcome
+                                Welcome{" "}
                                 {user?.username ?? "Wait, Who are you??"}
                             </Typography>
 
@@ -612,7 +617,7 @@ function Admin() {
                             </Dialog>
                         </Box>
 
-                        <Box id="table">
+                        <Box id="table" className="hide">
                             <ServiceDialog />
                             <RoomDialog />
                             <TransactionDialogs />

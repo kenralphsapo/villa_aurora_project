@@ -528,7 +528,7 @@ function Home() {
                                                     <TextField
                                                         id="mobile"
                                                         label="Mobile"
-                                                        type="number"
+                                                        type="tel"
                                                         variant="outlined"
                                                         margin="normal"
                                                         fullWidth
