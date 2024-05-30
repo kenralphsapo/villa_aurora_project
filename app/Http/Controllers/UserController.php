@@ -100,10 +100,10 @@ public function show(Request $request, User $user){
 
     public function update(Request $request, User $user){
     $validator = validator($request->all(), [
-        "username" => "sometimes|min:4|string|unique:users|max:32",
+        "username" => "sometimes|min:4|max:32|unique:users,username," . $user->id,
         "password" => "sometimes|min:8|max:32|string|confirmed",
         "mobile" => "sometimes|min:11|max:13|phone:PH",
-        "email" => "sometimes|email|max:64|unique:users",
+        "email" => "sometimes|email|max:64||unique:users,email," . $user->id,
         "role" => "sometimes|in:guest,scheduler,admin"
     ]);
 
