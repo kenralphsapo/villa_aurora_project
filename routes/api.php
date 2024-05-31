@@ -29,7 +29,7 @@ Route::prefix("users")->middleware("auth:api")->group(function(){
     Route::get("/{user}", [App\Http\Controllers\UserController::class, 'show']);
 
     //PATCH: http://localhost:8000/api/users/{user}
-    Route::PATCH("/{user}", [App\Http\Controllers\UserController::class, 'update']);
+    Route::post("/{user}", [App\Http\Controllers\UserController::class, 'update']);
 
     //DELETE: http://localhost:8000/api/users/{user}
     Route::delete("/{user}", [App\Http\Controllers\UserController::class, 'destroy']);

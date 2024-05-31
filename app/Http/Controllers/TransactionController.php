@@ -36,7 +36,8 @@ class TransactionController extends Controller
         $transaction_input = $validator->safe()->only(['user_id','room_id','rent_start', 'rent_end']);
         //Get Price from Room based on Room's ID
         $room = Room::find($validated["room_id"]);
-        $transaction_input["room_price"] = $room -> price;
+ 
+        $transaction_input["room_price"] = $room->price;
         $transaction = Transaction::create($transaction_input);
         //dd($validated["service_id"]);
         
