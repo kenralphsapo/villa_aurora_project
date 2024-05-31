@@ -23,6 +23,9 @@ export const addService = async (body) => {
 export const updateService = async (body, id) => {
   const response = await fetch(`${url}/services/${id}?_method=PATCH`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(body),
   });
 
