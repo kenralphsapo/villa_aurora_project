@@ -1,3 +1,13 @@
+ [vite] Failed to load source map for /home/teacher/Downloads/Adornado31SAD/villaaurora-ui/src/pages/css/bootstrap-min.css.
+Error: An error occurred while trying to read the map file at bootstrap.min.css.map
+Error: ENOENT: no such file or directory, open '/home/teacher/Downloads/Adornado31SAD/villaaurora-ui/src/pages/css/bootstrap.min.css.map'
+    at async open (node:internal/fs/promises:636:25)
+    at async Object.readFile (node:internal/fs/promises:1246:14)
+    at async extractSourcemapFromFile (file:///home/teacher/Downloads/Adornado31SAD/villaaurora-ui/node_modules/vite/dist/node/chunks/dep-whKeNLxG.js:16695:10)
+    at async loadAndTransform (file:///home/teacher/Downloads/Adornado31SAD/villaaurora-ui/node_modules/vite/dist/node/chunks/dep-whKeNLxG.js:53874:35)
+
+
+
 APP_NAME=project_name
 APP_ENV=local
 APP_KEY=base64:JRorlfaTdd4C1EkbnIPCFUFphZQsRbLYfZcWnhKvnRk=
