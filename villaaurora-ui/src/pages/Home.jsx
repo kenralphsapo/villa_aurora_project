@@ -25,7 +25,7 @@ import catering from "./images/catering.jpg";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import "./css/bootstrap-resort.css";
-import "./css/bootstrap-min.css";
+
 import {
     faArrowUp,
     faEnvelope,
@@ -349,30 +349,55 @@ function Home() {
                                     </p>
                                 </Box>
                             </Box>
+                            {user ? (
+                                <>
+                                    {serviceRows.map((service, index) => (
+                                        <Box
+                                            key={index}
+                                            className="col-lg-5 col-12 custom-block-bg-overlay-wrap me-lg-5 mb-5 mb-lg-0"
+                                        >
+                                            {service.image && (
+                                                <img
+                                                    src={`data:image/jpeg;base64,${service.image}`}
+                                                    className="custom-block-bg-overlay-image"
+                                                />
+                                            )}
 
-                            <Box className="col-lg-5 col-12 custom-block-bg-overlay-wrap me-lg-5 mb-5 mb-lg-0">
-                                <img
-                                    src={catering}
-                                    className="custom-block-bg-overlay-image"
-                                    alt="Catering"
-                                />
+                                            <Box className="team-info d-flex align-items-center flex-wrap">
+                                                <p className="mb-0">
+                                                    {service.name}
+                                                </p>
+                                            </Box>
+                                        </Box>
+                                    ))}
+                                </>
+                            ) : (
+                                <>
+                                    <Box className="col-lg-5 col-12 custom-block-bg-overlay-wrap me-lg-5 mb-5 mb-lg-0">
+                                        <img
+                                            src={catering}
+                                            className="custom-block-bg-overlay-image"
+                                            alt="Catering"
+                                        />
 
-                                <Box className="team-info d-flex align-items-center flex-wrap">
-                                    <p className="mb-0">Birthday</p>
-                                </Box>
-                            </Box>
+                                        <Box className="team-info d-flex align-items-center flex-wrap">
+                                            <p className="mb-0">Birthday</p>
+                                        </Box>
+                                    </Box>
 
-                            <Box className="col-lg-5 col-12 custom-block-bg-overlay-wrap mt-4 mt-lg-0 mb-5 mb-lg-0">
-                                <img
-                                    src={event}
-                                    className="custom-block-bg-overlay-image"
-                                    alt="Event"
-                                />
+                                    <Box className="col-lg-5 col-12 custom-block-bg-overlay-wrap mt-4 mt-lg-0 mb-5 mb-lg-0">
+                                        <img
+                                            src={event}
+                                            className="custom-block-bg-overlay-image"
+                                            alt="Event"
+                                        />
 
-                                <Box className="team-info d-flex align-items-center flex-wrap">
-                                    <p className="mb-0">Wedding</p>
-                                </Box>
-                            </Box>
+                                        <Box className="team-info d-flex align-items-center flex-wrap">
+                                            <p className="mb-0">Wedding</p>
+                                        </Box>
+                                    </Box>
+                                </>
+                            )}
                         </Box>
                     </Box>
                 </section>
@@ -544,8 +569,12 @@ function Home() {
                                                         type="date"
                                                         variant="outlined"
                                                         margin="normal"
+                                                        label="Date Start"
                                                         fullWidth
                                                         required
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} lg={6}>
@@ -554,8 +583,12 @@ function Home() {
                                                         type="date"
                                                         variant="outlined"
                                                         margin="normal"
+                                                        label="Date End"
                                                         fullWidth
                                                         required
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
                                                     />
                                                 </Grid>
                                                 <Grid

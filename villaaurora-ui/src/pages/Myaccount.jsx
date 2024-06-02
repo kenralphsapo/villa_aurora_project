@@ -4,7 +4,6 @@ import {
     Typography,
     Button,
     TextField,
-    TextareaAutosize,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -19,7 +18,7 @@ import logo from "./images/logo.jpg";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import "./css/bootstrap-resort.css";
-import "./css/bootstrap-min.css";
+
 import { destroy, update } from "../api/user";
 import NotFound from "./NotFound";
 
@@ -35,10 +34,13 @@ function Myaccout() {
 
     const [deleteDialog, setDeleteDialog] = useState(null);
     const [deletePermanentDialog, setDeletePermanentDialog] = useState(null);
+    const [showAccount, setAccount] = useState(false);
 
-    /*if (user?.role == "guest") {
-        return <NotFound />;
-    }*/
+    useEffect(() => {
+        setUsername(user?.username);
+        setMobile(user?.mobile);
+        setEmail(user?.email);
+    }, [user]);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -63,7 +65,7 @@ function Myaccout() {
         }
     };
 
-    const onDelete = (e) => {
+    const onDelete = () => {
         if (!loading) {
             setLoading(true);
             destroy(deletePermanentDialog, cookies.AUTH_TOKEN)
@@ -81,6 +83,14 @@ function Myaccout() {
                     setLoading(false);
                 });
         }
+    };
+
+    const onAppearEdit = () => {
+        setAccount(true);
+    };
+
+    const onHideEdit = () => {
+        setAccount(false);
     };
 
     return (
@@ -117,145 +127,263 @@ function Myaccout() {
                             </Box>
                         </Box>
                     </Box>
-                    <Box className="col-md-8 ms-sm-auto col-lg-9 p-0">
-                        <Box
-                            className="d-flex justify-content-center align-items-center"
-                            style={{ height: "100vh" }}
-                        >
+                    <Box className="col-md-8 ms-sm-auto col-lg-10 p-0">
+                        {showAccount ? (
                             <Box
-                                id="custom-account"
-                                sx={{
-                                    boxShadow: "0 0 10px black",
-                                    borderRadius: "10px",
-                                    width: "400px",
-                                    p: "20px",
-                                }}
-                                component="form"
-                                onSubmit={onSubmit}
+                                className="d-flex justify-content-center align-items-center"
+                                style={{ height: "100vh" }}
                             >
-                                <Typography
-                                    variant="h3"
-                                    sx={{ textAlign: "center" }}
+                                <Box
+                                    id="custom-account"
+                                    sx={{
+                                        boxShadow: "0 0 10px black",
+                                        borderRadius: "10px",
+                                        width: "400px",
+                                        p: "20px",
+                                    }}
+                                    component="form"
+                                    onSubmit={onSubmit}
                                 >
-                                    EDIT ACCOUNT
-                                </Typography>
-                                <Box sx={{ mt: 1 }}>
-                                    <TextField
-                                        size="small"
-                                        label="Username"
-                                        type="text"
-                                        onChange={(e) =>
-                                            setUsername(e.target.value)
-                                        }
-                                        value={username}
-                                        placeholder={user?.username ?? "User"}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box sx={{ mt: 1 }}>
-                                    <TextField
-                                        onChange={(e) =>
-                                            setMobile(e.target.value)
-                                        }
-                                        value={mobile}
-                                        size="small"
-                                        label="Mobile"
-                                        type="text"
-                                        placeholder={user?.mobile ?? "Mobile"}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Box sx={{ mt: 1 }}>
-                                    <TextField
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
-                                        value={email}
-                                        size="small"
-                                        label="Email"
-                                        type="email"
-                                        placeholder={user?.email ?? "Email"}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <Button
-                                    type="submit"
-                                    id="custom-edit"
-                                    disabled={loading}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    color="info"
-                                    href="/"
-                                    id="custom-submit"
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    onClick={() => setDeleteDialog(user.id)}
-                                    id="custom-deletebtn"
-                                >
-                                    Delete
-                                </Button>
-                                <Dialog open={!!deleteDialog}>
-                                    <DialogTitle>Are you sure?</DialogTitle>
-                                    <DialogContent>
-                                        <Typography>
-                                            Do you want to delete this Account
-                                        </Typography>
-                                    </DialogContent>
-                                    <DialogActions
-                                        sx={{
-                                            display: !!deleteDialog
-                                                ? "flex"
-                                                : "none",
-                                        }}
+                                    <Typography
+                                        variant="h3"
+                                        sx={{ textAlign: "center" }}
                                     >
-                                        <Button
-                                            onClick={() =>
-                                                setDeleteDialog(null)
+                                        EDIT ACCOUNT
+                                    </Typography>
+                                    <Box sx={{ mt: 1 }}>
+                                        <TextField
+                                            size="small"
+                                            label="Username"
+                                            type="text"
+                                            onChange={(e) =>
+                                                setUsername(e.target.value)
                                             }
-                                        >
-                                            Cancel
-                                        </Button>
-                                        <Button
-                                            disabled={loading}
-                                            onClick={() =>
-                                                setDeletePermanentDialog(
-                                                    user.id
-                                                )
+                                            value={username}
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box sx={{ mt: 1 }}>
+                                        <TextField
+                                            onChange={(e) =>
+                                                setMobile(e.target.value)
                                             }
+                                            value={mobile}
+                                            size="small"
+                                            label="Mobile"
+                                            type="text"
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Box sx={{ mt: 1 }}>
+                                        <TextField
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            value={email}
+                                            size="small"
+                                            label="Email"
+                                            type="email"
+                                            fullWidth
+                                        />
+                                    </Box>
+                                    <Button
+                                        type="submit"
+                                        id="custom-edit"
+                                        disabled={loading}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        onClick={onHideEdit}
+                                        id="custom-submit"
+                                    >
+                                        Cancel Edit
+                                    </Button>
+                                    <Button
+                                        onClick={() => setDeleteDialog(user.id)}
+                                        id="custom-deletebtn"
+                                    >
+                                        Delete
+                                    </Button>
+                                    <Dialog open={!!deleteDialog}>
+                                        <DialogTitle>Are you sure?</DialogTitle>
+                                        <DialogContent>
+                                            <Typography>
+                                                Do you want to delete this
+                                                Account
+                                            </Typography>
+                                        </DialogContent>
+                                        <DialogActions
+                                            sx={{
+                                                display: !!deleteDialog
+                                                    ? "flex"
+                                                    : "none",
+                                            }}
                                         >
-                                            Confirm
-                                        </Button>
-                                        <Dialog open={!!deletePermanentDialog}>
-                                            <DialogTitle>
-                                                Terms and Conditions
-                                            </DialogTitle>
-                                            <DialogContent>
-                                                <Typography>
-                                                    By deleting this account,
-                                                    you acknowledge that it will
-                                                    no longer be possible to log
-                                                    in to this account once it
-                                                    is deleted.
-                                                </Typography>
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button
-                                                    disabled={loading}
-                                                    onClick={onDelete}
-                                                >
-                                                    Delete Permanently
-                                                </Button>
-                                            </DialogActions>
-                                        </Dialog>
-                                    </DialogActions>
-                                </Dialog>
+                                            <Button
+                                                onClick={() =>
+                                                    setDeleteDialog(null)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                disabled={loading}
+                                                onClick={() =>
+                                                    setDeletePermanentDialog(
+                                                        user.id
+                                                    )
+                                                }
+                                            >
+                                                Confirm
+                                            </Button>
+                                            <Dialog
+                                                open={!!deletePermanentDialog}
+                                            >
+                                                <DialogTitle>
+                                                    Terms and Conditions
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <Typography>
+                                                        By deleting this
+                                                        account, you acknowledge
+                                                        that it will no longer
+                                                        be possible to log in to
+                                                        this account once it is
+                                                        deleted.
+                                                    </Typography>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button
+                                                        disabled={loading}
+                                                        onClick={onDelete}
+                                                    >
+                                                        Delete Permanently
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </DialogActions>
+                                    </Dialog>
+                                </Box>
                             </Box>
-                        </Box>
+                        ) : (
+                            <Box
+                                className="d-flex justify-content-center align-items-center"
+                                style={{ height: "100vh" }}
+                            >
+                                <Box
+                                    id="custom-account"
+                                    sx={{
+                                        boxShadow: "0 0 10px black",
+                                        borderRadius: "10px",
+                                        width: "400px",
+                                        p: "20px",
+                                    }}
+                                >
+                                    <Typography
+                                        variant="h3"
+                                        sx={{ textAlign: "center" }}
+                                    >
+                                        MY ACCOUNT
+                                    </Typography>
+                                    <Box sx={{ mt: 1 }}>
+                                        <Typography className="text-black">
+                                            Name: {username}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ mt: 1 }}>
+                                        <Typography className="text-black">
+                                            Mobile: {mobile}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ mt: 1 }}>
+                                        <Typography className="text-black">
+                                            Email: {email}
+                                        </Typography>
+                                    </Box>
+                                    <Button
+                                        type="submit"
+                                        id="custom-edit"
+                                        onClick={onAppearEdit}
+                                    >
+                                        Edit Account
+                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        color="info"
+                                        href="/"
+                                        id="custom-submit"
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        onClick={() => setDeleteDialog(user.id)}
+                                        id="custom-deletebtn"
+                                    >
+                                        Delete
+                                    </Button>
+                                    <Dialog open={!!deleteDialog}>
+                                        <DialogTitle>Are you sure?</DialogTitle>
+                                        <DialogContent>
+                                            <Typography>
+                                                Do you want to delete this
+                                                Account
+                                            </Typography>
+                                        </DialogContent>
+                                        <DialogActions
+                                            sx={{
+                                                display: !!deleteDialog
+                                                    ? "flex"
+                                                    : "none",
+                                            }}
+                                        >
+                                            <Button
+                                                onClick={() =>
+                                                    setDeleteDialog(null)
+                                                }
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                disabled={loading}
+                                                onClick={() =>
+                                                    setDeletePermanentDialog(
+                                                        user.id
+                                                    )
+                                                }
+                                            >
+                                                Confirm
+                                            </Button>
+                                            <Dialog
+                                                open={!!deletePermanentDialog}
+                                            >
+                                                <DialogTitle>
+                                                    Terms and Conditions
+                                                </DialogTitle>
+                                                <DialogContent>
+                                                    <Typography>
+                                                        By deleting this
+                                                        account, you acknowledge
+                                                        that it will no longer
+                                                        be possible to log in to
+                                                        this account once it is
+                                                        deleted.
+                                                    </Typography>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button
+                                                        disabled={loading}
+                                                        onClick={onDelete}
+                                                    >
+                                                        Delete Permanently
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </DialogActions>
+                                    </Dialog>
+                                </Box>
+                            </Box>
+                        )}
                     </Box>
                 </Box>
             ) : (

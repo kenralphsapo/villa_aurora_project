@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PivotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -133,4 +134,8 @@ Route::prefix("testimonials")->group(function(){
 
     //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
     Route::delete("/{room}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
+});
+
+Route::prefix("pivot")->group(function(){
+    Route::get('/', [PivotController::class, 'getAllDataPivot']);
 });

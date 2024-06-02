@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
 import "./css/bootstrap-resort.css";
+import logo from "./images/logo.jpg";
 
 export default function Register() {
     const [warnings, setWarning] = useState({});
@@ -61,7 +62,7 @@ export default function Register() {
             id="bglogin"
             className="d-flex flex-column justify-content-center align-items-center"
         >
-            <Box sx={{}}>
+            <Box>
                 <Box
                     component="form"
                     onSubmit={onSubmit}
@@ -69,6 +70,7 @@ export default function Register() {
                 >
                     <Typography variant="h2" id="login-logo">
                         Register
+                        <img src={logo} alt="Logo" className="custom-logosm" />
                     </Typography>
                     <Box>
                         <TextField
@@ -168,6 +170,7 @@ export default function Register() {
                         </Typography>
                     </Box>
                 </Box>
+                <Box></Box>
             </Box>
         </Box>
     );

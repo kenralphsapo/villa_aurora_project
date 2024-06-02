@@ -89,7 +89,7 @@ class AuthController extends Controller
         // Fail message
         return response()->json([
             "ok"=>false,
-            "message"=>"Incorrect username or password",
+            "message"=>"Incorrect username or password, Please try again",
         ], 401);
 }
     /**

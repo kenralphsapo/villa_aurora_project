@@ -34,7 +34,10 @@ export default function Login() {
     };
 
     return (
-        <Box id="bglogin">
+        <Box
+            id="bglogin"
+            className="d-flex flex-column justify-content-center align-items-center"
+        >
             <img src={logo} alt="Logo" className="custom-logo" />
             <Typography variant="h1" id="custom-sign">
                 Sign in to Villa Aurora

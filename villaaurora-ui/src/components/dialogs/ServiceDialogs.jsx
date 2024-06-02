@@ -27,15 +27,31 @@ export function ServiceDialog() {
     const [createServDialog, setCreateServDialog] = useState(false);
     const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
     const [editServiceDialog, setEditServiceDialog] = useState(null);
+    const [warnings, setWarning] = useState({});
 
     const [loading, setLoading] = useState(false);
     // For Services
+
     const servicecolumns = [
         { field: "id", headerName: "ID" },
         { field: "name", headerName: "Service Name", width: 160 },
-        { field: "price", headerName: "Price" },
+        { field: "price", headerName: "Price", width: 160 },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
+        {
+            field: "image",
+            headerName: "Image",
+            sortable: false,
+            filterable: false,
+            renderCell: (params) => (
+                <img
+                    src={`data:image/jpeg;base64,${params.row.image}`}
+                    alt="Service Image"
+                    style={{ width: "100px", height: "100px" }}
+                />
+            ),
+            width: 200,
+        },
         {
             field: "actions",
             headerName: "",
@@ -86,10 +102,18 @@ export function ServiceDialog() {
     const onCreateService = (e) => {
         e.preventDefault();
         if (!loading) {
-            const body = {
-                name: $("#name").val(),
-                price: $("#price").val(),
-            };
+            const imageInput = $("#image")[0];
+            const imageFile = imageInput.files[0];
+
+            if (!imageFile) {
+                toast.error(res?.message ?? "There is no image insert.");
+                return;
+            }
+
+            const body = new FormData();
+            body.append("name", $("#name").val());
+            body.append("price", $("#price").val());
+            body.append("image", imageFile);
 
             addService(body)
                 .then((res) => {
@@ -101,6 +125,7 @@ export function ServiceDialog() {
                         SrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarning(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -173,10 +198,17 @@ export function ServiceDialog() {
             </Box>
             <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
             {/* Create Service */}
-            <Dialog open={!!createServDialog}>
+            <Dialog
+                open={!!createServDialog}
+                style={{ maxWidth: "400px", display: "block", margin: "auto" }}
+            >
                 <DialogTitle>Create Service Form</DialogTitle>
                 <DialogContent>
-                    <Box component="form" onSubmit={onCreateService}>
+                    <Box
+                        component="form"
+                        onSubmit={onCreateService}
+                        encType="multipart/form-data"
+                    >
                         <Box>
                             <TextField
                                 id="name"
@@ -186,6 +218,11 @@ export function ServiceDialog() {
                                 fullWidth
                                 required
                             />
+                            {warnings?.name ? (
+                                <Typography component="small" color="error">
+                                    {warnings.name}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -193,10 +230,29 @@ export function ServiceDialog() {
                                 label="Price"
                                 variant="outlined"
                                 margin="normal"
-                                type="number"
+                                type="tel"
                                 fullWidth
                                 required
                             />
+                            {warnings?.price ? (
+                                <Typography component="small" color="error">
+                                    {warnings.price}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"
+                                required
+                            />
+                            {warnings?.image ? (
+                                <Typography component="small" color="error">
+                                    {warnings.image}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box className="d-flex justify-content-center align-items-center">
                             <Button
@@ -242,7 +298,10 @@ export function ServiceDialog() {
             </Dialog>
 
             {/* Edit Service */}
-            <Dialog open={!!editServiceDialog}>
+            <Dialog
+                open={!!editServiceDialog}
+                style={{ maxWidth: "400px", display: "block", margin: "auto" }}
+            >
                 <DialogTitle>Edit Service</DialogTitle>
                 <DialogContent>
                     <Box
@@ -264,6 +323,11 @@ export function ServiceDialog() {
                                 type="text"
                                 fullWidth
                             />
+                            {warnings?.name ? (
+                                <Typography component="small" color="error">
+                                    {warnings.name}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box sx={{ mt: 1 }}>
                             <TextField
@@ -279,6 +343,11 @@ export function ServiceDialog() {
                                 type="number"
                                 fullWidth
                             />
+                            {warnings?.price ? (
+                                <Typography component="small" color="error">
+                                    {warnings.password}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Button
                             id="service-btn"

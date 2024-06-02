@@ -15,9 +15,9 @@
   Login              
 -----------------------------------------*/
 #bglogin {
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     height: 100vh;
     background-image: url(../images/bglogin.jpg);
     flex-direction: column;
@@ -47,35 +47,10 @@
     text-align: center;
 }
 
-.none1,
-.none2,
-.none3,
-.none4,
-.none5 {
-    display: none;
-}
-
-.appear1,
-.appear2,
-.appear3,
-.appear4,
-.appear5 {
-    display: block;
-}
-
-#circle {
-    border: 1px solid black;
-    border-radius: 50%;
-    padding: 1px 5px;
-}
-
 /*---------------------------------------
   CUSTOMIZATION for LOGIN, REGISTER,
    ADMIN and MYACCOUNT
 -----------------------------------------*/
-#custom-iframe {
-    height: 70vh;
-}
 
 #custom-colorup {
     background-color: #d6a354;
@@ -83,10 +58,10 @@
 
 #custom-deletebtn {
     float: right;
-    background-color: lightcoral;
+    background-color: #b92214;
     color: white;
     margin: 10px;
-    transition: all 1s ease-in;
+    transition: all 0.5s ease;
 }
 
 #custom-deletebtn:hover {
@@ -95,7 +70,7 @@
 }
 
 #custom-submit {
-    background-color: lightskyblue;
+    background-color: #2832c2;
     color: white;
     margin: 10px;
     transition: all 1s ease-in;
@@ -107,7 +82,7 @@
 }
 
 #custom-edit {
-    background-color: lightgreen;
+    background-color: #03c04a;
     color: white;
     margin: 10px;
     transition: all 1s ease-in;
@@ -169,6 +144,11 @@
     border-radius: 50%;
 }
 
+.custom-logosm {
+    width: 70px;
+    height: 70px;
+}
+
 #custom-header {
     font-size: 6rem;
     color: #fff;
@@ -220,10 +200,6 @@
     transition: all 0.3s ease;
     width: 400px;
     padding: 30px;
-}
-
-.input-container {
-    margin-bottom: 15px;
 }
 
 #submit-button {
@@ -285,6 +261,11 @@
     font-weight: bold;
     color: white;
     text-shadow: 0 0 10px gold;
+}
+
+.custom-width {
+    width: 400px;
+    border: 1px solid black;
 }
 
 /*---------------------------------------
@@ -614,6 +595,7 @@ strong {
     background: #d6a354;
     border-radius: 20px;
     transition: all 0.3s ease;
+    margin: 30px;
 }
 
 .custom-block-bg-overlay-wrap:hover {
@@ -837,6 +819,10 @@ strong {
     padding-top: 56.25%; /* 16:9 aspect ratio */
 }
 
+#custom-iframe {
+    height: 70vh;
+}
+
 .iframe-container iframe {
     position: absolute;
     top: 0;
@@ -886,11 +872,6 @@ strong {
     text-transform: uppercase;
     margin-top: 20px;
     margin-bottom: 10px;
-}
-
-.h-30 {
-    background-color: red;
-    height: 100px;
 }
 
 /*---------------------------------------
@@ -1065,10 +1046,6 @@ strong {
     }
 
     .close-btn {
-        /* background-color: red; */
-        /* float: inline-end;
-        padding: 1px 10px;
-        display: block; */
         position: fixed;
         right: 0;
         top: 0;
@@ -1077,6 +1054,10 @@ strong {
 
     #custom-iframe {
         height: 30vh;
+    }
+
+    .custom-block-bg-overlay-wrap {
+        margin: 0;
     }
 }
 
@@ -1136,13 +1117,11 @@ strong {
         margin-bottom: 20px;
     }
 
-    #bglogin {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     #custom-iframe {
         height: 30vh;
+    }
+
+    .custom-block-bg-overlay-wrap {
+        margin: 0;
     }
 }
