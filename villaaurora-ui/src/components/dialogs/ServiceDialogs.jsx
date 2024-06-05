@@ -45,7 +45,7 @@ export function ServiceDialog() {
             filterable: false,
             renderCell: (params) => (
                 <img
-                    src={`data:image/jpeg;base64,${params.row.image}`}
+                    src={params.row.image}
                     alt="Service Image"
                     style={{ width: "100px", height: "100px" }}
                 />

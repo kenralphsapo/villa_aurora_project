@@ -21,6 +21,7 @@ import "./css/bootstrap-resort.css";
 
 import { destroy, update } from "../api/user";
 import NotFound from "./NotFound";
+import { login } from "../api/auth";
 
 function Myaccout() {
     const user = useSelector((state) => state.auth.user);
@@ -29,7 +30,8 @@ function Myaccout() {
     const [username, setUsername] = useState("");
     const [mobile, setMobile] = useState("");
     const [email, setEmail] = useState("");
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
+
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [loading, setLoading] = useState(false);
 
     const [deleteDialog, setDeleteDialog] = useState(null);
@@ -56,7 +58,7 @@ function Myaccout() {
             ).then((res) => {
                 if (res?.ok) {
                     navigate("/");
-                    dispatch(updateUser(res.data));
+                    dispatch(login(res.data));
                     toast.success(res?.message ?? "Updated in successfully.");
                 } else {
                     toast.error(res?.message ?? "Something went wrong.");
@@ -74,7 +76,8 @@ function Myaccout() {
                         toast.success(res?.message ?? "Account has deleted");
                         setDeleteDialog(null);
                         navigate("/");
-                        dispatch(update(res.data));
+                        dispatch(login(res.data));
+                        removeCookie("AUTH_TOKEN");
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }

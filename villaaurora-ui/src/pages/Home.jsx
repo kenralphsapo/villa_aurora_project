@@ -36,6 +36,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showAllServices } from "../api/service";
 import { showAllRooms } from "../api/room";
 import Navigation from "../components/Navigation";
+import { login } from "../api/auth";
 
 function Home() {
     const user = useSelector((state) => state.auth.user);
@@ -77,7 +78,7 @@ function Home() {
         removeCookie("AUTH_TOKEN");
         toast.success(res?.message ?? "Logged out successfully.");
         navigate("/");
-        dispatch();
+        dispatch(login(res.data));
     };
 
     const [scrollVisible, setScrollVisible] = useState(false);
@@ -358,7 +359,8 @@ function Home() {
                                         >
                                             {service.image && (
                                                 <img
-                                                    src={`data:image/jpeg;base64,${service.image}`}
+                                                    src={service.image}
+                                                    alt="Service Image"
                                                     className="custom-block-bg-overlay-image"
                                                 />
                                             )}

@@ -58,34 +58,48 @@ class ServiceController extends Controller
      * GET: /api/services
      * @return \Illuminate\Http\Response
      */
+    // public function showAllServices()
+    // {
+    //     $services = Service::all();
+
+    //     foreach ($services as $service) {
+    //         $imagePath = public_path('images' . DIRECTORY_SEPARATOR . $service->image);
+
+    //         if (file_exists($imagePath)) {
+    //             $imageData = file_get_contents($imagePath);
+
+    //             if ($imageData !== false) {
+    //                 $base64Image = base64_encode($imageData);
+    //                 $service->image = $base64Image;
+    //             } else {
+    //                 $service->image = null;
+    //             }
+    //         } else {
+    //             $service->image = null;
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         "ok" => true,
+    //         "message" => "All services retrieved successfully!",
+    //         "data" => $services
+    //     ], 200);
+    // }
     public function showAllServices()
     {
         $services = Service::all();
-
+    
         foreach ($services as $service) {
-            $imagePath = public_path('images' . DIRECTORY_SEPARATOR . $service->image);
-
-            if (file_exists($imagePath)) {
-                $imageData = file_get_contents($imagePath);
-
-                if ($imageData !== false) {
-                    $base64Image = base64_encode($imageData);
-                    $service->image = $base64Image;
-                } else {
-                    $service->image = null;
-                }
-            } else {
-                $service->image = null;
-            }
+            $service->image = asset('images/' . $service->image);
         }
-
+    
         return response()->json([
             "ok" => true,
             "message" => "All services retrieved successfully!",
             "data" => $services
         ], 200);
     }
-
+    
 
     // public function showAllServices()
     // {
