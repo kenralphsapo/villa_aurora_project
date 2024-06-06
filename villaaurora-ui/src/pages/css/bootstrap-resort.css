@@ -112,29 +112,15 @@
     background-color: #379ae8;
 }
 
-#custom-navbar .custom-list {
-    text-decoration: none;
-    padding: 1px 10px;
+
+
+.custom-childnavbar{
+    display: flex;
+    justify-content: space-around;
 }
 
-.custom-list:hover {
-    background-color: #153554;
-}
-
-.custom-list:nth-child(1) {
-    background-color: #76b9ed;
-}
-
-.customback-color:hover {
-    background-color: #153554;
-}
-
-#custom-breakLine {
-    width: 100%;
-    display: block;
-    margin: auto;
-    height: 1px;
-    background-color: #a3a5a7;
+.custom-childnavbar div{
+    border-bottom: 2px solid white;
 }
 
 .custom-logo {
@@ -264,8 +250,9 @@
 }
 
 .custom-width {
-    width: 400px;
-    border: 1px solid black;
+    width: 800px;
+    margin: auto;
+    display: block;
 }
 
 /*---------------------------------------

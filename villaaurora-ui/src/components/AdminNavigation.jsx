@@ -59,7 +59,7 @@ const AdminNavigation = ({
     };
 
     return (
-        <Box>
+        <Box className="custom-childnavbar">
             <Link className="custom-list" to="/">
                 <Typography sx={{ m: 1, color: "white" }} id="home">
                     Home <FontAwesomeIcon icon={faHome} />

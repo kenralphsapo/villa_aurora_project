@@ -1,0 +1,46 @@
+    public function showAllServices(){
+        $services = Service::all();
+
+        foreach ($services as $service) {
+            $imagePath = public_path('images' . DIRECTORY_SEPARATOR . $service->image);
+
+            if (file_exists($imagePath)) {
+                $imageData = file_get_contents($imagePath);
+
+                if ($imageData !== false) {
+                    $base64Image = base64_encode($imageData);
+                    $service->image = $base64Image;
+                } else {
+                    $service->image = null;
+                }
+            } else {
+                $service->image = null;
+            }
+        }
+
+        return response()->json([
+            "ok" => true,
+            "message" => "All services retrieved successfully!",
+            "data" => $services
+        ], 200);
+    }
+
+
+     public function showAllServices(){
+        return response()->json([
+            "ok" => true,
+            "message" => "All Services has been retrieved",
+            "data" => Service::all()
+        ]);
+    }
+
+
+// Handle file upload
+//  if ($request->hasFile('image')) {
+//      $image = $request->file('image');
+//      $imageName = time() . '.' . $image->getClientOriginalExtension();
+//      $image->move(public_path('images'), $imageName);
+//      $validatedData = $validator->validated();
+//      $validatedData['image'] = $imageName;
+//  }
+// Handle file upload

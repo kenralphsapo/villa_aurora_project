@@ -58,33 +58,7 @@ class ServiceController extends Controller
      * GET: /api/services
      * @return \Illuminate\Http\Response
      */
-    // public function showAllServices()
-    // {
-    //     $services = Service::all();
 
-    //     foreach ($services as $service) {
-    //         $imagePath = public_path('images' . DIRECTORY_SEPARATOR . $service->image);
-
-    //         if (file_exists($imagePath)) {
-    //             $imageData = file_get_contents($imagePath);
-
-    //             if ($imageData !== false) {
-    //                 $base64Image = base64_encode($imageData);
-    //                 $service->image = $base64Image;
-    //             } else {
-    //                 $service->image = null;
-    //             }
-    //         } else {
-    //             $service->image = null;
-    //         }
-    //     }
-
-    //     return response()->json([
-    //         "ok" => true,
-    //         "message" => "All services retrieved successfully!",
-    //         "data" => $services
-    //     ], 200);
-    // }
     public function showAllServices()
     {
         $services = Service::all();
@@ -101,14 +75,7 @@ class ServiceController extends Controller
     }
     
 
-    // public function showAllServices()
-    // {
-    //     return response()->json([
-    //         "ok" => true,
-    //         "message" => "All Services has been retrieved",
-    //         "data" => Service::all()
-    //     ]);
-    // }
+   
 
 
 
@@ -136,12 +103,11 @@ class ServiceController extends Controller
      * @param Service
      * @return \Illuminate\Http\Response
      */
-
-    public function updateService(Request $request, Service $service)
-    {
+    public function updateService(Request $request, Service $service){
         $validator = validator($request->all(), [
             "name" => "sometimes|min:1|max:50|string",
-            "price" => "sometimes|min:1|max:100000|numeric"
+            "price" => "sometimes|min:1|max:100000|numeric",
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -152,15 +118,45 @@ class ServiceController extends Controller
             ], 400);
         }
 
-        // $service->update($request->only(['name', 'price']));
-        $service->update($validator->validated());
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = $image->getClientOriginalName(); // Use the original file name
+            $image->move(public_path('images'), $imageName);
+            $validatedData = $validator->validated();
+            $validatedData['image'] = $imageName;
+        }
+
+        $service->update($validatedData);
         return response()->json([
             "ok" => true,
             "message" => "Service has been updated!",
             "data" => $service
         ], 200);
-
     }
+
+    // public function updateService(Request $request, Service $service){
+    //     $validator = validator($request->all(), [
+    //         "name" => "sometimes|min:1|max:50|string",
+    //         "price" => "sometimes|min:1|max:100000|numeric"
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             "ok" => false,
+    //             "message" => "Service Update failed.",
+    //             "errors" => $validator->errors()
+    //         ], 400);
+    //     }
+
+    //     // $service->update($request->only(['name', 'price']));
+    //     $service->update($validator->validated());
+    //     return response()->json([
+    //         "ok" => true,
+    //         "message" => "Service has been updated!",
+    //         "data" => $service
+    //     ], 200);
+
+    // }
 
 
 
@@ -187,13 +183,3 @@ class ServiceController extends Controller
 
 
 }
-
-// Handle file upload
-//  if ($request->hasFile('image')) {
-//      $image = $request->file('image');
-//      $imageName = time() . '.' . $image->getClientOriginalExtension();
-//      $image->move(public_path('images'), $imageName);
-//      $validatedData = $validator->validated();
-//      $validatedData['image'] = $imageName;
-//  }
-// Handle file upload
