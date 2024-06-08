@@ -112,14 +112,12 @@
     background-color: #379ae8;
 }
 
-
-
-.custom-childnavbar{
+.custom-childnavbar {
     display: flex;
     justify-content: space-around;
 }
 
-.custom-childnavbar div{
+.custom-childnavbar div {
     border-bottom: 2px solid white;
 }
 
@@ -898,6 +896,28 @@ strong {
     display: block;
 }
 
+.sa {
+    display: flex;
+    justify-content: space-around;
+}
+
+#gon {
+    font-family: "Libre Baskerville", serif;
+}
+
+.re {
+    flex-direction: row-reverse;
+}
+
+.pad {
+    margin-left: 10px;
+}
+
+.profiledesign {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
 /*---------------------------------------
   RESPONSIVE STYLES               
 -----------------------------------------*/
@@ -1069,10 +1089,6 @@ strong {
         font-size: 30px;
         background-color: #d6a354;
         z-index: 999;
-    }
-
-    .arrow {
-        display: none;
     }
 
     #sidebarMenu {

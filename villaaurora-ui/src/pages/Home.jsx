@@ -705,19 +705,19 @@ function Home() {
 
                                     <Box className="price-list-thumb">
                                         <h6 className="custom-fontweight-bold">
-                                            10 hour stay: P3,000
+                                            10 hour stay: ......................................... P3,000
                                         </h6>
                                     </Box>
 
                                     <Box className="price-list-thumb">
                                         <h6 className="custom-fontweight-bold">
-                                            22 hours stay: P5,000
+                                            22 hours stay: ......................................... P5,000
                                         </h6>
                                     </Box>
                                 </Box>
                             </Box>
                             {/* ============================== */}
-                            <Box className="col-lg-4 col-12 custom-block-bg-overlay-wrap mt-5 mb-5 mb-lg-0 mt-lg-0 pt-3 pt-lg-0">
+                            <Box className="col-lg-3 col-12 custom-block-bg-overlay-wrap mt-5 mb-5 mb-lg-0 mt-lg-0 pt-3 pt-lg-0">
                                 <img
                                     src={balcony}
                                     className="custom-block-bg-overlay-image img-fluid"

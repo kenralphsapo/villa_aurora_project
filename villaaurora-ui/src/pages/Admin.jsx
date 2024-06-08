@@ -10,6 +10,7 @@ import { TransactionDialogs } from "../components/dialogs/TransactionDialogs";
 import { TestimonialDialogs } from "../components/dialogs/TestimonialDialogs";
 import AdminNavigation from "../components/AdminNavigation";
 import { UserDialogs } from "../components/dialogs/UserDialogs";
+import profile from "./images/profile.jpg";
 
 function Admin() {
     const user = useSelector((state) => state.auth.user);
@@ -34,10 +35,26 @@ function Admin() {
                 <Box id="custom-admin">
                     <Box>
                         <Box id="custom-navbar">
-                            <Typography variant="h3">
-                                Welcome{" "}
-                                {user?.username ?? "Wait, Who are you??"}
-                            </Typography>
+                            <Box className="sa">
+                                <Typography variant="h3" id="gon">
+                                    Villa Aurora
+                                </Typography>
+                                <Box className="sa re">
+                                    <img
+                                        src={profile}
+                                        alt="Default profile"
+                                        className="profiledesign pad"
+                                    />
+                                    <Typography
+                                        variant="h3"
+                                        style={{ textAlign: "right" }}
+                                    >
+                                        Welcome{" "}
+                                        {user?.username ??
+                                            "Wait, Who are you??"}
+                                    </Typography>
+                                </Box>
+                            </Box>
                             <AdminNavigation
                                 setTableVisible={setTableVisible}
                                 setServiceDialogVisible={

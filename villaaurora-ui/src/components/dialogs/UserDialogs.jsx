@@ -13,7 +13,13 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import checkAuth from "../../hoc/checkAuth";
+import {
+    faArrowUp,
+    faEnvelope,
+    faPhone,
+    faSun,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 

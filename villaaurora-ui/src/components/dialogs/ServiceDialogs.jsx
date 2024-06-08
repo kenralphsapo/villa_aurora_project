@@ -230,7 +230,6 @@ export function ServiceDialog() {
                                 label="Price"
                                 variant="outlined"
                                 margin="normal"
-                                type="tel"
                                 fullWidth
                                 required
                             />
