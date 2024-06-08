@@ -27,6 +27,7 @@ class UserController extends Controller
          "password" => "required|min:8|max:32|string|confirmed",
          "mobile" => "required|min:11|max:13|phone:PH",
          "email" => "required|email|max:64|unique:users",
+         "image" => "sometimes|min:0|string",
          "role" => "sometimes|in:guest,scheduler,admin"
      ]);
 
@@ -100,10 +101,11 @@ public function show(Request $request, User $user){
 
     public function update(Request $request, User $user){
     $validator = validator($request->all(), [
-        "username" => "sometimes|min:4|max:32|unique:users,username," . $user->id,
+        "username" => "sometimes|min:4|max:32|unique:users,username" . $user->id,
         "password" => "sometimes|min:8|max:32|string|confirmed",
         "mobile" => "sometimes|min:11|max:13|phone:PH",
-        "email" => "sometimes|email|max:64||unique:users,email," . $user->id,
+        "email" => "sometimes|email|max:64||unique:users,email" . $user->id,
+        "image" => "sometimes|min:0|string" . $user->id,
         "role" => "sometimes|in:guest,scheduler,admin"
     ]);
 
