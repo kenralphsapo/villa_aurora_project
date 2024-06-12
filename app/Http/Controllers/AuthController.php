@@ -19,8 +19,21 @@ class AuthController extends Controller
             "password" => "required|min:8|max:32|string|confirmed",
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
-            "role" => "sometimes|in:guest,scheduler,admin"
+            "role" => "sometimes|in:guest,scheduler,admin",
+            'profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+    
+        if ($request->hasFile('profile')) {
+            $image = $request->file('profile');
+            $imageName = $image->getClientOriginalName(); // Use the original file name
+            $image->move(public_path('images'), $imageName);
+        } else {
+            // Set default image path
+            $imageName = 'default.png';
+        }
+    
+        $validatedData = $validator->validated();
+        $validatedData['profile'] = $imageName;
     
         if($validator->fails()){
             return response()->json([
@@ -30,7 +43,7 @@ class AuthController extends Controller
             ], 400);
         }
     
-        $user = User::create($validator->validated());
+        $user = User::create($validatedData);
     
         if ($user->id == 1) {
             $user = User::find(1);
@@ -39,6 +52,9 @@ class AuthController extends Controller
         }
     
         $user->token = $user->createToken("registration_token")->accessToken;
+    
+        // Set the profile image URL using the asset() helper function
+        $user->image_url = asset('images/' . $imageName);
     
         return response()->json([
             "ok" => true,

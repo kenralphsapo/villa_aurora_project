@@ -705,13 +705,17 @@ function Home() {
 
                                     <Box className="price-list-thumb">
                                         <h6 className="custom-fontweight-bold">
-                                            10 hour stay: ......................................... P3,000
+                                            10 hour stay:
+                                            .........................................
+                                            P3,000
                                         </h6>
                                     </Box>
 
                                     <Box className="price-list-thumb">
                                         <h6 className="custom-fontweight-bold">
-                                            22 hours stay: ......................................... P5,000
+                                            22 hours stay:
+                                            .........................................
+                                            P5,000
                                         </h6>
                                     </Box>
                                 </Box>

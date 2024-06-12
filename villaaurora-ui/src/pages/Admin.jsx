@@ -15,12 +15,6 @@ import profile from "./images/profile.jpg";
 function Admin() {
     const user = useSelector((state) => state.auth.user);
 
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
-
-    /*if (user?.role !== "admin") {
-        return <NotFound />;
-    }*/
-
     const [showTableVisible, setTableVisible] = useState(true);
     const [isServiceDialogVisible, setServiceDialogVisible] = useState(false);
     const [isRoomDialogVisible, setRoomDialogVisible] = useState(false);
@@ -29,6 +23,9 @@ function Admin() {
     const [isTestimonialDialogVisible, setTestimonialDialogVisible] =
         useState(false);
 
+    /*if (user?.role !== "admin") {
+        return <NotFound />;
+    }*/
     return (
         <Box>
             {user?.role == "admin" ? (
