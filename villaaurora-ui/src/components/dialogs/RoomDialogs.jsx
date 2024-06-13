@@ -144,6 +144,11 @@ export function RoomDialog() {
                 });
         }
     };
+
+    const handlePriceInput = (e) => {
+        const value = e.target.value;
+        e.target.value = value.replace(/[^0-9]/g, "");
+    };
     return (
         <Box id="section3">
             <Box
@@ -177,16 +182,19 @@ export function RoomDialog() {
                                 required
                             />
                         </Box>
-                        <Box>
-                            <TextField
-                                id="price"
-                                label="Price"
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                required
-                            />
-                        </Box>
+                        <TextField
+                            id="price"
+                            label="Price"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required
+                            inputProps={{
+                                inputMode: "numeric",
+                                pattern: "[0-9]*",
+                            }}
+                            onInput={handlePriceInput}
+                        />
                         <Box className="d-flex justify-content-center align-items-center">
                             <Button
                                 color="info"

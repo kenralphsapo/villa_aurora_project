@@ -12,12 +12,16 @@ import {
     Select,
     TextField,
     Typography,
+    Tooltip,
+    IconButton,
 } from "@mui/material";
 import {
     faArrowUp,
+    faCheckCircle,
     faEnvelope,
     faPhone,
     faSun,
+    faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
@@ -41,6 +45,9 @@ export function UserDialogs() {
 
     const [rows, setRows] = useState([]);
     //For Users
+    const [data, setData] = useState([]); // Assuming you have data state
+    const [lastUpdatedTimes, setLastUpdatedTimes] = useState({}); // State to track last update times
+
     const columns = [
         { field: "id", headerName: "ID" },
         { field: "username", headerName: "Username", width: 150 },

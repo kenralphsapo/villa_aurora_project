@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegistrationConfirmation;
+use App\Models\SentEmailLog;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -13,55 +16,66 @@ class AuthController extends Controller
      * @param Request
      * @param \Illuminate\Http\Response
      */
-    public function register(Request $request){
-        $validator = validator($request->all(), [
-            "username" => "required|min:4|string|unique:users|max:32",
-            "password" => "required|min:8|max:32|string|confirmed",
-            "mobile" => "required|min:11|max:13|phone:PH",
-            "email" => "required|email|max:64|unique:users",
-            "role" => "sometimes|in:guest,scheduler,admin",
-            'profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-    
-        if ($request->hasFile('profile')) {
-            $image = $request->file('profile');
-            $imageName = $image->getClientOriginalName(); // Use the original file name
-            $image->move(public_path('images'), $imageName);
-        } else {
-            // Set default image path
-            $imageName = 'default.png';
-        }
-    
-        $validatedData = $validator->validated();
-        $validatedData['profile'] = $imageName;
-    
-        if($validator->fails()){
-            return response()->json([
-                "ok" => false,
-                "message" => "Request didn't pass the validation.",
-                "errors" => $validator->errors()
-            ], 400);
-        }
-    
-        $user = User::create($validatedData);
-    
-        if ($user->id == 1) {
-            $user = User::find(1);
-            $user->role = 'admin';
-            $user->save();
-        }
-    
-        $user->token = $user->createToken("registration_token")->accessToken;
-    
-        // Set the profile image URL using the asset() helper function
-        $user->image_url = asset('images/' . $imageName);
-    
+    public function register(Request $request)
+{
+    $validator = validator($request->all(), [
+        "username" => "required|min:4|string|unique:users|max:32",
+        "password" => "required|min:8|max:32|string|confirmed",
+        "mobile" => "required|min:11|max:13|phone:PH",
+        "email" => "required|email|max:64|unique:users",
+        "role" => "sometimes|in:guest,scheduler,admin",
+        'profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($validator->fails()) {
         return response()->json([
-            "ok" => true,
-            "message" => "Register Successfully!",
-            "data" => $user
-        ], 201);
+            "ok" => false,
+            "message" => "Request didn't pass the validation.",
+            "errors" => $validator->errors()
+        ], 400);
     }
+
+    if ($request->hasFile('profile')) {
+        $image = $request->file('profile');
+        $imageName = $image->getClientOriginalName(); // Use the original file name
+        $image->move(public_path('images'), $imageName);
+    } else {
+        // Set default image path
+        $imageName = 'default.png';
+    }
+
+    $validatedData = $validator->validated();
+    $validatedData['profile'] = $imageName;
+
+    $user = User::create($validatedData);
+
+    if ($user->id == 1) {
+        $user = User::find(1);
+        $user->role = 'admin';
+        $user->save();
+    }
+
+    $user->token = $user->createToken("registration_token")->accessToken;
+
+    // Set the profile image URL using the asset() helper function
+    $user->image_url = asset('images/' . $imageName);
+
+    Mail::to($user->email)->send(new RegistrationConfirmation($user));
+
+    SentEmailLog::create([
+        'user_id' => $user->id,
+        'recipient_email' => $user->email,
+        'sent_at' => now(),
+        'subject' => 'Registration Confirmation Email',
+    ]);
+
+    
+    return response()->json([
+        "ok" => true,
+        "message" => "Register Successfully!",
+        "data" => $user
+    ], 201);
+}
     
 
     public function login(Request $request){
