@@ -106,45 +106,20 @@ export default function ForgotPassword() {
             >
                 <Box
                     sx={{
-                        height: "300px",
-                        width: "500px",
+                        width: "400px",
                         boxShadow: "0 0 10px black",
                         padding: "10px",
                         borderRadius: "5px",
                     }}
                 >
                     <Box component="form">
-                        <Typography
-                            variant="h6"
-                            id="font-TimesRoman"
-                            sx={{
-                                borderBottom: "2px #b0b0b0 solid",
-                                paddingBottom: "10px",
-                                marginLeft: "10px",
-                            }}
-                        >
-                            Find your account
+                        <Typography>
+                        Forgot your password? No problem. Just let us know your email address and we will email you password reset link that will allow you to choose a new one.
                         </Typography>
-                        <Typography
-                            id="font-TimesRoman"
-                            sx={{
-                                fontSize: "20px",
-                                marginLeft: "10px",
-                                marginBottom: "10px",
-                            }}
-                        >
-                            Please enter your email to search for your account.
-                        </Typography>
+                        <Typography className="custom-green mt-2">We have emailed your password reset link!</Typography>
                         <TextField
                             type="text"
                             placeholder="Email"
-                            sx={{
-                                height: "50px",
-                                fontSize: "20px",
-                                margin: "auto",
-                                display: "block",
-                                mt: 5,
-                            }}
                             fullWidth
                         />
                         <Box
@@ -163,9 +138,8 @@ export default function ForgotPassword() {
                                     Cancel
                                 </Link>
                             </Button>
-                            <Button
-                                variant="contained"
-                                sx={{ marginLeft: "10px" }}
+                            <Button 
+                                sx={{ marginLeft: "10px",backgroundColor:'#4caf50',color:'white' }}
                             >
                                 Search
                             </Button>

@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Pivot; // Assuming you have a Pivot model
 
 class PivotController extends Controller
-{
+{    
+    /**
+     * getAllDataPivot
+     *
+     * @return void
+     */
     public function getAllDataPivot()
     {
         $data = Pivot::all();

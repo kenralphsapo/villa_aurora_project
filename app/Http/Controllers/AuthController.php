@@ -7,17 +7,18 @@ use App\Models\SentEmailLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+
     /**
-     * LOGIN
-     * POST: /api/login
-     * @param Request
-     * @param \Illuminate\Http\Response
+     * register
+     *
+     * @param  mixed $request
+     * @return void
      */
-    public function register(Request $request)
-{
+    public function register(Request $request){
     $validator = validator($request->all(), [
         "username" => "required|min:4|string|unique:users|max:32",
         "password" => "required|min:8|max:32|string|confirmed",
@@ -40,7 +41,6 @@ class AuthController extends Controller
         $imageName = $image->getClientOriginalName(); // Use the original file name
         $image->move(public_path('images'), $imageName);
     } else {
-        // Set default image path
         $imageName = 'default.png';
     }
 
@@ -49,18 +49,21 @@ class AuthController extends Controller
 
     $user = User::create($validatedData);
 
+    /*
     if ($user->id == 1) {
         $user = User::find(1);
         $user->role = 'admin';
         $user->save();
     }
+    */
 
     $user->token = $user->createToken("registration_token")->accessToken;
 
     // Set the profile image URL using the asset() helper function
     $user->image_url = asset('images/' . $imageName);
 
-    Mail::to($user->email)->send(new RegistrationConfirmation($user));
+    $mailTest = Mail::to($user->email)->send(new RegistrationConfirmation($user));
+    // Log::info($mailTest->getSymfonySentMessage());
 
     SentEmailLog::create([
         'user_id' => $user->id,
@@ -75,9 +78,15 @@ class AuthController extends Controller
         "message" => "Register Successfully!",
         "data" => $user
     ], 201);
-}
+    }
     
 
+    /**
+     * LOGIN
+     * POST: /api/login
+     * @param Request
+     * @param \Illuminate\Http\Response
+     */    
     public function login(Request $request){
         $validator = validator($request->all(), [
             'username'=>"required ",
@@ -105,16 +114,16 @@ class AuthController extends Controller
         ], 200);
     }
     
-    // if(auth()->attempt($validator->validated())){
-    //     $user=auth()->user();
-    //     $user->token = $user->createToken("api-token")->accessToken;
-    //     return response()->json([
-    //         "ok" => true,
-    //         "message" =>"Login Success",
-    //         "data" => $user
-    //     ], 200);
+    if(auth()->attempt($validator->validated())){
+        $user=auth()->user();
+        $user->token = $user->createToken("api-token")->accessToken;
+        return response()->json([
+            "ok" => true,
+            "message" =>"Login Success",
+            "data" => $user
+        ], 200);
         
-    //     }
+        }
         
         // Fail message
         return response()->json([

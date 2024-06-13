@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Service;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,26 +21,40 @@ class DatabaseSeeder extends Seeder
             'mobile' => '09296407470',
             'email' => 'admin@example.com',
             'role' => 'admin',
-            'profile' => 'default.png', // Assuming 'default.png' is stored in 'public/images'
+            'profile' => 'default.png',
         ]);
 
         // Create William User
         User::create([
             'username' => 'William',
-            'password' => Hash::make('123456789'), // Same password as Admin
+            'password' => Hash::make('123456789'), 
             'mobile' => '09984889752',
-            'email' => 'william@gmail.com', // Update email if needed
-            'role' => 'admin', // Same role as Admin
-            'profile' => 'default.png', // Assuming 'default.png' is stored in 'public/images'
+            'email' => 'william@gmail.com', 
+            'role' => 'admin', 
+            'profile' => 'default.png', 
         ]);
         
         User::create([
             'username' => 'Ken Sappo',
-            'password' => Hash::make('123456789'), // Same password as Admin
+            'password' => Hash::make('123456789'), 
             'mobile' => '09984889752',
-            'email' => 'kensappo@gmail.com', // Update email if needed
-            'role' => 'admin', // Same role as Admin
-            'profile' => 'default.png', // Assuming 'default.png' is stored in 'public/images'
+            'email' => 'kensappo@gmail.com', 
+            'role' => 'admin', 
+            'profile' => 'default.png',
         ]);
+
+        Service::create([
+            'name' => 'Birthday',
+            'price' => '2000.00', 
+            'image' => 'catering.jpg',
+        ]);
+
+        Service::create([
+            'name' => 'Wedding',
+            'price' => '2000.00', 
+            'image' => 'event.jpg',
+        ]);
+
+        
     }
 }

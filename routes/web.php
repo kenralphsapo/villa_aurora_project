@@ -5,10 +5,15 @@ use App\Http\Controllers\WebUserController;
 use App\Models\SentEmailLog;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use Illuminate\Support\Facades\Mail;
+use App\Mail\HelloMail;
 
+Route::get('/', function () {
+ 
+    return view('welcome');
+
+});
+//    Mail::to('adornadowilliam@gmail.com')->send(new HelloMail());
 
 //  get , put and post multi-function
 Route::resource("/user", WebUserController::class);

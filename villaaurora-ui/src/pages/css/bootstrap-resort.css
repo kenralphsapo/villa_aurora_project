@@ -4,20 +4,39 @@
 }
 
 /*---------------------------------------
+  Root/ Ugat ni Tuguro          
+-----------------------------------------*/
+
+:root {
+    --primary-color: #d6a354;
+
+    --secondary-color: #22c1c3;
+
+    --color-white: #ffffff;
+
+    --color-green: #4caf50;
+
+    --color-gray:#717275;
+
+    --color-black: #000000;
+
+    --color-red: #b22727;
+
+    --color-lightblue: #379ae8;
+}
+
+/*---------------------------------------
   NOT FOUND PAGE           
 -----------------------------------------*/
 
 #notfoundbg {
-    background-image: linear-gradient(rgb(73, 185, 223), aliceblue, white);
+    background-image: linear-gradient(#22c1c3, aliceblue, white);
 }
 
 /*---------------------------------------
   Login              
 -----------------------------------------*/
 #bglogin {
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
     height: 100vh;
     background-image: url(../images/bglogin.jpg);
     flex-direction: column;
@@ -51,39 +70,43 @@
   CUSTOMIZATION for LOGIN, REGISTER,
    ADMIN and MYACCOUNT
 -----------------------------------------*/
+.custom-green{
+    color: var(--color-green);
+}
+
 
 #custom-colorup {
-    background-color: #d6a354;
+    background-color: var(--primary-color);
 }
 
 #custom-deletebtn {
     float: right;
     background-color: #b92214;
-    color: white;
+    color: var(--color-white);
     margin: 10px;
     transition: all 0.5s ease;
 }
 
 #custom-deletebtn:hover {
     transition: all 1s ease-in;
-    background-color: #b22727;
+    background-color: var(--color-red);
 }
 
 #custom-submit {
     background-color: #2832c2;
-    color: white;
+    color: var(--color-white);
     margin: 10px;
     transition: all 1s ease-in;
 }
 
 #custom-submit:hover {
     transition: all 1s ease-in;
-    background-color: #379ae8;
+    background-color: var(--color-lightblue);
 }
 
 #custom-edit {
     background-color: #03c04a;
-    color: white;
+    color: var(--color-white);
     margin: 10px;
     transition: all 1s ease-in;
 }
@@ -96,8 +119,8 @@
 #customheader {
     text-wrap: wrap;
     font-weight: bold;
-    text-shadow: 0 0 10px #000000;
-    color: white;
+    text-shadow: 0 0 10px var(--color-black);
+    color: var(--color-white);
 }
 
 #custom-blue {
@@ -105,11 +128,11 @@
 }
 
 #custompass b {
-    color: #379ae8;
+    color: var(--color-lightblue);
 }
 
 #custom-navbar {
-    background-color: #379ae8;
+    background-color: var(--color-lightblue);
 }
 
 .custom-childnavbar {
@@ -118,13 +141,13 @@
 }
 
 .custom-childnavbar div {
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid var(--color-white);
 }
 
 .custom-logo {
     width: 100px;
     height: 100px;
-    box-shadow: 0 0 10px black;
+    box-shadow: 0 0 10px var(--color-black);
     border-radius: 50%;
 }
 
@@ -135,7 +158,7 @@
 
 #custom-header {
     font-size: 6rem;
-    color: #fff;
+    color: var(--color-white);
 }
 
 .custom-marginleft {
@@ -167,7 +190,7 @@
 }
 
 #btnchange {
-    background-color: #d6a354;
+    background-color: var(--primary-color);
     border-radius: 20px;
     width: 40px;
     margin-top: 10px;
@@ -178,7 +201,7 @@
 -----------------------------------------*/
 
 .login-form {
-    background-color: #ffffff;
+    background-color: var(--color-white);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -191,8 +214,8 @@
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #4caf50;
-    color: #ffffff;
+    background-color: var(--color-green);
+    color: var(--color-white);
     cursor: pointer;
     transition: all 0.3s ease;
     display: block;
@@ -217,7 +240,7 @@
 }
 
 .forgot-password #link {
-    color: #4caf50;
+    color: var(--color-green);
     text-decoration: none;
 }
 
@@ -227,7 +250,7 @@
 }
 
 .register-link #link {
-    color: #4caf50;
+    color: var(--color-green);
     text-decoration: none;
 }
 
@@ -243,7 +266,7 @@
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-weight: bold;
-    color: white;
+    color: var(--color-white);
     text-shadow: 0 0 10px gold;
 }
 
@@ -262,7 +285,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: #000000;
+    color: var(--color-black);
 }
 
 h1,
@@ -299,13 +322,13 @@ h6 {
 }
 
 p {
-    color: #717275;
+    color: var(--color-gray);
     font-size: 20px;
     font-weight: 300;
 }
 
 ul li {
-    color: #717275;
+    color: var(--color-gray);
     font-size: 20px;
     font-weight: 300;
 }
@@ -318,12 +341,12 @@ button {
 
 a {
     display: inline-block;
-    color: #d6a354;
+    color: var(--primary-color);
     text-decoration: none;
 }
 
 a:hover {
-    color: #b22727;
+    color: var(--color-red);
 }
 
 b,
@@ -345,7 +368,7 @@ strong {
 }
 
 .sidebar {
-    background: #d6a354;
+    background-color: var(--primary-color);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -366,7 +389,7 @@ strong {
 }
 
 .navbar {
-    background: transparent;
+    background-color: transparent;
     z-index: 9;
 }
 
@@ -377,7 +400,7 @@ strong {
 }
 
 #sidebarMenu .nav-link {
-    color: #000000;
+    color: var(--color-black);
     font-size: 20px;
     font-weight: 20px;
     text-transform: uppercase;
@@ -386,11 +409,11 @@ strong {
 
 #sidebarMenu .nav-link.active,
 #sidebarMenu .nav-link:hover {
-    color: #fff;
+    color: var(--color-white);
 }
 
 .navbar-toggler {
-    background: #d6a354;
+    background-color: var(--primary-color);
     border-radius: 100px;
     position: fixed;
     top: 0;
@@ -412,7 +435,7 @@ strong {
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-    background: transparent;
+    background-color: transparent;
 }
 
 .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:before,
@@ -433,8 +456,8 @@ strong {
 }
 
 .navbar-toggler .navbar-toggler-icon {
-    background: #fff;
-    transition: background 10ms 300ms ease;
+    background-color: var(--color-white);
+    transition: background-color 10ms 300ms ease;
     display: block;
     margin: auto;
     width: 25px;
@@ -451,7 +474,7 @@ strong {
     position: absolute;
     right: 0;
     left: 0;
-    background: white;
+    background-color: var(--color-white);
     width: 25px;
     height: 2px;
     content: "";
@@ -473,11 +496,11 @@ strong {
 }
 
 .section-bg {
-    background-color: #f0f8ff;
+    background-color: var(--color-white);
 }
 
 .section-overlay {
-    background-color: #000000;
+    background-color: var(--color-black);
     position: absolute;
     top: 0;
     left: 0;
@@ -509,7 +532,7 @@ strong {
     padding: 50px;
     padding-bottom: 0;
     min-height: 665px;
-    border-bottom: 15px solid #d6a354;
+    border-bottom: 15px solid var(--primary-color);
 }
 
 @media screen and (min-width: 991px) {
@@ -520,7 +543,7 @@ strong {
 
 .hero-section::after {
     content: "";
-    background: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
+    background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
     position: absolute;
     top: 0;
     right: 0;
@@ -535,7 +558,7 @@ strong {
 }
 
 .custom-block {
-    border: 10px solid #d6a354;
+    border: 10px solid var(--primary-color);
     border-radius: 100%;
     position: absolute;
     z-index: 2;
@@ -547,15 +570,15 @@ strong {
 }
 
 .custom-block .custom-btn {
-    background: #d6a354;
+    background-color: var(--primary-color);
 }
 
 .custom-block .custom-btn:hover {
-    background: #c12828;
+    background-color: #c12828;
 }
 
 .custom-block-image {
-    border: 10px solid #d6a354;
+    border: 10px solid var(--primary-color);
     border-radius: 100%;
     position: absolute;
     top: -60px;
@@ -568,7 +591,7 @@ strong {
 }
 
 #custom-text-big {
-    color: black;
+    color: var(--color-black);
     font-size: 20px;
     font-weight: 300;
 }
@@ -577,14 +600,14 @@ strong {
   CUSTOM BLOCK BACKGROUND OVERLAY               
 -----------------------------------------*/
 .custom-block-bg-overlay-wrap {
-    background: #d6a354;
+    background-color: var(--primary-color);
     border-radius: 20px;
     transition: all 0.3s ease;
     margin: 30px;
 }
 
 .custom-block-bg-overlay-wrap:hover {
-    background: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
+    background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
     transform: scale(1.05);
 }
 
@@ -605,10 +628,10 @@ strong {
   CUSTOM BUTTON               
 -----------------------------------------*/
 .custom-btn {
-    background: #c12828;
+    background-color: #c12828;
     border: 2px solid transparent;
     border-radius: 100px;
-    color: white;
+    color: var(--color-white);
     font-size: 16px;
     font-weight: 20px;
     line-height: normal;
@@ -617,19 +640,19 @@ strong {
 }
 
 .custom-btn:hover {
-    background: #fdbb2d;
-    color: white;
+    background-color: #fdbb2d;
+    color: var(--color-white);
 }
 
 .custom-border-btn {
-    background: transparent;
+    background-color: transparent;
     border: 2px solid #c12828;
     color: #c12828;
 }
 
 .custom-btn-bg-white {
-    border-color: #fff;
-    color: #fff;
+    border-color: var(--color-white);
+    color: var(--color-white);
 }
 
 .custom-btn-italic {
@@ -653,7 +676,7 @@ strong {
 }
 
 .team-info {
-    background: #fff;
+    background-color: var(--color-white);
     border-radius: 100px;
     position: absolute;
     bottom: 0;
@@ -681,11 +704,11 @@ strong {
 }
 
 .mockup-section p {
-    color: #fff;
+    color: var(--color-white);
 }
 
 .mockup-section strong {
-    background: #d6a354;
+    background-color: var(--primary-color);
     border-radius: 20px;
     display: inline-block;
     margin-top: 10px;
@@ -702,7 +725,7 @@ strong {
 }
 
 .features-thumb:hover .features-info {
-    border-color: #d6a354;
+    border-color: var(--primary-color);
     border-width: 5px;
 }
 
@@ -718,7 +741,7 @@ strong {
 }
 
 .features-thumb-price {
-    background: #d6a354;
+    background-color: var(--primary-color);
     border-radius: 20px;
     font-size: 14px;
     margin-left: auto;
@@ -727,7 +750,7 @@ strong {
 
 .features-info {
     border-radius: 20px;
-    border: 1px solid #fff;
+    border: 1px solid var(--color-white);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -739,7 +762,7 @@ strong {
 }
 
 .features-info h4 {
-    color: #fff;
+    color: var(--color-white);
 }
 
 /*---------------------------------------
@@ -754,7 +777,7 @@ strong {
 }
 
 .booking-form {
-    background: #fff;
+    background-color: var(--color-white);
     border-radius: 20px;
     padding: 65px;
 }
@@ -763,7 +786,7 @@ strong {
   CUSTOM FORM               
 -----------------------------------------*/
 .custom-form .form-control {
-    color: #717275;
+    color: var(--color-gray);
     margin-bottom: 24px;
     padding-top: 13px;
     padding-bottom: 13px;
@@ -773,15 +796,15 @@ strong {
 
 .custom-form .form-control:hover,
 .custom-form .form-control:focus {
-    background: #f0f8ff;
+    background-color: #f0f8ff;
     border-color: transparent;
 }
 
 .custom-form button[type="submit"] {
-    background: #c12828;
+    background-color: #c12828;
     border: none;
     border-radius: 100px;
-    color: #fff;
+    color: var(--color-white);
     font-size: 20px;
     font-weight: var(--font-weight-medium);
     transition: all 0.3s;
@@ -790,7 +813,7 @@ strong {
 
 .custom-form button[type="submit"]:hover,
 .custom-form button[type="submit"]:focus {
-    background: #fdbb2d;
+    background-color: #fdbb2d;
     border-color: transparent;
 }
 
@@ -822,14 +845,14 @@ strong {
 }
 
 .contact-block-wrap {
-    background: #22c1c3;
+    background-color: #22c1c3;
     border-radius: 20px;
     min-height: 200px;
     margin-top: 10px;
 }
 
 .contact-block {
-    background-color: #d6a354;
+    background-color: var(--primary-color);
     border-radius: 20px;
     transform: rotate(8deg);
     height: 100%;
@@ -841,7 +864,7 @@ strong {
 }
 
 .contact-block .custom-icon {
-    background: #22c1c3;
+    background-color: #22c1c3;
     border-radius: 100px;
     display: block;
     width: 50px;
@@ -853,7 +876,7 @@ strong {
 
 .contact-block strong {
     display: block;
-    color: #fff;
+    color: var(--color-white);
     text-transform: uppercase;
     margin-top: 20px;
     margin-bottom: 10px;
@@ -874,9 +897,9 @@ strong {
 }
 
 .social-icon-link {
-    background: #c12828;
+    background-color: #c12828;
     border-radius: 100px;
-    color: white;
+    color: var(--color-white);
     font-size: 14px;
     display: block;
     margin: 0 3px;
@@ -884,12 +907,12 @@ strong {
     width: 35px;
     height: 35px;
     line-height: 36px;
-    transition: background 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .social-icon-link:hover {
-    background: #d6a354;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--color-white);
 }
 
 .social-icon-link span {
@@ -966,7 +989,7 @@ strong {
     }
 
     .navbar {
-        background-color: #000000;
+        background-color: var(--color-black);
     }
 
     .navbar-expand-lg .navbar-nav {
@@ -982,7 +1005,7 @@ strong {
     }
 
     #custom-account {
-        box-shadow: 0 0 10px black;
+        box-shadow: 0 0 10px var(--color-black);
         max-width: 800px;
         padding: 10px;
     }
@@ -995,7 +1018,7 @@ strong {
         right: 0;
         left: 0;
         font-size: 30px;
-        background-color: #d6a354;
+        background-color: var(--primary-color);
         z-index: 999;
     }
 }
@@ -1007,7 +1030,7 @@ strong {
     }
 
     #sidebarMenu {
-        background-color: #d6a354;
+        background-color: var(--primary-color);
     }
 }
 
@@ -1049,7 +1072,7 @@ strong {
     }
 
     #sidebarMenu {
-        background-color: #d6a354;
+        background-color: var(--primary-color);
     }
 
     .close-btn {
@@ -1074,7 +1097,7 @@ strong {
     }
 
     #custom-account {
-        box-shadow: 0 0 10px black;
+        box-shadow: 0 0 10px var(--color-black);
         max-width: 300px;
         padding: 10px;
     }
@@ -1087,12 +1110,12 @@ strong {
         right: 0;
         left: 0;
         font-size: 30px;
-        background-color: #d6a354;
+        background-color: var(--primary-color);
         z-index: 999;
     }
 
     #sidebarMenu {
-        background-color: #d6a354;
+        background-color: var(--primary-color);
         width: 375px;
         height: 100vh;
     }
@@ -1105,9 +1128,9 @@ strong {
     }
 
     .login-form {
-        background-color: #ffffff;
+        background-color: var(--color-white);
         border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 20px var(--color-black);
         transition: all 0.3s ease;
         width: 300px;
         padding: 30px;
