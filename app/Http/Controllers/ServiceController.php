@@ -87,7 +87,7 @@ class ServiceController extends Controller
 
     public function updateService(Request $request, Service $service){
             $validator = validator($request->all(), [
-                "name" => "sometimes|min:1|max:50|string",
+                "name" => "sometimes|min:1|max:50|unique:services|string",
                 "price" => "sometimes|min:1|max:100000|numeric"
             ]);
         

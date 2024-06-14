@@ -89,7 +89,7 @@ class RoomController extends Controller
     public function updateRoom(Request $request, Room $room){
         $validator = validator($request->all(), [
 
-            "name" => "sometimes|min:1|max:50|string|max:50",
+            "name" => "sometimes|min:1|max:50|unique:rooms|string|max:50",
             "price" => "sometimes|min:1|max:100000|numeric" 
         ]);
 
