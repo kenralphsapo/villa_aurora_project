@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create Admin User
         User::create([
             'username' => 'Admin',
             'password' => Hash::make('123456789'),
@@ -24,7 +23,6 @@ class DatabaseSeeder extends Seeder
             'profile' => 'default.png',
         ]);
 
-        // Create William User
         User::create([
             'username' => 'William',
             'password' => Hash::make('123456789'), 
