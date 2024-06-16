@@ -33,7 +33,7 @@ function App() {
             element: <ForgotPassword />,
         },
         {
-            path: "/guest",
+            path: "/myaccount",
             element: <Myaccount />,
         },
         {

@@ -33,7 +33,7 @@ export function TestimonialDialogs() {
     // For Testimonials
     const testimonialcolumns = [
         { field: "id", headerName: "Transaction ID", width: 200 },
-        { field: "feedback", headerName: "Feedback", width: 200 },
+        { field: "feedback", headerName: "Feedback", width: 350 },
         { field: "rating", headerName: "Rating" },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },

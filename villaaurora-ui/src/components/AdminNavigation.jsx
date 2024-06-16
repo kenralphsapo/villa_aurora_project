@@ -59,34 +59,35 @@ const AdminNavigation = ({
     };
 
     return (
-        <Box className="custom-childnavbar">
-            <Link className="custom-list" to="/">
-                <Typography sx={{ m: 1, color: "white" }} id="home">
+        <Box className="" sx={{textAlign:'center'}}>
+            <Link  to="/">
+                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="home">
                     Home <FontAwesomeIcon icon={faHome} />
                 </Typography>
             </Link>
-            <Link className="custom-list" onClick={onUserNav}>
-                <Typography sx={{ m: 1, color: "white" }} id="usernav">
-                    Users <FontAwesomeIcon icon={faUser} />
+            <Link  onClick={onUserNav}>
+                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="usernav">
+                    Users 
+                    <FontAwesomeIcon icon={faUser} />
                 </Typography>
             </Link>
-            <Link className="custom-list" onClick={onServiceNav}>
-                <Typography sx={{ m: 1, color: "white" }} id="servicenav">
+            <Link  onClick={onServiceNav}>
+                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="servicenav">
                     Services <FontAwesomeIcon icon={faBriefcase} />
                 </Typography>
             </Link>
-            <Link className="custom-list" onClick={onRoomNav}>
-                <Typography sx={{ m: 1, color: "white" }} id="roomnav">
+            <Link onClick={onRoomNav}>
+                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="roomnav">
                     Rooms <FontAwesomeIcon icon={faBed} />
                 </Typography>
             </Link>
-            <Link className="custom-list" onClick={onTransactionNav}>
-                <Typography sx={{ m: 1, color: "white" }} id="transactionnav">
+            <Link  onClick={onTransactionNav}>
+                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="transactionnav">
                     Transactions <FontAwesomeIcon icon={faReceipt} />
                 </Typography>
             </Link>
-            <Link className="custom-list" onClick={onTestimonialNav}>
-                <Typography sx={{ m: 1, color: "white" }} id="testimonialnav">
+            <Link  onClick={onTestimonialNav}>
+                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="testimonialnav">
                     Testimonials <FontAwesomeIcon icon={faComment} />
                 </Typography>
             </Link>

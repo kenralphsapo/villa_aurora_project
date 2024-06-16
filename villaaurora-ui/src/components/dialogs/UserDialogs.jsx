@@ -12,18 +12,8 @@ import {
     Select,
     TextField,
     Typography,
-    Tooltip,
-    IconButton,
 } from "@mui/material";
-import {
-    faArrowUp,
-    faCheckCircle,
-    faEnvelope,
-    faPhone,
-    faSun,
-    faTimesCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 
@@ -32,6 +22,8 @@ import $ from "jquery";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { destroy, index, store, update } from "../../api/user";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export function UserDialogs() {
     const user = useSelector((state) => state.auth.user);
@@ -44,15 +36,12 @@ export function UserDialogs() {
     const [cookies] = useCookies(["AUTH_TOKEN"]);
 
     const [rows, setRows] = useState([]);
-    //For Users
-    const [data, setData] = useState([]); // Assuming you have data state
-    const [lastUpdatedTimes, setLastUpdatedTimes] = useState({}); // State to track last update times
 
     const columns = [
         { field: "id", headerName: "ID" },
         { field: "username", headerName: "Username", width: 150 },
         { field: "mobile", headerName: "Mobile", width: 150 },
-        { field: "email", headerName: "Email", width: 150 },
+        { field: "email", headerName: "Email", width: 100 },
         { field: "role", headerName: "Role" },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
@@ -88,20 +77,9 @@ export function UserDialogs() {
                 </Box>
             ),
             width: 200,
-        },
+        }
     ];
 
-    const refreshData = () => {
-        index(cookies.AUTH_TOKEN).then((res) => {
-            if (res?.ok) {
-                setRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    useEffect(refreshData, []);
 
     const onCreate = (e) => {
         e.preventDefault();
@@ -133,6 +111,20 @@ export function UserDialogs() {
                 });
         }
     };
+
+    const refreshData = () => {
+        index(cookies.AUTH_TOKEN).then((res) => {
+            if (res?.ok) {
+                setRows(res.data);
+            } else {
+                toast.error(res?.message ?? "Something went wrong.");
+            }
+        });
+    };
+
+    useEffect(() => {
+        refreshData();
+    }, []);
 
     const onDelete = (e) => {
         if (!loading) {
@@ -182,18 +174,19 @@ export function UserDialogs() {
                 });
         }
     };
+    
     return (
         <Box sx={{ mt: 2 }} id="section1">
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     py: 2,
                 }}
             >
                 <Typography variant="h2">Users</Typography>
                 <Button sx={{ mr: 5 }} onClick={() => setCreateDialog(true)}>
-                    Create User
+                <FontAwesomeIcon icon={faAdd} className=""/>
                 </Button>
             </Box>
             <DataGrid autoHeight columns={columns} rows={rows} />

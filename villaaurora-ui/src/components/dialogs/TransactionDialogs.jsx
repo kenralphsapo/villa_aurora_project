@@ -39,7 +39,7 @@ export function TransactionDialogs() {
         { field: "id", headerName: "ID" },
         { field: "user_id", headerName: "User ID" },
         { field: "room_id", headerName: "Room ID" },
-        { field: "rent_start", headerName: "Rent Start", width: 100 },
+        { field: "rent_start", headerName: "Rent Start", width: 200 },
         { field: "rent_end", headerName: "Rent End", width: 160 },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },

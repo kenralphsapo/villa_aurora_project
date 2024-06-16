@@ -22,15 +22,14 @@ import $ from "jquery";
 import { toast } from "react-toastify";
 
 export function ServiceDialog() {
-    // For Services
     const [serviceRows, setServiceRows] = useState([]);
+
     const [createServDialog, setCreateServDialog] = useState(false);
     const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
     const [editServiceDialog, setEditServiceDialog] = useState(null);
+    
     const [warnings, setWarning] = useState({});
-
     const [loading, setLoading] = useState(false);
-    // For Services
 
     const servicecolumns = [
         { field: "id", headerName: "ID" },

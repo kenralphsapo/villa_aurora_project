@@ -23,6 +23,8 @@
     --color-red: #b22727;
 
     --color-lightblue: #379ae8;
+
+    --color-darkblue: #2832c2;
 }
 
 /*---------------------------------------
@@ -31,6 +33,16 @@
 
 #notfoundbg {
     background-image: linear-gradient(#22c1c3, aliceblue, white);
+    height: 100vh;
+}
+
+#notfoundbg .btn{
+    background-color: var(--color-lightblue);
+    color: var(--color-white);
+}
+
+#notfoundbg .btn:hover{
+    background-color: var(--color-darkblue);
 }
 
 /*---------------------------------------
@@ -70,12 +82,29 @@
   CUSTOMIZATION for LOGIN, REGISTER,
    ADMIN and MYACCOUNT
 -----------------------------------------*/
-.custom-green{
+.forgotpassword-text{
     color: var(--color-green);
 }
 
+#forgotpassword-btn{
+    background-color: var(--color-green);
+    margin-left: 10px;
+    color: var(--color-white);
+}
 
-#custom-colorup {
+
+
+#custom-admin{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    width: 100vw;
+    overflow: hidden;
+}
+
+
+#custom-arrowupbtn {
+    color: var(--color-white);
+    z-index: 10;
     background-color: var(--primary-color);
 }
 
@@ -92,20 +121,20 @@
     background-color: var(--color-red);
 }
 
-#custom-submit {
-    background-color: #2832c2;
+#custom-cancelbtn {
+    background-color: var(--color-darkblue);
     color: var(--color-white);
     margin: 10px;
     transition: all 1s ease-in;
 }
 
-#custom-submit:hover {
+#custom-cancelbtn:hover {
     transition: all 1s ease-in;
     background-color: var(--color-lightblue);
 }
 
 #custom-edit {
-    background-color: #03c04a;
+    background-color: var(--color-green);
     color: var(--color-white);
     margin: 10px;
     transition: all 1s ease-in;
@@ -124,7 +153,7 @@
 }
 
 #custom-blue {
-    color: #3799e8;
+    color: var(--color-lightblue);
 }
 
 #custompass b {
@@ -133,16 +162,10 @@
 
 #custom-navbar {
     background-color: var(--color-lightblue);
+    width: 100%;
+ 
 }
 
-.custom-childnavbar {
-    display: flex;
-    justify-content: space-around;
-}
-
-.custom-childnavbar div {
-    border-bottom: 2px solid var(--color-white);
-}
 
 .custom-logo {
     width: 100px;
@@ -195,6 +218,7 @@
     width: 40px;
     margin-top: 10px;
 }
+
 
 /*---------------------------------------
   Login and Register UI 
@@ -258,22 +282,10 @@
     text-decoration: underline;
 }
 
-#custom-sign {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+.signup{
     font-weight: bold;
     color: var(--color-white);
     text-shadow: 0 0 10px gold;
-}
-
-.custom-width {
-    width: 800px;
-    margin: auto;
-    display: block;
 }
 
 /*---------------------------------------
@@ -919,28 +931,9 @@ strong {
     display: block;
 }
 
-.sa {
-    display: flex;
-    justify-content: space-around;
-}
 
-#gon {
-    font-family: "Libre Baskerville", serif;
-}
 
-.re {
-    flex-direction: row-reverse;
-}
 
-.pad {
-    margin-left: 10px;
-}
-
-.profiledesign {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-}
 /*---------------------------------------
   RESPONSIVE STYLES               
 -----------------------------------------*/

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import checkAuth from "../hoc/checkAuth";
 import { useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
 import NotFound from "./NotFound";
 import { ServiceDialog } from "../components/dialogs/ServiceDialogs";
 import { RoomDialog } from "../components/dialogs/RoomDialogs";
@@ -10,7 +9,6 @@ import { TransactionDialogs } from "../components/dialogs/TransactionDialogs";
 import { TestimonialDialogs } from "../components/dialogs/TestimonialDialogs";
 import AdminNavigation from "../components/AdminNavigation";
 import { UserDialogs } from "../components/dialogs/UserDialogs";
-import profile from "./images/profile.jpg";
 
 function Admin() {
     const user = useSelector((state) => state.auth.user);
@@ -28,23 +26,18 @@ function Admin() {
     }*/
     return (
         <Box>
-            {user?.role == "admin" ? (
+                {user?.role == "admin" ? (
                 <Box id="custom-admin">
                     <Box>
-                        <Box id="custom-navbar">
-                            <Box className="sa">
-                                <Typography variant="h3" id="gon">
+                        <Box id="" sx={{background:'#d6a354', width:'150px',height:'100vh', display:'flex',justifyContent:'center',alignItems:'center', flexDirection:'column', textAlign:'center', flexWrap:"wrap"}}>
+                            <Box className="">
+                                <Typography variant="h4" id="">
                                     Villa Aurora
                                 </Typography>
-                                <Box className="sa re">
-                                    <img
-                                        src={profile}
-                                        alt="Default profile"
-                                        className="profiledesign pad"
-                                    />
+
+                                <Box className="">
                                     <Typography
-                                        variant="h3"
-                                        style={{ textAlign: "right" }}
+                                        variant="h6"
                                     >
                                         Welcome{" "}
                                         {user?.username ??
@@ -68,7 +61,7 @@ function Admin() {
                         </Box>
                     </Box>
                     <Box>
-                        <Box id="table">
+                        <Box className="table">
                             {showTableVisible ? <UserDialogs /> : null}
                             {isServiceDialogVisible ? <ServiceDialog /> : null}
                             {isRoomDialogVisible ? <RoomDialog /> : null}
@@ -81,7 +74,7 @@ function Admin() {
                         </Box>
                     </Box>
                 </Box>
-            ) : (
+              ) : (
                 <NotFound />
             )}
         </Box>

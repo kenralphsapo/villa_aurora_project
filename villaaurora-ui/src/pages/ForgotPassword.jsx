@@ -43,7 +43,7 @@ export default function ForgotPassword() {
         <Box>
             <AppBar
                 position="static"
-                sx={{ boxShadow: "0 0 10px black", padding: "2px 10px" }}
+                sx={{ boxShadow: "0 0 10px black", padding: "2px 10px", background:'#d6a354' }}
             >
                 <Toolbar
                     sx={{
@@ -84,9 +84,7 @@ export default function ForgotPassword() {
                         </Box>
                         <Box>
                             <Button
-                                variant="contained"
-                                sx={{ marginLeft: "10px" }}
-                                color="success"
+                                id="forgotpassword-btn"
                                 type="submit"
                             >
                                 Login
@@ -116,7 +114,7 @@ export default function ForgotPassword() {
                         <Typography>
                         Forgot your password? No problem. Just let us know your email address and we will email you password reset link that will allow you to choose a new one.
                         </Typography>
-                        <Typography className="custom-green mt-2">We have emailed your password reset link!</Typography>
+                        <Typography className="forgotpassword-text mt-2">We have emailed your password reset link!</Typography>
                         <TextField
                             type="text"
                             placeholder="Email"
@@ -133,13 +131,13 @@ export default function ForgotPassword() {
                             <Button variant="contained">
                                 <Link
                                     to="/login"
-                                    className="text-white text-decoration-none"
+                                    className="text-white text-decoration-none ml-1"
                                 >
                                     Cancel
                                 </Link>
                             </Button>
                             <Button 
-                                sx={{ marginLeft: "10px",backgroundColor:'#4caf50',color:'white' }}
+                            id="forgotpassword-btn"
                             >
                                 Search
                             </Button>

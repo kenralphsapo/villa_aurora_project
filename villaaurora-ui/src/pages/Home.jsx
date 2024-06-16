@@ -118,6 +118,15 @@ function Home() {
         setDrawerOpen(!drawerOpen);
     };
 
+    const [username, setUsername] = useState("");
+    useEffect(() => {
+        setUsername(user?.username);
+    }, [user]);
+
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value);
+    };
+
     return (
         <Box id="homebg">
             <Box className="row">
@@ -255,11 +264,9 @@ function Home() {
                         position: "fixed",
                         bottom: "20px",
                         right: "20px",
-                        zIndex: "999",
-                        color: "white",
                         display: scrollVisible ? "block" : "none",
                     }}
-                    id="custom-colorup"
+                    id="custom-arrowupbtn"
                     onClick={handleScrollToTop}
                 >
                     <FontAwesomeIcon icon={faArrowUp} />
@@ -282,22 +289,14 @@ function Home() {
 
                                 <a
                                     href="#section_2"
-                                    className="custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2"
-                                    style={{
-                                        textDecoration: "none",
-                                        fontSize: "20px",
-                                    }}
+                                    className="custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2 fs-5 text-decoration-none"
                                 >
                                     About Us
                                 </a>
 
                                 <a
                                     href="#section_3"
-                                    className="custom-btn smoothscroll mb-2"
-                                    style={{
-                                        textDecoration: "none",
-                                        fontSize: "20px",
-                                    }}
+                                    className="custom-btn smoothscroll mb-2 fs-5 text-decoration-none"
                                 >
                                     What we have
                                 </a>
@@ -337,7 +336,7 @@ function Home() {
 
                                 <Box className="border-bottom pb-3 mb-5">
                                     <p>
-                                        Perfect place for you to
+                                        Perfect place for you to{" "}
                                         <strong>
                                             rest, relax, recharge, and enjoy!
                                         </strong>
@@ -426,6 +425,7 @@ function Home() {
                                 <a
                                     href="https://www.facebook.com/VAPRII/"
                                     className="trans-scale text-white"
+                                    target="_blank"
                                 >
                                     <strong className="text-black">
                                         For inquiries, please check our Facebook
@@ -547,8 +547,9 @@ function Home() {
                                                         fullWidth
                                                         required
                                                         value={
-                                                            user?.username || ""
+                                                            username
                                                         }
+                                                        onChange={handleUsernameChange}
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} lg={6}>
@@ -597,10 +598,7 @@ function Home() {
                                                     item
                                                     xs={12}
                                                     lg={6}
-                                                    style={{
-                                                        marginBottom: "10px",
-                                                        marginTop: "5px",
-                                                    }}
+                                                    className="mb-2 mt-1"
                                                 >
                                                     <Autocomplete
                                                         options={serviceRows.map(

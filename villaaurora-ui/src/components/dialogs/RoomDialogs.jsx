@@ -26,9 +26,9 @@ export function RoomDialog() {
     const [loading, setLoading] = useState(false);
     // For Rooms
     const roomcolumns = [
-        { field: "id", headerName: "ID" },
-        { field: "name", headerName: "Room Name", width: 160 },
-        { field: "price", headerName: "Room Price" },
+        { field: "id", headerName: "ID", width:100 },
+        { field: "name", headerName: "Room Name", width: 200 },
+        { field: "price", headerName: "Room Price", width: 200  },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
         {
@@ -62,7 +62,7 @@ export function RoomDialog() {
                     </Button>
                 </Box>
             ),
-            width: 200,
+            width: 350,
         },
     ];
 
@@ -149,6 +149,7 @@ export function RoomDialog() {
         const value = e.target.value;
         e.target.value = value.replace(/[^0-9]/g, "");
     };
+    
     return (
         <Box id="section3">
             <Box
