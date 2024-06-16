@@ -39,7 +39,7 @@ export default function Login() {
             className="d-flex flex-column justify-content-center align-items-center"
         >
             <img src={logo} alt="Logo" className="custom-logo" />
-            <Typography variant="h1"className="signup">
+            <Typography className="signup" variant="h3">
                 Sign in to Villa Aurora
             </Typography>
             <Box component="form" onSubmit={onSubmit} className="login-form">

@@ -43,27 +43,21 @@ export default function ForgotPassword() {
         <Box>
             <AppBar
                 position="static"
-                sx={{ boxShadow: "0 0 10px black", padding: "2px 10px", background:'#d6a354' }}
+                sx={{
+                    boxShadow: "0 0 10px black",
+                    padding: "2px 10px",
+                    background: "#d6a354",
+                }}
             >
                 <Toolbar
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
+                    className="d-flex justify-content-between align-items-center"
                     component="form"
                     onSubmit={onSubmit}
                 >
                     <Typography variant="h6" sx={{ color: "white" }}>
                         Villa Aurora Private Resort
                     </Typography>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                            alignItems: "center",
-                        }}
-                    >
+                    <Box className="d-flex justify-content-around align-items-center">
                         <Box sx={{ marginLeft: "10px" }}>
                             <TextField
                                 type="text"
@@ -73,20 +67,17 @@ export default function ForgotPassword() {
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </Box>
-                        <Box sx={{ marginLeft: "10px" }}>
+                        <Box >
                             <TextField
                                 type="password"
                                 value={password}
                                 placeholder="Password"
-                                sx={{ backgroundColor: "white" }}
+                                className="m1-1 bg-white"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </Box>
                         <Box>
-                            <Button
-                                id="forgotpassword-btn"
-                                type="submit"
-                            >
+                            <Button id="forgotpassword-btn" type="submit">
                                 Login
                             </Button>
                         </Box>
@@ -112,14 +103,14 @@ export default function ForgotPassword() {
                 >
                     <Box component="form">
                         <Typography>
-                        Forgot your password? No problem. Just let us know your email address and we will email you password reset link that will allow you to choose a new one.
+                            Forgot your password? No problem. Just let us know
+                            your email address and we will email you password
+                            reset link that will allow you to choose a new one.
                         </Typography>
-                        <Typography className="forgotpassword-text mt-2">We have emailed your password reset link!</Typography>
-                        <TextField
-                            type="text"
-                            placeholder="Email"
-                            fullWidth
-                        />
+                        <Typography className="forgotpassword-text mt-2">
+                            We have emailed your password reset link!
+                        </Typography>
+                        <TextField type="text" placeholder="Email" fullWidth />
                         <Box
                             sx={{
                                 display: "flex",
@@ -136,11 +127,7 @@ export default function ForgotPassword() {
                                     Cancel
                                 </Link>
                             </Button>
-                            <Button 
-                            id="forgotpassword-btn"
-                            >
-                                Search
-                            </Button>
+                            <Button id="forgotpassword-btn">Search</Button>
                         </Box>
                     </Box>
                 </Box>

@@ -286,6 +286,7 @@
     font-weight: bold;
     color: var(--color-white);
     text-shadow: 0 0 10px gold;
+    text-align: center;
 }
 
 /*---------------------------------------
