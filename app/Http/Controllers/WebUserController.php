@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class WebUserController extends Controller
 {
@@ -39,21 +38,20 @@ class WebUserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'username' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|min:8',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
 
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $this->user->create($request->all());
+        return redirect()->back()->with('success', 'Registration successful!');
     }
-
-    $this->user->create($request->all());
-    return redirect()->back()->with('success', 'Registration successful!');
-}
-
 
     /**
      * Display the specified resource.
@@ -91,14 +89,13 @@ class WebUserController extends Controller
         $user->delete();
         return redirect('user');
     }
+    
     public function home()
-   {
-       return view('resvilla.home');
-   }
-  
+    {
+        return view('resvilla.home');
+    }
 
-
-   public function register()
+    public function register()
     {
         return view("register");
     }
@@ -138,28 +135,22 @@ class WebUserController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-    
+
         $credentials = [
             'username' => $request->username,
             'password' => $request->password,
         ];
-    
+
         if (Auth::attempt($credentials)) {
             // Authentication passed
             return redirect('/home')->with('success', 'Login successful');
         }
-    
+
         return back()->with('error', 'Username or Password wrong');
     }
-    
-
-    
-
 
 }
- 
-

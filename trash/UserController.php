@@ -67,13 +67,21 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index(Request $request)
+    public function index()
     {
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $user->profile = asset('images/' . $user->profile);
+        }
+
         return response()->json([
             "ok" => true,
             "message" => "User info has been retrieved",
-            "data" => User::all(),
+            "data" => $users
         ], 200);
+
+       
     }
 
    

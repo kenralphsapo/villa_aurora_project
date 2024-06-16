@@ -28,10 +28,9 @@ class ServiceController extends Controller
             return response()->json([
                 "ok" => false,
                 "message" => "Service Creation failed.",
-                "errors" => $validator->errors()
+                "errors" => $validator->errors(),
             ], 400);
         }
-
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -46,12 +45,9 @@ class ServiceController extends Controller
         return response()->json([
             "ok" => true,
             "message" => "Service has been created!",
-            "data" => $service
+            "data" => $service,
         ], 201);
     }
-
-
-
 
     /**
      * RETRIEVE all services
@@ -62,22 +58,17 @@ class ServiceController extends Controller
     public function showAllServices()
     {
         $services = Service::all();
-    
+
         foreach ($services as $service) {
             $service->image = asset('images/' . $service->image);
         }
-    
+
         return response()->json([
             "ok" => true,
             "message" => "All services retrieved successfully!",
-            "data" => $services
+            "data" => $services,
         ], 200);
     }
-    
-
-   
-
-
 
     //Retrieve specific service using ID
     /**
@@ -86,16 +77,14 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
     public function showService(Service $service)
     {
         return response()->json([
             "ok" => true,
             "message" => "Service has been retrieved.",
-            "data" => $service
+            "data" => $service,
         ]);
     }
-
 
     /**
      * PATCH: /api/services/{service}
@@ -103,7 +92,8 @@ class ServiceController extends Controller
      * @param Service
      * @return \Illuminate\Http\Response
      */
-    public function updateService(Request $request, Service $service){
+    public function updateService(Request $request, Service $service)
+    {
         $validator = validator($request->all(), [
             "name" => "sometimes|min:1|max:50|string",
             "price" => "sometimes|min:1|max:100000|numeric",
@@ -114,7 +104,7 @@ class ServiceController extends Controller
             return response()->json([
                 "ok" => false,
                 "message" => "Service Update failed.",
-                "errors" => $validator->errors()
+                "errors" => $validator->errors(),
             ], 400);
         }
 
@@ -130,7 +120,7 @@ class ServiceController extends Controller
         return response()->json([
             "ok" => true,
             "message" => "Service has been updated!",
-            "data" => $service
+            "data" => $service,
         ], 200);
     }
 
@@ -157,17 +147,13 @@ class ServiceController extends Controller
     //     ], 200);
 
     // }
-
-
-
-
-    //DELETE specific user using ID
+    
     /**
+     * DELETE specific user using ID
      * GET: /api/services/{service}
      * @param Service
      * @return \Illuminate\Http\Response
      */
-
 
     public function deleteService(Service $service)
     {
@@ -175,11 +161,8 @@ class ServiceController extends Controller
         return response()->json([
             "ok" => true,
             "message" => "Service has been deleted.",
-            "data" => $service
+            "data" => $service,
         ]);
     }
-
-
-
 
 }

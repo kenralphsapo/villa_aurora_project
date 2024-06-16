@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Service;
+use App\Models\Room;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'mobile' => '09296407470',
             'email' => 'admin@example.com',
             'role' => 'admin',
-            'profile' => 'default.png',
+            'profile' => 'catering.jpg',
         ]);
 
         User::create([
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'mobile' => '09984889752',
             'email' => 'william@gmail.com', 
             'role' => 'admin', 
-            'profile' => 'default.png', 
+            'profile' => 'catering.jpg', 
         ]);
         
         User::create([
@@ -38,7 +39,7 @@ class DatabaseSeeder extends Seeder
             'mobile' => '09984889752',
             'email' => 'kensappo@gmail.com', 
             'role' => 'admin', 
-            'profile' => 'default.png',
+            'profile' => 'catering.jpg',
         ]);
 
         Service::create([
@@ -51,6 +52,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Wedding',
             'price' => '2000.00', 
             'image' => 'event.jpg',
+        ]);
+
+        Room::create([
+            'name'=>'Villa 101',
+            'price' =>'200.00'
         ]);
 
         
