@@ -23,14 +23,15 @@ export function RoomDialog() {
     const [roomRows, setRoomRows] = useState([]);
     const [deleteRoomDialog, setRoomDeleteDialog] = useState(null);
     const [editRoomDialog, setEditRoomDialog] = useState(null);
-    const [createRoomDialog, setCreateRoomDialog] = useState(null);
+    const [createRoomDialog, setCreateRoomDialog] = useState(false);
 
+    const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
     // For Rooms
     const roomcolumns = [
         { field: "id", headerName: "ID", width:100 },
-        { field: "name", headerName: "Room Name", width: 200 },
-        { field: "price", headerName: "Room Price", width: 200  },
+        { field: "name", headerName: "Room Name" },
+        { field: "price", headerName: "Room Price"  },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
         {
@@ -119,8 +120,10 @@ export function RoomDialog() {
                         toast.success(res?.message ?? "Room has been created");
                         setCreateRoomDialog(false);
                         RrefreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res.data);
                     }
                 })
                 .finally(() => {

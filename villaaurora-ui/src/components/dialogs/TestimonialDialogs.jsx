@@ -16,10 +16,13 @@ import $ from "jquery";
 import { toast } from "react-toastify";
 
 import {
+    addTestimonial,
     deleteTestimonial,
     showAllTestimonials,
     updateTestimonial,
 } from "../../api/testimonial";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export function TestimonialDialogs() {
     //For Testimonials
@@ -28,7 +31,8 @@ export function TestimonialDialogs() {
     const [deleteTestimonialDialog, setDeleteTestimonialDialog] =
         useState(null);
     const [editTestimonialDialog, setEditTestimonialDialog] = useState(null);
-
+    const [createTestimonialDialog, setCreateTestimonialDialog] =
+    useState(false);
     const [loading, setLoading] = useState(false);
     // For Testimonials
     const testimonialcolumns = [
@@ -75,6 +79,35 @@ export function TestimonialDialogs() {
             width: 200,
         },
     ];
+    const onCreateTestimonial = (e) => {
+        e.preventDefault();
+        if (!loading) {
+            const body = {
+                transaction_id: $("#transaction_id").val(),
+                feedback: $("#feedback").val(),
+                rating: $("#rating").val(),
+            };
+
+            addTestimonial(body)
+                .then((res) => {
+                    console.log(res);
+                    if (res?.success) {
+                        toast.success(res?.message ?? "Testimonial successful");
+                        setCreateTestimonialDialog(false);
+                        TestrefreshData()
+                        setWarnings({});
+                    } else {
+                        toast.error(
+                            res?.message ?? "Testimonial creation failed."
+                        );
+                        setWarnings(res?.errors);
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
 
     const TestrefreshData = () => {
         showAllTestimonials().then((res) => {
@@ -116,6 +149,7 @@ export function TestimonialDialogs() {
     };
 
     const onDeleteTestimonial = (e) => {
+        e.preventDefault();
         if (!loading) {
             setLoading(true);
             deleteTestimonial(deleteTestimonialDialog)
@@ -136,14 +170,85 @@ export function TestimonialDialogs() {
 
     return (
         <Box className="mt-2" id="section5">
-            <Typography variant="h2">Testimonials</Typography>
+              <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    py: 2,
+                }}
+            >
+               <Typography variant="h2">Testimonials</Typography>
+                <Button
+                    sx={{ mr: 5 }}
+                    onClick={() => setCreateTestimonialDialog(true)}
+                >
+                       <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                </Button>
+            </Box>
+            
             <DataGrid
                 autoHeight
                 columns={testimonialcolumns}
                 rows={testiomonialRows}
             />
+             <Dialog open={createTestimonialDialog}>
+                <DialogTitle>Create Transaction Form</DialogTitle>
+                <DialogContent>
+                <Box component="form" onSubmit={onCreateTestimonial}>
+                <Box>
+                    <TextField
+                        id="transaction_id"
+                        label="Transaction ID"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        required
+                    />
+                </Box>
+                <Box>
+                    <TextField
+                        id="feedback"
+                        label="Feedback"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        required
+                    />
+                </Box>
+                <Box>
+                    <TextField
+                        id="rating"
+                        label="Rating"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        required
+                    />
+                </Box>
+                
+                <Box className="d-flex justify-content-center align-items-center mt-2">
+                            <Button
+                                color="info"
+                                onClick={() =>
+                                    setCreateTestimonialDialog(false)
+                                }
+                            >
+                                Close
+                            </Button>
+                            <Button
+                                disabled={loading}
+                                type="submit"
+                                color="success"
+                                style={{ marginLeft: "10px" }}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+            </Box>
+                </DialogContent>
+            </Dialog>
 
-            
+
             {/* Delete Testimonial */}
             <Dialog open={!!deleteTestimonialDialog}>
                 <DialogTitle>Are you sure?</DialogTitle>

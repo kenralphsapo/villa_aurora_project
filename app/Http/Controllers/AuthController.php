@@ -22,13 +22,22 @@ class AuthController extends Controller
     {
         $validator = validator($request->all(), [
             "username" => "required|min:4|string|unique:users|max:32",
-            "password" => "required|min:8|max:32|string|confirmed",
+            "password" => [
+                "required",
+                "min:8",
+                "max:32",
+                "string",
+                "confirmed",
+                "regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/",
+            ],
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin",
             'profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            "password.regex" => "The password must contain at least one letter, one number, and one special character."
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 "ok" => false,
@@ -36,7 +45,7 @@ class AuthController extends Controller
                 "errors" => $validator->errors(),
             ], 400);
         }
-
+    
         if ($request->hasFile('profile')) {
             $image = $request->file('profile');
             $imageName = $image->getClientOriginalName();
@@ -44,41 +53,42 @@ class AuthController extends Controller
         } else {
             $imageName = 'default.png';
         }
-
+    
         $validatedData = $validator->validated();
         $validatedData['profile'] = $imageName;
-
+    
         $user = User::create($validatedData);
-
+    
         /*
         if ($user->id == 1) {
-        $user = User::find(1);
-        $user->role = 'admin';
-        $user->save();
+            $user = User::find(1);
+            $user->role = 'admin';
+            $user->save();
         }
-         */
-
+        */
+    
         $user->token = $user->createToken("registration_token")->accessToken;
-
+    
         // Set the profile image URL using the asset() helper function
         $user->image_url = asset('images/' . $imageName);
-
+    
         $mailTest = Mail::to($user->email)->send(new RegistrationConfirmation($user));
         // Log::info($mailTest->getSymfonySentMessage());
-
+    
         SentEmailLog::create([
             'user_id' => $user->id,
             'recipient_email' => $user->email,
             'sent_at' => now(),
             'subject' => 'Registration Confirmation Email',
         ]);
-
+    
         return response()->json([
             "ok" => true,
             "message" => "Register Successfully!",
             "data" => $user,
         ], 201);
     }
+    
 
     /**
      * LOGIN

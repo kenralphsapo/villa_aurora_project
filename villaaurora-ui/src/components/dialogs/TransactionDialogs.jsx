@@ -9,10 +9,8 @@ import {
     Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
-import { DataGrid } from "@mui/x-data-grid";
-
 import $ from "jquery";
+import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
 import {
     addTransaction,
@@ -26,23 +24,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function TransactionDialogs() {
     const [transactionRows, setTransactionRows] = useState([]);
-    //For Transactions
     const [createTransactionDialog, setCreateTransactionDialog] =
         useState(false);
     const [deleteTransactionDialog, setDeleteTransactionDialog] =
         useState(null);
     const [editTransactionDialog, setEditTransactionDialog] = useState(null);
 
+    const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
 
     const [pivotrows, setPivotRows] = useState([]);
-    // For Transactions
+    const [serviceIds, setServiceIds] = useState([]);
+    const [newServiceId, setNewServiceId] = useState("");
+
+    // Columns definition for transaction and pivot tables
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
         { field: "user_id", headerName: "User ID" },
         { field: "room_id", headerName: "Room ID" },
-        { field: "rent_start", headerName: "Rent Start", width: 200 },
-        { field: "rent_end", headerName: "Rent End", width: 160 },
+        { field: "rent_start", headerName: "Rent Start", width: 100 },
+        { field: "rent_end", headerName: "Rent End", width: 100 },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
         {
@@ -84,6 +85,23 @@ export function TransactionDialogs() {
         },
     ];
 
+    // Function to add a service ID to the list
+    const handleAddServiceId = () => {
+        const newId = newServiceId.trim();
+        if (newId !== "") {
+            setServiceIds([...serviceIds, newId]);
+            setNewServiceId("");
+        }
+    };
+
+    // Function to remove a service ID from the list
+    const handleRemoveServiceId = (index) => {
+        const updatedServiceIds = [...serviceIds];
+        updatedServiceIds.splice(index, 1);
+        setServiceIds(updatedServiceIds);
+    };
+
+    // Function to create a new transaction
     const onCreateTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
@@ -92,20 +110,23 @@ export function TransactionDialogs() {
                 room_id: $("#room_id").val(),
                 rent_start: $("#rent_start").val(),
                 rent_end: $("#rent_end").val(),
-                service_id: $("#service_id").val(),
+                service_id: serviceIds,
             };
-
-            //try to make the service id into array
 
             addTransaction(body)
                 .then((res) => {
-                    console.log(res)
+                    console.log(res);
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction successful");
+                        setCreateTransactionDialog(false);
+                        TrefreshData();
+                        PivotrefreshData();
+                        setWarnings({});
                     } else {
                         toast.error(
                             res?.message ?? "Transaction creation failed."
                         );
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -114,6 +135,7 @@ export function TransactionDialogs() {
         }
     };
 
+    // Function to update an existing transaction
     const onEditTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
@@ -142,7 +164,8 @@ export function TransactionDialogs() {
         }
     };
 
-    const onDeleteTransaction = (e) => {
+    // Function to delete a transaction
+    const onDeleteTransaction = () => {
         if (!loading) {
             setLoading(true);
             deleteTransaction(deleteTransactionDialog)
@@ -163,6 +186,7 @@ export function TransactionDialogs() {
         }
     };
 
+    // Function to refresh transaction data
     const TrefreshData = () => {
         showAllTransactions().then((res) => {
             if (res?.ok) {
@@ -173,14 +197,7 @@ export function TransactionDialogs() {
         });
     };
 
-    useEffect(TrefreshData, []);
-
-    const pivotcolumns = [
-        { field: "service_id", headerName: "Service ID" },
-        { field: "transaction_id", headerName: "Transaction ID" },
-        { field: "price", headerName: "Price" },
-    ];
-
+    // Function to refresh pivot data
     const PivotrefreshData = () => {
         getAllDataPivot().then((res) => {
             if (res?.ok) {
@@ -195,23 +212,27 @@ export function TransactionDialogs() {
         });
     };
 
-    useEffect(PivotrefreshData, []);
+    useEffect(() => {
+        TrefreshData();
+        PivotrefreshData();
+    }, []);
+
+    // Columns definition for pivot table
+    const pivotcolumns = [
+        { field: "service_id", headerName: "Service ID" },
+        { field: "transaction_id", headerName: "Transaction ID" },
+        { field: "price", headerName: "Price" },
+    ];
 
     return (
         <Box id="section4">
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    py: 2,
-                }}
-            >
+            <Box sx={{ display: "flex", justifyContent: "flex-start", py: 2 }}>
                 <Typography variant="h2">Transactions</Typography>
                 <Button
                     sx={{ mr: 5 }}
                     onClick={() => setCreateTransactionDialog(true)}
                 >
-                           <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
                 </Button>
             </Box>
             <DataGrid
@@ -223,11 +244,13 @@ export function TransactionDialogs() {
                 <Typography variant="h3">Pivot table</Typography>
                 <DataGrid autoHeight columns={pivotcolumns} rows={pivotrows} />
             </Box>
-            {/* Create Transaction */}
-            <Dialog open={!!createTransactionDialog}>
+
+            {/* Create Transaction Dialog */}
+            <Dialog open={createTransactionDialog}>
                 <DialogTitle>Create Transaction Form</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={onCreateTransaction}>
+                        {/* Form Fields */}
                         <Box>
                             <TextField
                                 id="user_id"
@@ -237,6 +260,11 @@ export function TransactionDialogs() {
                                 fullWidth
                                 required
                             />
+                            {warnings?.user_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.user_id}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -246,6 +274,11 @@ export function TransactionDialogs() {
                                 margin="normal"
                                 fullWidth
                             />
+                            {warnings?.room_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.room_id}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -256,10 +289,13 @@ export function TransactionDialogs() {
                                 fullWidth
                                 required
                                 type="date"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                InputLabelProps={{ shrink: true }}
                             />
+                            {warnings?.rent_start ? (
+                                <Typography component="small" color="error">
+                                    {warnings.rent_start}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -270,23 +306,64 @@ export function TransactionDialogs() {
                                 fullWidth
                                 required
                                 type="date"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                InputLabelProps={{ shrink: true }}
                             />
+                            {warnings?.rent_end ? (
+                                <Typography component="small" color="error">
+                                    {warnings.rent_end}
+                                </Typography>
+                            ) : null}
                         </Box>
-                        <Box>
-                            <TextField
-                                id="service_id"
-                                label="Service ID(s)"
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                required
-                                helperText="Enter service IDs separated by commas"
-                            />
-                        </Box>
-                        <Box className="d-flex justify-content-center align-items-center">
+
+                        <TextField
+                            id="service_id"
+                            label="Service ID(s)"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            value={newServiceId}
+                            onChange={(e) => setNewServiceId(e.target.value)}
+                            helperText="Enter service ID and click Add"
+                        />
+                            {warnings?.service_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.service_id}
+                                </Typography>
+                            ) : null}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleAddServiceId}
+                            style={{ marginLeft: "10px" }}
+                        >
+                            Add
+                        </Button>
+                        {serviceIds.map((serviceId, index) => (
+                            <Box
+                                key={index}
+                                mt={1}
+                                display="flex"
+                                alignItems="center"
+                            >
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    value={serviceId}
+                                    disabled
+                                />
+                                <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    onClick={() => handleRemoveServiceId(index)}
+                                    style={{ marginLeft: "10px" }}
+                                >
+                                    Remove
+                                </Button>
+                            </Box>
+                        ))}
+                        {/* Form Actions */}
+                        <Box className="d-flex justify-content-center align-items-center mt-2">
                             <Button
                                 color="info"
                                 onClick={() =>
@@ -299,6 +376,7 @@ export function TransactionDialogs() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
+                                style={{ marginLeft: "10px" }}
                             >
                                 Submit
                             </Button>
@@ -307,7 +385,7 @@ export function TransactionDialogs() {
                 </DialogContent>
             </Dialog>
 
-            {/* Edit Transaction */}
+            {/* Edit Transaction Dialog */}
             <Dialog open={!!editTransactionDialog}>
                 <DialogTitle>Edit Transaction</DialogTitle>
                 <DialogContent>
@@ -316,36 +394,32 @@ export function TransactionDialogs() {
                         sx={{ p: 1 }}
                         onSubmit={onEditTransaction}
                     >
-                        <Box sx={{ mt: 1 }}>
-                            <TextField
-                                onChange={(e) =>
-                                    setEditTransactionDialog({
-                                        ...editTransactionDialog,
-                                        rent_start: e.target.value,
-                                    })
-                                }
-                                value={editTransactionDialog?.rent_start ?? ""}
-                                size="small"
-                                label="Rent Start"
-                                type="date"
-                                fullWidth
-                            />
-                        </Box>
-                        <Box sx={{ mt: 1 }}>
-                            <TextField
-                                onChange={(e) =>
-                                    setEditTransactionDialog({
-                                        ...editTransactionDialog,
-                                        rent_end: e.target.value,
-                                    })
-                                }
-                                value={editTransactionDialog?.rent_end ?? ""}
-                                size="small"
-                                label="Rent End"
-                                type="date"
-                                fullWidth
-                            />
-                        </Box>
+                        <TextField
+                            onChange={(e) =>
+                                setEditTransactionDialog({
+                                    ...editTransactionDialog,
+                                    rent_start: e.target.value,
+                                })
+                            }
+                            value={editTransactionDialog?.rent_start ?? ""}
+                            size="small"
+                            label="Rent Start"
+                            type="date"
+                            fullWidth
+                        />
+                        <TextField
+                            onChange={(e) =>
+                                setEditTransactionDialog({
+                                    ...editTransactionDialog,
+                                    rent_end: e.target.value,
+                                })
+                            }
+                            value={editTransactionDialog?.rent_end ?? ""}
+                            size="small"
+                            label="Rent End"
+                            type="date"
+                            fullWidth
+                        />
                         <Button
                             id="transaction-btn"
                             type="submit"
@@ -369,7 +443,8 @@ export function TransactionDialogs() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            {/* Delete Transaction */}
+
+            {/* Delete Transaction Dialog */}
             <Dialog open={!!deleteTransactionDialog}>
                 <DialogTitle>Are you sure?</DialogTitle>
                 <DialogContent>

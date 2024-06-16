@@ -30,11 +30,11 @@ export function ServiceDialog() {
     const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
     const [editServiceDialog, setEditServiceDialog] = useState(null);
     
-    const [warnings, setWarning] = useState({});
+    const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
 
     const servicecolumns = [
-        { field: "id", headerName: "ID" },
+        { field: "id", headerName: "ID",width:10 },
         { field: "name", headerName: "Service Name", width: 160 },
         { field: "price", headerName: "Price", width: 160 },
         { field: "created_at", headerName: "Create At", width: 200 },
@@ -126,7 +126,7 @@ export function ServiceDialog() {
                         SrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
-                        setWarning(res?.errors);
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {

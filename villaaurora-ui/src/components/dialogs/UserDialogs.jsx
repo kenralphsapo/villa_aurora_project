@@ -38,10 +38,10 @@ export function UserDialogs() {
     const [rows, setRows] = useState([]);
 
     const columns = [
-        { field: "id", headerName: "ID" },
+        { field: "id", headerName: "ID",width:10 },
         { field: "username", headerName: "Username", width: 150 },
         { field: "mobile", headerName: "Mobile", width: 150 },
-        { field: "email", headerName: "Email", width: 100 },
+        { field: "email", headerName: "Email" },
         { field: "role", headerName: "Role" },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },

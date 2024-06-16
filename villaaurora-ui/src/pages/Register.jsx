@@ -27,14 +27,6 @@ export default function Register() {
                 mobile: $("#mobile").val(),
                 email: $("#email").val(),
             };
-            // const passwordRegex =
-            //     /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-            // if (!passwordRegex.test(body.password)) {
-            //     toast.error(
-            //         "Password must contain at least 8 characters, including a letter, a number, and a special character."
-            //     );
-            //     return;
-            // }
 
             setLoading(true);
             register(body)
