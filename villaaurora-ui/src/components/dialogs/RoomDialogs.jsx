@@ -15,6 +15,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import { addRoom, deleteRoom, showAllRooms, updateRoom } from "../../api/room";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function RoomDialog() {
     // For Rooms
@@ -155,7 +157,7 @@ export function RoomDialog() {
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     py: 2,
                 }}
             >
@@ -164,7 +166,7 @@ export function RoomDialog() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateRoomDialog(true)}
                 >
-                    Create Room
+                    <FontAwesomeIcon icon={faAdd} className="addbtn"/>
                 </Button>
             </Box>
             <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />

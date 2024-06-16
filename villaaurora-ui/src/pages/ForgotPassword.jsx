@@ -43,18 +43,14 @@ export default function ForgotPassword() {
         <Box>
             <AppBar
                 position="static"
-                sx={{
-                    boxShadow: "0 0 10px black",
-                    padding: "2px 10px",
-                    background: "#d6a354",
-                }}
+                id="forgotpassword"
             >
                 <Toolbar
                     className="d-flex justify-content-between align-items-center"
                     component="form"
                     onSubmit={onSubmit}
                 >
-                    <Typography variant="h6" sx={{ color: "white" }}>
+                    <Typography variant="h6" className="text-white">
                         Villa Aurora Private Resort
                     </Typography>
                     <Box className="d-flex justify-content-around align-items-center">
@@ -67,12 +63,12 @@ export default function ForgotPassword() {
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </Box>
-                        <Box >
+                        <Box>
                             <TextField
                                 type="password"
                                 value={password}
                                 placeholder="Password"
-                                className="m1-1 bg-white"
+                                sx={{ backgroundColor: "white", marginLeft:'10px' }}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </Box>
@@ -94,12 +90,7 @@ export default function ForgotPassword() {
                 }}
             >
                 <Box
-                    sx={{
-                        width: "400px",
-                        boxShadow: "0 0 10px black",
-                        padding: "10px",
-                        borderRadius: "5px",
-                    }}
+                    id="forgotpassform"
                 >
                     <Box component="form">
                         <Typography>

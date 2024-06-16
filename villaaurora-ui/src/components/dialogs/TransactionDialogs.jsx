@@ -21,6 +21,8 @@ import {
     updateTransaction,
 } from "../../api/transaction";
 import { getAllDataPivot } from "../../api/pivot";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function TransactionDialogs() {
     const [transactionRows, setTransactionRows] = useState([]);
@@ -93,11 +95,13 @@ export function TransactionDialogs() {
                 service_id: $("#service_id").val(),
             };
 
+            //try to make the service id into array
+
             addTransaction(body)
                 .then((res) => {
+                    console.log(res)
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction successful");
-                        // Additional logic if needed after successful transaction
                     } else {
                         toast.error(
                             res?.message ?? "Transaction creation failed."
@@ -180,10 +184,9 @@ export function TransactionDialogs() {
     const PivotrefreshData = () => {
         getAllDataPivot().then((res) => {
             if (res?.ok) {
-                // Assuming the response data contains an "id" field
                 const rowsWithId = res.data.map((row, index) => ({
                     ...row,
-                    id: index + 1, // Generate a unique ID for each row
+                    id: index + 1,
                 }));
                 setPivotRows(rowsWithId);
             } else {
@@ -199,7 +202,7 @@ export function TransactionDialogs() {
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     py: 2,
                 }}
             >
@@ -208,7 +211,7 @@ export function TransactionDialogs() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateTransactionDialog(true)}
                 >
-                    Create Transaction
+                           <FontAwesomeIcon icon={faAdd} className="addbtn"/>
                 </Button>
             </Box>
             <DataGrid

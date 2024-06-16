@@ -88,19 +88,13 @@ function Myaccout() {
         }
     };
 
-    const onAppearEdit = () => {
-        setAccount(true);
-    };
-
-    const onHideEdit = () => {
-        setAccount(false);
-    };
-
     return (
         <Box>
-            {user?.role !== "admin" ? (
+            {user ? (
                 <Box id="homebg">
-                    <Box className="row">
+                    {user?.role !== "admin" ? (
+                     <>
+                        <Box className="row">
                         <Box
                             id="sidebarMenu"
                             className="col-md-3 col-lg-2 d-md-block sidebar collapse p-0"
@@ -115,14 +109,15 @@ function Myaccout() {
                                     <Typography
                                         id="customheader"
                                         variant="h5"
-                                        sx={{ color: "white" }}
+                                        className="text-white"
                                     >
                                         Villa Aurora Private Resort
                                     </Typography>
                                 </Link>
                                 <Typography
                                     variant="h6"
-                                    sx={{ color: "black", mt: 2 }}
+                                    className="text-black mt-2"
+                        
                                 >
                                     Welcome{" "}
                                     {user?.username ?? "Wait, Who are you??"}
@@ -137,18 +132,12 @@ function Myaccout() {
                             >
                                 <Box
                                     id="custom-account"
-                                    sx={{
-                                        boxShadow: "0 0 10px black",
-                                        borderRadius: "10px",
-                                        width: "400px",
-                                        p: "20px",
-                                    }}
                                     component="form"
                                     onSubmit={onSubmit}
                                 >
                                     <Typography
                                         variant="h3"
-                                        sx={{ textAlign: "center" }}
+                                        className="text-center"
                                     >
                                         {showAccount
                                             ? "EDIT ACCOUNT"
@@ -211,7 +200,7 @@ function Myaccout() {
                                     {showAccount ? (
                                         <Button
                                             type="submit"
-                                            id="custom-edit"
+                                            id="custom-editbtn"
                                             disabled={loading}
                                         >
                                             Edit
@@ -219,25 +208,28 @@ function Myaccout() {
                                     ) : (
                                         <Button
                                             type="submit"
-                                            id="custom-edit"
-                                            onClick={onAppearEdit}
+                                            id="custom-editbtn"
+                                            disabled={loading}
+                                            onClick={()=> setAccount(true)}
                                         >
                                             Edit Account
                                         </Button>
                                     )}
                                     {showAccount ? (
                                         <Button
-                                            onClick={onHideEdit}
-                                            id="custom-submit"
+                                           disabled={loading}
+                                            onClick={()=> setAccount(false)}
+                                            id="custom-cancelbtn"
                                         >
                                             Cancel Edit
                                         </Button>
                                     ) : (
                                         <Button
+                                        disabled={loading}
                                             type="submit"
                                             color="info"
                                             href="/"
-                                            id="custom-submit"
+                                            id="custom-cancelbtn"
                                         >
                                             Cancel
                                         </Button>
@@ -311,6 +303,10 @@ function Myaccout() {
                                 </Box>
                             </Box>
                     </Box>
+                     </>
+                    ):(
+                        <NotFound />
+                    )}
                 </Box>
             ) : (
                 <NotFound />

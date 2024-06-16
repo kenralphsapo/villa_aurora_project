@@ -7,9 +7,11 @@ import { ServiceDialog } from "../components/dialogs/ServiceDialogs";
 import { RoomDialog } from "../components/dialogs/RoomDialogs";
 import { TransactionDialogs } from "../components/dialogs/TransactionDialogs";
 import { TestimonialDialogs } from "../components/dialogs/TestimonialDialogs";
-import AdminNavigation from "../components/AdminNavigation";
-import { UserDialogs } from "../components/dialogs/UserDialogs";
 
+import { UserDialogs } from "../components/dialogs/UserDialogs";
+import AdminNavigation from "../components/AdminNavigation";
+
+import logo from "./images/logo.jpg";
 function Admin() {
     const user = useSelector((state) => state.auth.user);
 
@@ -29,15 +31,18 @@ function Admin() {
                 {user?.role == "admin" ? (
                 <Box id="custom-admin">
                     <Box>
-                        <Box id="" sx={{background:'#d6a354', width:'150px',height:'100vh', display:'flex',justifyContent:'center',alignItems:'center', flexDirection:'column', textAlign:'center', flexWrap:"wrap"}}>
-                            <Box className="">
-                                <Typography variant="h4" id="">
-                                    Villa Aurora
-                                </Typography>
+                        <Box id="customnavadmin">
+                            <Box >
+                            <img
+                                src={logo}
+                                alt="Logo"
+                                className="admin-logo"
+                            />
 
                                 <Box className="">
                                     <Typography
                                         variant="h6"
+                                        className="text-center"
                                     >
                                         Welcome{" "}
                                         {user?.username ??

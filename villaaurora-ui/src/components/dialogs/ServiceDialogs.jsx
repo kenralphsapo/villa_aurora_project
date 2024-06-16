@@ -20,6 +20,8 @@ import {
 
 import $ from "jquery";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export function ServiceDialog() {
     const [serviceRows, setServiceRows] = useState([]);
@@ -49,7 +51,7 @@ export function ServiceDialog() {
                     style={{ width: "100px", height: "100px" }}
                 />
             ),
-            width: 200,
+            width: 150,
         },
         {
             field: "actions",
@@ -183,7 +185,7 @@ export function ServiceDialog() {
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     py: 2,
                 }}
             >
@@ -192,7 +194,7 @@ export function ServiceDialog() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateServDialog(true)}
                 >
-                    Create Service
+                       <FontAwesomeIcon icon={faAdd} className="addbtn"/>
                 </Button>
             </Box>
             <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
@@ -206,7 +208,6 @@ export function ServiceDialog() {
                     <Box
                         component="form"
                         onSubmit={onCreateService}
-                        encType="multipart/form-data"
                     >
                         <Box>
                             <TextField

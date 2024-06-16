@@ -176,7 +176,7 @@ export function UserDialogs() {
     };
     
     return (
-        <Box sx={{ mt: 2 }} id="section1">
+        <Box className="mt-2" id="section1">
             <Box
                 sx={{
                     display: "flex",
@@ -186,7 +186,7 @@ export function UserDialogs() {
             >
                 <Typography variant="h2">Users</Typography>
                 <Button sx={{ mr: 5 }} onClick={() => setCreateDialog(true)}>
-                <FontAwesomeIcon icon={faAdd} className=""/>
+                <FontAwesomeIcon icon={faAdd} className="addbtn"/>
                 </Button>
             </Box>
             <DataGrid autoHeight columns={columns} rows={rows} />

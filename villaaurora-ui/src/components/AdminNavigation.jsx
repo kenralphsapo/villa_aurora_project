@@ -59,36 +59,43 @@ const AdminNavigation = ({
     };
 
     return (
-        <Box className="" sx={{textAlign:'center'}}>
-            <Link  to="/">
-                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="home">
-                    Home <FontAwesomeIcon icon={faHome} />
+        <Box >
+            <Link className="custom-list"  to="/">
+            <FontAwesomeIcon icon={faHome} style={{color:'white', paddingLeft:'10px'}} />
+                <Typography sx={{ m: 1, color: "white" }}  id="home">
+                    Home 
                 </Typography>
+           
             </Link>
-            <Link  onClick={onUserNav}>
-                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="usernav">
+            <Link className="custom-list"  onClick={onUserNav}>
+            <FontAwesomeIcon icon={faUser} style={{color:'white', paddingLeft:'10px'}} />
+                <Typography sx={{ m: 1, color: "white" }} id="usernav">
                     Users 
-                    <FontAwesomeIcon icon={faUser} />
+          
                 </Typography>
             </Link>
-            <Link  onClick={onServiceNav}>
-                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="servicenav">
-                    Services <FontAwesomeIcon icon={faBriefcase} />
+            <Link className="custom-list"  onClick={onServiceNav}>
+            <FontAwesomeIcon icon={faBriefcase} style={{color:'white', paddingLeft:'10px'}} />
+                <Typography sx={{ m: 1, color: "white" }} id="servicenav">
+                    Services
                 </Typography>
             </Link>
-            <Link onClick={onRoomNav}>
-                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="roomnav">
-                    Rooms <FontAwesomeIcon icon={faBed} />
+            <Link className="custom-list" onClick={onRoomNav}>
+            <FontAwesomeIcon icon={faBed} style={{color:'white', paddingLeft:'10px'}} />
+                <Typography sx={{ m: 1, color: "white" }}  id="roomnav">
+                    Rooms 
                 </Typography>
             </Link>
-            <Link  onClick={onTransactionNav}>
-                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="transactionnav">
-                    Transactions <FontAwesomeIcon icon={faReceipt} />
+            <Link className="custom-list" onClick={onTransactionNav}>
+            <FontAwesomeIcon icon={faReceipt} style={{color:'white', paddingLeft:'10px'}} />
+                <Typography sx={{ m: 1, color: "white" }}  id="transactionnav">
+                    Transactions 
                 </Typography>
             </Link>
-            <Link  onClick={onTestimonialNav}>
-                <Typography sx={{ m: 1, color: "white" }} className="custom-list" id="testimonialnav">
-                    Testimonials <FontAwesomeIcon icon={faComment} />
+            <Link className="custom-list"  onClick={onTestimonialNav}>
+            <FontAwesomeIcon icon={faComment} style={{color:'white', paddingLeft:'10px'}} />
+                <Typography sx={{ m: 1, color: "white" }} id="testimonialnav">
+                    Testimonials
                 </Typography>
             </Link>
         </Box>

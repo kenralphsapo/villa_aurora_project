@@ -135,13 +135,15 @@ export function TestimonialDialogs() {
     };
 
     return (
-        <Box id="section5">
+        <Box className="mt-2" id="section5">
             <Typography variant="h2">Testimonials</Typography>
             <DataGrid
                 autoHeight
                 columns={testimonialcolumns}
                 rows={testiomonialRows}
             />
+
+            
             {/* Delete Testimonial */}
             <Dialog open={!!deleteTestimonialDialog}>
                 <DialogTitle>Are you sure?</DialogTitle>

@@ -79,8 +79,7 @@
 }
 
 /*---------------------------------------
-  CUSTOMIZATION for LOGIN, REGISTER,
-   ADMIN and MYACCOUNT
+  Forgot Password
 -----------------------------------------*/
 .forgotpassword-text{
     color: var(--color-green);
@@ -92,7 +91,56 @@
     color: var(--color-white);
 }
 
+#forgotpassword{
+    box-shadow: 0 0 10px black;
+    padding: 2px 10px;
+    background-color: var(--primary-color);
+}
 
+#forgotpassform{
+    width: 400px;
+    box-shadow: 0 0 10px var(--color-black);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+
+/*---------------------------------------
+  Admin and Myaccount
+-----------------------------------------*/
+
+#customnavadmin{
+    background-color: var(--primary-color);
+     width: 150px;
+    height: 100vh;
+    display: inline-block;
+}
+
+#customnavadmin .custom-list{
+    background-color:  #d28e27;
+    width: 150px;
+    border-top: 1px solid #925c0a;
+}
+
+#customnavadmin .custom-list:hover{
+    background-color:  #aa711d;
+}
+
+.custom-list{
+    display: inline-table;
+}
+
+#customnavadmin .custom-list:nth-child(1){
+    background-color:  #eb981d;
+}
+
+.admin-logo{
+    display: block;
+    margin: 5px auto;
+    width: 50%;
+    height: 50%;
+}
 
 #custom-admin{
     display: grid;
@@ -101,11 +149,18 @@
     overflow: hidden;
 }
 
+#myaccount-container{
+    width: 400px;
+    box-shadow: "0 0 10px black";
+    padding: 10px;
+    border-radius: 5px;
+}
 
-#custom-arrowupbtn {
-    color: var(--color-white);
-    z-index: 10;
-    background-color: var(--primary-color);
+.addbtn{
+    background-color: var(--color-lightblue);
+    padding: 10px;
+    font-size: 40px;
+    border-radius: 5px;
 }
 
 #custom-deletebtn {
@@ -133,14 +188,14 @@
     background-color: var(--color-lightblue);
 }
 
-#custom-edit {
+#custom-editbtn {
     background-color: var(--color-green);
     color: var(--color-white);
     margin: 10px;
     transition: all 1s ease-in;
 }
 
-#custom-edit:hover {
+#custom-editbtn:hover {
     transition: all 1s ease-in;
     background-color: #112d3f;
 }
@@ -152,19 +207,14 @@
     color: var(--color-white);
 }
 
-#custom-blue {
-    color: var(--color-lightblue);
-}
-
-#custompass b {
-    color: var(--color-lightblue);
-}
-
 #custom-navbar {
     background-color: var(--color-lightblue);
     width: 100%;
  
 }
+
+
+
 
 
 .custom-logo {
@@ -219,6 +269,11 @@
     margin-top: 10px;
 }
 
+#custom-arrowupbtn {
+    color: var(--color-white);
+    z-index: 10;
+    background-color: var(--primary-color);
+}
 
 /*---------------------------------------
   Login and Register UI 
@@ -288,6 +343,8 @@
     text-shadow: 0 0 10px gold;
     text-align: center;
 }
+
+
 
 /*---------------------------------------
     TYPOGRAPHY               
@@ -1083,6 +1140,25 @@ strong {
     .custom-block-bg-overlay-wrap {
         margin: 0;
     }
+    
+    #forgotpassword{
+        display: none;
+    }
+
+    #forgotpassform{
+        width: 300px;
+    }
+
+    #forgotpassform::after{
+        content: "Villa Aurora";
+        background-color: var(--primary-color);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 20px;
+    }
 }
 
 @media screen and (max-width: 375px) {
@@ -1143,5 +1219,24 @@ strong {
 
     .custom-block-bg-overlay-wrap {
         margin: 0;
+    }
+
+    #forgotpassword{
+        display: none;
+    }
+
+    #forgotpassform{
+        width: 300px;
+    }
+
+    #forgotpassform::after{
+        content: "Villa Aurora";
+        background-color: var(--primary-color);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 20px;
     }
 }
