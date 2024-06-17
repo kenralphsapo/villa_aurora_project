@@ -64,7 +64,7 @@ export function UserDialogs() {
             renderCell: (params) => (
                 <img
                     src={params.row.profile}
-                    alt="Service Image"
+                    alt="Profile Image"
                     style={{ width: "100px", height: "100px" }}
                 />
             ),

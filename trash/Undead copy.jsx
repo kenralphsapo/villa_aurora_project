@@ -4,34 +4,43 @@ import {
     Grid,
     TextField,
     TextareaAutosize,
+    Autocomplete,
     Dialog,
     DialogTitle,
     DialogContent,
     DialogActions,
+    FormControlLabel,
+    Checkbox,
     Button,
     Select,
     MenuItem,
-    FormControlLabel,
-    Checkbox,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckSquare, faSquare } from "@fortawesome/free-solid-svg-icons";
 import { showAllServices } from "../api/service";
 import { showAllRooms } from "../api/room";
+import { login } from "../api/auth";
 import { addTransaction } from "../api/transaction";
 import checkAuth from "../hoc/checkAuth"; // Assuming checkAuth HOC is defined in '../hoc/checkAuth'
+import $ from "jquery";
 
 function Undead() {
     const [loading, setLoading] = useState(false);
     const [selectedServices, setSelectedServices] = useState([]);
+    const [serviceIds, setServiceIds] = useState([]);
+    const [newServiceId, setNewServiceId] = useState("");
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
+    const [selectedDialogServices, setSelectedDialogServices] = useState([]);
     const [serviceRows, setServiceRows] = useState([]);
     const [roomRows, setRoomRows] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies();
     const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -66,46 +75,31 @@ function Undead() {
 
     useEffect(RoomrefreshData, []);
 
-    const handleOpenDialog = () => {
-        setOpenDialog(true);
-    };
-
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
-
-    const handleSaveDialog = () => {
-        setOpenDialog(false);
-    };
-
-    const handleToggleService = (service) => () => {
-        const currentIndex = selectedServices.findIndex(
-            (selectedService) => selectedService.id === service.id
-        );
-        const newSelectedServices = [...selectedServices];
-
-        if (currentIndex === -1) {
-            newSelectedServices.push(service);
-        } else {
-            newSelectedServices.splice(currentIndex, 1);
+    const handleAddServiceId = () => {
+        const newId = newServiceId.trim();
+        if (newId !== "") {
+            setServiceIds([...serviceIds, newId]);
+            setNewServiceId("");
         }
+    };
 
-        setSelectedServices(newSelectedServices);
+    // Function to remove a service ID from the list
+    const handleRemoveServiceId = (index) => {
+        const updatedServiceIds = [...serviceIds];
+        updatedServiceIds.splice(index, 1);
+        setServiceIds(updatedServiceIds);
     };
 
     // Function to create a new transaction
     const onCreateTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
-            const serviceIds = selectedServices.map((service) => service.id);
-
             const body = {
                 user_id: user?.id,
                 room_id: selectedRoom, // Use selectedRoom state here
-                rent_start: e.target.rent_start.value,
-                rent_end: e.target.rent_end.value,
+                rent_start: $("#rent_start").val(),
+                rent_end: $("#rent_end").val(),
                 service_id: serviceIds,
-                comments: e.target.message.value,
             };
 
             addTransaction(body)
@@ -113,11 +107,15 @@ function Undead() {
                     console.log(res);
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction successful");
-                        // Optionally reset form fields or navigate somewhere
+                        setOpenDialog(false);
+                        // TrefreshData();
+                        // PivotrefreshData();
+                        // setWarnings({});
                     } else {
                         toast.error(
                             res?.message ?? "Transaction creation failed."
                         );
+                        // setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -201,17 +199,53 @@ function Undead() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} lg={6}>
-                                        <Button
-                                            onClick={handleOpenDialog}
-                                            variant="contained"
-                                            color="primary"
-                                            fullWidth
-                                            style={{ marginTop: 16 }}
+                                    <TextField
+                                        id="service_id"
+                                        label="Service ID(s)"
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        value={newServiceId}
+                                        onChange={(e) =>
+                                            setNewServiceId(e.target.value)
+                                        }
+                                        helperText="Enter service ID and click Add"
+                                    />
+
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleAddServiceId}
+                                        style={{ marginLeft: "10px" }}
+                                    >
+                                        Add
+                                    </Button>
+                                    {serviceIds.map((serviceId, index) => (
+                                        <Box
+                                            key={index}
+                                            mt={1}
+                                            display="flex"
+                                            alignItems="center"
                                         >
-                                            Select Services
-                                        </Button>
-                                    </Grid>
+                                            <TextField
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                value={serviceId}
+                                                disabled
+                                            />
+                                            <Button
+                                                variant="outlined"
+                                                color="secondary"
+                                                onClick={() =>
+                                                    handleRemoveServiceId(index)
+                                                }
+                                                style={{ marginLeft: "10px" }}
+                                            >
+                                                Remove
+                                            </Button>
+                                        </Box>
+                                    ))}
                                     <Grid item xs={12} lg={6}>
                                         <Select
                                             id="room_id"
@@ -242,50 +276,6 @@ function Undead() {
                                             placeholder="Comments (Optional)"
                                         ></TextareaAutosize>
                                     </Grid>
-                                    <Dialog
-                                        open={openDialog}
-                                        onClose={handleCloseDialog}
-                                        fullWidth
-                                        maxWidth="sm"
-                                    >
-                                        <DialogTitle>
-                                            Select Services
-                                        </DialogTitle>
-                                        <DialogContent>
-                                            {serviceRows.map((service) => (
-                                                <FormControlLabel
-                                                    key={service.id}
-                                                    control={
-                                                        <Checkbox
-                                                            checked={selectedServices.some(
-                                                                (s) =>
-                                                                    s.id ===
-                                                                    service.id
-                                                            )}
-                                                            onChange={handleToggleService(
-                                                                service
-                                                            )}
-                                                        />
-                                                    }
-                                                    label={`${service.name} - ${service.price}`}
-                                                />
-                                            ))}
-                                        </DialogContent>
-                                        <DialogActions>
-                                            <Button
-                                                onClick={handleCloseDialog}
-                                                color="primary"
-                                            >
-                                                Cancel
-                                            </Button>
-                                            <Button
-                                                onClick={handleSaveDialog}
-                                                color="primary"
-                                            >
-                                                Save
-                                            </Button>
-                                        </DialogActions>
-                                    </Dialog>
                                     <Grid item xs={12} className="text-center">
                                         <Button
                                             type="submit"

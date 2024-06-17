@@ -92,7 +92,7 @@ Route::prefix("transactions")->group(function(){
 
     
     //DELETE: http://localhost:8000/api/transactions/{transaction} delete transaction
-    Route::delete("/{testimonial}", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']);
+    Route::delete("/{transaction}", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']);
 });
 
 

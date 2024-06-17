@@ -8,6 +8,12 @@ import {
     TextareaAutosize,
     Autocomplete,
     Drawer,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    FormControlLabel,
+    Checkbox,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,11 +31,13 @@ import catering from "./images/catering.jpg";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import "./css/bootstrap-resort.css";
-
+import $ from "jquery";
 import {
     faArrowUp,
+    faCheckSquare,
     faEnvelope,
     faPhone,
+    faSquare,
     faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -37,13 +45,14 @@ import { showAllServices } from "../api/service";
 import { showAllRooms } from "../api/room";
 import Navigation from "../components/Navigation";
 import { login } from "../api/auth";
+import { addTransaction } from "../api/transaction";
 
 function Home() {
     const user = useSelector((state) => state.auth.user);
     const [cookies, setCookie, removeCookie] = useCookies();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const [selectedServices, setSelectedServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
     const [serviceRows, setServiceRows] = useState([]);
 
@@ -71,8 +80,19 @@ function Home() {
             }
         });
     };
-
     useEffect(RrefreshData, []);
+    const handleServiceSelect = (service) => {
+        const alreadySelected = selectedServices.find(
+            (s) => s.id === service.id
+        );
+        if (alreadySelected) {
+            setSelectedServices(
+                selectedServices.filter((s) => s.id !== service.id)
+            );
+        } else {
+            setSelectedServices([...selectedServices, service]);
+        }
+    };
 
     const logout = () => {
         removeCookie("AUTH_TOKEN");
@@ -118,13 +138,62 @@ function Home() {
         setDrawerOpen(!drawerOpen);
     };
 
-    const [username, setUsername] = useState("");
-    useEffect(() => {
-        setUsername(user?.username);
-    }, [user]);
+    const [serviceIds, setServiceIds] = useState([]);
+    const [newServiceId, setNewServiceId] = useState("");
 
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value);
+    const onAddService = () => {
+        const newId = newServiceId.trim();
+        if (newId !== "") {
+            setServiceIds([...serviceIds, newId]);
+            setNewServiceId("");
+        }
+    };
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleDialogOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
+
+    const onRemoveService = (index) => {
+        const updatedServiceIds = [...serviceIds];
+        updatedServiceIds.splice(index, 1);
+        setServiceIds(updatedServiceIds);
+    };
+
+    const onCreateTransaction = (e) => {
+        e.preventDefault();
+        if (!loading) {
+            const body = {
+                user_id: user?.id,
+                room_id: $("#room_id").val(), // Replace with React state handling
+                rent_start: $("#rent_start").val(),
+                rent_end: $("#rent_end").val(),
+                services: selectedServices.map((service) => ({
+                    service_id: service.id,
+                    price: service.price,
+                })),
+            };
+
+            addTransaction(body)
+                .then((res) => {
+                    console.log(res);
+                    if (res?.success) {
+                        toast.success(res?.message ?? "Transaction successful");
+                    } else {
+                        toast.error(
+                            res?.message ?? "Transaction creation failed."
+                        );
+                        setWarnings(res?.errors);
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
     };
 
     return (
@@ -148,7 +217,7 @@ function Home() {
                 </Drawer>
                 <Box
                     id="sidebarMenu"
-                    className="col-md-4 col-lg-2 d-md-block sidebar collapse p-0"
+                    className="col-md-4 col-lg-2 d-md-block sidebar collapse p-0 "
                 >
                     <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                         <Link to="/" id="link" className="navbar-brand">
@@ -224,7 +293,7 @@ function Home() {
                                         </Box>
                                     )}
 
-                                    {user?.role == "admin" && (
+                                    {user?.role === "admin" && (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/admin"
@@ -509,7 +578,6 @@ function Home() {
                     </Box>
                 </section>
 
-                {/* Booking Section */}
                 <section
                     className="booking-section section-padding"
                     id="booking-section"
@@ -517,166 +585,206 @@ function Home() {
                     <Box className="container">
                         <Box className="row">
                             <Box className="col-lg-10 col-12 mx-auto">
-                                <form
+                                <Box
+                                    variant="form"
                                     action="#"
                                     method="post"
                                     className="custom-form booking-form"
                                     id="bb-booking-form"
                                     role="form"
+                                    onSubmit={onCreateTransaction}
                                 >
                                     <Box className="text-center mb-5">
                                         <h2 className="mb-1">
                                             Make a Reservation
                                         </h2>
-
                                         <p>
-                                            Please fill out the form and we get
-                                            back to you
+                                            Please fill out the form and we will
+                                            get back to you.
                                         </p>
                                     </Box>
 
                                     <Box className="booking-form-body">
-                                        <Box className="row">
-                                            <Grid container spacing={2}>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="name"
-                                                        label="Fullname"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        fullWidth
-                                                        required
-                                                        value={username}
-                                                        onChange={
-                                                            handleUsernameChange
-                                                        }
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="mobile"
-                                                        label="Mobile"
-                                                        type="tel"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        fullWidth
-                                                        required
-                                                        value={
-                                                            user?.mobile ?? ""
-                                                        }
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="date-start"
-                                                        type="date"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        label="Date Start"
-                                                        fullWidth
-                                                        required
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="date-end"
-                                                        type="date"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        label="Date End"
-                                                        fullWidth
-                                                        required
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    xs={12}
-                                                    lg={6}
-                                                    className="mb-2 mt-1"
-                                                >
-                                                    <Autocomplete
-                                                        options={serviceRows.map(
-                                                            (row) => row.name
-                                                        )}
-                                                        value={selectedService}
-                                                        onChange={(
-                                                            event,
-                                                            newValue
-                                                        ) => {
-                                                            setSelectedService(
-                                                                newValue
-                                                            );
-                                                        }}
-                                                        renderInput={(
-                                                            params
-                                                        ) => (
-                                                            <TextField
-                                                                {...params}
-                                                                label="Service Name"
-                                                                variant="outlined"
-                                                            />
-                                                        )}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    xs={12}
-                                                    lg={6}
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} lg={6}>
+                                                <TextField
+                                                    id="name"
+                                                    label="Fullname"
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    fullWidth
+                                                    required
+                                                    value={user?.username ?? ""}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} lg={6}>
+                                                <TextField
+                                                    id="mobile"
+                                                    label="Mobile"
+                                                    type="number"
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    fullWidth
+                                                    required
+                                                    value={user?.mobile ?? ""}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} lg={6}>
+                                                <TextField
+                                                    id="rent_start"
+                                                    type="date"
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    label="Date Start"
+                                                    fullWidth
+                                                    required
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} lg={6}>
+                                                <TextField
+                                                    id="rent_end"
+                                                    type="date"
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    label="Date End"
+                                                    fullWidth
+                                                    required
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Button
+                                                    variant="outlined"
+                                                    onClick={handleDialogOpen}
                                                     style={{
-                                                        marginBottom: "10px",
-                                                        marginTop: "5px",
+                                                        textTransform: "none",
+                                                        marginTop: "15px",
                                                     }}
                                                 >
-                                                    <Autocomplete
-                                                        options={roomRows.map(
-                                                            (row) => row.name
+                                                    Select Services
+                                                </Button>
+                                                <Dialog
+                                                    open={openDialog}
+                                                    onClose={handleDialogClose}
+                                                >
+                                                    <DialogTitle>
+                                                        Select Services
+                                                    </DialogTitle>
+                                                    <DialogContent>
+                                                        {serviceRows.map(
+                                                            (service) => (
+                                                                <FormControlLabel
+                                                                    key={
+                                                                        service.id
+                                                                    }
+                                                                    control={
+                                                                        <Checkbox
+                                                                            icon={
+                                                                                <FontAwesomeIcon
+                                                                                    icon={
+                                                                                        faSquare
+                                                                                    }
+                                                                                />
+                                                                            }
+                                                                            checkedIcon={
+                                                                                <FontAwesomeIcon
+                                                                                    icon={
+                                                                                        faCheckSquare
+                                                                                    }
+                                                                                />
+                                                                            }
+                                                                            checked={
+                                                                                !!selectedServices.find(
+                                                                                    (
+                                                                                        s
+                                                                                    ) =>
+                                                                                        s.id ===
+                                                                                        service.id
+                                                                                )
+                                                                            }
+                                                                            onChange={() =>
+                                                                                handleServiceSelect(
+                                                                                    service
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    }
+                                                                    label={`${service.name} - ₱${service.price}`}
+                                                                />
+                                                            )
                                                         )}
-                                                        value={selectedRoom}
-                                                        onChange={(
-                                                            event,
-                                                            newValue
-                                                        ) => {
-                                                            setSelectedRoom(
-                                                                newValue
-                                                            );
-                                                        }}
-                                                        renderInput={(
-                                                            params
-                                                        ) => (
-                                                            <TextField
-                                                                {...params}
-                                                                label="Room Name"
-                                                                variant="outlined"
-                                                            />
-                                                        )}
-                                                    />
-                                                </Grid>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button
+                                                            onClick={
+                                                                handleDialogClose
+                                                            }
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                        <Button
+                                                            onClick={
+                                                                handleDialogClose
+                                                            }
+                                                            color="primary"
+                                                        >
+                                                            Save
+                                                        </Button>
+                                                    </DialogActions>
+                                                </Dialog>
                                             </Grid>
-                                            <TextareaAutosize
-                                                name="message"
-                                                rows="3"
-                                                className="form-control"
-                                                id="message"
-                                                placeholder="Comments (Optional)"
-                                            ></TextareaAutosize>
-                                        </Box>
-
-                                        <Box className="col-lg-4 col-md-10 col-8 mx-auto">
-                                            <Button
-                                                type="submit"
-                                                className="form-control mt-5"
+                                            <Grid item xs={12} lg={6}>
+                                                <Autocomplete
+                                                    options={roomRows.map(
+                                                        (row) => row.name
+                                                    )}
+                                                    value={selectedRoom}
+                                                    onChange={(
+                                                        event,
+                                                        newValue
+                                                    ) => {
+                                                        setSelectedRoom(
+                                                            newValue
+                                                        );
+                                                    }}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            label="Room Name"
+                                                            variant="outlined"
+                                                        />
+                                                    )}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <TextareaAutosize
+                                                    name="message"
+                                                    rows="3"
+                                                    className="form-control"
+                                                    id="message"
+                                                    placeholder="Comments (Optional)"
+                                                ></TextareaAutosize>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={12}
+                                                className="text-center"
                                             >
-                                                Submit
-                                            </Button>
-                                        </Box>
+                                                <Button
+                                                    type="submit"
+                                                    className="form-control mt-5"
+                                                >
+                                                    Submit
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
                                     </Box>
-                                </form>
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
@@ -755,7 +863,8 @@ function Home() {
                                     <Box className="text-white d-flex mb-1">
                                         <Box className="site-footer-link">
                                             <ul>
-                                                <li>
+                                                <li className="text-black">
+                                                    {" "}
                                                     <Link to="tel:+639453200320">
                                                         <FontAwesomeIcon
                                                             icon={faPhone}
@@ -767,7 +876,7 @@ function Home() {
                                                         (Globe)
                                                     </span>
                                                 </li>
-                                                <li>
+                                                <li className="text-black">
                                                     <Link to="tel:+639955185002">
                                                         <FontAwesomeIcon
                                                             icon={faPhone}
@@ -779,7 +888,7 @@ function Home() {
                                                         (Globe/Viber)
                                                     </span>
                                                 </li>
-                                                <li>
+                                                <li className="text-black">
                                                     <Link to="example@gmail.com">
                                                         <FontAwesomeIcon
                                                             icon={faEnvelope}

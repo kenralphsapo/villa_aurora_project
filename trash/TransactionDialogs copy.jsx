@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -9,18 +8,19 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import $ from "jquery";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import $ from "jquery";
-
 import {
     addTransaction,
     deleteTransaction,
     showAllTransactions,
     updateTransaction,
 } from "../../api/transaction";
+import { getAllDataPivot } from "../../api/pivot";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function TransactionDialogs() {
     const [transactionRows, setTransactionRows] = useState([]);
@@ -33,9 +33,7 @@ export function TransactionDialogs() {
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const [serviceRows, setServiceRows] = useState([]);
-    const [pivotRows, setPivotRows] = useState([]);
-
+    const [pivotrows, setPivotRows] = useState([]);
     const [serviceIds, setServiceIds] = useState([]);
     const [newServiceId, setNewServiceId] = useState("");
 
@@ -87,18 +85,7 @@ export function TransactionDialogs() {
         },
     ];
 
-    const servicecolumns = [
-        { field: "id", headerName: "ID" },
-        { field: "name", headerName: "Name" },
-        { field: "price", headerName: "Price" },
-    ];
-
-    const pivotcolumns = [
-        { field: "service_id", headerName: "Service ID" },
-        { field: "transaction_id", headerName: "Transaction ID" },
-        { field: "price", headerName: "Price" },
-    ];
-
+    // Function to add a service ID to the list
     const handleAddServiceId = () => {
         const newId = newServiceId.trim();
         if (newId !== "") {
@@ -107,12 +94,14 @@ export function TransactionDialogs() {
         }
     };
 
+    // Function to remove a service ID from the list
     const handleRemoveServiceId = (index) => {
         const updatedServiceIds = [...serviceIds];
         updatedServiceIds.splice(index, 1);
         setServiceIds(updatedServiceIds);
     };
 
+    // Function to create a new transaction
     const onCreateTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
@@ -129,7 +118,8 @@ export function TransactionDialogs() {
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction successful");
                         setCreateTransactionDialog(false);
-                        refreshData();
+                        TrefreshData();
+                        PivotrefreshData();
                         setWarnings({});
                         setServiceIds([]);
                         setNewServiceId("");
@@ -163,7 +153,7 @@ export function TransactionDialogs() {
                             res?.message ?? "Transaction has updated"
                         );
                         setEditTransactionDialog(null);
-                        refreshData();
+                        TrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -184,7 +174,8 @@ export function TransactionDialogs() {
                             res?.message ?? "Transaction has been deleted"
                         );
                         setDeleteTransactionDialog(null);
-                        refreshData();
+                        TrefreshData();
+                        PivotrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -195,29 +186,26 @@ export function TransactionDialogs() {
         }
     };
 
-    const refreshData = () => {
+    // Function to refresh transaction data
+    const TrefreshData = () => {
         showAllTransactions().then((res) => {
             if (res?.ok) {
-                const services = res.data.flatMap((transaction) =>
-                    transaction.services.map((service) => ({
-                        id: service.id,
-                        name: service.name,
-                        price: service.pivot.price,
-                    }))
-                );
-
-                // Extract pivot data for pivotRows
-                const pivot = res.data.flatMap((transaction) =>
-                    transaction.services.map((service) => ({
-                        id: `${service.id}-${transaction.id}`,
-                        service_id: service.id,
-                        transaction_id: transaction.id,
-                        price: service.pivot.price,
-                    }))
-                );
                 setTransactionRows(res.data);
-                setServiceRows(services);
-                setPivotRows(pivot);
+            } else {
+                toast.error(res?.message ?? "Something went wrong.");
+            }
+        });
+    };
+
+    // Function to refresh pivot data
+    const PivotrefreshData = () => {
+        getAllDataPivot().then((res) => {
+            if (res?.ok) {
+                const rowsWithId = res.data.map((row, index) => ({
+                    ...row,
+                    id: index + 1,
+                }));
+                setPivotRows(rowsWithId);
             } else {
                 toast.error(res?.message ?? "Something went wrong.");
             }
@@ -225,8 +213,16 @@ export function TransactionDialogs() {
     };
 
     useEffect(() => {
-        refreshData();
+        TrefreshData();
+        PivotrefreshData();
     }, []);
+
+    // Columns definition for pivot table
+    const pivotcolumns = [
+        { field: "service_id", headerName: "Service ID" },
+        { field: "transaction_id", headerName: "Transaction ID" },
+        { field: "price", headerName: "Price" },
+    ];
 
     return (
         <Box id="section4">
@@ -245,16 +241,8 @@ export function TransactionDialogs() {
                 rows={transactionRows}
             />
             <Box className="custom-width">
-                <Typography variant="h3">Service columns</Typography>
-                <DataGrid
-                    autoHeight
-                    columns={servicecolumns}
-                    rows={serviceRows}
-                />
-            </Box>
-            <Box className="custom-width">
-                <Typography variant="h3">Pivot Table</Typography>
-                <DataGrid autoHeight columns={pivotcolumns} rows={pivotRows} />
+                <Typography variant="h3">Pivot table</Typography>
+                <DataGrid autoHeight columns={pivotcolumns} rows={pivotrows} />
             </Box>
 
             {/* Create Transaction Dialog */}
@@ -262,6 +250,7 @@ export function TransactionDialogs() {
                 <DialogTitle>Create Transaction Form</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={onCreateTransaction}>
+                        {/* Form Fields */}
                         <Box>
                             <TextField
                                 id="user_id"
@@ -373,6 +362,7 @@ export function TransactionDialogs() {
                                 </Button>
                             </Box>
                         ))}
+                        {/* Form Actions */}
                         <Box className="d-flex justify-content-center align-items-center mt-2">
                             <Button
                                 color="info"

@@ -51,7 +51,7 @@ class AuthController extends Controller
             $imageName = $image->getClientOriginalName();
             $image->move(public_path('images'), $imageName);
         } else {
-            $imageName = 'default.png';
+            $imageName = 'default.jpg';
         }
     
         $validatedData = $validator->validated();

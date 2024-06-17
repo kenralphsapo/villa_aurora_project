@@ -144,27 +144,16 @@ class TransactionController extends Controller
 
      public function deleteTransaction(Transaction $transaction)
 {
-    try {
-        // Delete related testimonials
-        $transaction->testimonials()->delete();
 
-        // Now force delete the transaction itself
-        $transaction->forceDelete();
+        $transaction->delete();
 
         return response()->json([
             'success' => true,
             'message' => 'Transaction deleted successfully.',
             'data'=> $transaction,
         ]);
-    } catch (\Exception $e) {
-        // Handle any exceptions that may occur during deletion
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to delete transaction.',
-            'error' => $e->getMessage(), // Optional: Provide error details for debugging
-        ], 500); // Internal server error status code
-    }
 }
+
 
      
      

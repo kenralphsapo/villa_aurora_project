@@ -95,7 +95,7 @@ export function TransactionDialogs() {
 
     const pivotcolumns = [
         { field: "service_id", headerName: "Service ID" },
-        { field: "transaction_id", headerName: "Transaction ID" },
+        { field: "name", headerName: "Transaction ID" },
         { field: "price", headerName: "Price" },
     ];
 
@@ -209,13 +209,12 @@ export function TransactionDialogs() {
                 // Extract pivot data for pivotRows
                 const pivot = res.data.flatMap((transaction) =>
                     transaction.services.map((service) => ({
-                        id: `${service.id}-${transaction.id}`,
                         service_id: service.id,
                         transaction_id: transaction.id,
                         price: service.pivot.price,
                     }))
                 );
-                setTransactionRows(res.data);
+
                 setServiceRows(services);
                 setPivotRows(pivot);
             } else {

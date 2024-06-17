@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
-import $ from "jquery";
+
 import { register } from "../api/auth";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
