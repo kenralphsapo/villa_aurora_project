@@ -46,6 +46,7 @@ import { showAllRooms } from "../api/room";
 import Navigation from "../components/Navigation";
 import { login } from "../api/auth";
 import { addTransaction } from "../api/transaction";
+import BookingForm from "../components/BookingForm";
 
 function Home() {
     const user = useSelector((state) => state.auth.user);
@@ -68,9 +69,6 @@ function Home() {
 
     useEffect(SrefreshData, []);
 
-    const [roomRows, setRoomRows] = useState([]);
-    const [selectedRoom, setSelectedRoom] = useState(null);
-
     const RrefreshData = () => {
         showAllRooms().then((res) => {
             if (res?.ok) {
@@ -81,18 +79,6 @@ function Home() {
         });
     };
     useEffect(RrefreshData, []);
-    const handleServiceSelect = (service) => {
-        const alreadySelected = selectedServices.find(
-            (s) => s.id === service.id
-        );
-        if (alreadySelected) {
-            setSelectedServices(
-                selectedServices.filter((s) => s.id !== service.id)
-            );
-        } else {
-            setSelectedServices([...selectedServices, service]);
-        }
-    };
 
     const logout = () => {
         removeCookie("AUTH_TOKEN");
@@ -293,7 +279,7 @@ function Home() {
                                         </Box>
                                     )}
 
-                                    {user?.role === "admin" && (
+                                    {user?.role == "admin" && (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/admin"
@@ -578,217 +564,9 @@ function Home() {
                     </Box>
                 </section>
 
-                <section
-                    className="booking-section section-padding"
-                    id="booking-section"
-                >
-                    <Box className="container">
-                        <Box className="row">
-                            <Box className="col-lg-10 col-12 mx-auto">
-                                <Box
-                                    variant="form"
-                                    action="#"
-                                    method="post"
-                                    className="custom-form booking-form"
-                                    id="bb-booking-form"
-                                    role="form"
-                                    onSubmit={onCreateTransaction}
-                                >
-                                    <Box className="text-center mb-5">
-                                        <h2 className="mb-1">
-                                            Make a Reservation
-                                        </h2>
-                                        <p>
-                                            Please fill out the form and we will
-                                            get back to you.
-                                        </p>
-                                    </Box>
+                {/* Booking Section */}
 
-                                    <Box className="booking-form-body">
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={12} lg={6}>
-                                                <TextField
-                                                    id="name"
-                                                    label="Fullname"
-                                                    variant="outlined"
-                                                    margin="normal"
-                                                    fullWidth
-                                                    required
-                                                    value={user?.username ?? ""}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} lg={6}>
-                                                <TextField
-                                                    id="mobile"
-                                                    label="Mobile"
-                                                    type="number"
-                                                    variant="outlined"
-                                                    margin="normal"
-                                                    fullWidth
-                                                    required
-                                                    value={user?.mobile ?? ""}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} lg={6}>
-                                                <TextField
-                                                    id="rent_start"
-                                                    type="date"
-                                                    variant="outlined"
-                                                    margin="normal"
-                                                    label="Date Start"
-                                                    fullWidth
-                                                    required
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} lg={6}>
-                                                <TextField
-                                                    id="rent_end"
-                                                    type="date"
-                                                    variant="outlined"
-                                                    margin="normal"
-                                                    label="Date End"
-                                                    fullWidth
-                                                    required
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <Button
-                                                    variant="outlined"
-                                                    onClick={handleDialogOpen}
-                                                    style={{
-                                                        textTransform: "none",
-                                                        marginTop: "15px",
-                                                    }}
-                                                >
-                                                    Select Services
-                                                </Button>
-                                                <Dialog
-                                                    open={openDialog}
-                                                    onClose={handleDialogClose}
-                                                >
-                                                    <DialogTitle>
-                                                        Select Services
-                                                    </DialogTitle>
-                                                    <DialogContent>
-                                                        {serviceRows.map(
-                                                            (service) => (
-                                                                <FormControlLabel
-                                                                    key={
-                                                                        service.id
-                                                                    }
-                                                                    control={
-                                                                        <Checkbox
-                                                                            icon={
-                                                                                <FontAwesomeIcon
-                                                                                    icon={
-                                                                                        faSquare
-                                                                                    }
-                                                                                />
-                                                                            }
-                                                                            checkedIcon={
-                                                                                <FontAwesomeIcon
-                                                                                    icon={
-                                                                                        faCheckSquare
-                                                                                    }
-                                                                                />
-                                                                            }
-                                                                            checked={
-                                                                                !!selectedServices.find(
-                                                                                    (
-                                                                                        s
-                                                                                    ) =>
-                                                                                        s.id ===
-                                                                                        service.id
-                                                                                )
-                                                                            }
-                                                                            onChange={() =>
-                                                                                handleServiceSelect(
-                                                                                    service
-                                                                                )
-                                                                            }
-                                                                        />
-                                                                    }
-                                                                    label={`${service.name} - ₱${service.price}`}
-                                                                />
-                                                            )
-                                                        )}
-                                                    </DialogContent>
-                                                    <DialogActions>
-                                                        <Button
-                                                            onClick={
-                                                                handleDialogClose
-                                                            }
-                                                        >
-                                                            Cancel
-                                                        </Button>
-                                                        <Button
-                                                            onClick={
-                                                                handleDialogClose
-                                                            }
-                                                            color="primary"
-                                                        >
-                                                            Save
-                                                        </Button>
-                                                    </DialogActions>
-                                                </Dialog>
-                                            </Grid>
-                                            <Grid item xs={12} lg={6}>
-                                                <Autocomplete
-                                                    options={roomRows.map(
-                                                        (row) => row.name
-                                                    )}
-                                                    value={selectedRoom}
-                                                    onChange={(
-                                                        event,
-                                                        newValue
-                                                    ) => {
-                                                        setSelectedRoom(
-                                                            newValue
-                                                        );
-                                                    }}
-                                                    renderInput={(params) => (
-                                                        <TextField
-                                                            {...params}
-                                                            label="Room Name"
-                                                            variant="outlined"
-                                                        />
-                                                    )}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextareaAutosize
-                                                    name="message"
-                                                    rows="3"
-                                                    className="form-control"
-                                                    id="message"
-                                                    placeholder="Comments (Optional)"
-                                                ></TextareaAutosize>
-                                            </Grid>
-                                            <Grid
-                                                item
-                                                xs={12}
-                                                className="text-center"
-                                            >
-                                                <Button
-                                                    type="submit"
-                                                    className="form-control mt-5"
-                                                >
-                                                    Submit
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Box>
-                </section>
+                <BookingForm />
 
                 {/* Price Section */}
                 <section

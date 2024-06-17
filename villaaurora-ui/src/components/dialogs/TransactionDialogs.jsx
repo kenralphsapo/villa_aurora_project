@@ -12,7 +12,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 
 import {
@@ -38,7 +38,7 @@ export function TransactionDialogs() {
 
     const [serviceIds, setServiceIds] = useState([]);
     const [newServiceId, setNewServiceId] = useState("");
-
+    const [position, setPosition] = useState(false);
     // Columns definition for transaction and pivot tables
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
@@ -89,13 +89,13 @@ export function TransactionDialogs() {
 
     const servicecolumns = [
         { field: "id", headerName: "ID" },
-        { field: "name", headerName: "Name" },
+        { field: "name", headerName: "Name", width: 100 },
         { field: "price", headerName: "Price" },
     ];
 
     const pivotcolumns = [
         { field: "service_id", headerName: "Service ID" },
-        { field: "transaction_id", headerName: "Transaction ID" },
+        { field: "transaction_id", headerName: "Transaction ID", width: 200 },
         { field: "price", headerName: "Price" },
     ];
 
@@ -245,16 +245,26 @@ export function TransactionDialogs() {
                 rows={transactionRows}
             />
             <Box className="custom-width">
-                <Typography variant="h3">Service columns</Typography>
-                <DataGrid
-                    autoHeight
-                    columns={servicecolumns}
-                    rows={serviceRows}
-                />
-            </Box>
-            <Box className="custom-width">
-                <Typography variant="h3">Pivot Table</Typography>
-                <DataGrid autoHeight columns={pivotcolumns} rows={pivotRows} />
+                <Typography variant="h3">
+                    {position ? "Service columns " : "Pivot Table "}
+                    <FontAwesomeIcon
+                        icon={faRefresh}
+                        onClick={() => setPosition(!position)}
+                    />
+                </Typography>
+                {position ? (
+                    <DataGrid
+                        autoHeight
+                        columns={servicecolumns}
+                        rows={serviceRows}
+                    />
+                ) : (
+                    <DataGrid
+                        autoHeight
+                        columns={pivotcolumns}
+                        rows={pivotRows}
+                    />
+                )}
             </Box>
 
             {/* Create Transaction Dialog */}
