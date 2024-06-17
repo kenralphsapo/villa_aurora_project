@@ -123,6 +123,30 @@ class ServiceController extends Controller
             "data" => $service,
         ], 200);
     }
+
+    // public function updateService(Request $request, Service $service){
+    //     $validator = validator($request->all(), [
+    //         "name" => "sometimes|min:1|max:50|string",
+    //         "price" => "sometimes|min:1|max:100000|numeric"
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             "ok" => false,
+    //             "message" => "Service Update failed.",
+    //             "errors" => $validator->errors()
+    //         ], 400);
+    //     }
+
+    //     // $service->update($request->only(['name', 'price']));
+    //     $service->update($validator->validated());
+    //     return response()->json([
+    //         "ok" => true,
+    //         "message" => "Service has been updated!",
+    //         "data" => $service
+    //     ], 200);
+
+    // }
     
     /**
      * DELETE specific user using ID

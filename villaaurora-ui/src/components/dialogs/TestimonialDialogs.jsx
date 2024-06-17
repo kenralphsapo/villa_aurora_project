@@ -32,12 +32,14 @@ export function TestimonialDialogs() {
         useState(null);
     const [editTestimonialDialog, setEditTestimonialDialog] = useState(null);
     const [createTestimonialDialog, setCreateTestimonialDialog] =
-    useState(false);
+        useState(false);
     const [loading, setLoading] = useState(false);
+
+    const [warnings, setWarnings] = useState({});
     // For Testimonials
     const testimonialcolumns = [
-        { field: "id", headerName: "Transaction ID", width: 200 },
-        { field: "feedback", headerName: "Feedback", width: 350 },
+        { field: "id", headerName: "Transaction ID", width: 150 },
+        { field: "feedback", headerName: "Feedback", width: 250 },
         { field: "rating", headerName: "Rating" },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
@@ -91,10 +93,10 @@ export function TestimonialDialogs() {
             addTestimonial(body)
                 .then((res) => {
                     console.log(res);
-                    if (res?.success) {
+                    if (res?.ok) {
                         toast.success(res?.message ?? "Testimonial successful");
                         setCreateTestimonialDialog(false);
-                        TestrefreshData()
+                        TestrefreshData();
                         setWarnings({});
                     } else {
                         toast.error(
@@ -170,63 +172,63 @@ export function TestimonialDialogs() {
 
     return (
         <Box className="mt-2" id="section5">
-              <Box
+            <Box
                 sx={{
                     display: "flex",
                     justifyContent: "flex-start",
                     py: 2,
                 }}
             >
-               <Typography variant="h2">Testimonials</Typography>
+                <Typography variant="h2">Testimonials</Typography>
                 <Button
                     sx={{ mr: 5 }}
                     onClick={() => setCreateTestimonialDialog(true)}
                 >
-                       <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
                 </Button>
             </Box>
-            
+
             <DataGrid
                 autoHeight
                 columns={testimonialcolumns}
                 rows={testiomonialRows}
             />
-             <Dialog open={createTestimonialDialog}>
+            <Dialog open={createTestimonialDialog}>
                 <DialogTitle>Create Transaction Form</DialogTitle>
                 <DialogContent>
-                <Box component="form" onSubmit={onCreateTestimonial}>
-                <Box>
-                    <TextField
-                        id="transaction_id"
-                        label="Transaction ID"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                    />
-                </Box>
-                <Box>
-                    <TextField
-                        id="feedback"
-                        label="Feedback"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                    />
-                </Box>
-                <Box>
-                    <TextField
-                        id="rating"
-                        label="Rating"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                    />
-                </Box>
-                
-                <Box className="d-flex justify-content-center align-items-center mt-2">
+                    <Box component="form" onSubmit={onCreateTestimonial}>
+                        <Box>
+                            <TextField
+                                id="transaction_id"
+                                label="Transaction ID"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                required
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                id="feedback"
+                                label="Feedback"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                required
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                id="rating"
+                                label="Rating"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                required
+                            />
+                        </Box>
+
+                        <Box className="d-flex justify-content-center align-items-center mt-2">
                             <Button
                                 color="info"
                                 onClick={() =>
@@ -244,10 +246,9 @@ export function TestimonialDialogs() {
                                 Submit
                             </Button>
                         </Box>
-            </Box>
+                    </Box>
                 </DialogContent>
             </Dialog>
-
 
             {/* Delete Testimonial */}
             <Dialog open={!!deleteTestimonialDialog}>

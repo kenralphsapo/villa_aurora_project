@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
-            // $table->id()->primary();
             $table->string('feedback');
             $table->unsignedInteger('rating');
-            $table->foreign("id")->references("id")->on("transactions");
+            $table->unsignedBigInteger('transaction_id');
+            $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */

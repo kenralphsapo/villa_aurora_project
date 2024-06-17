@@ -21,7 +21,7 @@ class SentEmailLog extends Model
     ];
 
     // Define relationships if any
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }

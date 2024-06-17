@@ -29,9 +29,9 @@ export function RoomDialog() {
     const [loading, setLoading] = useState(false);
     // For Rooms
     const roomcolumns = [
-        { field: "id", headerName: "ID", width:100 },
+        { field: "id", headerName: "ID", width: 100 },
         { field: "name", headerName: "Room Name" },
-        { field: "price", headerName: "Room Price"  },
+        { field: "price", headerName: "Room Price" },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
         {
@@ -154,7 +154,7 @@ export function RoomDialog() {
         const value = e.target.value;
         e.target.value = value.replace(/[^0-9]/g, "");
     };
-    
+
     return (
         <Box id="section3">
             <Box
@@ -169,7 +169,7 @@ export function RoomDialog() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateRoomDialog(true)}
                 >
-                    <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
                 </Button>
             </Box>
             <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
@@ -187,20 +187,32 @@ export function RoomDialog() {
                                 fullWidth
                                 required
                             />
+                            {warnings?.name ? (
+                                <Typography component="small" color="error">
+                                    {warnings.name}
+                                </Typography>
+                            ) : null}
                         </Box>
-                        <TextField
-                            id="price"
-                            label="Price"
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            required
-                            inputProps={{
-                                inputMode: "numeric",
-                                pattern: "[0-9]*",
-                            }}
-                            onInput={handlePriceInput}
-                        />
+                        <Box>
+                            <TextField
+                                id="price"
+                                label="Price"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                required
+                                inputProps={{
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                }}
+                                onInput={handlePriceInput}
+                            />
+                            {warnings?.price ? (
+                                <Typography component="small" color="error">
+                                    {warnings.price}
+                                </Typography>
+                            ) : null}
+                        </Box>
                         <Box className="d-flex justify-content-center align-items-center">
                             <Button
                                 color="info"

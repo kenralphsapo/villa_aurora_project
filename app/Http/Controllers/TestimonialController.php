@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
+use App\Models\Transaction;
+
 
 class TestimonialController extends Controller
 {
@@ -17,33 +19,37 @@ class TestimonialController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function addTestimonial(Request $request)
-    {
-        $validator = validator($request->all(), [
-            "feedback" => "sometimes|min:4|string||max:500",
-            "rating" => "required|min:0|max:5|int",
-            'transaction_id' => 'required|exists:transactions,id',
-        ]);
-
-        //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
-
-        if ($validator->fails()) {
-            return response()->json([
-                "ok" => false,
-                "message" => "Request didnt pass the validation.",
-                "errors" => $validator->errors(),
-            ], 400);
-        }
-
-        $testimonial = Testimonial::create($validator->validated());
-
-        return response()->json([
-            "ok" => true,
-            "message" => "Testimonial has been created!",
-            "data" => $testimonial,
-        ], 201);
-    }
-
+     public function addTestimonial(Request $request)
+     {
+         $validator = validator($request->all(), [
+             "transaction_id" => "required|exists:transactions,id",
+             "feedback" => "sometimes|min:4|string|max:500",
+             "rating" => "required|integer|min:0|max:5",
+         ]);
+     
+         if ($validator->fails()) {
+             return response()->json([
+                 "ok" => false,
+                 "message" => "Request didn't pass the validation.",
+                 "errors" => $validator->errors(),
+             ], 400);
+         }
+     
+       
+         $validated = $validator->validated();
+         $transaction = Transaction::find($validated['transaction_id']);
+         $testimonial = $transaction->testimonial()->create([
+             'feedback' => $validated['feedback'],
+             'rating' => $validated['rating'],
+         ]);
+     
+         return response()->json([
+             "ok" => true,
+             "message" => "Testimonial has been created!",
+             "data" => $testimonial, // Optionally return the created testimonial
+         ], 201);
+     }
+     
     /**
      * RETRIEVE all testimonials
      * @param Request
@@ -84,30 +90,32 @@ class TestimonialController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function updateTestimonial(Request $request, Testimonial $testimonial)
-    {
-        $validator = validator($request->all(), [
-            "feedback" => "sometimes|min:4|string|max:500,$testimonial->id|max:500",
-            "rating" => "sometimes|min:0|max:5|int,$testimonial->id|max:5",
-            'transaction_id' => 'sometimes|exists:transactions,id',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                "ok" => false,
-                "message" => "Request didn't pass the validation",
-                "errors" => $validator->errors(),
-            ], 400);
-        }
-
-        $testimonial->updateTestimonial($validator->validated());
-
-        return response()->json([
-            "ok" => true,
-            "message" => "Testimonial has been updated!",
-            "data" => $testimonial,
-        ], 200);
-    }
+     public function updateTestimonial(Request $request, Testimonial $testimonial)
+     {
+         $validator = validator($request->all(), [
+             "feedback" => "sometimes|min:4|string|max:500",
+             "rating" => "sometimes|integer|min:0|max:5",
+             'transaction_id' => 'sometimes|exists:transactions,id',
+         ]);
+     
+         if ($validator->fails()) {
+             return response()->json([
+                 "ok" => false,
+                 "message" => "Request didn't pass the validation",
+                 "errors" => $validator->errors(),
+             ], 400);
+         }
+     
+         // Update only the validated fields
+         $testimonial->update($validator->validated());
+     
+         return response()->json([
+             "ok" => true,
+             "message" => "Testimonial has been updated!",
+             "data" => $testimonial,
+         ], 200);
+     }
+     
 
     /**
      * DELETE specific testimonial using ID

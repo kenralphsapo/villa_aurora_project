@@ -39,7 +39,7 @@ function App() {
         {
             path: "*",
             element: <NotFound />,
-        }
+        },
     ]);
 
     return (

@@ -546,10 +546,10 @@ function Home() {
                                                         margin="normal"
                                                         fullWidth
                                                         required
-                                                        value={
-                                                            username
+                                                        value={username}
+                                                        onChange={
+                                                            handleUsernameChange
                                                         }
-                                                        onChange={handleUsernameChange}
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} lg={6}>
