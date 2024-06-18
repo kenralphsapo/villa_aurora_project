@@ -86,16 +86,20 @@ export function RoomDialog() {
             updateRoom(
                 {
                     name: editRoomDialog.name,
+                    price: editRoomDialog.price,
                 },
                 editRoomDialog.id
             )
                 .then((res) => {
+                    console.log(res);
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
                         setEditRoomDialog(null);
                         RrefreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res.data);
                     }
                 })
                 .finally(() => {
@@ -150,11 +154,6 @@ export function RoomDialog() {
         }
     };
 
-    const handlePriceInput = (e) => {
-        const value = e.target.value;
-        e.target.value = value.replace(/[^0-9]/g, "");
-    };
-
     return (
         <Box id="section3">
             <Box
@@ -201,11 +200,7 @@ export function RoomDialog() {
                                 margin="normal"
                                 fullWidth
                                 required
-                                inputProps={{
-                                    inputMode: "numeric",
-                                    pattern: "[0-9]*",
-                                }}
-                                onInput={handlePriceInput}
+                                type="name"
                             />
                             {warnings?.price ? (
                                 <Typography component="small" color="error">
@@ -273,6 +268,31 @@ export function RoomDialog() {
                                 type="text"
                                 fullWidth
                             />
+                            {warnings?.name ? (
+                                <Typography component="small" color="error">
+                                    {warnings.name}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box sx={{ mt: 1 }}>
+                            <TextField
+                                onChange={(e) =>
+                                    setEditRoomDialog({
+                                        ...editRoomDialog,
+                                        price: e.target.value,
+                                    })
+                                }
+                                value={editRoomDialog?.price ?? ""}
+                                size="small"
+                                label="Price"
+                                type="text"
+                                fullWidth
+                            />
+                            {warnings?.price ? (
+                                <Typography component="small" color="error">
+                                    {warnings.price}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Button
                             id="room-btn"

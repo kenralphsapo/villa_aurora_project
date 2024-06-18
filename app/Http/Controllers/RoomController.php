@@ -86,7 +86,7 @@ class RoomController extends Controller
     {
         $validator = validator($request->all(), [
 
-            "name" => "sometimes|min:1|max:50|string|max:50",
+            "name" => "sometimes|min:1|max:50|string|unique:rooms|max:50",
             "price" => "sometimes|min:1|max:100000|numeric",
         ]);
 
