@@ -23,18 +23,21 @@ function Admin() {
     const [isTestimonialDialogVisible, setTestimonialDialogVisible] =
         useState(false);
 
+    /*if (user?.role !== "admin") {
+        return <NotFound />;
+    }*/
     return (
         <Box>
-            {user?.role == "admin" ? (
+                {user?.role == "admin" ? (
                 <Box id="custom-admin">
                     <Box>
                         <Box id="customnavadmin">
-                            <Box>
-                                <img
-                                    src={logo}
-                                    alt="Logo"
-                                    className="admin-logo"
-                                />
+                            <Box >
+                            <img
+                                src={logo}
+                                alt="Logo"
+                                className="admin-logo"
+                            />
 
                                 <Box className="">
                                     <Typography
@@ -76,7 +79,7 @@ function Admin() {
                         </Box>
                     </Box>
                 </Box>
-            ) : (
+              ) : (
                 <NotFound />
             )}
         </Box>

@@ -29,12 +29,12 @@ export function ServiceDialog() {
     const [createServDialog, setCreateServDialog] = useState(false);
     const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
     const [editServiceDialog, setEditServiceDialog] = useState(null);
-    
+
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
 
     const servicecolumns = [
-        { field: "id", headerName: "ID",width:10 },
+        { field: "id", headerName: "ID", width: 10 },
         { field: "name", headerName: "Service Name", width: 160 },
         { field: "price", headerName: "Price", width: 160 },
         { field: "created_at", headerName: "Create At", width: 200 },
@@ -88,7 +88,7 @@ export function ServiceDialog() {
         },
     ];
 
-    const SrefreshData = () => {
+    const refreshData = () => {
         showAllServices().then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
@@ -98,7 +98,7 @@ export function ServiceDialog() {
         });
     };
 
-    useEffect(SrefreshData, []);
+    useEffect(refreshData, []);
 
     const onCreateService = (e) => {
         e.preventDefault();
@@ -123,7 +123,7 @@ export function ServiceDialog() {
                             res?.message ?? "Service has been created"
                         );
                         setCreateServDialog(false);
-                        SrefreshData();
+                        refreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                         setWarnings(res?.errors);
@@ -143,7 +143,7 @@ export function ServiceDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Service has deleted");
                         setServiceDeleteDialog(null);
-                        SrefreshData();
+                        refreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -169,7 +169,7 @@ export function ServiceDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Service has updated");
                         setEditServiceDialog(null);
-                        SrefreshData();
+                        refreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -194,7 +194,7 @@ export function ServiceDialog() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateServDialog(true)}
                 >
-                       <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
                 </Button>
             </Box>
             <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
@@ -205,10 +205,7 @@ export function ServiceDialog() {
             >
                 <DialogTitle>Create Service Form</DialogTitle>
                 <DialogContent>
-                    <Box
-                        component="form"
-                        onSubmit={onCreateService}
-                    >
+                    <Box component="form" onSubmit={onCreateService}>
                         <Box>
                             <TextField
                                 id="name"

@@ -59,7 +59,7 @@ function Myaccout() {
                 if (res?.ok) {
                     navigate("/");
                     dispatch(login(res.data));
-                    toast.success(res?.message ?? "Updated in successfully.");
+                    toast.success(res?.message ?? "Updated successfully.");
                 } else {
                     toast.error(res?.message ?? "Something went wrong.");
                 }
@@ -93,218 +93,234 @@ function Myaccout() {
             {user ? (
                 <Box id="homebg">
                     {user?.role !== "admin" ? (
-                     <>
-                        <Box className="row">
-                        <Box
-                            id="sidebarMenu"
-                            className="col-md-3 col-lg-2 d-md-block sidebar collapse p-0"
-                        >
-                            <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
-                                <Link to="/" id="link" className="navbar-brand">
-                                    <img
-                                        src={logo}
-                                        alt="Logo"
-                                        className="logo-image img-fluid"
-                                    />
-                                    <Typography
-                                        id="customheader"
-                                        variant="h5"
-                                        className="text-white"
-                                    >
-                                        Villa Aurora Private Resort
-                                    </Typography>
-                                </Link>
-                                <Typography
-                                    variant="h6"
-                                    className="text-black mt-2"
-                        
-                                >
-                                    Welcome{" "}
-                                    {user?.username ?? "Wait, Who are you??"}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                    <Box className="col-md-8 ms-sm-auto col-lg-10 p-0">
-                            <Box
-                                className="d-flex justify-content-center align-items-center"
-                                style={{ height: "100vh" }}
-                            >
+                        <>
+                            <Box className="row">
                                 <Box
-                                    id="custom-account"
-                                    component="form"
-                                    onSubmit={onSubmit}
+                                    id="sidebarMenu"
+                                    className="col-md-3 col-lg-2 d-md-block sidebar collapse p-0"
                                 >
-                                    <Typography
-                                        variant="h3"
-                                        className="text-center"
+                                    <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+                                        <Link
+                                            to="/"
+                                            id="link"
+                                            className="navbar-brand"
+                                        >
+                                            <img
+                                                src={logo}
+                                                alt="Logo"
+                                                className="logo-image img-fluid"
+                                            />
+                                            <Typography
+                                                id="customheader"
+                                                variant="h5"
+                                                className="text-white"
+                                            >
+                                                Villa Aurora Private Resort
+                                            </Typography>
+                                        </Link>
+                                        <Typography
+                                            variant="h6"
+                                            className="text-black mt-2"
+                                        >
+                                            Welcome{" "}
+                                            {user?.username ??
+                                                "Wait, Who are you??"}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </Box>
+                            <Box className="col-md-8 ms-sm-auto col-lg-10 p-0">
+                                <Box
+                                    className="d-flex justify-content-center align-items-center"
+                                    style={{ height: "100vh" }}
+                                >
+                                    <Box
+                                        id="custom-account"
+                                        component="form"
+                                        onSubmit={onSubmit}
                                     >
-                                        {showAccount
-                                            ? "EDIT ACCOUNT"
-                                            : "MY ACCOUNT"}
-                                    </Typography>
-                                    <Box sx={{ mt: 1 }}>
+                                        <Typography
+                                            variant="h3"
+                                            className="text-center"
+                                        >
+                                            {showAccount
+                                                ? "EDIT ACCOUNT"
+                                                : "MY ACCOUNT"}
+                                        </Typography>
+                                        <Box sx={{ mt: 1 }}>
+                                            {showAccount ? (
+                                                <TextField
+                                                    size="small"
+                                                    label="Username"
+                                                    type="text"
+                                                    onChange={(e) =>
+                                                        setUsername(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    value={username}
+                                                    fullWidth
+                                                />
+                                            ) : (
+                                                <Typography className="text-black">
+                                                    Name: {username}
+                                                </Typography>
+                                            )}
+                                        </Box>
+                                        <Box sx={{ mt: 1 }}>
+                                            {showAccount ? (
+                                                <TextField
+                                                    onChange={(e) =>
+                                                        setMobile(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    value={mobile}
+                                                    size="small"
+                                                    label="Mobile"
+                                                    type="text"
+                                                    fullWidth
+                                                />
+                                            ) : (
+                                                <Typography className="text-black">
+                                                    Mobile: {mobile}
+                                                </Typography>
+                                            )}
+                                        </Box>
+                                        <Box sx={{ mt: 1 }}>
+                                            {showAccount ? (
+                                                <TextField
+                                                    onChange={(e) =>
+                                                        setEmail(e.target.value)
+                                                    }
+                                                    value={email}
+                                                    size="small"
+                                                    label="Email"
+                                                    type="email"
+                                                    fullWidth
+                                                />
+                                            ) : (
+                                                <Typography className="text-black">
+                                                    Email: {email}
+                                                </Typography>
+                                            )}
+                                        </Box>
                                         {showAccount ? (
-                                            <TextField
-                                                size="small"
-                                                label="Username"
-                                                type="text"
-                                                onChange={(e) =>
-                                                    setUsername(e.target.value)
-                                                }
-                                                value={username}
-                                                fullWidth
-                                            />
-                                        ) : (
-                                            <Typography className="text-black">
-                                                Name: {username}
-                                            </Typography>
-                                        )}
-                                    </Box>
-                                    <Box sx={{ mt: 1 }}>
-                                        {showAccount ? (
-                                            <TextField
-                                                onChange={(e) =>
-                                                    setMobile(e.target.value)
-                                                }
-                                                value={mobile}
-                                                size="small"
-                                                label="Mobile"
-                                                type="text"
-                                                fullWidth
-                                            />
-                                        ) : (
-                                            <Typography className="text-black">
-                                                Mobile: {mobile}
-                                            </Typography>
-                                        )}
-                                    </Box>
-                                    <Box sx={{ mt: 1 }}>
-                                        {showAccount ? (
-                                            <TextField
-                                                onChange={(e) =>
-                                                    setEmail(e.target.value)
-                                                }
-                                                value={email}
-                                                size="small"
-                                                label="Email"
-                                                type="email"
-                                                fullWidth
-                                            />
-                                        ) : (
-                                            <Typography className="text-black">
-                                                Email: {email}
-                                            </Typography>
-                                        )}
-                                    </Box>
-                                    {showAccount ? (
-                                        <Button
-                                            type="submit"
-                                            id="custom-editbtn"
-                                            disabled={loading}
-                                        >
-                                            Edit
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            type="submit"
-                                            id="custom-editbtn"
-                                            disabled={loading}
-                                            onClick={()=> setAccount(true)}
-                                        >
-                                            Edit Account
-                                        </Button>
-                                    )}
-                                    {showAccount ? (
-                                        <Button
-                                           disabled={loading}
-                                            onClick={()=> setAccount(false)}
-                                            id="custom-cancelbtn"
-                                        >
-                                            Cancel Edit
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                        disabled={loading}
-                                            type="submit"
-                                            color="info"
-                                            href="/"
-                                            id="custom-cancelbtn"
-                                        >
-                                            Cancel
-                                        </Button>
-                                    )}
-
-                                    <Button
-                                        onClick={() => setDeleteDialog(user.id)}
-                                        id="custom-deletebtn"
-                                    >
-                                        Delete
-                                    </Button>
-                                    <Dialog open={!!deleteDialog}>
-                                        <DialogTitle>Are you sure?</DialogTitle>
-                                        <DialogContent>
-                                            <Typography>
-                                                Do you want to delete this
-                                                Account
-                                            </Typography>
-                                        </DialogContent>
-                                        <DialogActions
-                                            sx={{
-                                                display: !!deleteDialog
-                                                    ? "flex"
-                                                    : "none",
-                                            }}
-                                        >
                                             <Button
+                                                type="submit"
+                                                id="custom-editbtn"
+                                                disabled={loading}
+                                            >
+                                                Save
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                id="custom-editbtn"
+                                                onClick={() => setAccount(true)}
+                                                disabled={loading}
+                                            >
+                                                Edit Account
+                                            </Button>
+                                        )}
+                                        {showAccount ? (
+                                            <Button
+                                                id="custom-cancelbtn"
                                                 onClick={() =>
-                                                    setDeleteDialog(null)
+                                                    setAccount(false)
                                                 }
+                                                disabled={loading}
                                             >
                                                 Cancel
                                             </Button>
+                                        ) : (
                                             <Button
                                                 disabled={loading}
-                                                onClick={() =>
-                                                    setDeletePermanentDialog(
-                                                        user.id
-                                                    )
-                                                }
+                                                type="submit"
+                                                color="info"
+                                                href="/"
+                                                id="custom-cancelbtn"
                                             >
-                                                Confirm
+                                                Cancel
                                             </Button>
-                                            <Dialog
-                                                open={!!deletePermanentDialog}
+                                        )}
+
+                                        <Button
+                                            onClick={() =>
+                                                setDeleteDialog(user.id)
+                                            }
+                                            id="custom-deletebtn"
+                                        >
+                                            Delete
+                                        </Button>
+                                        <Dialog open={!!deleteDialog}>
+                                            <DialogTitle>
+                                                Are you sure?
+                                            </DialogTitle>
+                                            <DialogContent>
+                                                <Typography>
+                                                    Do you want to delete this
+                                                    Account
+                                                </Typography>
+                                            </DialogContent>
+                                            <DialogActions
+                                                sx={{
+                                                    display: !!deleteDialog
+                                                        ? "flex"
+                                                        : "none",
+                                                }}
                                             >
-                                                <DialogTitle>
-                                                    Terms and Conditions
-                                                </DialogTitle>
-                                                <DialogContent>
-                                                    <Typography>
-                                                        By deleting this
-                                                        account, you acknowledge
-                                                        that it will no longer
-                                                        be possible to log in to
-                                                        this account once it is
-                                                        deleted.
-                                                    </Typography>
-                                                </DialogContent>
-                                                <DialogActions>
-                                                    <Button
-                                                        disabled={loading}
-                                                        onClick={onDelete}
-                                                    >
-                                                        Delete Permanently
-                                                    </Button>
-                                                </DialogActions>
-                                            </Dialog>
-                                        </DialogActions>
-                                    </Dialog>
+                                                <Button
+                                                    onClick={() =>
+                                                        setDeleteDialog(null)
+                                                    }
+                                                >
+                                                    Cancel
+                                                </Button>
+                                                <Button
+                                                    disabled={loading}
+                                                    onClick={() =>
+                                                        setDeletePermanentDialog(
+                                                            user.id
+                                                        )
+                                                    }
+                                                >
+                                                    Confirm
+                                                </Button>
+                                                <Dialog
+                                                    open={
+                                                        !!deletePermanentDialog
+                                                    }
+                                                >
+                                                    <DialogTitle>
+                                                        Terms and Conditions
+                                                    </DialogTitle>
+                                                    <DialogContent>
+                                                        <Typography>
+                                                            By deleting this
+                                                            account, you
+                                                            acknowledge that it
+                                                            will no longer be
+                                                            possible to log in
+                                                            to this account once
+                                                            it is deleted.
+                                                        </Typography>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button
+                                                            disabled={loading}
+                                                            onClick={onDelete}
+                                                        >
+                                                            Delete Permanently
+                                                        </Button>
+                                                    </DialogActions>
+                                                </Dialog>
+                                            </DialogActions>
+                                        </Dialog>
+                                    </Box>
                                 </Box>
                             </Box>
-                    </Box>
-                     </>
-                    ):(
+                        </>
+                    ) : (
                         <NotFound />
                     )}
                 </Box>

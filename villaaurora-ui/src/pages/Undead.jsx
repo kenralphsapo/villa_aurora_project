@@ -15,57 +15,14 @@ import { addTestimonial, showAllTestimonials } from "../api/testimonial";
 import { toast } from "react-toastify";
 
 export default function Undead() {
-    const [createTestimonialDialog, setCreateTestimonialDialog] =
-        useState(false);
-    const [loading, setLoading] = useState(false);
-    const [rating, setRating] = useState(0);
-
-    const handleStarClick = (starValue) => {
-        setRating(starValue);
-    };
-
-    const onCreateTestimonial = (e) => {
-        e.preventDefault();
-        if (!loading) {
-            const body = {
-                transaction_id: document.getElementById("transaction_id").value,
-                feedback: document.getElementById("feedback").value,
-                rating: rating,
-            };
-
-            addTestimonial(body)
-                .then((res) => {
-                    console.log(res);
-                    if (res?.ok) {
-                        toast.success(res?.message ?? "Testimonial successful");
-                        setCreateTestimonialDialog(false);
-                        TestrefreshData();
-                    } else {
-                        toast.error(
-                            res?.message ?? "Testimonial creation failed."
-                        );
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
-    const [testiomonialRows, setTestimonialRows] = useState([]);
-    const TestrefreshData = () => {
-        showAllTestimonials().then((res) => {
-            if (res?.ok) {
-                setTestimonialRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    useEffect(TestrefreshData, []);
-
     return (
         <>
+            <div className="App">
+                <header className="App-header">
+                    <h1>My Calendar App</h1>
+                </header>
+                <MyCalendar />
+            </div>
             <Button
                 sx={{ mr: 5 }}
                 onClick={() => setCreateTestimonialDialog(true)}

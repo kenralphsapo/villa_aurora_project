@@ -3,8 +3,9 @@ import logo from "../pages/images/logo.jpg";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import checkAuth from "../hoc/checkAuth";
 
-export default function Navigation({ toggleDrawer, logout }) {
+function Navigation({ toggleDrawer, logout }) {
     const user = useSelector((state) => state.auth.user);
     return (
         <Box id="sidebarMenu">
@@ -118,3 +119,4 @@ export default function Navigation({ toggleDrawer, logout }) {
         </Box>
     );
 }
+export default checkAuth(Navigation);

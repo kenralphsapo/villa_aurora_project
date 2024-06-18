@@ -39,7 +39,7 @@ export function TransactionDialogs() {
     const [serviceIds, setServiceIds] = useState([]);
     const [newServiceId, setNewServiceId] = useState("");
     const [position, setPosition] = useState(false);
-    // Columns definition for transaction and pivot tables
+
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
         { field: "user_id", headerName: "User ID" },

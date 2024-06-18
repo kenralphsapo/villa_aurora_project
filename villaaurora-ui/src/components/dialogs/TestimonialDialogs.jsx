@@ -22,7 +22,7 @@ import {
     updateTestimonial,
 } from "../../api/testimonial";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faStar } from "@fortawesome/free-solid-svg-icons";
 
 export function TestimonialDialogs() {
     //For Testimonials
@@ -36,7 +36,13 @@ export function TestimonialDialogs() {
     const [loading, setLoading] = useState(false);
 
     const [warnings, setWarnings] = useState({});
-    // For Testimonials
+
+    const [rating, setRating] = useState(0);
+
+    const handleStarClick = (starValue) => {
+        setRating(starValue);
+    };
+
     const testimonialcolumns = [
         { field: "id", headerName: "Transaction ID", width: 150 },
         { field: "feedback", headerName: "Feedback", width: 250 },
@@ -87,7 +93,7 @@ export function TestimonialDialogs() {
             const body = {
                 transaction_id: $("#transaction_id").val(),
                 feedback: $("#feedback").val(),
-                rating: $("#rating").val(),
+                rating: rating,
             };
 
             addTestimonial(body)
@@ -96,8 +102,9 @@ export function TestimonialDialogs() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Testimonial successful");
                         setCreateTestimonialDialog(false);
-                        TestrefreshData();
+                        refreshData();
                         setWarnings({});
+                        setRating(0);
                     } else {
                         toast.error(
                             res?.message ?? "Testimonial creation failed."
@@ -111,7 +118,7 @@ export function TestimonialDialogs() {
         }
     };
 
-    const TestrefreshData = () => {
+    const refreshData = () => {
         showAllTestimonials().then((res) => {
             if (res?.ok) {
                 setTestimonialRows(res.data);
@@ -120,7 +127,7 @@ export function TestimonialDialogs() {
             }
         });
     };
-    useEffect(TestrefreshData, []);
+    useEffect(refreshData, []);
 
     const onEditTestimonial = (e) => {
         e.preventDefault();
@@ -139,7 +146,7 @@ export function TestimonialDialogs() {
                             res?.message ?? "Testimonial has updated"
                         );
                         setEditTestimonialDialog(null);
-                        TestrefreshData();
+                        refreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -159,7 +166,7 @@ export function TestimonialDialogs() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has deleted");
                         setDeleteTestimonialDialog(null);
-                        TestrefreshData();
+                        refreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -218,14 +225,34 @@ export function TestimonialDialogs() {
                             />
                         </Box>
                         <Box>
-                            <TextField
-                                id="rating"
-                                label="Rating"
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                required
-                            />
+                            <Box sx={{ mt: 1 }}>
+                                <Typography>Rating</Typography>
+                                <Box
+                                    style={{
+                                        textAlign: "center",
+                                        fontSize: "24px",
+                                        color: "#ffc107",
+                                    }}
+                                >
+                                    {[1, 2, 3, 4, 5].map((value) => (
+                                        <FontAwesomeIcon
+                                            key={value}
+                                            icon={faStar}
+                                            style={{
+                                                cursor: "pointer",
+                                                color:
+                                                    value <= rating
+                                                        ? "#ffc107"
+                                                        : "#e4e5e9",
+                                                marginRight: "5px",
+                                            }}
+                                            onClick={() =>
+                                                handleStarClick(value)
+                                            }
+                                        />
+                                    ))}
+                                </Box>
+                            </Box>
                         </Box>
 
                         <Box className="d-flex justify-content-center align-items-center mt-2">
