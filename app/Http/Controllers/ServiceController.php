@@ -34,7 +34,7 @@ class ServiceController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = $image->getClientOriginalName(); // Use the original file name
+            $imageName = $image->getClientOriginalName();
             $image->move(public_path('images'), $imageName);
             $validatedData = $validator->validated();
             $validatedData['image'] = $imageName;
@@ -95,11 +95,11 @@ class ServiceController extends Controller
     public function updateService(Request $request, Service $service)
     {
         $validator = validator($request->all(), [
-            "name" => "sometimes|min:1|max:50|unique:services|string",
+            "name" => "sometimes|min:1|max:50|unique:services,name," . $service->id . "|string",
             "price" => "sometimes|min:1|max:100000|numeric",
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 "ok" => false,
@@ -107,22 +107,25 @@ class ServiceController extends Controller
                 "errors" => $validator->errors(),
             ], 400);
         }
-
+    
+        $validatedData = $validator->validated();
+    
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = $image->getClientOriginalName(); // Use the original file name
+            $imageName = $image->getClientOriginalName();
             $image->move(public_path('images'), $imageName);
-            $validatedData = $validator->validated();
             $validatedData['image'] = $imageName;
         }
-
+    
         $service->update($validatedData);
+    
         return response()->json([
             "ok" => true,
             "message" => "Service has been updated!",
             "data" => $service,
         ], 200);
     }
+    
     
     /**
      * DELETE specific user using ID
