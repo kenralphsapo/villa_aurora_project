@@ -136,6 +136,3 @@ Route::prefix("testimonials")->group(function(){
     Route::delete("/{room}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
 });
 
-Route::prefix("pivot")->group(function(){
-    Route::get('/', [PivotController::class, 'getAllDataPivot']);
-});
