@@ -104,7 +104,7 @@ class TransactionController extends Controller
 
     public function updateTransaction(Request $request, Transaction $transaction){
         $validator = validator($request->all(), [
-
+            'user_id' => 'sometimes|exists:users,id',
             'room_id' => 'sometimes|exists:rooms,id',
             'room_price' => 'sometimes|min:1|max:100000|numeric',
             'rent_start' => 'sometimes|date|date_format:Y-m-d',
@@ -123,12 +123,23 @@ class TransactionController extends Controller
     }
 
     $validated = $validator->validated();
-    $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
-    $transaction->update($transaction_input);
+    $transaction_input = $validator->safe()->only(['user_id','room_id','rent_start', 'rent_end']);
+    //Get Price from Room based on Room's ID
+    $room = Room::find($validated["room_id"]);
 
-    $transaction->services()->sync($validated["service_id"]);
-
+    $transaction_input["room_price"] = $room->price;
+    $transaction = Transaction::create($transaction_input);
+    //dd($validated["service_id"]);
+    
+    //Service Price
+    $arrayServicePrice = [];
+    foreach($validated["service_id"] as $service_id){
+        $arrayServicePrice[$service_id] = ["price" => Service::find($service_id) -> price];
+    }
+    $transaction->services()->sync($arrayServicePrice);
     $transaction->services;
+
+    
 
     return response()->json([
         'success' => true,

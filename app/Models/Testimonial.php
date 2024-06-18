@@ -17,6 +17,7 @@ class Testimonial extends Model
 
     protected $fillable = [
         'feedback',
-        'rating'
+        'rating',
+        'transaction_id'
     ];
 }

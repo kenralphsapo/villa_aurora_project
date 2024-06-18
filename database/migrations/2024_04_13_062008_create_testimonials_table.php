@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('testimonials', function (Blueprint $table) {
-            $table->id();
-            // $table->id()->primary();
+            $table->id()->priamry();
             $table->string('feedback');
             $table->unsignedInteger('rating');
-            $table->foreign("id")->references("id")->on("transactions");
+            $table->unsignedBigInteger("transaction_id");
+            $table->foreign("transaction_id")->references("id")->on('transactions');
             $table->timestamps();
         });
     }

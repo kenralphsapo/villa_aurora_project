@@ -19,7 +19,8 @@ class AuthController extends Controller
             "password" => "required|min:8|max:32|string|confirmed",
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
-            "role" => "sometimes|in:guest,scheduler,admin"
+            "role" => "sometimes|in:guest,scheduler,admin",
+            "image" => "sometimes|min:0|string",
         ]);
     
         if($validator->fails()){

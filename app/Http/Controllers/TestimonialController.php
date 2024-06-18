@@ -95,7 +95,7 @@ public function showTestimonial(Request $request, Testimonial $testimonial){
     $validator = validator($request->all(), [
         "feedback" => "sometimes|min:4|string|max:500,$testimonial->id|max:500",
         "rating" => "sometimes|min:0|max:5|int,$testimonial->id|max:5",
-        'transaction_id' => 'sometimes|exists:transactions,id' 
+        "transaction_id" => 'sometimes|exists:transactions,id' 
     ]);
 
     if($validator->fails())

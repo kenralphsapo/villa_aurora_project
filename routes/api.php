@@ -80,8 +80,9 @@ Route::prefix("rooms")->group(function(){
 Route::prefix("transactions")->group(function(){
     //POST: http://localhost:8000/api/transactions
     Route::post("/", [App\Http\Controllers\TransactionController::class, 'addTransaction']);
-    //POST: http://localhost:8000/api/transactions
-    //Route::post("/", [App\Http\Controllers\TransactionController::class, 'transaction']);
+
+    //GET: http://localhost:8000/api/transactions {transaction} show specific transaction
+    Route::get("/{transaction}", [App\Http\Controllers\TransactionController::class, 'showTransaction']);
 
     //GET: http://localhost:8000/api/transactions  show All Transactions
     Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
@@ -95,7 +96,7 @@ Route::prefix("transactions")->group(function(){
 });
 
 
-//Testimonial Table
+//TestimonialS
 Route::prefix("testimonials")->group(function(){
     //POST: http://localhost:8000/api/testimonials Add Testimonial
     Route::post("/", [App\Http\Controllers\TestimonialController::class, 'addTestimonial']);
@@ -111,26 +112,4 @@ Route::prefix("testimonials")->group(function(){
 
     //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
     Route::delete("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
-});
-    //GET: http://localhost:8000/api/transactions  show All Transactions
-    Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
-
-
-
-//Testimonials
-Route::prefix("testimonials")->group(function(){
-    //POST: http://localhost:8000/api/testimonials Add testimonial
-    Route::post("/", [App\Http\Controllers\TestimonialController::class, 'addTestimonial']);
-
-    //GET: http://localhost:8000/api/testimonials  show All testimonials
-    Route::get("/", [App\Http\Controllers\TestimonialController::class, 'showAllTestimonials']);
-
-    //GET: http://localhost:8000/api/testimonials {testimonial} show specific testimonial
-    Route::get("/{room}", [App\Http\Controllers\TestimonialController::class, 'showTestimonial']);
-
-    //PATCH: http://localhost:8000/api/testimonials/{testimonial} update testimonial
-    Route::PATCH("/{room}", [App\Http\Controllers\TestimonialController::class, 'updateTestimonial']);
-
-    //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
-    Route::delete("/{room}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
 });
