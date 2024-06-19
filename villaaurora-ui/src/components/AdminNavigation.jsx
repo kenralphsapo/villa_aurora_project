@@ -1,5 +1,10 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import {
+    Box,
+    Typography,
+    ToggleButton,
+    ToggleButtonGroup,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import {
     faBed,
@@ -18,107 +23,159 @@ export default function AdminNavigation({
     setTransactionDialogVisible,
     setTestimonialDialogVisible,
 }) {
-    const onUserNav = (e) => {
-        e.preventDefault();
-        setTableVisible(true);
-        setServiceDialogVisible(false);
-        setRoomDialogVisible(false);
-        setTransactionDialogVisible(false);
-        setTestimonialDialogVisible(false);
-    };
+    const [selectedNav, setSelectedNav] = React.useState("home");
 
-    const onServiceNav = (e) => {
-        e.preventDefault();
-        setTableVisible(false);
-        setServiceDialogVisible(true);
-        setRoomDialogVisible(false);
-        setTransactionDialogVisible(false);
-        setTestimonialDialogVisible(false);
-    };
+    const handleNavigation = (navId) => {
+        setSelectedNav(navId);
 
-    const onRoomNav = (e) => {
-        e.preventDefault();
-        setTableVisible(false);
-        setServiceDialogVisible(false);
-        setRoomDialogVisible(true);
-        setTransactionDialogVisible(false);
-        setTestimonialDialogVisible(false);
-    };
+        const navigationActions = {
+            usernav: () => {
+                setTableVisible(true);
+                setServiceDialogVisible(false);
+                setRoomDialogVisible(false);
+                setTransactionDialogVisible(false);
+                setTestimonialDialogVisible(false);
+            },
+            servicenav: () => {
+                setTableVisible(false);
+                setServiceDialogVisible(true);
+                setRoomDialogVisible(false);
+                setTransactionDialogVisible(false);
+                setTestimonialDialogVisible(false);
+            },
+            roomnav: () => {
+                setTableVisible(false);
+                setServiceDialogVisible(false);
+                setRoomDialogVisible(true);
+                setTransactionDialogVisible(false);
+                setTestimonialDialogVisible(false);
+            },
+            transactionnav: () => {
+                setTableVisible(false);
+                setServiceDialogVisible(false);
+                setRoomDialogVisible(false);
+                setTransactionDialogVisible(true);
+                setTestimonialDialogVisible(false);
+            },
+            testimonialnav: () => {
+                setTableVisible(false);
+                setServiceDialogVisible(false);
+                setRoomDialogVisible(false);
+                setTransactionDialogVisible(false);
+                setTestimonialDialogVisible(true);
+            },
+        };
 
-    const onTransactionNav = (e) => {
-        e.preventDefault();
-        setTableVisible(false);
-        setServiceDialogVisible(false);
-        setRoomDialogVisible(false);
-        setTransactionDialogVisible(true);
-        setTestimonialDialogVisible(false);
-    };
-
-    const onTestimonialNav = (e) => {
-        e.preventDefault();
-        setTableVisible(false);
-        setServiceDialogVisible(false);
-        setRoomDialogVisible(false);
-        setTransactionDialogVisible(false);
-        setTestimonialDialogVisible(true);
+        // Execute the corresponding action function based on navId
+        if (navigationActions[navId]) {
+            navigationActions[navId]();
+        }
     };
 
     return (
         <Box>
-            <Link className="custom-list" to="/">
-                <FontAwesomeIcon
-                    icon={faHome}
-                    style={{ color: "white", paddingLeft: "10px" }}
-                />
-                <Typography sx={{ m: 1, color: "white" }} id="home">
-                    Home
-                </Typography>
-            </Link>
-            <Link className="custom-list" to="#" onClick={onUserNav}>
-                <FontAwesomeIcon
-                    icon={faUser}
-                    style={{ color: "white", paddingLeft: "10px" }}
-                />
-                <Typography sx={{ m: 1, color: "white" }} id="usernav">
-                    Users
-                </Typography>
-            </Link>
-            <Link className="custom-list" to="#" onClick={onServiceNav}>
-                <FontAwesomeIcon
-                    icon={faBriefcase}
-                    style={{ color: "white", paddingLeft: "10px" }}
-                />
-                <Typography sx={{ m: 1, color: "white" }} id="servicenav">
-                    Services
-                </Typography>
-            </Link>
-            <Link className="custom-list" to="#" onClick={onRoomNav}>
-                <FontAwesomeIcon
-                    icon={faBed}
-                    style={{ color: "white", paddingLeft: "10px" }}
-                />
-                <Typography sx={{ m: 1, color: "white" }} id="roomnav">
-                    Rooms
-                </Typography>
-            </Link>
-            <Link className="custom-list" to="#" onClick={onTransactionNav}>
-                <FontAwesomeIcon
-                    icon={faReceipt}
-                    style={{ color: "white", paddingLeft: "10px" }}
-                />
-                <Typography sx={{ m: 1, color: "white" }} id="transactionnav">
-                    Transactions
-                </Typography>
-            </Link>
-            <Link className="custom-list" to="#" onClick={onTestimonialNav}>
-                <FontAwesomeIcon
-                    icon={faComment}
-                    style={{ color: "white", paddingLeft: "10px" }}
-                />
-                <Typography sx={{ m: 1, color: "white" }} id="testimonialnav">
-                    Testimonials
-                </Typography>
-            </Link>
+            <ToggleButtonGroup
+                orientation="horizontal"
+                value={selectedNav}
+                exclusive
+            >
+                <ToggleButton value="home" component={Link} to="/">
+                    <FontAwesomeIcon
+                        icon={faHome}
+                        style={{ color: "white", paddingLeft: "10px" }}
+                    />
+                    <Typography sx={{ m: 1, color: "white" }} id="home">
+                        Home
+                    </Typography>
+                </ToggleButton>
+
+                <ToggleButton
+                    value="usernav"
+                    onClick={() =>
+                        handleNavigation("usernav", [setTableVisible])
+                    }
+                >
+                    <FontAwesomeIcon
+                        icon={faUser}
+                        style={{ color: "white", paddingLeft: "10px" }}
+                    />
+                    <Typography sx={{ m: 1, color: "white" }} id="usernav">
+                        Users
+                    </Typography>
+                </ToggleButton>
+
+                <ToggleButton
+                    value="servicenav"
+                    onClick={() =>
+                        handleNavigation("servicenav", [
+                            setServiceDialogVisible,
+                        ])
+                    }
+                >
+                    <FontAwesomeIcon
+                        icon={faBriefcase}
+                        style={{ color: "white", paddingLeft: "10px" }}
+                    />
+                    <Typography sx={{ m: 1, color: "white" }} id="servicenav">
+                        Services
+                    </Typography>
+                </ToggleButton>
+
+                <ToggleButton
+                    value="roomnav"
+                    onClick={() =>
+                        handleNavigation("roomnav", [setRoomDialogVisible])
+                    }
+                >
+                    <FontAwesomeIcon
+                        icon={faBed}
+                        style={{ color: "white", paddingLeft: "10px" }}
+                    />
+                    <Typography sx={{ m: 1, color: "white" }} id="roomnav">
+                        Rooms
+                    </Typography>
+                </ToggleButton>
+
+                <ToggleButton
+                    value="transactionnav"
+                    onClick={() =>
+                        handleNavigation("transactionnav", [
+                            setTransactionDialogVisible,
+                        ])
+                    }
+                >
+                    <FontAwesomeIcon
+                        icon={faReceipt}
+                        style={{ color: "white", paddingLeft: "10px" }}
+                    />
+                    <Typography
+                        sx={{ m: 1, color: "white" }}
+                        id="transactionnav"
+                    >
+                        Transactions
+                    </Typography>
+                </ToggleButton>
+
+                <ToggleButton
+                    value="testimonialnav"
+                    onClick={() =>
+                        handleNavigation("testimonialnav", [
+                            setTestimonialDialogVisible,
+                        ])
+                    }
+                >
+                    <FontAwesomeIcon
+                        icon={faComment}
+                        style={{ color: "white", paddingLeft: "10px" }}
+                    />
+                    <Typography
+                        sx={{ m: 1, color: "white" }}
+                        id="testimonialnav"
+                    >
+                        Testimonials
+                    </Typography>
+                </ToggleButton>
+            </ToggleButtonGroup>
         </Box>
     );
 }

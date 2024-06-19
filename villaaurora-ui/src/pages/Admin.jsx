@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import checkAuth from "../hoc/checkAuth";
 import { useSelector } from "react-redux";
 import NotFound from "./NotFound";
@@ -26,17 +26,20 @@ function Admin() {
     return (
         <Box>
             {user?.role == "admin" ? (
-                <Box id="custom-admin">
+                <Box>
                     <Box>
-                        <Box id="customnavadmin">
+                        <Box
+                            className="d-flex justify-content-center align-item-center flex-column"
+                            id="custom-admin"
+                        >
                             <Box>
-                                <img
-                                    src={logo}
-                                    alt="Logo"
-                                    className="admin-logo"
-                                />
+                                <Box>
+                                    <Avatar
+                                        src={logo}
+                                        alt="Logo"
+                                        className="admin-logo"
+                                    />
 
-                                <Box className="">
                                     <Typography
                                         variant="h6"
                                         className="text-center"
@@ -62,18 +65,17 @@ function Admin() {
                             />
                         </Box>
                     </Box>
-                    <Box>
-                        <Box className="table">
-                            {showTableVisible ? <UserDialogs /> : null}
-                            {isServiceDialogVisible ? <ServiceDialog /> : null}
-                            {isRoomDialogVisible ? <RoomDialog /> : null}
-                            {isTransactionDialogVisible ? (
-                                <TransactionDialogs />
-                            ) : null}
-                            {isTestimonialDialogVisible ? (
-                                <TestimonialDialogs />
-                            ) : null}
-                        </Box>
+
+                    <Box className="table">
+                        {showTableVisible ? <UserDialogs /> : null}
+                        {isServiceDialogVisible ? <ServiceDialog /> : null}
+                        {isRoomDialogVisible ? <RoomDialog /> : null}
+                        {isTransactionDialogVisible ? (
+                            <TransactionDialogs />
+                        ) : null}
+                        {isTestimonialDialogVisible ? (
+                            <TestimonialDialogs />
+                        ) : null}
                     </Box>
                 </Box>
             ) : (

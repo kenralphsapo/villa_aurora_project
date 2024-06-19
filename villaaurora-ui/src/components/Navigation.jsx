@@ -1,17 +1,19 @@
 import React from "react";
 import logo from "../pages/images/logo.jpg";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 function Navigation({ toggleDrawer, logout }) {
     const user = useSelector((state) => state.auth.user);
     return (
         <Box id="sidebarMenu">
-            <button className="close-btn" id="closeBtn" onClick={toggleDrawer}>
-                &#10006;
-            </button>
+            <Button className="close-btn" id="closeBtn" onClick={toggleDrawer}>
+                <FontAwesomeIcon icon={faArrowUp} />
+            </Button>
             <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                 <Link to="/" id="link" className="navbar-brand">
                     <img

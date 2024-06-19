@@ -108,23 +108,8 @@
   Admin and Myaccount ui
 -----------------------------------------*/
 
-#customnavadmin {
-    background-color: var(--primary-color);
-    width: 150px;
-    display: inline-block;
-    height: 100vh;
-}
 #custom-admin {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-}
-#customnavadmin .custom-list {
-    background-color: #d28e27;
-    width: 150px;
-    border-top: 1px solid #925c0a;
+    background-color: var(--primary-color);
 }
 
 #custom-account {
@@ -148,8 +133,8 @@
 .admin-logo {
     display: block;
     margin: 5px auto;
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
 }
 
 #myaccount-container {
@@ -1241,6 +1226,7 @@ input[type="number"] {
         right: 0;
         top: 0;
         z-index: 999;
+        background-color: var(--color-black);
     }
 
     .login-form {

@@ -53,32 +53,9 @@ function Home() {
     const [cookies, setCookie, removeCookie] = useCookies();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [selectedServices, setSelectedServices] = useState([]);
-    const [selectedService, setSelectedService] = useState(null);
+    const [scrollVisible, setScrollVisible] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
     const [serviceRows, setServiceRows] = useState([]);
-
-    const SrefreshData = () => {
-        showAllServices().then((res) => {
-            if (res?.ok) {
-                setServiceRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    useEffect(SrefreshData, []);
-
-    const RrefreshData = () => {
-        showAllRooms().then((res) => {
-            if (res?.ok) {
-                setRoomRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-    useEffect(RrefreshData, []);
 
     const logout = () => {
         removeCookie("AUTH_TOKEN");
@@ -86,9 +63,6 @@ function Home() {
         navigate("/");
         dispatch(login(res.data));
     };
-
-    const [scrollVisible, setScrollVisible] = useState(false);
-    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const handleScrollToTop = () => {
         window.scrollTo({
@@ -124,63 +98,17 @@ function Home() {
         setDrawerOpen(!drawerOpen);
     };
 
-    const [serviceIds, setServiceIds] = useState([]);
-    const [newServiceId, setNewServiceId] = useState("");
-
-    const onAddService = () => {
-        const newId = newServiceId.trim();
-        if (newId !== "") {
-            setServiceIds([...serviceIds, newId]);
-            setNewServiceId("");
-        }
-    };
-    const [openDialog, setOpenDialog] = useState(false);
-
-    const handleDialogOpen = () => {
-        setOpenDialog(true);
+    const SrefreshData = () => {
+        showAllServices().then((res) => {
+            if (res?.ok) {
+                setServiceRows(res.data);
+            } else {
+                toast.error(res?.message ?? "Something went wrong.");
+            }
+        });
     };
 
-    const handleDialogClose = () => {
-        setOpenDialog(false);
-    };
-
-    const onRemoveService = (index) => {
-        const updatedServiceIds = [...serviceIds];
-        updatedServiceIds.splice(index, 1);
-        setServiceIds(updatedServiceIds);
-    };
-
-    const onCreateTransaction = (e) => {
-        e.preventDefault();
-        if (!loading) {
-            const body = {
-                user_id: user?.id,
-                room_id: $("#room_id").val(), // Replace with React state handling
-                rent_start: $("#rent_start").val(),
-                rent_end: $("#rent_end").val(),
-                services: selectedServices.map((service) => ({
-                    service_id: service.id,
-                    price: service.price,
-                })),
-            };
-
-            addTransaction(body)
-                .then((res) => {
-                    console.log(res);
-                    if (res?.success) {
-                        toast.success(res?.message ?? "Transaction successful");
-                    } else {
-                        toast.error(
-                            res?.message ?? "Transaction creation failed."
-                        );
-                        setWarnings(res?.errors);
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
+    useEffect(SrefreshData, []);
 
     return (
         <Box id="homebg">

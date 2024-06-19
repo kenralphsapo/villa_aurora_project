@@ -106,11 +106,6 @@ export function ServiceDialog() {
             const imageInput = $("#image")[0];
             const imageFile = imageInput.files[0];
 
-            if (!imageFile) {
-                toast.error(res?.message ?? "There is no image insert.");
-                return;
-            }
-
             const body = new FormData();
             body.append("name", $("#name").val());
             body.append("price", $("#price").val());

@@ -107,10 +107,8 @@ export function TransactionDialogs() {
         }
     };
 
-    const handleRemoveServiceId = (index) => {
-        const updatedServiceIds = [...serviceIds];
-        updatedServiceIds.splice(index, 1);
-        setServiceIds(updatedServiceIds);
+    const handleRemoveServiceId = (id) => {
+        setServiceIds(serviceIds.filter((element, i) => i !== id));
     };
 
     const onCreateTransaction = (e) => {
@@ -206,7 +204,6 @@ export function TransactionDialogs() {
                     }))
                 );
 
-                // Extract pivot data for pivotRows
                 const pivot = res.data.flatMap((transaction) =>
                     transaction.services.map((service) => ({
                         id: `${service.id}-${transaction.id}`,

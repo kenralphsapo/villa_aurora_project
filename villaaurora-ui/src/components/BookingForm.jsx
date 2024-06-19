@@ -29,13 +29,11 @@ import Confetti from "react-dom-confetti";
 function BookingForm() {
     const [loading, setLoading] = useState(false);
     const [selectedServices, setSelectedServices] = useState([]);
-    const [selectedRoom, setSelectedRoom] = useState(null);
+    const [selectedRoom, setSelectedRoom] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [serviceRows, setServiceRows] = useState([]);
     const [roomRows, setRoomRows] = useState([]);
-    const [cookies, setCookie, removeCookie] = useCookies();
     const user = useSelector((state) => state.auth.user);
-    const navigate = useNavigate();
     const [showConfetti, setShowConfetti] = useState(false);
 
     useEffect(() => {
