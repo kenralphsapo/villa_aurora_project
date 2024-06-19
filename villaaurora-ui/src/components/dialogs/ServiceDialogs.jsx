@@ -20,8 +20,6 @@ import {
 
 import $ from "jquery";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export function ServiceDialog() {
     const [serviceRows, setServiceRows] = useState([]);
@@ -194,7 +192,7 @@ export function ServiceDialog() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateServDialog(true)}
                 >
-                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                    <AddCircleIcon className="addbtn" />
                 </Button>
             </Box>
             <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />

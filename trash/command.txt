@@ -17,6 +17,7 @@ composer u
 
 npm create vite@latest
 npm i @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material  @emotion/styled @emotion/react
 # List all installed packages and their dependencies
 npm list
 
