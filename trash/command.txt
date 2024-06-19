@@ -14,6 +14,8 @@ composer i
 -- command is used to update the dependencies of a PHP project to their latest versions 
 composer u
 
+
+npm create vite@latest
 --  command is used to install the dependencies specified in the package.json 
 npm i
 -- command is used in a Node.js project to build the development version of the project's assets 
