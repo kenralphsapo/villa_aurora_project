@@ -17,6 +17,7 @@ class AuthController extends Controller
      *
      * @param  mixed $request
      * @return void
+     * source for regex: https://stackoverflow.com/questions/31539727/laravel-password-validation-rule
      */
     public function register(Request $request)
     {
