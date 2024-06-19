@@ -16,6 +16,16 @@ composer u
 
 
 npm create vite@latest
+npm i @mui/material @emotion/react @emotion/styled
+# List all installed packages and their dependencies
+npm list
+
+# List globally installed packages
+npm list -g
+
+# List top-level packages without their dependencies
+npm list --depth=0
+
 --  command is used to install the dependencies specified in the package.json 
 npm i
 -- command is used in a Node.js project to build the development version of the project's assets 
