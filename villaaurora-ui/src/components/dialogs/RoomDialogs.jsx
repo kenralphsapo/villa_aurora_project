@@ -19,7 +19,6 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function RoomDialog() {
-    // For Rooms
     const [roomRows, setRoomRows] = useState([]);
     const [deleteRoomDialog, setRoomDeleteDialog] = useState(null);
     const [editRoomDialog, setEditRoomDialog] = useState(null);
@@ -27,7 +26,7 @@ export function RoomDialog() {
 
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
-    // For Rooms
+
     const roomcolumns = [
         { field: "id", headerName: "ID", width: 100 },
         { field: "name", headerName: "Room Name" },

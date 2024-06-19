@@ -108,7 +108,7 @@ export function TransactionDialogs() {
     };
 
     const handleRemoveServiceId = (id) => {
-        setServiceIds(serviceIds.filter((element, i) => i !== id));
+        setServiceIds(serviceIds.filter((service) => service.id !== id));
     };
 
     const onCreateTransaction = (e) => {
@@ -247,6 +247,7 @@ export function TransactionDialogs() {
                     <FontAwesomeIcon
                         icon={faRefresh}
                         onClick={() => setPosition(!position)}
+                        className="addbtn"
                     />
                 </Typography>
                 {position ? (
@@ -333,53 +334,59 @@ export function TransactionDialogs() {
                             ) : null}
                         </Box>
 
-                        <TextField
-                            id="service_id"
-                            label="Service ID(s)"
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            value={newServiceId}
-                            onChange={(e) => setNewServiceId(e.target.value)}
-                            helperText="Enter service ID and click Add"
-                        />
-                        {warnings?.service_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.service_id}
-                            </Typography>
-                        ) : null}
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleAddServiceId}
-                            style={{ marginLeft: "10px" }}
-                        >
-                            Add
-                        </Button>
-                        {serviceIds.map((serviceId, index) => (
-                            <Box
-                                key={index}
-                                mt={1}
-                                display="flex"
-                                alignItems="center"
+                        <Box>
+                            <TextField
+                                id="service_id"
+                                label="Service ID(s)"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                value={newServiceId}
+                                onChange={(e) =>
+                                    setNewServiceId(e.target.value)
+                                }
+                                helperText="Enter service ID and click Add"
+                            />
+                            {warnings?.service_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.service_id}
+                                </Typography>
+                            ) : null}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleAddServiceId}
+                                style={{ marginLeft: "10px" }}
                             >
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    fullWidth
-                                    value={serviceId}
-                                    disabled
-                                />
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() => handleRemoveServiceId(index)}
-                                    style={{ marginLeft: "10px" }}
+                                Add
+                            </Button>
+                            {serviceIds.map((serviceId, index) => (
+                                <Box
+                                    key={index}
+                                    mt={1}
+                                    display="flex"
+                                    alignItems="center"
                                 >
-                                    Remove
-                                </Button>
-                            </Box>
-                        ))}
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        value={serviceId}
+                                        disabled
+                                    />
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() =>
+                                            handleRemoveServiceId(serviceId.id)
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                    >
+                                        Remove
+                                    </Button>
+                                </Box>
+                            ))}
+                        </Box>
                         <Box className="d-flex justify-content-center align-items-center mt-2">
                             <Button
                                 color="info"
