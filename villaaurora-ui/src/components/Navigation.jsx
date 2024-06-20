@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 function Navigation({ toggleDrawer, logout }) {
     const user = useSelector((state) => state.auth.user);
     return (
         <Box id="sidebarMenu">
-            <Button className="close-btn" id="closeBtn" onClick={toggleDrawer}>
-                <FontAwesomeIcon icon={faArrowUp} />
+            <Button style={{ background: "#fff", padding: 10,color:"black" }} onClick={toggleDrawer}>
+                <FontAwesomeIcon icon={faX} />
             </Button>
             <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                 <Link to="/" id="link" className="navbar-brand">
