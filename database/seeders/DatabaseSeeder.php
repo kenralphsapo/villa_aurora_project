@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Room::create([
-            'name'=>'Villa 101',
+            'name'=>'KTV Room',
             'price' =>'200.00'
         ]);
 

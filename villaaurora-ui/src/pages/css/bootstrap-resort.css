@@ -327,6 +327,22 @@
     text-align: center;
 }
 
+#btn-close{
+    background-color: var(--color-green);
+    color: var(--color-white);
+    width: 100px;
+    margin: 10px;
+    text-align: right;
+}
+
+.dialog-logo{
+    width: 150px;
+    box-shadow: 0 0 10px var(--color-black);
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
+
 /*---------------------------------------
     TYPOGRAPHY               
   -----------------------------------------*/

@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Models\User;
 
-class RegistrationConfirmation extends Mailable
+class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,7 +18,7 @@ class RegistrationConfirmation extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($user)
     {
         $this->user = $user;
     }
@@ -31,7 +30,7 @@ class RegistrationConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Registration Confirmation')
-                    ->view('emails.registration_confirmation');
+        return $this->view('emails.welcome') 
+                    ->subject('Welcome to Our Website'); 
     }
 }

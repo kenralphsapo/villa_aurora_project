@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
 import "./css/bootstrap-resort.css";
 import logo from "./images/logo.jpg";
+import TermsCondition from "../components/TermsCondtion";
 
 export default function Register() {
     const [warnings, setWarning] = useState({});
@@ -16,6 +17,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies();
     const dispatch = useDispatch();
+    const [createDialog, setCreateDialog] = useState(false);
 
     const onSubmit = (e) => {
         if (!loading) {
@@ -151,6 +153,7 @@ export default function Register() {
                         >
                             Register
                         </Button>
+                        <Typography style={{fontSize: 12, textAlign:'center'}}>By regestering, you agree to Villa Aurora's <Link style={{color:'#4caf50', cursor:'pointer'}} onClick={() => setCreateDialog(true)}>Terms fo Service</Link></Typography>
                     </Box>
 
                     <Box sx={{ textAlign: "center", cursor: "pointer" }}>
@@ -162,7 +165,7 @@ export default function Register() {
                         </Typography>
                     </Box>
                 </Box>
-                <Box></Box>
+                <TermsCondition createDialog={createDialog} setCreateDialog={setCreateDialog} />
             </Box>
         </Box>
     );

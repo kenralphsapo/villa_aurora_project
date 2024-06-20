@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
+
 
 class AuthController extends Controller
 {
@@ -60,28 +62,13 @@ class AuthController extends Controller
     
         $user = User::create($validatedData);
     
-        /*
-        if ($user->id == 1) {
-            $user = User::find(1);
-            $user->role = 'admin';
-            $user->save();
-        }
-        */
-    
         $user->token = $user->createToken("registration_token")->accessToken;
     
         // Set the profile image URL using the asset() helper function
         $user->image_url = asset('images/' . $imageName);
     
-        $mailTest = Mail::to($user->email)->send(new RegistrationConfirmation($user));
-        // Log::info($mailTest->getSymfonySentMessage());
-    
-        SentEmailLog::create([
-            'user_id' => $user->id,
-            'recipient_email' => $user->email,
-            'sent_at' => now(),
-            'subject' => 'Registration Confirmation Email',
-        ]);
+        // Send welcome email
+        Mail::to($user->email)->send(new WelcomeMail($user));
     
         return response()->json([
             "ok" => true,
@@ -89,6 +76,7 @@ class AuthController extends Controller
             "data" => $user,
         ], 201);
     }
+    
     
 
     /**
@@ -157,5 +145,7 @@ class AuthController extends Controller
             "data" => $request->user(),
         ], 200);
     }
+
+
 
 }
