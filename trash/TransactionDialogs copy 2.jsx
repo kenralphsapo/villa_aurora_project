@@ -6,10 +6,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
     TextField,
     Typography,
 } from "@mui/material";
@@ -25,9 +21,6 @@ import {
     showAllTransactions,
     updateTransaction,
 } from "../../api/transaction";
-import { showAllRooms } from "../../api/room";
-import { index } from "../../api/user";
-import { useCookies } from "react-cookie";
 
 export function TransactionDialogs() {
     const [transactionRows, setTransactionRows] = useState([]);
@@ -46,18 +39,6 @@ export function TransactionDialogs() {
     const [serviceIds, setServiceIds] = useState([]);
     const [newServiceId, setNewServiceId] = useState("");
     const [position, setPosition] = useState(false);
-
-     // For  users
-     const [rows, setRows] = useState([]);
-     const [selectedUserId, setSelectedUserId] = useState("");
- 
-     // for rooms   
-     const [roomRows, setRoomRows] = useState([]);
-     const [selectedRoomId, setSelectedRoomId] = useState("");
- 
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
-
-
 
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
@@ -134,8 +115,8 @@ export function TransactionDialogs() {
         e.preventDefault();
         if (!loading) {
             const body = {
-                user_id: selectedUserId,
-                room_id: selectedRoomId,
+                user_id: $("#user_id").val(),
+                room_id: $("#room_id").val(),
                 rent_start: $("#rent_start").val(),
                 rent_end: $("#rent_end").val(),
                 service_id: serviceIds,
@@ -151,7 +132,9 @@ export function TransactionDialogs() {
                         setServiceIds([]);
                         setNewServiceId("");
                     } else {
-                        toast.error(res?.message ?? "Transaction creation failed.");
+                        toast.error(
+                            res?.message ?? "Transaction creation failed."
+                        );
                         setWarnings(res?.errors);
                     }
                 })
@@ -161,33 +144,6 @@ export function TransactionDialogs() {
         }
     };
 
-    const UserrefreshData = () => {
-        index(cookies.AUTH_TOKEN).then((res) => {
-            if (res?.ok) {
-                setRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    const RoomrefreshData = () => {
-        showAllRooms().then((res) => {
-            if (res?.ok) {
-                setRoomRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    useEffect(() => {
-        UserrefreshData();
-    }, []);
-
-    useEffect(() => {
-        RoomrefreshData();
-    }, []);
     const onEditTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
@@ -310,134 +266,127 @@ export function TransactionDialogs() {
             </Box>
 
             {/* Create Transaction Dialog */}
-            <Dialog open={createTransactionDialog} sx={{width:400 , margin: 'auto'}}>
+            <Dialog open={createTransactionDialog}>
                 <DialogTitle>Create Transaction Form</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={onCreateTransaction}>
-                        <FormControl fullWidth sx={{ mt: 2 }}>
-                            <InputLabel>User Id/Name</InputLabel>
-                            <Select
-                                value={selectedUserId}
-                                onChange={(e) =>
-                                    setSelectedUserId(e.target.value)
-                                }
+                        <Box>
+                            <TextField
+                                id="user_id"
+                                label="User ID"
+                                variant="outlined"
+                                margin="normal"
                                 fullWidth
-                                label="User"
-                            >
-                                {rows.map((user) => (
-                                    <MenuItem key={user.id} value={user.id}>
-                                        {user.username}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        {warnings?.user_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.user_id}
-                            </Typography>
-                        ) : null}
-                        <FormControl fullWidth sx={{ mt: 2 }}>
-                            <InputLabel>Room ID</InputLabel>
-                            <Select
-                                value={selectedRoomId}
-                                onChange={(e) =>
-                                    setSelectedRoomId(e.target.value)
-                                }
+                                required
+                            />
+                            {warnings?.user_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.user_id}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box>
+                            <TextField
+                                id="room_id"
+                                label="Room ID"
+                                variant="outlined"
+                                margin="normal"
                                 fullWidth
-                                label="Room"
-                            >
-                                {roomRows.map((room) => (
-                                    <MenuItem key={room.id} value={room.id}>
-                                        {room.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        {warnings?.room_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.room_id}
-                            </Typography>
-                        ) : null}
-                        <TextField
-                            id="rent_start"
-                            label="Rent Start"
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            required
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                        />
-                        {warnings?.rent_start ? (
-                            <Typography component="small" color="error">
-                                {warnings.rent_start}
-                            </Typography>
-                        ) : null}
-                        <TextField
-                            id="rent_end"
-                            label="Rent End"
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            required
-                            type="date"
-                            InputLabelProps={{ shrink: true }}
-                        />
-                        {warnings?.rent_end ? (
-                            <Typography component="small" color="error">
-                                {warnings.rent_end}
-                            </Typography>
-                        ) : null}
+                            />
+                            {warnings?.room_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.room_id}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box>
+                            <TextField
+                                id="rent_start"
+                                label="Rent Start"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                required
+                                type="date"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                            {warnings?.rent_start ? (
+                                <Typography component="small" color="error">
+                                    {warnings.rent_start}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box>
+                            <TextField
+                                id="rent_end"
+                                label="Rent End"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                required
+                                type="date"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                            {warnings?.rent_end ? (
+                                <Typography component="small" color="error">
+                                    {warnings.rent_end}
+                                </Typography>
+                            ) : null}
+                        </Box>
 
-                        <TextField
-                            id="service_id"
-                            label="Service ID(s)"
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            value={newServiceId}
-                            onChange={(e) => setNewServiceId(e.target.value)}
-                            helperText="Enter service ID and click Add"
-                        />
-                        {warnings?.service_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.service_id}
-                            </Typography>
-                        ) : null}
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleAddServiceId}
-                            style={{ marginLeft: "10px" }}
-                        >
-                            Add
-                        </Button>
-                        {serviceIds.map((serviceId, index) => (
-                            <Box
-                                key={index}
-                                mt={1}
-                                display="flex"
-                                alignItems="center"
+                        <Box>
+                            <TextField
+                                id="service_id"
+                                label="Service ID(s)"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                value={newServiceId}
+                                onChange={(e) =>
+                                    setNewServiceId(e.target.value)
+                                }
+                                helperText="Enter service ID and click Add"
+                            />
+                            {warnings?.service_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.service_id}
+                                </Typography>
+                            ) : null}
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleAddServiceId}
+                                style={{ marginLeft: "10px" }}
                             >
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    fullWidth
-                                    value={serviceId}
-                                    disabled
-                                />
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() =>
-                                        handleRemoveServiceId(serviceId)
-                                    }
-                                    style={{ marginLeft: "10px" }}
+                                Add
+                            </Button>
+                            {serviceIds.map((serviceId, index) => (
+                                <Box
+                                    key={index}
+                                    mt={1}
+                                    display="flex"
+                                    alignItems="center"
                                 >
-                                    Remove
-                                </Button>
-                            </Box>
-                        ))}
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        value={serviceId}
+                                        disabled
+                                    />
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() =>
+                                            handleRemoveServiceId(serviceId.id)
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                    >
+                                        Remove
+                                    </Button>
+                                </Box>
+                            ))}
+                        </Box>
                         <Box className="d-flex justify-content-center align-items-center mt-2">
                             <Button
                                 color="info"
