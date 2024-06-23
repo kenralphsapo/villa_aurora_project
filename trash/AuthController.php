@@ -36,6 +36,7 @@ class AuthController extends Controller
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin",
+            'profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             "password.regex" => "The password must contain at least one letter, one number, and one special character."
         ]);
@@ -47,10 +48,24 @@ class AuthController extends Controller
                 "errors" => $validator->errors(),
             ], 400);
         }
-
     
-        $user = User::create($validator->validated());
+        if ($request->hasFile('profile')) {
+            $image = $request->file('profile');
+            $imageName = $image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+        } else {
+            $imageName = 'default.jpg';
+        }
+    
+        $validatedData = $validator->validated();
+        $validatedData['profile'] = $imageName;
+    
+        $user = User::create($validatedData);
+    
         $user->token = $user->createToken("registration_token")->accessToken;
+    
+        // Set the profile image URL using the asset() helper function
+        $user->image_url = asset('images/' . $imageName);
     
         // Send welcome email
         Mail::to($user->email)->send(new WelcomeMail($user));

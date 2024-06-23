@@ -8,6 +8,9 @@ use App\Models\Service;
 use App\Models\ServiceTransaction;
 use App\Models\Room;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransactionMail;
+use App\Notifications\TransactionSuccessfulNotification;
 
 class TransactionController extends Controller
 {
@@ -48,6 +51,13 @@ class TransactionController extends Controller
         }
         $transaction->services()->sync($arrayServicePrice);
         $transaction->services;
+
+
+        $user = User::find($validated['user_id']);
+        Mail::to($user->email)->send(new TransactionMail($user, $transaction, $room));
+
+        
+        $user->notify(new TransactionSuccessfulNotification);
 
         return response()->json([
             'success' => true,

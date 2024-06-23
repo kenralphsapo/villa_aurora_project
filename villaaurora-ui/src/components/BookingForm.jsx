@@ -15,6 +15,7 @@ import {
     Checkbox,
     InputLabel,
     FormControl,
+    Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -23,19 +24,22 @@ import { toast } from "react-toastify";
 import { showAllServices } from "../api/service";
 import { showAllRooms } from "../api/room";
 import { addTransaction } from "../api/transaction";
-import checkAuth from "../hoc/checkAuth"; // Assuming checkAuth HOC is defined in '../hoc/checkAuth'
+import checkAuth from "../hoc/checkAuth";
 import Confetti from "react-dom-confetti";
+import ReCAPTCHA from "react-google-recaptcha";
 
 function BookingForm() {
     const [loading, setLoading] = useState(false);
     const [selectedServices, setSelectedServices] = useState([]);
-    const [selectedRoom, setSelectedRoom] = useState([]);
+    const [selectedRoom, setSelectedRoom] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [serviceRows, setServiceRows] = useState([]);
     const [roomRows, setRoomRows] = useState([]);
     const user = useSelector((state) => state.auth.user);
     const [showConfetti, setShowConfetti] = useState(false);
-
+    const [recaptchaValue, setRecaptchaValue] = useState(null);
+    const sitekey = "6LfWSv8pAAAAAL2M3-5GYvTMpysv01VOjrEbmmEg";
+    const [warnings, setWarnings] = useState({});
     useEffect(() => {
         // Fetch services data
         showAllServices().then((res) => {
@@ -69,33 +73,37 @@ function BookingForm() {
     useEffect(RoomrefreshData, []);
 
     const handleToggleService = (service) => () => {
-        const currentIndex = selectedServices.findIndex(
-            (selectedService) => selectedService.id == service.id
-        );
-        const newSelectedServices = [...selectedServices];
+        setSelectedServices((prevSelectedServices) => {
+            const serviceExists = prevSelectedServices.some(
+                (selectedService) => selectedService.id == service.id
+            );
 
-        if (currentIndex == -1) {
-            newSelectedServices.push(service);
-        } else {
-            newSelectedServices.splice(currentIndex, 1);
-        }
-
-        setSelectedServices(newSelectedServices);
+            if (!serviceExists) {
+                return [...prevSelectedServices, service];
+            } else {
+                return prevSelectedServices.filter(
+                    (selectedService) => selectedService.id !== service.id
+                );
+            }
+        });
     };
 
-    // Function to create a new transaction
     const onCreateTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
+            if (!recaptchaValue) {
+                toast.error("Please complete the reCAPTCHA.");
+                return;
+            }
+
             const serviceIds = selectedServices.map((service) => service.id);
 
             const body = {
                 user_id: user?.id,
-                room_id: selectedRoom, // Use selectedRoom state here
+                room_id: selectedRoom,
                 rent_start: e.target.rent_start.value,
                 rent_end: e.target.rent_end.value,
                 service_id: serviceIds,
-                comments: e.target.message.value,
             };
 
             addTransaction(body)
@@ -106,12 +114,14 @@ function BookingForm() {
                         setSelectedServices([]);
                         setSelectedRoom(null);
                         e.target.reset();
-                        setShowConfetti(true); // Toggle confetti on success
+                        setShowConfetti(true);
                         setOpenDialog(false);
+                        setWarnings({});
                     } else {
                         toast.error(
                             res?.message ?? "Transaction creation failed."
                         );
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -124,7 +134,7 @@ function BookingForm() {
         if (showConfetti) {
             setTimeout(() => {
                 setShowConfetti(false);
-            }, 3000); // Reset after 3 seconds
+            }, 3000);
         }
     }, [showConfetti]);
 
@@ -160,6 +170,14 @@ function BookingForm() {
                                             required
                                             value={user?.username ?? ""}
                                         />
+                                        {warnings?.user_id ? (
+                                            <Typography
+                                                component="small"
+                                                color="error"
+                                            >
+                                                {warnings.user_id}
+                                            </Typography>
+                                        ) : null}
                                     </Grid>
                                     <Grid item xs={12} lg={6}>
                                         <TextField
@@ -187,6 +205,14 @@ function BookingForm() {
                                                 shrink: true,
                                             }}
                                         />
+                                        {warnings?.rent_start ? (
+                                            <Typography
+                                                component="small"
+                                                color="error"
+                                            >
+                                                {warnings.rent_start}
+                                            </Typography>
+                                        ) : null}
                                     </Grid>
                                     <Grid item xs={12} lg={6}>
                                         <TextField
@@ -202,6 +228,14 @@ function BookingForm() {
                                                 shrink: true,
                                             }}
                                         />
+                                        {warnings?.rent_end ? (
+                                            <Typography
+                                                component="small"
+                                                color="error"
+                                            >
+                                                {warnings.rent_end}
+                                            </Typography>
+                                        ) : null}
                                     </Grid>
                                     <Grid item xs={12} lg={6}>
                                         <Button
@@ -212,6 +246,14 @@ function BookingForm() {
                                         >
                                             Select Services
                                         </Button>
+                                        {warnings?.service_id ? (
+                                            <Typography
+                                                component="small"
+                                                color="error"
+                                            >
+                                                {warnings.service_id}
+                                            </Typography>
+                                        ) : null}
                                     </Grid>
                                     <Grid item xs={12} lg={6}>
                                         <FormControl fullWidth size="small">
@@ -239,6 +281,14 @@ function BookingForm() {
                                                     </MenuItem>
                                                 ))}
                                             </Select>
+                                            {warnings?.room_id ? (
+                                                <Typography
+                                                    component="small"
+                                                    color="error"
+                                                >
+                                                    {warnings.room_id}
+                                                </Typography>
+                                            ) : null}
                                         </FormControl>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -266,7 +316,7 @@ function BookingForm() {
                                                         <Checkbox
                                                             checked={selectedServices.some(
                                                                 (s) =>
-                                                                    s.id ==
+                                                                    s.id ===
                                                                     service.id
                                                             )}
                                                             onChange={handleToggleService(
@@ -298,15 +348,35 @@ function BookingForm() {
                                             </Button>
                                         </DialogActions>
                                     </Dialog>
-                                    <Grid item xs={12} className="text-center">
-                                        <Button
-                                            type="submit"
-                                            className="form-control"
-                                            disabled={loading}
+                                    <Grid container justify="center">
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            className="text-center"
                                         >
-                                            Submit
-                                        </Button>
+                                            <Box
+                                                style={{
+                                                    display: "inline-block",
+                                                }}
+                                            >
+                                                {" "}
+                                                <ReCAPTCHA
+                                                    sitekey={sitekey}
+                                                    onChange={(value) =>
+                                                        setRecaptchaValue(value)
+                                                    }
+                                                />
+                                            </Box>
+                                            <Button
+                                                type="submit"
+                                                className="form-control"
+                                                disabled={loading}
+                                            >
+                                                Submit
+                                            </Button>
+                                        </Grid>
                                     </Grid>
+
                                     <Confetti active={showConfetti} />
                                 </Grid>
                             </Box>

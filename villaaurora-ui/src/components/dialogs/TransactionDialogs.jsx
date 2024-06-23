@@ -177,7 +177,7 @@ export function TransactionDialogs() {
             setLoading(true);
             deleteTransaction(deleteTransactionDialog)
                 .then((res) => {
-                    if (res?.success) {
+                    if (res?.ok) {
                         toast.success(
                             res?.message ?? "Transaction has been deleted"
                         );
@@ -444,8 +444,44 @@ export function TransactionDialogs() {
                             type="date"
                             fullWidth
                         />
+                        {/* Service ID(s) Editing */}
+                        <Box>
+                            {/* Display all added service IDs */}
+                            {editTransactionDialog?.service_id?.map(
+                                (serviceId, index) => (
+                                    <Box
+                                        key={index}
+                                        mt={1}
+                                        display="flex"
+                                        alignItems="center"
+                                    >
+                                        <TextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            value={serviceId}
+                                            disabled
+                                        />
+                                        <Button
+                                            variant="outlined"
+                                            color="secondary"
+                                            onClick={() =>
+                                                handleRemoveServiceId(
+                                                    serviceId.id
+                                                )
+                                            } // Assuming serviceId.id is the unique identifier
+                                            style={{ marginLeft: "10px" }}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </Box>
+                                )
+                            )}
+                        </Box>
+
+                        {/* Ensure there is a hidden submit button */}
                         <Button
-                            id="transaction-btn"
+                            id="edit-transaction-btn"
                             type="submit"
                             sx={{ display: "none" }}
                         >
@@ -460,7 +496,8 @@ export function TransactionDialogs() {
                     <Button
                         disabled={loading}
                         onClick={() => {
-                            $("#transaction-btn").trigger("click");
+                            // Manually trigger form submission using jQuery
+                            $("#edit-transaction-btn").trigger("click");
                         }}
                     >
                         Update

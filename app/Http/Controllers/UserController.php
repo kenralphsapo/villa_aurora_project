@@ -21,16 +21,25 @@ class UserController extends Controller
     {
         $validator = validator($request->all(), [
             "username" => "required|min:4|string|unique:users|max:32",
-            "password" => "required|min:8|max:32|string|confirmed",
+            "password" => [
+                "required",
+                "min:8",
+                "max:32",
+                "string",
+                "confirmed",
+                "regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/",
+            ],
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin",
-            'profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            "password.regex" => "The password must contain at least one letter, one number, and one special character."
         ]);
 
         if ($request->user()->role !== "admin") {
             unset($validator->rules()['role']);
         }
+
         //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
 
         if ($validator->fails()) {
@@ -41,18 +50,8 @@ class UserController extends Controller
             ], 400);
         }
 
-        if ($request->hasFile('profile')) {
-            $image = $request->file('profile');
-            $imageName = $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName);
-        } else {
-            $imageName = 'default.jpg';
-        }
-
-        $validatedData = $validator->validated();
-        $validatedData['profile'] = $imageName;
-
-        $user = User::create($validatedData);
+        $user = User::create($validator->validated());
+        $user->token = $user->createToken("registration_token")->accessToken;
 
         return response()->json([
             "ok" => true,
@@ -87,7 +86,6 @@ class UserController extends Controller
 
      public function show(Request $request, User $user)
      {
-         $user->profile = asset('images/' . $user->profile);
          
          return response()->json([
              "ok" => true,
@@ -118,8 +116,8 @@ class UserController extends Controller
         /*
         if ($request->user()->role !== "admin") {
         unset($validator['role']);
-        }
-         */
+         }
+          */
 
         if ($validator->fails()) {
             return response()->json([
