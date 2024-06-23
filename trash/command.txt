@@ -14,7 +14,9 @@ composer i
 -- command is used to update the dependencies of a PHP project to their latest versions 
 composer u
 
-
+php artisan queue:work
+php artisan cache:table
+php artisan cache:clear
 npm create vite@latest
 npm i @mui/material @emotion/react @emotion/styled
 # List all installed packages and their dependencies
