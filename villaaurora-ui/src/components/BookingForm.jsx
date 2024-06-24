@@ -16,6 +16,7 @@ import {
     InputLabel,
     FormControl,
     Typography,
+    CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -41,7 +42,6 @@ function BookingForm() {
     const [recaptchaValue, setRecaptchaValue] = useState(null);
     const sitekey = "6LfWSv8pAAAAAL2M3-5GYvTMpysv01VOjrEbmmEg";
     const [warnings, setWarnings] = useState({});
-    
 
     const ServicefreshData = () => {
         showAllServices().then((res) => {
@@ -66,17 +66,14 @@ function BookingForm() {
 
     useEffect(RoomrefreshData, []);
 
-    const onSelectService = (service) => () => {
-        setSelectedServices((prevservice) => {
-            const serviceexist = prevservice.some(
-                (selectedService) => selectedService.id == service.id
-            );
-            if (!serviceexist) {
-                return [...prevservice, service];
+    const onSelectService = (service) => {
+        setSelectedServices((prevServices) => {
+            const serviceExists = prevServices.some((s) => s.id == service.id);
+
+            if (!serviceExists) {
+                return [...prevServices, service];
             } else {
-                return prevservice.filter(
-                    (selectedService) => selectedService.id !== service.id
-                );
+                return prevServices.filter((s) => s.id !== service.id);
             }
         });
     };
@@ -140,7 +137,8 @@ function BookingForm() {
             <Box className="container">
                 <Box className="row">
                     <Box className="col-lg-10 col-12 mx-auto">
-                        <form
+                        <Box 
+                        component="form"
                             className="custom-form booking-form"
                             onSubmit={onCreateTransaction}
                         >
@@ -310,12 +308,14 @@ function BookingForm() {
                                                         <Checkbox
                                                             checked={selectedServices.some(
                                                                 (s) =>
-                                                                    s.id ===
+                                                                    s.id ==
                                                                     service.id
                                                             )}
-                                                            onChange={onSelectService(
-                                                                service
-                                                            )}
+                                                            onChange={() =>
+                                                                onSelectService(
+                                                                    service
+                                                                )
+                                                            }
                                                         />
                                                     }
                                                     label={`${service.name} - ₱${service.price}`}
@@ -353,7 +353,6 @@ function BookingForm() {
                                                     display: "inline-block",
                                                 }}
                                             >
-                                                {" "}
                                                 <ReCAPTCHA
                                                     sitekey={sitekey}
                                                     onChange={(value) =>
@@ -368,12 +367,13 @@ function BookingForm() {
                                             >
                                                 Submit
                                             </Button>
+                                            {loading && <CircularProgress />}
                                         </Grid>
                                     </Grid>
                                     <Confetti active={showConfetti} />
                                 </Grid>
                             </Box>
-                        </form>
+                        </Box>
                     </Box>
                 </Box>
             </Box>

@@ -2,18 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
     Box,
     Typography,
-    Button,
-    Grid,
-    TextField,
-    TextareaAutosize,
-    Autocomplete,
-    Drawer,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    FormControlLabel,
-    Checkbox,
+    Button, Drawer
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,21 +20,14 @@ import catering from "./images/catering.jpg";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import "./css/bootstrap-resort.css";
-import $ from "jquery";
 import {
-    faArrowUp,
-    faCheckSquare,
-    faEnvelope,
-    faPhone,
-    faSquare,
-    faSun,
+    faArrowUp, faEnvelope,
+    faPhone, faSun
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showAllServices } from "../api/service";
-import { showAllRooms } from "../api/room";
 import Navigation from "../components/Navigation";
 import { login } from "../api/auth";
-import { addTransaction } from "../api/transaction";
 import BookingForm from "../components/BookingForm";
 
 function Home() {

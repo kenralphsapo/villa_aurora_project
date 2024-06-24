@@ -861,7 +861,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 input[type="number"] {
-    /* Firefox */
     -moz-appearance: textfield;
 }
 
