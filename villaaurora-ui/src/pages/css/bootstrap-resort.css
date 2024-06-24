@@ -49,7 +49,6 @@
   Login              
 -----------------------------------------*/
 #bglogin {
-    height: 100vh;
     background-image: url(../images/bglogin.jpg);
     flex-direction: column;
     background-position: center;
@@ -86,6 +85,12 @@
 }
 
 #forgotpassword-btn {
+    background-color: var(--color-green);
+    margin-left: 10px;
+    color: var(--color-white);
+}
+
+#search-btn{
     background-color: var(--color-green);
     margin-left: 10px;
     color: var(--color-white);
@@ -1005,6 +1010,10 @@ input[type="number"] {
         font-size: 62px;
     }
 
+    #bglogin {
+        height: 105vh;
+    }
+
     #custom-iframe {
         height: 40vh;
     }
@@ -1064,6 +1073,8 @@ input[type="number"] {
         font-size: 18px;
     }
 
+  
+
     .section-padding,
     .hero-section {
         padding: 50px 25px;
@@ -1119,6 +1130,10 @@ input[type="number"] {
         top: 0;
         z-index: 999;
     }
+
+    #bglogin {
+        height: 105vh;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -1131,6 +1146,8 @@ input[type="number"] {
         background-color: var(--primary-color);
     }
 }
+
+
 
 @media screen and (max-width: 480px) {
     h1 {

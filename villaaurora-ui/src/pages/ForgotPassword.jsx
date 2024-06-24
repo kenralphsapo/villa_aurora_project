@@ -8,7 +8,7 @@ import {
     Toolbar,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { login as loginAPI } from "../api/auth";
+import { forgotPassword, login as loginAPI } from "../api/auth";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -18,9 +18,11 @@ import "./css/bootstrap-resort.css";
 export default function ForgotPassword() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
     const [cookies, setCookie, removeCookie] = useCookies();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [forgotpassword, setForgotPassword] = useState(false)
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -38,6 +40,21 @@ export default function ForgotPassword() {
             }
         });
     };
+
+    const onForgotPassword = (e) => {
+        e.preventDefault();
+        forgotPassword({
+            email,
+        }).then((res) => {
+            if (res?.ok) {
+                toast.success(res?.message ?? "Password reset instructions sent to your email.");
+            } else {
+                toast.error(res?.message ?? "Something went wrong.");
+            }
+        });
+    };
+
+
 
     return (
         <Box>
@@ -92,7 +109,7 @@ export default function ForgotPassword() {
                 <Box
                     id="forgotpassform"
                 >
-                    <Box component="form">
+                    <Box component="form" onSubmit={onForgotPassword}>
                         <Typography>
                             Forgot your password? No problem. Just let us know
                             your email address and we will email you password
@@ -101,7 +118,13 @@ export default function ForgotPassword() {
                         <Typography className="forgotpassword-text mt-2">
                             We have emailed your password reset link!
                         </Typography>
-                        <TextField type="text" placeholder="Email" fullWidth />
+                        <TextField
+                                type="text"
+                                value={email}
+                                label="Email"
+                                fullWidth
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                         <Box
                             sx={{
                                 display: "flex",
@@ -118,7 +141,7 @@ export default function ForgotPassword() {
                                     Cancel
                                 </Link>
                             </Button>
-                            <Button id="forgotpassword-btn">Search</Button>
+                            <Button id="search-btn" type="submit">Search</Button>
                         </Box>
                     </Box>
                 </Box>

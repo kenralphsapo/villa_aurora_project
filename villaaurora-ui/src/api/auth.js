@@ -41,8 +41,8 @@ export const register = async (body) => {
       return await response.json()
     }
   
-    export const resetPassword = async (body) => {
-      const response = await fetch(`${url}/reset-password`, {
+    export const forgotPassword = async (body) => {
+      const response = await fetch(`${url}/forgot-password`, {
         method: 'POST',
         headers: {
           Accept: "application/json",

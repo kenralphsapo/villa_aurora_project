@@ -53,7 +53,7 @@ export default function Register() {
     return (
         <Box
             id="bglogin"
-            className="d-flex flex-column justify-content-center align-items-center register-container"
+            className="d-flex flex-column justify-content-center align-items-center"
         >
             <Box>
                 <Box component="form" onSubmit={onSubmit} className="login-form">
@@ -70,13 +70,9 @@ export default function Register() {
                             margin="normal"
                             fullWidth
                             required
-                            error={!!warnings.username}
+                            error={!!warnings.username} // Apply error style if there's an error
+                            helperText={warnings.username}
                         />
-                           {warnings?.username ? (
-                            <Typography component="small" color="error">
-                                {warnings.username}
-                            </Typography>
-                        ) : null}
                     </Box>
                     <Box>
                         <TextField
@@ -88,13 +84,9 @@ export default function Register() {
                             type="password"
                             fullWidth
                             required
-                            error={!!warnings.password} 
+                            error={!!warnings.password} // Apply error style if there's an error
+                            helperText={warnings.password}
                         />
-                         {warnings?.password ? (
-                            <Typography component="small" color="error">
-                                {warnings.password}
-                            </Typography>
-                        ) : null}
                     </Box>
                     <Box>
                         <TextField
@@ -106,13 +98,9 @@ export default function Register() {
                             type="password"
                             fullWidth
                             required
-                            error={!!warnings.password_confirmation} 
+                            error={!!warnings.password_confirmation} // Apply error style if there's an error
+                            helperText={warnings.password_confirmation}
                         />
-                        {warnings?.password_confirmation ? (
-                            <Typography component="small" color="error">
-                                {warnings.password_confirmation}
-                            </Typography>
-                        ) : null}
                     </Box>
                     <Box>
                         <TextField
@@ -123,13 +111,9 @@ export default function Register() {
                             margin="normal"
                             fullWidth
                             required
-                            error={!!warnings.mobile} 
+                            error={!!warnings.mobile} // Apply error style if there's an error
+                            helperText={warnings.mobile}
                         />
-                            {warnings?.mobile ? (
-                            <Typography component="small" color="error">
-                                {warnings.mobile}
-                            </Typography>
-                        ) : null}
                     </Box>
                     <Box>
                         <TextField
@@ -140,13 +124,9 @@ export default function Register() {
                             margin="normal"
                             fullWidth
                             required
-                            error={!!warnings.email} 
+                            error={!!warnings.email} // Apply error style if there's an error
+                            helperText={warnings.email}
                         />
-                          {warnings?.email ? (
-                            <Typography component="small" color="error">
-                                {warnings.email}
-                            </Typography>
-                        ) : null}
                     </Box>
 
                     <Box>

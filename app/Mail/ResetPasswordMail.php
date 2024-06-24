@@ -6,23 +6,24 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ResetPasswordMail extends Mailable
+class ResetPasswordMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $user;
-    public $resetLink; // Define the variable to be used in the view
+    public $token;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $resetLink)
+    public function __construct(User $user, $token)
     {
         $this->user = $user;
-        $this->resetLink = $resetLink; // Assign the reset link to the property
+        $this->token = $token;
     }
 
     /**
@@ -33,6 +34,6 @@ class ResetPasswordMail extends Mailable
     public function build()
     {
         return $this->subject('Reset Your Password')
-                    ->view('emails.reset_password'); // Pass variables directly or use with()
+                    ->view('emails.resetpassword');
     }
 }

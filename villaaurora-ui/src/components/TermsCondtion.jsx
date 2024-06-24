@@ -15,10 +15,11 @@ export default function TermsCondition({ createDialog, setCreateDialog }) {
    
     return (
         <Dialog open={createDialog} style={{width:'400px', display:'block', margin:'auto'}}>
-            <img src={logo} alt="Logo" className="dialog-logo"/>
-            <DialogTitle>
+         
+            <DialogTitle style={{background:'#d6a354', color:"white", textAlign:'center'}}>
                 Terms & Conditions - Villa Aurora Private Resort Swimming Pool Rules
             </DialogTitle>
+            <img src={logo} alt="Logo" className="dialog-logo"/>
             <List>
                 <ListItem>
                     <ListItemText primary="WARNING! No lifeguards on duty. Swim at your own risk. Children ages 12 and below must not be left unattended." />
