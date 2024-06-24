@@ -118,7 +118,7 @@ export function TransactionDialogs() {
         { field: "price", headerName: "Price" },
     ];
 
-    const handleAddServiceId = () => {
+    const onAddService = () => {
         const newId = newServiceId.trim();
         if (newId !== "") {
             setServiceIds([...serviceIds, newId]);
@@ -126,7 +126,7 @@ export function TransactionDialogs() {
         }
     };
 
-    const handleRemoveServiceId = (id) => {
+    const onRemoveService = (id) => {
         setServiceIds(serviceIds.filter((service) => service.id !== id));
     };
 
@@ -407,7 +407,7 @@ export function TransactionDialogs() {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={handleAddServiceId}
+                            onClick={onAddService}
                             style={{ marginLeft: "10px" }}
                         >
                             Add
@@ -430,7 +430,7 @@ export function TransactionDialogs() {
                                     variant="outlined"
                                     color="secondary"
                                     onClick={() =>
-                                        handleRemoveServiceId(serviceId)
+                                        onRemoveService(serviceId)
                                     }
                                     style={{ marginLeft: "10px" }}
                                 >
@@ -517,7 +517,7 @@ export function TransactionDialogs() {
                                             variant="outlined"
                                             color="secondary"
                                             onClick={() =>
-                                                handleRemoveServiceId(
+                                                onRemoveService(
                                                     serviceId.id
                                                 )
                                             } // Assuming serviceId.id is the unique identifier

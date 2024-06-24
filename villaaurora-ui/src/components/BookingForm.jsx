@@ -27,6 +27,7 @@ import { addTransaction } from "../api/transaction";
 import checkAuth from "../hoc/checkAuth";
 import Confetti from "react-dom-confetti";
 import ReCAPTCHA from "react-google-recaptcha";
+import $ from "jquery";
 
 function BookingForm() {
     const [loading, setLoading] = useState(false);
@@ -40,8 +41,9 @@ function BookingForm() {
     const [recaptchaValue, setRecaptchaValue] = useState(null);
     const sitekey = "6LfWSv8pAAAAAL2M3-5GYvTMpysv01VOjrEbmmEg";
     const [warnings, setWarnings] = useState({});
-    useEffect(() => {
-        // Fetch services data
+    
+
+    const ServicefreshData = () => {
         showAllServices().then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
@@ -49,16 +51,8 @@ function BookingForm() {
                 toast.error(res?.message ?? "Failed to fetch services.");
             }
         });
-
-        // Fetch rooms data
-        showAllRooms().then((res) => {
-            if (res?.ok) {
-                setRoomRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Failed to fetch rooms.");
-            }
-        });
-    }, []);
+    };
+    useEffect(ServicefreshData, []);
 
     const RoomrefreshData = () => {
         showAllRooms().then((res) => {
@@ -72,16 +66,15 @@ function BookingForm() {
 
     useEffect(RoomrefreshData, []);
 
-    const handleToggleService = (service) => () => {
-        setSelectedServices((prevSelectedServices) => {
-            const serviceExists = prevSelectedServices.some(
+    const onSelectService = (service) => () => {
+        setSelectedServices((prevservice) => {
+            const serviceexist = prevservice.some(
                 (selectedService) => selectedService.id == service.id
             );
-
-            if (!serviceExists) {
-                return [...prevSelectedServices, service];
+            if (!serviceexist) {
+                return [...prevservice, service];
             } else {
-                return prevSelectedServices.filter(
+                return prevservice.filter(
                     (selectedService) => selectedService.id !== service.id
                 );
             }
@@ -101,8 +94,8 @@ function BookingForm() {
             const body = {
                 user_id: user?.id,
                 room_id: selectedRoom,
-                rent_start: e.target.rent_start.value,
-                rent_end: e.target.rent_end.value,
+                rent_start: $("#rent_start").val(),
+                rent_end: $("#rent_end").val(),
                 service_id: serviceIds,
             };
 
@@ -117,6 +110,7 @@ function BookingForm() {
                         setShowConfetti(true);
                         setOpenDialog(false);
                         setWarnings({});
+                        setRecaptchaValue(null);
                     } else {
                         toast.error(
                             res?.message ?? "Transaction creation failed."
@@ -262,7 +256,7 @@ function BookingForm() {
                                             </InputLabel>
                                             <Select
                                                 id="room_id"
-                                                value={selectedRoom}
+                                                value={selectedRoom ?? ""}
                                                 onChange={(e) =>
                                                     setSelectedRoom(
                                                         e.target.value
@@ -319,7 +313,7 @@ function BookingForm() {
                                                                     s.id ===
                                                                     service.id
                                                             )}
-                                                            onChange={handleToggleService(
+                                                            onChange={onSelectService(
                                                                 service
                                                             )}
                                                         />
@@ -376,7 +370,6 @@ function BookingForm() {
                                             </Button>
                                         </Grid>
                                     </Grid>
-
                                     <Confetti active={showConfetti} />
                                 </Grid>
                             </Box>

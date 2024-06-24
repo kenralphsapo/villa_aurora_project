@@ -25,7 +25,7 @@ export default function AdminNavigation({
 }) {
     const [selectedNav, setSelectedNav] = React.useState("home");
 
-    const handleNavigation = (navId) => {
+    const onSelectNav = (navId) => {
         setSelectedNav(navId);
 
         const navigationActions = {
@@ -66,7 +66,6 @@ export default function AdminNavigation({
             },
         };
 
-        // Execute the corresponding action function based on navId
         if (navigationActions[navId]) {
             navigationActions[navId]();
         }
@@ -92,7 +91,7 @@ export default function AdminNavigation({
                 <ToggleButton
                     value="usernav"
                     onClick={() =>
-                        handleNavigation("usernav", [setTableVisible])
+                        onSelectNav("usernav", [setTableVisible])
                     }
                 >
                     <FontAwesomeIcon
@@ -107,7 +106,7 @@ export default function AdminNavigation({
                 <ToggleButton
                     value="servicenav"
                     onClick={() =>
-                        handleNavigation("servicenav", [
+                        onSelectNav("servicenav", [
                             setServiceDialogVisible,
                         ])
                     }
@@ -124,7 +123,7 @@ export default function AdminNavigation({
                 <ToggleButton
                     value="roomnav"
                     onClick={() =>
-                        handleNavigation("roomnav", [setRoomDialogVisible])
+                        onSelectNav("roomnav", [setRoomDialogVisible])
                     }
                 >
                     <FontAwesomeIcon
@@ -139,7 +138,7 @@ export default function AdminNavigation({
                 <ToggleButton
                     value="transactionnav"
                     onClick={() =>
-                        handleNavigation("transactionnav", [
+                        onSelectNav("transactionnav", [
                             setTransactionDialogVisible,
                         ])
                     }
@@ -159,7 +158,7 @@ export default function AdminNavigation({
                 <ToggleButton
                     value="testimonialnav"
                     onClick={() =>
-                        handleNavigation("testimonialnav", [
+                        onSelectNav("testimonialnav", [
                             setTestimonialDialogVisible,
                         ])
                     }

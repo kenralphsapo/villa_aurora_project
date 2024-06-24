@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 //POST: http://localhost:8000/api/login
     Route::post("/login", [App\Http\Controllers\AuthController::class,'login']);
 
-    Route::post('forgot-password', [App\Http\Controllers\AuthController::class,'forgotPassword']);
-Route::post('reset-password', [App\Http\Controllers\AuthController::class,'resetPassword']);
+    Route::post('forgotPassword', [App\Http\Controllers\AuthController::class,'forgotPassword']);
+Route::post('resetPassword', [App\Http\Controllers\AuthController::class,'resetPassword']);
 
 
 //User CheckToken

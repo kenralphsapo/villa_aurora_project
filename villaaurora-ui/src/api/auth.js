@@ -42,7 +42,20 @@ export const register = async (body) => {
     }
   
     export const forgotPassword = async (body) => {
-      const response = await fetch(`${url}/forgot-password`, {
+      const response = await fetch(`${url}/forgotPassword`, {
+        method: 'POST',
+        headers: {
+          Accept: "application/json",
+          "Content-Type": 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+    
+      return await response.json();
+    };
+
+    export const resetPassword = async (body) => {
+      const response = await fetch(`${url}/resetPassword`, {
         method: 'POST',
         headers: {
           Accept: "application/json",

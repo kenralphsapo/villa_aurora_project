@@ -53,7 +53,7 @@ export default function Register() {
     return (
         <Box
             id="bglogin"
-            className="d-flex flex-column justify-content-center align-items-center register-container"
+            className="d-flex flex-column justify-content-center align-items-center"
         >
             <Box>
                 <Box component="form" onSubmit={onSubmit} className="login-form">

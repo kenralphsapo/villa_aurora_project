@@ -10,7 +10,6 @@ import Admin from "./pages/Admin";
 import ForgotPassword from "./pages/ForgotPassword";
 import Myaccount from "./pages/Myaccount";
 import Undead from "./pages/Undead";
-import ResetPassword from "./pages/ResetPassword";
 
 function App() {
     const router = createBrowserRouter([
@@ -46,10 +45,6 @@ function App() {
             path: "/hi",
             element: <Undead />,
         },
-        {
-            path: "/reset-password",
-            element: <ResetPassword />,
-        }
     ]);
 
     return (

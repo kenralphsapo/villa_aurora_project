@@ -39,7 +39,7 @@ export function TestimonialDialogs() {
 
     const [rating, setRating] = useState(0);
 
-    const handleStarClick = (starValue) => {
+    const onStarValue = (starValue) => {
         setRating(starValue);
     };
 
@@ -247,7 +247,7 @@ export function TestimonialDialogs() {
                                                 marginRight: "5px",
                                             }}
                                             onClick={() =>
-                                                handleStarClick(value)
+                                                onStarValue(value)
                                             }
                                         />
                                     ))}
