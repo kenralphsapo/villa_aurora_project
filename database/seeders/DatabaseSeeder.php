@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'mobile' => '09296407470',
             'email' => 'admin@example.com',
             'role' => 'admin',
-            'profile' => 'catering.jpg',
         ]);
 
         User::create([
@@ -30,7 +29,6 @@ class DatabaseSeeder extends Seeder
             'mobile' => '09984889752',
             'email' => 'william@gmail.com', 
             'role' => 'admin', 
-            'profile' => 'catering.jpg', 
         ]);
         
         User::create([
@@ -39,7 +37,6 @@ class DatabaseSeeder extends Seeder
             'mobile' => '09984889752',
             'email' => 'kensapo@gmail.com', 
             'role' => 'admin', 
-            'profile' => 'catering.jpg',
         ]);
 
         Service::create([

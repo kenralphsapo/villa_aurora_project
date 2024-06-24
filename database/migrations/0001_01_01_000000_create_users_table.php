@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('mobile');
             $table->string('email')->unique();
             $table->enum('role', ['guest','scheduler','admin'])->default('guest');
-            $table->string('profile');
             $table->timestamps();
         });
     }

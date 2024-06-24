@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 //User Login
 //POST: http://localhost:8000/api/login
     Route::post("/login", [App\Http\Controllers\AuthController::class,'login']);
+
+    Route::post('forgot-password', [App\Http\Controllers\AuthController::class,'forgotPassword']);
+Route::post('reset-password', [App\Http\Controllers\AuthController::class,'resetPassword']);
+
+
 //User CheckToken
 //POST: http://localhost:8000/api/checkToken
     Route::middleware("auth:api")->get("/checkToken", [App\Http\Controllers\AuthController::class,"checkToken"]);
@@ -36,6 +41,8 @@ Route::prefix("users")->middleware("auth:api")->group(function(){
     Route::delete("/{user}", [App\Http\Controllers\UserController::class, 'destroy']);
 
 });
+
+
 
 
 

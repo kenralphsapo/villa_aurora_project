@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Str;
 
 
 class AuthController extends Controller
@@ -130,6 +132,74 @@ class AuthController extends Controller
             "data" => $request->user(),
         ], 200);
     }
+
+    public function forgotPassword(Request $request){
+    $validator = validator($request->all(), [
+        'email' => 'required|email|exists:users,email',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'ok' => false,
+            'message' => 'Validation failed',
+            'errors' => $validator->errors(),
+        ], 400);
+    }
+
+    $user = User::where('email', $request->email)->first();
+
+    // Generate a temporary token or code (e.g., UUID or unique code)
+    $temporaryCode = Str::random(10); // Example: Generate a 10-character random string
+
+    // Store the temporary code in the database or associate it with the user session
+
+    // Send an email with the temporary code or link for resetting password
+    Mail::to($user->email)->send(new ResetPasswordMail($user, $temporaryCode));
+
+    return response()->json([
+        'ok' => true,
+        'message' => 'Password reset instructions sent to your email',
+    ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validator = validator($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'temporary_code' => 'required',
+            'new_password' => 'required|min:8|max:32|string|confirmed',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'ok' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+    
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return response()->json([
+                'ok' => false,
+                'message' => 'User not found',
+            ], 404);
+        }
+
+        $user->password = $request->input('new_password');
+        $user->update();
+    
+    
+        return response()->json([
+            'ok' => true,
+            'message' => 'Password reset successfully',
+        ]);
+    }
+    
+
+    
+
 
 
 

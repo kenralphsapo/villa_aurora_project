@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Transaction Email</title>
     <style>
-        span {
-            color: green;
-        }
     </style>
 </head>
 <body>
