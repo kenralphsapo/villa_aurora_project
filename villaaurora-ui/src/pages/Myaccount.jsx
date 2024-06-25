@@ -57,7 +57,11 @@ function Myaccout() {
             ).then((res) => {
                 if (res?.ok) {
                     navigate("/");
-                    toast.success(res?.message ?? "Updated successfully.");
+                    setTimeout(()=> {
+                        window.location.reload()
+                        toast.success(res?.message ?? "Updated successfully.");
+                    })
+                    
                 } else {
                     toast.error(res?.message ?? "Something went wrong.");
                 }
