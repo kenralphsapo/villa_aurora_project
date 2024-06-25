@@ -8,8 +8,9 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
 import "./css/bootstrap-resort.css";
 import logo from "./images/logo.jpg";
-import TermsCondition from "../components/TermsCondtion";
+
 import $ from "jquery";
+import RulesGuideLines from "../components/RulesGuidelines";
 
 export default function Register() {
     const [warnings, setWarnings] = useState({});
@@ -164,7 +165,7 @@ export default function Register() {
                                 style={{ color: "#4caf50", cursor: "pointer" }}
                                 onClick={() => setCreateDialog(true)}
                             >
-                                Terms fo Service
+                                Rules and Guidelines
                             </Link>
                         </Typography>
                     </Box>
@@ -178,7 +179,7 @@ export default function Register() {
                         </Typography>
                     </Box>
                 </Box>
-                <TermsCondition createDialog={createDialog} setCreateDialog={setCreateDialog} />
+                <RulesGuideLines createDialog={createDialog} setCreateDialog={setCreateDialog} />
             </Box>
         </Box>
     );

@@ -9,8 +9,6 @@ export const showAllTestimonials = async () => {
 };
 
 export const addTestimonial = async (body) => {
-    // Convert all properties of 'body' to strings
-
     const response = await fetch(`${url}/testimonials`, {
         method: "POST",
         headers: {

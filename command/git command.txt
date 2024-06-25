@@ -1,0 +1,22 @@
+git init
+git add . # Stage all changes
+
+git commit  -m "My message"
+
+git remove add origin https://
+
+git config --global user.name Adornadowilliam2
+git config --global user.email adornadowilliam@gmail.com
+git config --list 
+
+
+git commit  -m "please success" --allow-empty
+git push origin namebranch
+
+git status
+git push origin main --force-with-lease
+git push origin main --force
+git branch -d branchname
+
+git push origin --delete demobranch
+git branch -a

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    Box,
-    Typography,
-    Button, Drawer
-} from "@mui/material";
+import { Box, Typography, Button, Drawer } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
@@ -21,8 +17,10 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import "./css/bootstrap-resort.css";
 import {
-    faArrowUp, faEnvelope,
-    faPhone, faSun
+    faArrowUp,
+    faEnvelope,
+    faPhone,
+    faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showAllServices } from "../api/service";
@@ -233,9 +231,11 @@ function Home() {
                     }}
                     id="custom-arrowupbtn"
                     onClick={handleScrollToTop}
+                    aria-label="Scroll To Top"
                 >
                     <FontAwesomeIcon icon={faArrowUp} />
                 </Button>
+
                 {/* Hero Section */}
                 <section
                     id="section_1"
@@ -391,6 +391,7 @@ function Home() {
                                     href="https://www.facebook.com/VAPRII/"
                                     className="trans-scale text-white"
                                     target="_blank"
+                                    aria-label="Visit Villa Aurora Private Resort Facebook Page"
                                 >
                                     <strong className="text-black">
                                         For inquiries, please check our Facebook
@@ -597,6 +598,8 @@ function Home() {
                                             <Link
                                                 className="social-icon-link"
                                                 to="https://www.facebook.com/profile.php?id=100070173077878"
+                                                aria-label="Facebook Profile"
+                                                title="Facebook"
                                             >
                                                 <i className="fab fa-facebook-f"></i>
                                             </Link>
@@ -606,6 +609,7 @@ function Home() {
                                             <Link
                                                 href="#"
                                                 className="social-icon-link"
+                                                title="Twitter"
                                             >
                                                 <i className="fab fa-twitter"></i>
                                             </Link>
@@ -615,6 +619,7 @@ function Home() {
                                             <Link
                                                 href="#"
                                                 className="social-icon-link"
+                                                title="Instagram"
                                             >
                                                 <i className="fab fa-instagram"></i>
                                             </Link>
@@ -624,11 +629,13 @@ function Home() {
                                             <Link
                                                 href="#"
                                                 className="social-icon-link"
+                                                title="YouTube"
                                             >
                                                 <i className="fab fa-youtube"></i>
                                             </Link>
                                         </li>
                                     </ul>
+
                                     <Box className="col-lg-9 col-12 contact-block-wrap mt-lg-0 pt-4 pt-lg-0 mx-auto">
                                         <Box className="contact-block mt-5">
                                             <Typography
@@ -654,12 +661,13 @@ function Home() {
                                 <Box className="col-lg-5 col-12 mt-5 mt-lg-0 pt-4 pt-lg-0 mx-auto">
                                     <Box className="iframe-container">
                                         <iframe
+                                            title="Map of Villa Aurora Resort"
                                             className="google-map"
-                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.135607282014!2d121.1004689148258!3d14.533207089826607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c75ea60f9533%3A0x5c7ae1dbd8f8ab5a!2sVilla%20Aurora%20Private%20Resort%2C%20G4MR%2B7P2%2C%20Lakeview%20subd%20Baytown%20Coastal%20Road%2C%201930%20Rizal!5e0!3m2!1sen!2sph!4v1647605421232!5m2!1sen!2sph"
+                                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyCNokgCGgBO7LMvwuiK3NiPivOILZBKieg&q=Villa+Aurora+Private+Resort,+G4MR%2B7P2,+Lakeview+subd+Baytown+Coastal+Road,+1930+Rizal`}
                                             loading="lazy"
                                             referrerPolicy="no-referrer-when-downgrade"
                                             id="custom-iframe"
-                                        ></iframe>
+                                        />
                                     </Box>
                                 </Box>
                             </Box>

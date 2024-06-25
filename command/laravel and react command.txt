@@ -52,8 +52,3 @@ npm i react-router-dom
 -- php artisan make:model User
 -- composer create-project --prefer-dist laravel/laravel REST_API
 -- composer require laravel/passport
-
-
-
--- try to insert try icon in the tables
--- try to retrieve the need in the tables in services in home

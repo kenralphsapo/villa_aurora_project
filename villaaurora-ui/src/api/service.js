@@ -1,6 +1,7 @@
 import { url } from "./configuration";
 
 // backend endpoint
+
 export const showAllServices = async () => {
     const response = await fetch(`${url}/services`, {
         method: "GET",

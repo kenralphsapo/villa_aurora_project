@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import logo from "../pages/images/logo.jpg";
 
-export default function TermsCondition({ createDialog, setCreateDialog }) {
+export default function RulesGuideLines({ createDialog, setCreateDialog }) {
    
     return (
         <Dialog open={createDialog} style={{width:'400px', display:'block', margin:'auto'}}>
