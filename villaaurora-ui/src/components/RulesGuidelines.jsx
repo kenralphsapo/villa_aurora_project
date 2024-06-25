@@ -16,13 +16,13 @@ import logo from "../pages/images/logo.jpg";
 export default function RulesGuideLines({ createDialog, setCreateDialog }) {
     return (
         <Dialog open={createDialog} maxWidth="sm" fullWidth>
-            <DialogTitle style={{ background: '#d6a354', color: "white", textAlign: 'center' }}>
+            <DialogTitle style={{ background: '#d6a354', color: "white", textAlign: 'center', marginBottom:10 }}>
                 Rules and Guidelines - Villa Aurora Private Resort Swimming Pool
             </DialogTitle>
             <DialogContent>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12} textAlign="center">
-                        <img src={logo} alt="Logo" style={{ maxWidth: '100%', height: 'auto' }} />
+                <Grid container spacing={2}>
+                    <Grid item xs={12} className="text-center">
+                        <img src={logo} alt="Logo" style={{ maxWidth: '200px', height: 'auto', boxShadow: '2px 2px 4px black' }} />
                     </Grid>
                     <Grid item xs={12}>
                         <List>

@@ -95,10 +95,9 @@ function BookingForm() {
                 rent_end: $("#rent_end").val(),
                 service_id: serviceIds,
             };
-
+            setLoading(true)
             addTransaction(body)
                 .then((res) => {
-                    console.log(res);
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction successful");
                         setSelectedServices([]);
@@ -353,12 +352,12 @@ function BookingForm() {
                                                     display: "inline-block",
                                                 }}
                                             >
-                                                <ReCAPTCHA
+                                                {!loading && <ReCAPTCHA
                                                     sitekey={sitekey}
                                                     onChange={(value) =>
                                                         setRecaptchaValue(value)
                                                     }
-                                                />
+                                                />}
                                             </Box>
                                             <Button
                                                 type="submit"
@@ -367,7 +366,8 @@ function BookingForm() {
                                             >
                                                 Submit
                                             </Button>
-                                            {loading && <CircularProgress />}
+                                            {loading && <CircularProgress sx={{mt:2}}/>}
+
                                         </Grid>
                                     </Grid>
                                     <Confetti active={showConfetti} />

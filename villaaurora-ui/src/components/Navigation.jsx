@@ -11,15 +11,16 @@ function Navigation({ toggleDrawer, logout }) {
     const user = useSelector((state) => state.auth.user);
     return (
         <Box id="sidebarMenu">
-            <Button style={{ background: "#fff", padding: 10,color:"black" }} onClick={toggleDrawer}>
+            <Button style={{ background: "#fff", padding:10 ,color:"black" }} onClick={toggleDrawer}>
                 <FontAwesomeIcon icon={faX} />
             </Button>
-            <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+            <Box className="d-flex flex-column justify-content-center align-items-center text-center">
                 <Link to="/" id="link" className="navbar-brand">
                     <img
                         src={logo}
                         alt="Logo"
                         className="logo-image img-fluid"
+                        style={{width:'90px'}}
                     />
                     <h5 id="customheader">Villa Aurora Private Resort</h5>
                 </Link>

@@ -37,7 +37,6 @@ function Myaccout() {
     const [deleteDialog, setDeleteDialog] = useState(null);
     const [deletePermanentDialog, setDeletePermanentDialog] = useState(null);
     const [showAccount, setAccount] = useState(false);
-
     useEffect(() => {
         setUsername(user?.username);
         setMobile(user?.mobile);
@@ -58,7 +57,6 @@ function Myaccout() {
             ).then((res) => {
                 if (res?.ok) {
                     navigate("/");
-                    dispatch(login(res.data));
                     toast.success(res?.message ?? "Updated successfully.");
                 } else {
                     toast.error(res?.message ?? "Something went wrong.");
@@ -87,6 +85,18 @@ function Myaccout() {
                 });
         }
     };
+
+    const onEditAccount = (e) => {
+        e.preventDefault();
+        setAccount(true);
+    };
+
+    const onCancelAccount = (e) => {
+        e.preventDefault();
+        setAccount(false);
+    };
+
+
 
     return (
         <Box>
@@ -216,7 +226,7 @@ function Myaccout() {
                                         ) : (
                                             <Button
                                                 id="custom-editbtn"
-                                                onClick={() => setAccount(true)}
+                                                onClick={onEditAccount}
                                                 disabled={loading}
                                             >
                                                 Edit Account
@@ -225,9 +235,7 @@ function Myaccout() {
                                         {showAccount ? (
                                             <Button
                                                 id="custom-cancelbtn"
-                                                onClick={() =>
-                                                    setAccount(false)
-                                                }
+                                                onClick={onCancelAccount}
                                                 disabled={loading}
                                             >
                                                 Cancel

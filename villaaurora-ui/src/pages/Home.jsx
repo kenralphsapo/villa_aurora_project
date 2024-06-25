@@ -27,6 +27,7 @@ import { showAllServices } from "../api/service";
 import Navigation from "../components/Navigation";
 import { login } from "../api/auth";
 import BookingForm from "../components/BookingForm";
+import { index } from "../api/user";
 
 function Home() {
     const user = useSelector((state) => state.auth.user);
@@ -36,7 +37,6 @@ function Home() {
     const [scrollVisible, setScrollVisible] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [serviceRows, setServiceRows] = useState([]);
-
     const logout = () => {
         removeCookie("AUTH_TOKEN");
         toast.success(res?.message ?? "Logged out successfully.");
@@ -44,7 +44,7 @@ function Home() {
         dispatch(login(res.data));
     };
 
-    const handleScrollToTop = () => {
+    const onScrollTop = () => {
         window.scrollTo({
             top: 0,
             behavior: "smooth",
@@ -78,7 +78,7 @@ function Home() {
         setDrawerOpen(!drawerOpen);
     };
 
-    const SrefreshData = () => {
+    const ServicerefreshData = () => {
         showAllServices().then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
@@ -88,7 +88,7 @@ function Home() {
         });
     };
 
-    useEffect(SrefreshData, []);
+    useEffect(ServicerefreshData, []);
 
     return (
         <Box id="homebg">
@@ -113,19 +113,19 @@ function Home() {
                     id="sidebarMenu"
                     className="col-md-4 col-lg-2 d-md-block sidebar collapse p-0 "
                 >
-                    <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+                    <Box className="d-flex flex-column justify-content-center align-items-center text-center">
                         <Link to="/" id="link" className="navbar-brand">
                             <img
                                 src={logo}
                                 alt="Logo"
-                                className="logo-image img-fluid"
+                                className="logo-image img-fluid mt-3"
                             />
                             <h5 id="customheader">
                                 Villa Aurora Private Resort
                             </h5>
                         </Link>
                         {user ? (
-                            <Typography variant="h6" className="mt-2">
+                            <Typography variant="h6" className="mt-2 text-white">
                                 {user?.username}
                             </Typography>
                         ) : null}
@@ -133,7 +133,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_1"
-                                    className="nav-link click-scroll text-black"
+                                    className="nav-link click-scroll"
                                 >
                                     Home
                                 </a>
@@ -142,7 +142,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_2"
-                                    className="nav-link click-scroll text-black"
+                                    className="nav-link click-scroll"
                                 >
                                     Services
                                 </a>
@@ -151,7 +151,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_3"
-                                    className="nav-link click-scroll text-black"
+                                    className="nav-link click-scroll"
                                 >
                                     Features
                                 </a>
@@ -160,7 +160,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_4"
-                                    className="nav-link click-scroll text-black"
+                                    className="nav-link click-scroll"
                                 >
                                     Price List
                                 </a>
@@ -169,7 +169,7 @@ function Home() {
                             <Box variant="li" className="nav-item">
                                 <a
                                     href="#section_5"
-                                    className="nav-link click-scroll text-black"
+                                    className="nav-link click-scroll"
                                 >
                                     Contact
                                 </a>
@@ -180,7 +180,7 @@ function Home() {
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/guest"
-                                                className="nav-link click-scroll text-black"
+                                                className="nav-link click-scroll"
                                             >
                                                 Myaccount
                                             </Link>
@@ -191,7 +191,7 @@ function Home() {
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/admin"
-                                                className="nav-link click-scroll text-black"
+                                                className="nav-link click-scroll"
                                             >
                                                 {user?.role}
                                             </Link>
@@ -201,7 +201,7 @@ function Home() {
                                     <Box variant="li" className="nav-item">
                                         <Link
                                             onClick={logout}
-                                            className="nav-link click-scroll text-black"
+                                            className="nav-link click-scroll"
                                         >
                                             Logout
                                         </Link>
@@ -230,7 +230,7 @@ function Home() {
                         display: scrollVisible ? "block" : "none",
                     }}
                     id="custom-arrowupbtn"
-                    onClick={handleScrollToTop}
+                    onClick={onScrollTop}
                     aria-label="Scroll To Top"
                 >
                     <FontAwesomeIcon icon={faArrowUp} />

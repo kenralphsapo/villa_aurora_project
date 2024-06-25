@@ -479,6 +479,7 @@ strong {
     position: relative;
 }
 
+
 #sidebarMenu .nav-link.active,
 #sidebarMenu .nav-link:hover {
     color: var(--color-white);

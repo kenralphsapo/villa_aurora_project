@@ -12,13 +12,16 @@ import logo from "./images/logo.jpg";
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(false); // State for error handling
+    const [error, setError] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies();
+    const [loading, setLoading] = useState(false);
+
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setLoading(true)
         loginAPI({
             username,
             password,
@@ -28,9 +31,9 @@ export default function Login() {
                 dispatch(login(res.data));
                 navigate("/");
                 toast.success(res?.message ?? "Logged in successfully.");
-                setError(false); // Reset error state
+                setError(false);
             } else {
-                setError(true); // Set error state to true
+                setError(true); 
                 toast.error(res?.message ?? "Something went wrong.");
             }
         });
@@ -57,9 +60,9 @@ export default function Login() {
                         id="username"
                         label="Username or Email"
                         fullWidth
-                        error={error} // Apply error style if there's an error
-                        variant="outlined" // Ensure TextField is outlined for border color to apply
-                        sx={{ borderColor: error ? 'red' : 'black' }} // Customize border color based on error state
+                        error={error}
+                        variant="outlined"
+                        sx={{ borderColor: error ? 'red' : 'black' }}
                     />
                 </Box>
                 <Box className="input-container">
@@ -70,12 +73,12 @@ export default function Login() {
                         label="Password"
                         type="password"
                         fullWidth
-                        error={error} // Apply error style if there's an error
-                        variant="outlined" // Ensure TextField is outlined for border color to apply
-                        sx={{ borderColor: error ? 'red' : 'black' }} // Customize border color based on error state
+                        error={error} 
+                        variant="outlined" 
+                        sx={{ borderColor: error ? 'red' : 'black' }} 
                     />
                 </Box>
-                <Button type="submit" id="submit-button" fullWidth>
+                <Button type="submit" id="submit-button" disabled={loading} fullWidth>
                     Login
                 </Button>
                 <Box className="forgot-password">
