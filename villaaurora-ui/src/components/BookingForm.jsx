@@ -156,7 +156,7 @@ function BookingForm() {
                                         <TextField
                                             id="name"
                                             label="Fullname"
-                                            variant="outlined"
+                                            variant="outlined" 
                                             margin="normal"
                                             fullWidth
                                             required

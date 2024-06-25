@@ -663,7 +663,7 @@ function Home() {
                                         <iframe
                                             title="Map of Villa Aurora Resort"
                                             className="google-map"
-                                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyCNokgCGgBO7LMvwuiK3NiPivOILZBKieg&q=Villa+Aurora+Private+Resort,+G4MR%2B7P2,+Lakeview+subd+Baytown+Coastal+Road,+1930+Rizal`}
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.135607282014!2d121.1004689148258!3d14.533207089826607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c75ea60f9533%3A0x5c7ae1dbd8f8ab5a!2sVilla%20Aurora%20Private%20Resort%2C%20G4MR%2B7P2%2C%20Lakeview%20subd%20Baytown%20Coastal%20Road%2C%201930%20Rizal!5e0!3m2!1sen!2sph!4v1647605421232!5m2!1sen!2sph"
                                             loading="lazy"
                                             referrerPolicy="no-referrer-when-downgrade"
                                             id="custom-iframe"

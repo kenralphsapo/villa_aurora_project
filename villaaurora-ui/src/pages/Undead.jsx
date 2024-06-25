@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import MyCalendar from "../components/MyCalendar";
-import TermsCondition from "../components/TermsCondtion";
 
 
 export default function Undead() {
