@@ -15,8 +15,7 @@ class TransactionController extends Controller
 {
 
 
-    public function addTransaction(Request $request)
-    {
+public function addTransaction(Request $request){
     $validator = Validator::make($request->all(),[
         'user_id' => 'required|exists:users,id',
         'room_id' => 'sometimes|exists:rooms,id|unique:transactions',
@@ -62,7 +61,7 @@ class TransactionController extends Controller
             'data' => $transaction,
         ], 201);
 
-    }
+}
 
 //TO-DO: MUST INCLUDE PRICE FROM SERVICES
     /**
@@ -70,15 +69,14 @@ class TransactionController extends Controller
     * GET: /api/transactions
     * @return \Illuminate\Http\Response
     */
-
- public function showAllTransactions(){
-    $transactions = Transaction::with('services')->get();
-
-    return response()->json([
-    "ok" => true,
-    "message" => "All Transactions has been retrieved",
-    "data" => $transactions
-    ]);
+public function showAllTransactions(){
+        $transactions = Transaction::with('services')->get();
+    
+        return response()->json([
+        "ok" => true,
+        "message" => "All Transactions has been retrieved",
+        "data" => $transactions
+        ]);
 }
   
 
@@ -99,7 +97,7 @@ class TransactionController extends Controller
         "message" => "Transaction has been retrieved.",
         "data" => $transaction
     ]);
-    }
+}
 
 
     /**
@@ -109,6 +107,7 @@ class TransactionController extends Controller
     * @return \Illuminate\Http\Response
     */
 
+    
     public function updateTransaction(Request $request, Transaction $transaction){
         $validator = validator($request->all(), [
             'user_id' => 'sometimes|exists:users,id',
@@ -135,9 +134,10 @@ class TransactionController extends Controller
     $room = Room::find($validated["room_id"]);
 
     $transaction_input["room_price"] = $room->price;
-    $transaction = Transaction::create($transaction_input);
-    //dd($validated["service_id"]);
+   
     
+    $transaction->update($transaction_input);
+
     //Service Price
     $arrayServicePrice = [];
     foreach($validated["service_id"] as $service_id){
@@ -154,7 +154,6 @@ class TransactionController extends Controller
         'data' => $transaction,
     ], 200);
 }
-
 
 
 //DELETE Transaction user using ID

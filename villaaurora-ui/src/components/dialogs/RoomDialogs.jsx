@@ -6,6 +6,7 @@ import {
     DialogContent,
     DialogTitle,
     TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -167,7 +168,10 @@ export function RoomDialog() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateRoomDialog(true)}
                 >
+                    <Tooltip title="Add Room">
                     <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                    </Tooltip>
+
                 </Button>
             </Box>
             <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
@@ -207,10 +211,11 @@ export function RoomDialog() {
                                 </Typography>
                             ) : null}
                         </Box>
-                        <Box className="d-flex justify-content-center align-items-center">
+                        <Box className="d-flex justify-content-end align-items-center">
                             <Button
                                 color="info"
                                 onClick={() => setCreateRoomDialog(false)}
+                                style={{border:"2px solid blue"}}
                             >
                                 Close
                             </Button>
@@ -219,6 +224,7 @@ export function RoomDialog() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
+                                style={{border:"2px solid green", marginLeft:"10px"}}
                             >
                                 Submit
                             </Button>
@@ -239,10 +245,10 @@ export function RoomDialog() {
                         display: !!deleteRoomDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setRoomDeleteDialog(null)}>
+                    <Button onClick={() => setRoomDeleteDialog(null)} style={{border: "2px solid blue"}}>
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteRoom}>
+                    <Button disabled={loading} onClick={onDeleteRoom} color="error" style={{border: "2px solid red"}}>
                         Confirm
                     </Button>
                 </DialogActions>
@@ -303,7 +309,7 @@ export function RoomDialog() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setEditRoomDialog(null)}>
+                    <Button style={{border: "2px solid lightblue"}} onClick={() => setEditRoomDialog(null)}>
                         Cancel
                     </Button>
                     <Button
@@ -311,6 +317,8 @@ export function RoomDialog() {
                         onClick={() => {
                             $("#room-btn").trigger("click");
                         }}
+                        color="success"
+                        style={{border: "2px solid lightgreen"}}
                     >
                         Update
                     </Button>

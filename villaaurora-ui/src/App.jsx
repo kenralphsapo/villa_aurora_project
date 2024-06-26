@@ -44,7 +44,7 @@ function App() {
         {
             path: "/hi",
             element: <Undead />,
-        },
+        }
     ]);
 
     return (

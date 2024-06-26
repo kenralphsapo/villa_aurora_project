@@ -11,6 +11,7 @@ import {
     MenuItem,
     Select,
     TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
 
@@ -60,6 +61,8 @@ export function UserDialogs() {
                         height: "100%",
                     }}
                 >
+                    {user?.role == "admin" && (
+                   <>
                     <Button
                         variant="contained"
                         color="warning"
@@ -67,13 +70,17 @@ export function UserDialogs() {
                     >
                         Edit
                     </Button>
-                    <Button
+            
+                        <Button
                         variant="contained"
                         color="error"
                         onClick={() => setDeleteDialog(params.row.id)}
                     >
                         Delete
                     </Button>
+                   </>
+                )}
+                   
                 </Box>
             ),
             width: 200,
@@ -186,7 +193,11 @@ export function UserDialogs() {
             >
                 <Typography variant="h2">Users</Typography>
                 <Button sx={{ mr: 5 }} onClick={() => setCreateDialog(true)}>
-                <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                {user?.role == "admin" && (
+                        <Tooltip title="Add User">
+                            <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                        </Tooltip>
+                )}
                 </Button>
             </Box>
             <DataGrid autoHeight columns={columns} rows={rows} />
@@ -289,7 +300,7 @@ export function UserDialogs() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="info" onClick={() => setCreateDialog(false)}>
+                    <Button color="info" onClick={() => setCreateDialog(false)} style={{border:"2px solid blue"}}>
                         Close
                     </Button>
                     <Button
@@ -297,6 +308,8 @@ export function UserDialogs() {
                             $("#submit_btn").trigger("click");
                         }}
                         id="submitbtn"
+                        color="success"
+                        style={{border: "2px solid green"}}
                     >
                         Create
                     </Button>
@@ -316,10 +329,10 @@ export function UserDialogs() {
                         display: !!deleteDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setDeleteDialog(null)}>
+                    <Button onClick={() => setDeleteDialog(null)} style={{border: "2px solid blue"}}>
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDelete}>
+                    <Button disabled={loading} onClick={onDelete} color="error" style={{border: '2px solid red'}}>
                         Confirm
                     </Button>
                 </DialogActions>
@@ -424,13 +437,14 @@ export function UserDialogs() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setEditDialog(null)}>Cancel</Button>
+                    <Button style={{border: "2px solid lightblue"}} onClick={() => setEditDialog(null)}>Cancel</Button>
                     <Button
                         disabled={loading}
                         onClick={() => {
                             $("#edit-btn").trigger("click");
                         }}
                         color="success"
+                        style={{border: "2px solid lightgreen"}}
                     >
                         Update
                     </Button>

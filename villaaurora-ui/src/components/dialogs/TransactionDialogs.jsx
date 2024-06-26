@@ -11,6 +11,7 @@ import {
     MenuItem,
     Select,
     TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -28,8 +29,11 @@ import {
 import { showAllRooms } from "../../api/room";
 import { index } from "../../api/user";
 import { useCookies } from "react-cookie";
+import { showAllServices } from "../../api/service";
+import { useSelector } from "react-redux";
 
 export function TransactionDialogs() {
+    const user = useSelector((state) => state.auth.user)
     const [transactionRows, setTransactionRows] = useState([]);
     const [createTransactionDialog, setCreateTransactionDialog] =
         useState(false);
@@ -44,7 +48,7 @@ export function TransactionDialogs() {
     const [pivotRows, setPivotRows] = useState([]);
 
     const [serviceIds, setServiceIds] = useState([]);
-    const [newServiceId, setNewServiceId] = useState("");
+    const [addId, setAddId] = useState("");
     const [position, setPosition] = useState(false);
 
      // For  users
@@ -56,9 +60,8 @@ export function TransactionDialogs() {
      const [selectedRoomId, setSelectedRoomId] = useState("");
  
     const [cookies] = useCookies(["AUTH_TOKEN"]);
-
-
-
+    const [serviceid, setServiceId] = useState([]);
+   
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
         { field: "user_id", headerName: "User ID" },
@@ -106,30 +109,7 @@ export function TransactionDialogs() {
         },
     ];
 
-    const servicecolumns = [
-        { field: "id", headerName: "ID" },
-        { field: "name", headerName: "Name", width: 100 },
-        { field: "price", headerName: "Price" },
-    ];
-
-    const pivotcolumns = [
-        { field: "service_id", headerName: "Service ID" },
-        { field: "transaction_id", headerName: "Transaction ID", width: 200 },
-        { field: "price", headerName: "Price" },
-    ];
-
-    const onAddService = () => {
-        const newId = newServiceId.trim();
-        if (newId !== "") {
-            setServiceIds([...serviceIds, newId]);
-            setNewServiceId("");
-        }
-    };
-
-    const onRemoveService = (id) => {
-        setServiceIds(serviceIds.filter((service) => service.id !== id));
-    };
-
+    //  Create transaction Area
     const onCreateTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
@@ -149,7 +129,7 @@ export function TransactionDialogs() {
                         refreshData();
                         setWarnings({});
                         setServiceIds([]);
-                        setNewServiceId("");
+                        setAddId("");
                         setRoomRows([]);
                         setRows([]);
                     } else {
@@ -161,6 +141,75 @@ export function TransactionDialogs() {
                     setLoading(false);
                 });
         }
+    };
+
+    
+    const onAddService = () => {
+        const addservice = addId.trim();
+        if (addservice !== "") {
+            setServiceIds([...serviceIds, addservice]);
+            setAddId("");
+        }
+    };
+
+    const onRemoveService = (id) => {
+        setServiceIds(serviceIds.filter((service) => service.id !== id));
+    };
+
+
+    //  Edit transaction Area
+      const onEditTransaction = (e) => {
+        e.preventDefault();
+        if (!loading) {
+            setLoading(true);
+            updateTransaction({
+                user_id: editTransactionDialog.user_id,
+                room_id: editTransactionDialog.room_id,
+                rent_start: editTransactionDialog.rent_start,
+                rent_end: editTransactionDialog.rent_end,
+                service_id: serviceid.map((service) => service.id)
+            }, editTransactionDialog.id)
+                .then((res) => {
+                    if (res?.success) {
+                        toast.success(res?.message ?? "Transaction updated successfully.");
+                        setEditTransactionDialog(null);
+                        refreshData();
+                    } else {
+                        toast.error(res?.message ?? "Failed to update transaction.");
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
+
+    const addServiceId = (e) => {
+        const value = e.target.value;
+        const service = serviceRows.find(
+            (service) => service.id == value
+        );
+        if (service) {
+            setServiceId([...serviceid, service]);
+        }
+    };
+
+    const removeServiceId = (serviceIdToRemove) => {
+        const updatedserviceid = serviceid.filter(
+            (service) => service.id !== serviceIdToRemove
+        );
+        setServiceId(updatedserviceid);
+    };
+
+
+    const ServiceRefreshData = () => {
+        showAllServices().then((res) => {
+            if (res?.ok) {
+                setServiceRows(res.data);
+            } else {
+                toast.error(res?.message ?? "Failed to fetch services.");
+            }
+        });
     };
 
     const UserrefreshData = () => {
@@ -190,33 +239,11 @@ export function TransactionDialogs() {
     useEffect(() => {
         RoomrefreshData();
     }, []);
-    const onEditTransaction = (e) => {
-        e.preventDefault();
-        if (!loading) {
-            setLoading(true);
-            updateTransaction(
-                {
-                    rent_start: editTransactionDialog.rent_start,
-                    rent_end: editTransactionDialog.rent_end,
-                },
-                editTransactionDialog.id
-            )
-                .then((res) => {
-                    if (res?.ok) {
-                        toast.success(
-                            res?.message ?? "Transaction has updated"
-                        );
-                        setEditTransactionDialog(null);
-                        refreshData();
-                    } else {
-                        toast.error(res?.message ?? "Something went wrong.");
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
+
+    useEffect(() => {
+        ServiceRefreshData();
+    }, []);
+
 
     const onDeleteTransaction = () => {
         if (!loading) {
@@ -238,6 +265,18 @@ export function TransactionDialogs() {
                 });
         }
     };
+
+    const servicecolumns = [
+        { field: "id", headerName: "ID" },
+        { field: "name", headerName: "Name", width: 100 },
+        { field: "price", headerName: "Price" },
+    ];
+
+    const pivotcolumns = [
+        { field: "service_id", headerName: "Service ID" },
+        { field: "transaction_id", headerName: "Transaction ID", width: 200 },
+        { field: "price", headerName: "Price" },
+    ];
 
     const refreshData = () => {
         showAllTransactions().then((res) => {
@@ -279,7 +318,9 @@ export function TransactionDialogs() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateTransactionDialog(true)}
                 >
+                {user?.role == "admin" && (
                     <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                )}
                 </Button>
             </Box>
             <DataGrid
@@ -290,11 +331,18 @@ export function TransactionDialogs() {
             <Box className="custom-width">
                 <Typography variant="h3">
                     {position ? "Service columns " : "Pivot Table "}
+                    <Tooltip    title={
+                            position
+                                ? "Go to Pivot table"
+                                : "Go to Service columns"
+                        }>
                     <FontAwesomeIcon
                         icon={faRefresh}
                         onClick={() => setPosition(!position)}
                         className="addbtn"
                     />
+                    </Tooltip>
+                   
                 </Typography>
                 {position ? (
                     <DataGrid
@@ -397,8 +445,8 @@ export function TransactionDialogs() {
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                            value={newServiceId}
-                            onChange={(e) => setNewServiceId(e.target.value)}
+                            value={addId}
+                            onChange={(e) => setAddId(e.target.value)}
                             helperText="Enter service ID and click Add"
                         />
                         {warnings?.service_id ? (
@@ -440,12 +488,13 @@ export function TransactionDialogs() {
                                 </Button>
                             </Box>
                         ))}
-                        <Box className="d-flex justify-content-center align-items-center mt-2">
+                        <Box className="d-flex justify-content-end align-items-center mt-2">
                             <Button
                                 color="info"
                                 onClick={() =>
                                     setCreateTransactionDialog(false)
                                 }
+                                style={{border:"2px solid blue"}}
                             >
                                 Close
                             </Button>
@@ -453,7 +502,7 @@ export function TransactionDialogs() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
-                                style={{ marginLeft: "10px" }}
+                                style={{ marginLeft: "10px", border:"2px solid green" }}
                             >
                                 Submit
                             </Button>
@@ -466,78 +515,108 @@ export function TransactionDialogs() {
             <Dialog open={!!editTransactionDialog}>
                 <DialogTitle>Edit Transaction</DialogTitle>
                 <DialogContent>
-                    <Box
-                        component="form"
-                        sx={{ p: 1 }}
-                        onSubmit={onEditTransaction}
-                    >
+                    <Box component="form" onSubmit={onEditTransaction} sx={{ p: 2 }}>
                         <TextField
+                            fullWidth
+                            label="User ID"
+                            value={editTransactionDialog?.user_id ?? ""}
                             onChange={(e) =>
-                                setEditTransactionDialog({
-                                    ...editTransactionDialog,
-                                    rent_start: e.target.value,
-                                })
+                                setEditTransactionDialog((prevState) => ({
+                                    ...prevState,
+                                    user_id: e.target.value,
+                                }))
                             }
-                            value={editTransactionDialog?.rent_start ?? ""}
-                            size="small"
+                            variant="outlined"
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
+                            label="Room ID"
+                            value={editTransactionDialog?.room_id ?? ""}
+                            onChange={(e) =>
+                                setEditTransactionDialog((prevState) => ({
+                                    ...prevState,
+                                    room_id: e.target.value,
+                                }))
+                            }
+                            variant="outlined"
+                            margin="normal"
+                        />
+                        <TextField
+                            fullWidth
                             label="Rent Start"
                             type="date"
-                            fullWidth
+                            value={editTransactionDialog?.rent_start ?? ""}
+                            onChange={(e) =>
+                                setEditTransactionDialog((prevState) => ({
+                                    ...prevState,
+                                    rent_start: e.target.value,
+                                }))
+                            }
+                            variant="outlined"
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                         <TextField
-                            onChange={(e) =>
-                                setEditTransactionDialog({
-                                    ...editTransactionDialog,
-                                    rent_end: e.target.value,
-                                })
-                            }
-                            value={editTransactionDialog?.rent_end ?? ""}
-                            size="small"
+                            fullWidth
                             label="Rent End"
                             type="date"
-                            fullWidth
+                            value={editTransactionDialog?.rent_end ?? ""}
+                            onChange={(e) =>
+                                setEditTransactionDialog((prevState) => ({
+                                    ...prevState,
+                                    rent_end: e.target.value,
+                                }))
+                            }
+                            variant="outlined"
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
-                        {/* Service ID(s) Editing */}
-                        <Box>
-                            {/* Display all added service IDs */}
-                            {editTransactionDialog?.service_id?.map(
-                                (serviceId, index) => (
-                                    <Box
-                                        key={index}
-                                        mt={1}
-                                        display="flex"
-                                        alignItems="center"
+                        <FormControl fullWidth variant="outlined" margin="normal">
+                            <InputLabel>Select Service ID</InputLabel>
+                            <Select
+                                value=""
+                                onChange={addServiceId}
+                                fullWidth
+                            >
+                                {serviceRows.map((service) => (
+                                    <MenuItem key={service.id} value={service.id}>
+                                        {service.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Box mt={2}>
+                            {serviceid.map((service, index) => (
+                                <Box
+                                    key={index}
+                                    mt={1}
+                                    display="flex"
+                                    alignItems="center"
+                                >
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        margin="normal"
+                                        value={service.name}
+                                        disabled
+                                    />
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() => removeServiceId(service.id)}
+                                        style={{ marginLeft: "10px" }}
                                     >
-                                        <TextField
-                                            variant="outlined"
-                                            margin="normal"
-                                            fullWidth
-                                            value={serviceId}
-                                            disabled
-                                        />
-                                        <Button
-                                            variant="outlined"
-                                            color="secondary"
-                                            onClick={() =>
-                                                onRemoveService(
-                                                    serviceId.id
-                                                )
-                                            } // Assuming serviceId.id is the unique identifier
-                                            style={{ marginLeft: "10px" }}
-                                        >
-                                            Remove
-                                        </Button>
-                                    </Box>
-                                )
-                            )}
+                                        Remove
+                                    </Button>
+                                </Box>
+                            ))}
                         </Box>
-
-                        {/* Ensure there is a hidden submit button */}
-                        <Button
-                            id="edit-transaction-btn"
-                            type="submit"
-                            sx={{ display: "none" }}
-                        >
+                        <Button type="submit" style={{ display: "none" }}>
                             Submit
                         </Button>
                     </Box>
@@ -547,11 +626,10 @@ export function TransactionDialogs() {
                         Cancel
                     </Button>
                     <Button
+                        onClick={onEditTransaction}
+                        variant="contained"
+                        color="primary"
                         disabled={loading}
-                        onClick={() => {
-                            // Manually trigger form submission using jQuery
-                            $("#edit-transaction-btn").trigger("click");
-                        }}
                     >
                         Update
                     </Button>
@@ -572,10 +650,10 @@ export function TransactionDialogs() {
                         display: !!deleteTransactionDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setDeleteTransactionDialog(null)}>
+                    <Button onClick={() => setDeleteTransactionDialog(null)} style={{border: "2px solid blue"}}>
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteTransaction}>
+                    <Button disabled={loading} onClick={onDeleteTransaction} color="error" style={{border: "2px solid red"}}>
                         Confirm
                     </Button>
                 </DialogActions>

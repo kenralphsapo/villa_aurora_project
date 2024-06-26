@@ -66,17 +66,6 @@ function BookingForm() {
 
     useEffect(RoomrefreshData, []);
 
-    const onSelectService = (service) => {
-        setSelectedServices((prevServices) => {
-            const serviceExists = prevServices.some((s) => s.id == service.id);
-
-            if (!serviceExists) {
-                return [...prevServices, service];
-            } else {
-                return prevServices.filter((s) => s.id !== service.id);
-            }
-        });
-    };
 
     const onCreateTransaction = (e) => {
         e.preventDefault();
@@ -128,6 +117,18 @@ function BookingForm() {
         }
     }, [showConfetti]);
 
+    
+    const onSelectService = (service) => {
+        setSelectedServices((prevServices) => {
+            const services = prevServices.some((s) => s.id == service.id);
+
+            if (!services) {
+                return [...prevServices, service];
+            } else {
+                return prevServices.filter((s) => s.id !== service.id);
+            }
+        });
+    };
     return (
         <section
             className="booking-section section-padding"
@@ -236,7 +237,6 @@ function BookingForm() {
                                             variant="contained"
                                             color="primary"
                                             fullWidth
-                                            error={!!warnings.service_id}
                                         >
                                             Select Services
                                         </Button>

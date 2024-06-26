@@ -38,6 +38,8 @@
         <p>Best regards,<br> 
            Villa Arora
         </p>
+        
+        <p><a href="https://localhost:5173/?transaction_id={{ urlencode($transaction->id) }}" target="_blank">Rate our Site</a></p>
     </div>
 </body>
 </html>

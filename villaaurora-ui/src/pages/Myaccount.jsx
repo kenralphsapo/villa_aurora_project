@@ -280,6 +280,7 @@ function Myaccout() {
                                                     onClick={() =>
                                                         setDeleteDialog(null)
                                                     }
+                                                    style={{border: "2px solid blue"}}
                                                 >
                                                     Cancel
                                                 </Button>
@@ -289,7 +290,10 @@ function Myaccout() {
                                                         setDeletePermanentDialog(
                                                             user.id
                                                         )
+                                                        
                                                     }
+                                                    color="error"
+                                                    style={{border:"2px solid red"}}
                                                 >
                                                     Confirm
                                                 </Button>
@@ -316,6 +320,8 @@ function Myaccout() {
                                                         <Button
                                                             disabled={loading}
                                                             onClick={onDelete}
+                                                            color="error"
+                                                            style={{border:"2px solid red"}}
                                                         >
                                                             Delete Permanently
                                                         </Button>

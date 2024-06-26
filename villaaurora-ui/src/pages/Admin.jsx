@@ -25,7 +25,7 @@ function Admin() {
 
     return (
         <Box>
-            {user?.role == "admin" ? (
+            {user?.role == "admin" || user?.role == "scheduler" ? (
                 <Box>
                     <Box>
                         <Box

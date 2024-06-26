@@ -6,6 +6,7 @@ import {
     DialogContent,
     DialogTitle,
     TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -189,7 +190,9 @@ export function ServiceDialog() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateServDialog(true)}
                 >
+                    <Tooltip title="Add Service">
                     <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                    </Tooltip>
                 </Button>
             </Box>
             <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
@@ -245,11 +248,12 @@ export function ServiceDialog() {
                                 </Typography>
                             ) : null}
                         </Box>
-                        <Box className="d-flex justify-content-center align-items-center">
+                        <Box className="d-flex justify-content-end align-items-center">
                             <Button
                                 color="info"
                                 onClick={() => setCreateServDialog(false)}
-                            >
+                                style={{border:"2px solid blue", }} 
+                                >
                                 Close
                             </Button>
                             <Button
@@ -257,6 +261,7 @@ export function ServiceDialog() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
+                                style={{border:"2px solid green", marginLeft:"10px"}} 
                             >
                                 Submit
                             </Button>
@@ -279,10 +284,10 @@ export function ServiceDialog() {
                         display: !!deleteServiceDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setServiceDeleteDialog(null)}>
+                    <Button onClick={() => setServiceDeleteDialog(null) } style={{border: "2px solid blue"}}>
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteService}>
+                    <Button disabled={loading} onClick={onDeleteService} color="error" style={{border: "2px solid red"}}>
                         Confirm
                     </Button>
                 </DialogActions>
@@ -350,7 +355,7 @@ export function ServiceDialog() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setEditServiceDialog(null)}>
+                    <Button style={{border: "2px solid lightblue"}} onClick={() => setEditServiceDialog(null)}>
                         Cancel
                     </Button>
                     <Button
@@ -358,6 +363,8 @@ export function ServiceDialog() {
                         onClick={() => {
                             $("#service-btn").trigger("click");
                         }}
+                        color="success"
+                        style={{border: "2px solid lightgreen"}}
                     >
                         Update
                     </Button>

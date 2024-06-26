@@ -178,7 +178,7 @@ function Home() {
                             </Box>
                             {user ? (
                                 <>
-                                    {user?.role !== "admin" && (
+                                    {user?.role == "guest" && (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/guest"
@@ -190,6 +190,16 @@ function Home() {
                                     )}
 
                                     {user?.role == "admin" && (
+                                        <Box variant="li" className="nav-item">
+                                            <Link
+                                                to="/admin"
+                                                className="nav-link click-scroll"
+                                            >
+                                                {user?.role}
+                                            </Link>
+                                        </Box>
+                                    )}
+                                        {user?.role == "scheduler" && (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/admin"
