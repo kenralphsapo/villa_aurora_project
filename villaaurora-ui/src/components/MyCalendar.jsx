@@ -4,6 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
 import { showAllTransactions } from "../api/transaction";
 import { toast } from "react-toastify";
+import { Box } from "@mui/material";
 
 export default function MyCalendar() {
     const localizer = momentLocalizer(moment);
@@ -30,13 +31,13 @@ export default function MyCalendar() {
     }, []);
 
     return (
-        <div>
+        <Box>
             <Calendar
                 localizer={localizer}
                 events={events}
                 style={{height:'100vh'}}
                 tooltipAccessor={(e) => e.tooltip}
             />
-        </div>
+        </Box>
     );
 }
