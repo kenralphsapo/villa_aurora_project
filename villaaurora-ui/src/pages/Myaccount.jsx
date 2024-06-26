@@ -22,7 +22,6 @@ import "./css/bootstrap-resort.css";
 import { destroy, update } from "../api/user";
 import NotFound from "./NotFound";
 import { login } from "../api/auth";
-
 function Myaccout() {
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
@@ -57,11 +56,7 @@ function Myaccout() {
             ).then((res) => {
                 if (res?.ok) {
                     navigate("/");
-                    setTimeout(()=> {
-                        window.location.reload()
-                        toast.success(res?.message ?? "Updated successfully.");
-                    })
-                    
+                    toast.success(res?.message ?? "Updated successfully.");
                 } else {
                     toast.error(res?.message ?? "Something went wrong.");
                 }
@@ -80,6 +75,7 @@ function Myaccout() {
                         navigate("/");
                         dispatch(login(res.data));
                         removeCookie("AUTH_TOKEN");
+                        window.location.reload()
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -99,7 +95,6 @@ function Myaccout() {
         e.preventDefault();
         setAccount(false);
     };
-
 
 
     return (

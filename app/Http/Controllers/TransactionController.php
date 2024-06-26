@@ -19,9 +19,9 @@ class TransactionController extends Controller
     {
     $validator = Validator::make($request->all(),[
         'user_id' => 'required|exists:users,id',
-        'room_id' => 'sometimes|exists:rooms,id',
-        'rent_start' => 'required|date|date_format:Y-m-d',
-        'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start',
+        'room_id' => 'sometimes|exists:rooms,id|unique:transactions',
+        'rent_start' => 'required|date|date_format:Y-m-d|unique:transactions',
+        'rent_end' => 'required|date|date_format:Y-m-d|after_or_equal:rent_start|unique:transactions',
         'service_id' => 'required|array|min:1',
         'service_id.*' => 'exists:services,id',
     ]);

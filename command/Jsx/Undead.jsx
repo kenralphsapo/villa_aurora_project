@@ -15,7 +15,7 @@ import { React, useEffect, useState } from "react";
 import {
     addTestimonial,
     showAllTestimonials,
-} from "../villaaurora-ui/src/api/testimonial";
+} from "../../villaaurora-ui/src/api/testimonial";
 import { toast } from "react-toastify";
 
 export default function Undead() {

@@ -191,7 +191,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'ok' => false,
-                'message' => 'Validation failed',
+                'message' => 'Token has been expired or used',
                 'errors' => $validator->errors(),
             ], 400);
         }

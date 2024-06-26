@@ -150,6 +150,8 @@ export function TransactionDialogs() {
                         setWarnings({});
                         setServiceIds([]);
                         setNewServiceId("");
+                        setRoomRows([]);
+                        setRows([]);
                     } else {
                         toast.error(res?.message ?? "Transaction creation failed.");
                         setWarnings(res?.errors);

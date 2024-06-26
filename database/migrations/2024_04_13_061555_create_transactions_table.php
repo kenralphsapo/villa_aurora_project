@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger("room_id");
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->decimal("room_price",8,2);
-            $table->date("rent_start");
-            $table->date("rent_end");
+            $table->date("rent_start")->unique();
+            $table->date("rent_end")->unique();
             $table->timestamps();
             $table->foreign("user_id")->references("id")->on("users");            
         });

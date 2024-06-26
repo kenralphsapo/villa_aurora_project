@@ -195,6 +195,7 @@ function BookingForm() {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            error={!!warnings.rent_start}
                                         />
                                         {warnings?.rent_start ? (
                                             <Typography
@@ -218,6 +219,7 @@ function BookingForm() {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            error={!!warnings.rent_end}
                                         />
                                         {warnings?.rent_end ? (
                                             <Typography
@@ -234,6 +236,7 @@ function BookingForm() {
                                             variant="contained"
                                             color="primary"
                                             fullWidth
+                                            error={!!warnings.service_id}
                                         >
                                             Select Services
                                         </Button>
@@ -259,6 +262,7 @@ function BookingForm() {
                                                         e.target.value
                                                     )
                                                 }
+                                                error={!!warnings.room_id}
                                                 label="Room ID"
                                                 variant="outlined"
                                                 fullWidth

@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'William',
             'password' => Hash::make('P@55w0rd'), 
             'mobile' => '09984889752',
-            'email' => 'william@gmail.com', 
+            'email' => 'williamadornado6@gmail.com', 
             'role' => 'admin', 
         ]);
         
@@ -56,6 +56,31 @@ class DatabaseSeeder extends Seeder
             'price' =>'200.00'
         ]);
 
+        Room::create([
+            'name' => 'Conference Room',
+            'price' => '150.00'
+        ]);
+        
+        Room::create([
+            'name' => 'Executive Suite',
+            'price' => '300.00'
+        ]);
+        
+        Room::create([
+            'name' => 'Boardroom',
+            'price' => '250.00'
+        ]);
+        
+        Room::create([
+            'name' => 'Studio Apartment',
+            'price' => '180.00'
+        ]);
+        
+        Room::create([
+            'name' => 'Luxury Villa',
+            'price' => '500.00'
+        ]);
+        
         
     }
 }

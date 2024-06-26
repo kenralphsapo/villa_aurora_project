@@ -15,6 +15,9 @@ import { toast } from "react-toastify";
 import { login } from "../redux/authSlice";
 import "./css/bootstrap-resort.css";
 import $ from "jquery";
+import { faArrowRotateBack, faKey } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import logo from "./images/logo.jpg";
 export default function ForgotPassword() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -61,9 +64,6 @@ export default function ForgotPassword() {
             email,
         }).then((res) => {
             if (res?.ok) {
-                setCookie("AUTH_TOKEN", res.data.token);
-                dispatch(login(res.data));
-                navigate("/");
                 toast.success(
                     res?.message ??
                         "Password reset instructions sent to your email."
@@ -107,16 +107,27 @@ export default function ForgotPassword() {
     return (
         <Box>
             {forgotpassword ? (
-                <Box className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                    <Box component="form" onSubmit={onResetPassword} sx={{ border: '1px solid black', padding: 5 }}>
-                        <Typography>Reset Password</Typography>
-                        <Box sx={{ mt: 2 }}>
-                            <TextField label="New Password" id="password"/>
+                <Box className="d-flex justify-content-center align-items-center" style={{ height: '100vh', margin:0 , padding:0 }}>
+                    <AppBar style={{display: 'flex',  justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}} id="forgotpassword">
+                    <img src={logo} alt="Logo" className="custom-logo" style={{margin:2}}/>
+                        <Typography sx={{  marginLeft:"10px" , color:'white'}}>Villa Aurora Private Resort</Typography>
+
+                    </AppBar>
+                    <Box component="form" onSubmit={onResetPassword} sx={{ border: '1px solid black', padding: 5, borderRadius: 10, boxShadow: '2px 2px 4px black' }}>
+                        <Box className="d-flex justify-content-end">
+                        <FontAwesomeIcon icon={faArrowRotateBack} onClick={() => setForgotPassword(false)} style={{cursor:'pointer', backgroundColor:'#379ae8', padding:10, fontSize: 20, borderRadius: 10, boxShadow: '2px 2px 4px black'}}/>
+                        </Box>
+                        <Box className="d-flex align-items-center">
+                        <Typography style={{marginRight:"10px"}}>Reset Password</Typography>
+                        <FontAwesomeIcon icon={faKey}/> 
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <TextField label="Password Confirmation" id="password_confirmation"/>
+                            <TextField label="New Password" id="password" type="password"/>
                         </Box>
-                        <Button type="submit">Submit</Button>
+                        <Box sx={{ mt: 2 }}>
+                            <TextField label="Password Confirmation" id="password_confirmation" type="password"/>
+                        </Box>
+                        <Button type="submit" id="submit-btn" style={{display:'block', margin:"auto", marginTop:10}} >Submit</Button>
                     </Box>
                 </Box>
             ) : (
@@ -127,9 +138,12 @@ export default function ForgotPassword() {
                             component="form"
                             onSubmit={onSubmit}
                         >
-                            <Typography variant="h6" className="text-white">
+                            <Box className="d-flex align-items-center">
+                            <img src={logo} alt="Logo" className="custom-logo" style={{margin:2}}/>
+                            <Typography variant="h6" style={{marginLeft:"10px", color:'white'}}>
                                 Villa Aurora Private Resort
                             </Typography>
+                            </Box>
                             <Box className="d-flex justify-content-around align-items-center">
                                 <Box sx={{ marginLeft: "10px" }}>
                                     <TextField

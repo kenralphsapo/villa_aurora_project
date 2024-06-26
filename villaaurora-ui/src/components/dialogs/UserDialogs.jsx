@@ -430,6 +430,7 @@ export function UserDialogs() {
                         onClick={() => {
                             $("#edit-btn").trigger("click");
                         }}
+                        color="success"
                     >
                         Update
                     </Button>

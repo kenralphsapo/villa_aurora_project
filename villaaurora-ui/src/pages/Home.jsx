@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button, Drawer } from "@mui/material";
+import { Box, Typography, Button, Drawer, Divider } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
@@ -27,7 +27,8 @@ import { showAllServices } from "../api/service";
 import Navigation from "../components/Navigation";
 import { login } from "../api/auth";
 import BookingForm from "../components/BookingForm";
-import { index } from "../api/user";
+import MyCalendar from "../components/MyCalendar";
+
 
 function Home() {
     const user = useSelector((state) => state.auth.user);
@@ -37,6 +38,7 @@ function Home() {
     const [scrollVisible, setScrollVisible] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [serviceRows, setServiceRows] = useState([]);
+    
     const logout = () => {
         removeCookie("AUTH_TOKEN");
         toast.success(res?.message ?? "Logged out successfully.");
@@ -63,14 +65,14 @@ function Home() {
             }
         };
 
-        const handleScroll = () => {
+        const onScroll = () => {
             toggleScrollUpButton();
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", onScroll);
 
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("scroll", onScroll);
         };
     }, []);
 
@@ -211,7 +213,7 @@ function Home() {
                                 <Box variant="li" className="nav-item">
                                     <Link
                                         to="/login"
-                                        className="nav-link click-scroll text-black"
+                                        className="nav-link click-scroll"
                                     >
                                         Login
                                     </Link>
@@ -370,7 +372,6 @@ function Home() {
 
                 {/* Mockup Section */}
                 <section className="mockup-section section-padding">
-                    <Box className="section-overlay"></Box>
 
                     <Box className="container">
                         <Box className="row">
@@ -474,7 +475,9 @@ function Home() {
                         </Box>
                     </Box>
                 </section>
-
+                <Divider sx={{border: '5px solid black', marginBottom: 5}}/>
+                <MyCalendar/>
+              
                 {/* Booking Section */}
 
                 <BookingForm />

@@ -7,10 +7,10 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div>
         <img src="https://github.com/Adornadowilliam2/Images/blob/main/logo.jpg?raw=true" width="100px" alt="Logo">
         <h2>Thank you for Booking, {{ $user->username }}!</h2>
-        
+        <h4>And your Transaction ID: {{$transaction->id}}</h4>
         <p>Thank you for booking with us. We are glad to have you on board.</p>
         <ul>
             <li>Room Name: {{ $room->name }}</li>
@@ -32,7 +32,9 @@
 
         <p>If you have any questions, feel free to <a href="mailto:adornadowilliam@gmail.com">contact us</a>.</p>
         
-        
+        <p>Can now pay to this GCash QR:</p>
+        <img src="https://github.com/Adornadowilliam2/Images/blob/main/gcash.png?raw=true" alt="GCash QR Code" width="400px">
+
         <p>Best regards,<br> 
            Villa Arora
         </p>
