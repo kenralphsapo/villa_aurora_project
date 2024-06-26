@@ -24,6 +24,7 @@ export const updateTransaction = async (body, id) => {
     const response = await fetch(`${url}/transactions/${id}?_method=PATCH`, {
         method: "POST",
         headers: {
+            Accept: "application/json",
             "Content-Type": "application/json",
         },
         body: JSON.stringify(body),

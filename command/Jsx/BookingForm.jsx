@@ -23,7 +23,7 @@
     import { showAllServices } from "../api/service";
     import { showAllRooms } from "../api/room";
     import { addTransaction } from "../api/transaction";
-    import checkAuth from "../hoc/checkAuth"; 
+    import checkAuth from "../hoc/checkAuth";
     import Confetti from "react-dom-confetti";
 
     function BookingForm() {
