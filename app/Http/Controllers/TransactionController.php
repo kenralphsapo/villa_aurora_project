@@ -74,28 +74,7 @@ class TransactionController extends Controller
     ]);
 }
   
-
-
-
-
-//Retrieve specific Transaction using ID
 /**
- * GET: /api/transactions/{transaction}
- * @param Transaction
- * @return \Illuminate\Http\Response
- */
-
-
- public function showTransaction(Transaction $transaction){
-    return response()->json([
-        "ok" =>true,
-        "message" => "Transaction has been retrieved.",
-        "data" => $transaction
-    ]);
-    }
-
-
-    /**
     * PATCH: /api/transactions/{transaction}
     * @param Request
     * @param Transaction
@@ -128,9 +107,10 @@ class TransactionController extends Controller
     $room = Room::find($validated["room_id"]);
 
     $transaction_input["room_price"] = $room->price;
-    $transaction = Transaction::create($transaction_input);
-    //dd($validated["service_id"]);
+   
     
+    $transaction->update($transaction_input);
+
     //Service Price
     $arrayServicePrice = [];
     foreach($validated["service_id"] as $service_id){
@@ -147,6 +127,26 @@ class TransactionController extends Controller
         'data' => $transaction,
     ], 200);
 }
+
+
+//Retrieve specific Transaction using ID
+/**
+ * GET: /api/transactions/{transaction}
+ * @param Transaction
+ * @return \Illuminate\Http\Response
+ */
+
+
+ public function showTransaction(Transaction $transaction){
+    return response()->json([
+        "ok" =>true,
+        "message" => "Transaction has been retrieved.",
+        "data" => $transaction
+    ]);
+    }
+
+
+    
 
 
 
