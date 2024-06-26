@@ -33,7 +33,7 @@ import { showAllServices } from "../../api/service";
 import { useSelector } from "react-redux";
 
 export function TransactionDialogs() {
-    const user = useSelector((state) => state.auth.user)
+    const user = useSelector((state) => state.auth.user);
     const [transactionRows, setTransactionRows] = useState([]);
     const [createTransactionDialog, setCreateTransactionDialog] =
         useState(false);
@@ -51,17 +51,17 @@ export function TransactionDialogs() {
     const [addId, setAddId] = useState("");
     const [position, setPosition] = useState(false);
 
-     // For  users
-     const [rows, setRows] = useState([]);
-     const [selectedUserId, setSelectedUserId] = useState("");
- 
-     // for rooms   
-     const [roomRows, setRoomRows] = useState([]);
-     const [selectedRoomId, setSelectedRoomId] = useState("");
- 
+    // For  users
+    const [rows, setRows] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState("");
+
+    // for rooms
+    const [roomRows, setRoomRows] = useState([]);
+    const [selectedRoomId, setSelectedRoomId] = useState("");
+
     const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [serviceid, setServiceId] = useState([]);
-   
+
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
         { field: "user_id", headerName: "User ID" },
@@ -123,7 +123,7 @@ export function TransactionDialogs() {
 
             addTransaction(body)
                 .then((res) => {
-                    if (res?.success) {
+                    if (res?.ok) {
                         toast.success(res?.message ?? "Transaction successful");
                         setCreateTransactionDialog(false);
                         refreshData();
@@ -133,7 +133,9 @@ export function TransactionDialogs() {
                         setRoomRows([]);
                         setRows([]);
                     } else {
-                        toast.error(res?.message ?? "Transaction creation failed.");
+                        toast.error(
+                            res?.message ?? "Transaction creation failed."
+                        );
                         setWarnings(res?.errors);
                     }
                 })
@@ -143,7 +145,6 @@ export function TransactionDialogs() {
         }
     };
 
-    
     const onAddService = () => {
         const addservice = addId.trim();
         if (addservice !== "") {
@@ -156,27 +157,33 @@ export function TransactionDialogs() {
         setServiceIds(serviceIds.filter((service) => service.id !== id));
     };
 
-
     //  Edit transaction Area
-      const onEditTransaction = (e) => {
+    const onEditTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
             setLoading(true);
-            updateTransaction({
-                user_id: editTransactionDialog.user_id,
-                room_id: editTransactionDialog.room_id,
-                rent_start: editTransactionDialog.rent_start,
-                rent_end: editTransactionDialog.rent_end,
-                service_id: serviceid.map((service) => service.id)
-            }, editTransactionDialog.id)
+            updateTransaction(
+                {
+                    user_id: editTransactionDialog.user_id,
+                    room_id: editTransactionDialog.room_id,
+                    rent_start: editTransactionDialog.rent_start,
+                    rent_end: editTransactionDialog.rent_end,
+                    service_id: serviceid.map((service) => service.id),
+                },
+                editTransactionDialog.id
+            )
                 .then((res) => {
                     if (res?.success) {
-                        toast.success(res?.message ?? "Transaction updated successfully.");
+                        toast.success(
+                            res?.message ?? "Transaction updated successfully."
+                        );
                         setEditTransactionDialog(null);
                         refreshData();
                         setWarnings({});
                     } else {
-                        toast.error(res?.message ?? "Failed to update transaction.");
+                        toast.error(
+                            res?.message ?? "Failed to update transaction."
+                        );
                         setWarnings(res?.errors);
                     }
                 })
@@ -188,9 +195,7 @@ export function TransactionDialogs() {
 
     const addServiceId = (e) => {
         const value = e.target.value;
-        const service = serviceRows.find(
-            (service) => service.id == value
-        );
+        const service = serviceRows.find((service) => service.id == value);
         if (service) {
             setServiceId([...serviceid, service]);
         }
@@ -202,7 +207,6 @@ export function TransactionDialogs() {
         );
         setServiceId(updatedserviceid);
     };
-
 
     const ServiceRefreshData = () => {
         showAllServices().then((res) => {
@@ -245,7 +249,6 @@ export function TransactionDialogs() {
     useEffect(() => {
         ServiceRefreshData();
     }, []);
-
 
     const onDeleteTransaction = () => {
         if (!loading) {
@@ -320,11 +323,11 @@ export function TransactionDialogs() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateTransactionDialog(true)}
                 >
-                {user?.role == "admin" && (
-                    <Tooltip title="Add Transaction">
-                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
-                    </Tooltip>
-                )}
+                    {user?.role == "admin" && (
+                        <Tooltip title="Add Transaction">
+                            <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                        </Tooltip>
+                    )}
                 </Button>
             </Box>
             <DataGrid
@@ -335,18 +338,19 @@ export function TransactionDialogs() {
             <Box className="custom-width">
                 <Typography variant="h3">
                     {position ? "Service columns " : "Pivot Table "}
-                    <Tooltip    title={
+                    <Tooltip
+                        title={
                             position
                                 ? "Go to Pivot table"
                                 : "Go to Service columns"
-                        }>
-                    <FontAwesomeIcon
-                        icon={faRefresh}
-                        onClick={() => setPosition(!position)}
-                        className="addbtn"
-                    />
+                        }
+                    >
+                        <FontAwesomeIcon
+                            icon={faRefresh}
+                            onClick={() => setPosition(!position)}
+                            className="addbtn"
+                        />
                     </Tooltip>
-                   
                 </Typography>
                 {position ? (
                     <DataGrid
@@ -364,7 +368,10 @@ export function TransactionDialogs() {
             </Box>
 
             {/* Create Transaction Dialog */}
-            <Dialog open={createTransactionDialog} sx={{width:400 , margin: 'auto'}}>
+            <Dialog
+                open={createTransactionDialog}
+                sx={{ width: 400, margin: "auto" }}
+            >
                 <DialogTitle>Create Transaction Form</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={onCreateTransaction}>
@@ -483,9 +490,7 @@ export function TransactionDialogs() {
                                 <Button
                                     variant="outlined"
                                     color="secondary"
-                                    onClick={() =>
-                                        onRemoveService(serviceId)
-                                    }
+                                    onClick={() => onRemoveService(serviceId)}
                                     style={{ marginLeft: "10px" }}
                                 >
                                     Remove
@@ -498,7 +503,7 @@ export function TransactionDialogs() {
                                 onClick={() =>
                                     setCreateTransactionDialog(false)
                                 }
-                                style={{border:"2px solid blue"}}
+                                style={{ border: "2px solid blue" }}
                             >
                                 Close
                             </Button>
@@ -506,7 +511,10 @@ export function TransactionDialogs() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
-                                style={{ marginLeft: "10px", border:"2px solid green" }}
+                                style={{
+                                    marginLeft: "10px",
+                                    border: "2px solid green",
+                                }}
                             >
                                 Submit
                             </Button>
@@ -519,117 +527,124 @@ export function TransactionDialogs() {
             <Dialog open={!!editTransactionDialog}>
                 <DialogTitle>Edit Transaction</DialogTitle>
                 <DialogContent>
-                    <Box component="form" onSubmit={onEditTransaction} sx={{ p: 2 }}>
+                    <Box sx={{ p: 2 }}>
                         <Box>
-                        <TextField
-                            fullWidth
-                            label="User ID"
-                            value={editTransactionDialog?.user_id ?? ""}
-                            onChange={(e) =>
-                                setEditTransactionDialog((prevState) => ({
-                                    ...prevState,
-                                    user_id: e.target.value,
-                                }))
-                            }
-                            variant="outlined"
-                            margin="normal"
-                        />
-                           {warnings?.user_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.user_id}
-                            </Typography>
-                        ) : null}
-                        </Box>
-                       <Box>
-                       <TextField
-                            fullWidth
-                            label="Room ID"
-                            value={editTransactionDialog?.room_id ?? ""}
-                            onChange={(e) =>
-                                setEditTransactionDialog((prevState) => ({
-                                    ...prevState,
-                                    room_id: e.target.value,
-                                }))
-                            }
-                            variant="outlined"
-                            margin="normal"
-                        />
-                           {warnings?.room_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.room_id}
-                            </Typography>
-                        ) : null}
-                       </Box>
-                        <Box>
-                        <TextField
-                            fullWidth
-                            label="Rent Start"
-                            type="date"
-                            value={editTransactionDialog?.rent_start ?? ""}
-                            onChange={(e) =>
-                                setEditTransactionDialog((prevState) => ({
-                                    ...prevState,
-                                    rent_start: e.target.value,
-                                }))
-                            }
-                            variant="outlined"
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                           {warnings?.rent_start ? (
-                            <Typography component="small" color="error">
-                                {warnings.rent_start}
-                            </Typography>
-                        ) : null}
-                        </Box>
-                        <Box>
-                        <TextField
-                            fullWidth
-                            label="Rent End"
-                            type="date"
-                            value={editTransactionDialog?.rent_end ?? ""}
-                            onChange={(e) =>
-                                setEditTransactionDialog((prevState) => ({
-                                    ...prevState,
-                                    rent_end: e.target.value,
-                                }))
-                            }
-                            variant="outlined"
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                           {warnings?.rent_end ? (
-                            <Typography component="small" color="error">
-                                {warnings.rent_end}
-                            </Typography>
-                        ) : null}
-                        </Box>
-                        <Box>
-                        <Box>
-                        <FormControl fullWidth variant="outlined" margin="normal">
-                            <InputLabel>Select Service ID</InputLabel>
-                            <Select
-                                value=""
-                                onChange={addServiceId}
+                            <TextField
                                 fullWidth
-                            >
-                                {serviceRows.map((service) => (
-                                    <MenuItem key={service.id} value={service.id}>
-                                        {service.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        {warnings?.service_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.service_id}
-                            </Typography>
-                        ) : null}
+                                label="User ID"
+                                value={editTransactionDialog?.user_id ?? ""}
+                                onChange={(e) =>
+                                    setEditTransactionDialog((prevState) => ({
+                                        ...prevState,
+                                        user_id: e.target.value,
+                                    }))
+                                }
+                                variant="outlined"
+                                margin="normal"
+                            />
+                            {warnings?.user_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.user_id}
+                                </Typography>
+                            ) : null}
                         </Box>
+                        <Box>
+                            <TextField
+                                fullWidth
+                                label="Room ID"
+                                value={editTransactionDialog?.room_id ?? ""}
+                                onChange={(e) =>
+                                    setEditTransactionDialog((prevState) => ({
+                                        ...prevState,
+                                        room_id: e.target.value,
+                                    }))
+                                }
+                                variant="outlined"
+                                margin="normal"
+                            />
+                            {warnings?.room_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.room_id}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box>
+                            <TextField
+                                fullWidth
+                                label="Rent Start"
+                                type="date"
+                                value={editTransactionDialog?.rent_start ?? ""}
+                                onChange={(e) =>
+                                    setEditTransactionDialog((prevState) => ({
+                                        ...prevState,
+                                        rent_start: e.target.value,
+                                    }))
+                                }
+                                variant="outlined"
+                                margin="normal"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            {warnings?.rent_start ? (
+                                <Typography component="small" color="error">
+                                    {warnings.rent_start}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box>
+                            <TextField
+                                fullWidth
+                                label="Rent End"
+                                type="date"
+                                value={editTransactionDialog?.rent_end ?? ""}
+                                onChange={(e) =>
+                                    setEditTransactionDialog((prevState) => ({
+                                        ...prevState,
+                                        rent_end: e.target.value,
+                                    }))
+                                }
+                                variant="outlined"
+                                margin="normal"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            {warnings?.rent_end ? (
+                                <Typography component="small" color="error">
+                                    {warnings.rent_end}
+                                </Typography>
+                            ) : null}
+                        </Box>
+                        <Box>
+                            <Box>
+                                <FormControl
+                                    fullWidth
+                                    variant="outlined"
+                                    margin="normal"
+                                >
+                                    <InputLabel>Select Service ID</InputLabel>
+                                    <Select
+                                        value=""
+                                        onChange={addServiceId}
+                                        fullWidth
+                                    >
+                                        {serviceRows.map((service) => (
+                                            <MenuItem
+                                                key={service.id}
+                                                value={service.id}
+                                            >
+                                                {service.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                {warnings?.service_id ? (
+                                    <Typography component="small" color="error">
+                                        {warnings.service_id}
+                                    </Typography>
+                                ) : null}
+                            </Box>
                         </Box>
                         <Box mt={2}>
                             {serviceid.map((service, index) => (
@@ -649,7 +664,9 @@ export function TransactionDialogs() {
                                     <Button
                                         variant="outlined"
                                         color="secondary"
-                                        onClick={() => removeServiceId(service.id)}
+                                        onClick={() =>
+                                            removeServiceId(service.id)
+                                        }
                                         style={{ marginLeft: "10px" }}
                                     >
                                         Remove
@@ -663,14 +680,17 @@ export function TransactionDialogs() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setEditTransactionDialog(null)}>
+                    <Button
+                        sx={{ border: "2px solid lightblue" }}
+                        onClick={() => setEditTransactionDialog(null)}
+                    >
                         Cancel
                     </Button>
                     <Button
-                        onClick={onEditTransaction}
-                        variant="contained"
-                        color="primary"
+                        color="success"
+                        sx={{ border: "2px solid lightgreen" }}
                         disabled={loading}
+                        onClick={onEditTransaction}
                     >
                         Update
                     </Button>
@@ -691,10 +711,18 @@ export function TransactionDialogs() {
                         display: !!deleteTransactionDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setDeleteTransactionDialog(null)} style={{border: "2px solid blue"}}>
+                    <Button
+                        onClick={() => setDeleteTransactionDialog(null)}
+                        style={{ border: "2px solid blue" }}
+                    >
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteTransaction} color="error" style={{border: "2px solid red"}}>
+                    <Button
+                        disabled={loading}
+                        onClick={onDeleteTransaction}
+                        color="error"
+                        style={{ border: "2px solid red" }}
+                    >
                         Confirm
                     </Button>
                 </DialogActions>

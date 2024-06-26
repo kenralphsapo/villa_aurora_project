@@ -18,10 +18,9 @@ export default function Login() {
     const [cookies, setCookie, removeCookie] = useCookies();
     const [loading, setLoading] = useState(false);
 
-
     const onSubmit = (e) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
         loginAPI({
             username,
             password,
@@ -32,9 +31,11 @@ export default function Login() {
                 navigate("/");
                 toast.success(res?.message ?? "Logged in successfully.");
                 setError(false);
+                setLoading(false);
             } else {
-                setError(true); 
                 toast.error(res?.message ?? "Something went wrong.");
+                setError(true);
+                setLoading(false);
             }
         });
     };
@@ -42,7 +43,7 @@ export default function Login() {
     return (
         <Box
             id="bglogin"
-            sx={{height:"100vh"}}
+            sx={{ height: "100vh" }}
             className="d-flex flex-column justify-content-center align-items-center"
         >
             <img src={logo} alt="Logo" className="custom-logo" />
@@ -62,7 +63,7 @@ export default function Login() {
                         fullWidth
                         error={error}
                         variant="outlined"
-                        sx={{ borderColor: error ? 'red' : 'black' }}
+                        sx={{ borderColor: error ? "red" : "black" }}
                     />
                 </Box>
                 <Box className="input-container">
@@ -73,12 +74,17 @@ export default function Login() {
                         label="Password"
                         type="password"
                         fullWidth
-                        error={error} 
-                        variant="outlined" 
-                        sx={{ borderColor: error ? 'red' : 'black' }} 
+                        error={error}
+                        variant="outlined"
+                        sx={{ borderColor: error ? "red" : "black" }}
                     />
                 </Box>
-                <Button type="submit" id="submit-button" disabled={loading} fullWidth>
+                <Button
+                    type="submit"
+                    id="submit-button"
+                    disabled={loading}
+                    fullWidth
+                >
                     Login
                 </Button>
                 <Box className="forgot-password">

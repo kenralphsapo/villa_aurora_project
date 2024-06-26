@@ -30,7 +30,6 @@ import BookingForm from "../components/BookingForm";
 import MyCalendar from "../components/MyCalendar";
 import MyRating from "../components/MyRating";
 
-
 function Home() {
     const user = useSelector((state) => state.auth.user);
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -39,7 +38,7 @@ function Home() {
     const [scrollVisible, setScrollVisible] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [serviceRows, setServiceRows] = useState([]);
-    
+
     const logout = () => {
         removeCookie("AUTH_TOKEN");
         toast.success(res?.message ?? "Logged out successfully.");
@@ -128,7 +127,10 @@ function Home() {
                             </h5>
                         </Link>
                         {user ? (
-                            <Typography variant="h6" className="mt-2 text-white">
+                            <Typography
+                                variant="h6"
+                                className="mt-2 text-white"
+                            >
                                 {user?.username}
                             </Typography>
                         ) : null}
@@ -179,7 +181,7 @@ function Home() {
                             </Box>
                             {user ? (
                                 <>
-                                    {user?.role == "guest" && (
+                                    {user?.role == "guest" ? (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/guest"
@@ -188,9 +190,9 @@ function Home() {
                                                 Myaccount
                                             </Link>
                                         </Box>
-                                    )}
+                                    ) : null}
 
-                                    {user?.role == "admin" && (
+                                    {user?.role == "admin" ? (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/admin"
@@ -199,8 +201,8 @@ function Home() {
                                                 {user?.role}
                                             </Link>
                                         </Box>
-                                    )}
-                                        {user?.role == "scheduler" && (
+                                    ) : null}
+                                    {user?.role == "scheduler" ? (
                                         <Box variant="li" className="nav-item">
                                             <Link
                                                 to="/admin"
@@ -209,7 +211,7 @@ function Home() {
                                                 {user?.role}
                                             </Link>
                                         </Box>
-                                    )}
+                                    ) : null}
 
                                     <Box variant="li" className="nav-item">
                                         <Link
@@ -383,7 +385,6 @@ function Home() {
 
                 {/* Mockup Section */}
                 <section className="mockup-section section-padding">
-
                     <Box className="container">
                         <Box className="row">
                             <Box className="col-lg-10 col-12 mx-auto">
@@ -486,10 +487,10 @@ function Home() {
                         </Box>
                     </Box>
                 </section>
-                <Divider sx={{border: '5px solid black', marginBottom: 5}}/>
-                <MyCalendar/>
-                <MyRating/>
-              
+                <Divider sx={{ border: "5px solid black", marginBottom: 5 }} />
+                <MyCalendar />
+                <MyRating />
+
                 {/* Booking Section */}
 
                 <BookingForm />

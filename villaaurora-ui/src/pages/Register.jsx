@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import {
+    Box,
+    TextField,
+    Button,
+    Typography,
+    LinearProgress,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../api/auth";
 import { toast } from "react-toastify";
@@ -35,11 +41,13 @@ export default function Register() {
             register(body)
                 .then((res) => {
                     if (res?.ok) {
-                        toast.success(res?.message ?? "Account has been registered.");
+                        toast.success(
+                            res?.message ?? "Account has been registered."
+                        );
                         setCookie("AUTH_TOKEN", res.data.token);
                         navigate("/");
                         dispatch(login(res.data));
-                        setWarnings({})
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                         setWarnings(res?.errors);
@@ -57,7 +65,11 @@ export default function Register() {
             className="d-flex flex-column justify-content-center align-items-center"
         >
             <Box>
-                <Box component="form" onSubmit={onSubmit} className="login-form">
+                <Box
+                    component="form"
+                    onSubmit={onSubmit}
+                    className="login-form"
+                >
                     <Typography variant="h2" id="login-logo">
                         Register
                         <img src={logo} alt="Logo" className="custom-logosm" />
@@ -73,7 +85,7 @@ export default function Register() {
                             required
                             error={!!warnings.username}
                         />
-                           {warnings?.username ? (
+                        {warnings?.username ? (
                             <Typography component="small" color="error">
                                 {warnings.username}
                             </Typography>
@@ -89,9 +101,9 @@ export default function Register() {
                             type="password"
                             fullWidth
                             required
-                            error={!!warnings.password} 
+                            error={!!warnings.password}
                         />
-                         {warnings?.password ? (
+                        {warnings?.password ? (
                             <Typography component="small" color="error">
                                 {warnings.password}
                             </Typography>
@@ -107,7 +119,7 @@ export default function Register() {
                             type="password"
                             fullWidth
                             required
-                            error={!!warnings.password_confirmation} 
+                            error={!!warnings.password_confirmation}
                         />
                         {warnings?.password_confirmation ? (
                             <Typography component="small" color="error">
@@ -124,9 +136,9 @@ export default function Register() {
                             margin="normal"
                             fullWidth
                             required
-                            error={!!warnings.mobile} 
+                            error={!!warnings.mobile}
                         />
-                            {warnings?.mobile ? (
+                        {warnings?.mobile ? (
                             <Typography component="small" color="error">
                                 {warnings.mobile}
                             </Typography>
@@ -141,9 +153,9 @@ export default function Register() {
                             margin="normal"
                             fullWidth
                             required
-                            error={!!warnings.email} 
+                            error={!!warnings.email}
                         />
-                          {warnings?.email ? (
+                        {warnings?.email ? (
                             <Typography component="small" color="error">
                                 {warnings.email}
                             </Typography>
@@ -151,15 +163,19 @@ export default function Register() {
                     </Box>
 
                     <Box>
+                        {loading && <LinearProgress sx={{ mb: 2 }} />}
                         <Button
                             disabled={loading}
                             type="submit"
                             id="submit-button"
                             fullWidth
                         >
-                            Register
+                            {loading ? "Loading..." : "Register"}
                         </Button>
-                        <Typography style={{ fontSize: 12, textAlign: "center" }}>
+
+                        <Typography
+                            style={{ fontSize: 12, textAlign: "center" }}
+                        >
                             By registering, you agree to Villa Aurora's{" "}
                             <Link
                                 style={{ color: "#4caf50", cursor: "pointer" }}
@@ -179,7 +195,10 @@ export default function Register() {
                         </Typography>
                     </Box>
                 </Box>
-                <RulesGuideLines createDialog={createDialog} setCreateDialog={setCreateDialog} />
+                <RulesGuideLines
+                    createDialog={createDialog}
+                    setCreateDialog={setCreateDialog}
+                />
             </Box>
         </Box>
     );

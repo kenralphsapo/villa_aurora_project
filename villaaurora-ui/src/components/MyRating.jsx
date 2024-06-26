@@ -1,19 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogContent, DialogTitle, Rating, TextField, TextareaAutosize, Typography } from '@mui/material';
-import { useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { addTestimonial } from '../api/testimonial';
-
-
+import React, { useEffect, useState } from "react";
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Rating,
+    TextField,
+    TextareaAutosize,
+    Typography,
+} from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addTestimonial } from "../api/testimonial";
+import $ from "jquery";
 export default function MyRating() {
     const [open, setOpen] = useState(false);
-    const [transactionId, setTransactionId] = useState(null);
-    const [createTestimonialDialog, setCreateTestimonialDialog] = useState(false);
+    const [transactionId, setTransactionId] = useState("");
+    const [createTestimonialDialog, setCreateTestimonialDialog] =
+        useState(false);
     const [rating, setRating] = useState(0);
-    const [feedback, setFeedback] = useState('');
+    const [feedback, setFeedback] = useState("");
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -22,46 +33,47 @@ export default function MyRating() {
         if (getTransactionId) {
             setOpen(true);
             setTransactionId(getTransactionId);
+            setCreateTestimonialDialog(true);
         }
     }, [location.search]);
 
     const onCreateTestimonial = (e) => {
         e.preventDefault();
         if (!loading) {
-            setLoading(true)
             const body = {
                 transaction_id: transactionId,
-                feedback,
-                rating,
+                feedback: $("#feedback").val(),
+                rating: rating,
             };
+            setLoading(true);
             addTestimonial(body)
                 .then((res) => {
-                    if (res && res.ok) {
-                        toast.success(res.message ?? "Testimonial successful");
+                    if (res?.ok) {
+                        toast.success(res?.message ?? "Testimonial successful");
                         setCreateTestimonialDialog(false);
-                        setRating(0);
-                        setFeedback("");
                         setWarnings({});
+                        setRating(0);
+                        setOpen(false);
+                        navigate("/");
+                        setLoading(false);
                     } else {
-                        toast.error(res?.message ?? "Testimonial creation failed.");
-                        setWarnings(res?.errors ?? {});
+                        toast.error(
+                            res?.message ?? "Testimonial creation failed."
+                        );
+                        setWarnings(res?.errors);
+                        setLoading(false);
                     }
                 })
-                .catch((error) => {
-                    console.error("Error adding testimonial:", error);
-                    toast.error("An error occurred while submitting the testimonial.");
-                })
                 .finally(() => {
-                    setLoading(false); 
+                    setLoading(false);
                 });
         }
     };
-    
 
     return (
         <>
             {open ? (
-                <Dialog open={!createTestimonialDialog}>
+                <Dialog open={createTestimonialDialog}>
                     <DialogTitle>Feedback Form</DialogTitle>
                     <DialogContent>
                         <Box component="form" onSubmit={onCreateTestimonial}>
@@ -72,59 +84,66 @@ export default function MyRating() {
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
-                                    value={transactionId ?? ''}
+                                    value={transactionId ?? ""}
                                     disabled
-                                    style={{display:"none"}}
+                                    style={{ display: "none" }}
                                 />
+                                {warnings?.transaction_id ? (
+                                    <Typography component="small" color="error">
+                                        {warnings.transaction_id}
+                                    </Typography>
+                                ) : null}
                             </Box>
-                     
+
                             <Box sx={{ mt: 1 }}>
                                 <Typography>Rating</Typography>
                                 <Rating
                                     name="simple-controlled"
                                     value={rating}
-                                    style={{fontSize: "30px"}}
+                                    style={{ fontSize: "30px" }}
                                     onChange={(event, newValue) => {
                                         setRating(newValue);
                                     }}
                                 />
-                                {warnings?.rating && (
+                                {warnings?.rating ? (
                                     <Typography component="small" color="error">
                                         {warnings.rating}
                                     </Typography>
-                                )}
+                                ) : null}
                             </Box>
                             <Box>
-                            <TextareaAutosize
+                                <TextareaAutosize
                                     id="feedback"
                                     label="Feedback"
                                     variant="outlined"
                                     margin="normal"
-                                    style={{width:"500px", height:"20vh"}}
+                                    style={{ height: "20vh", width: "400px" }}
                                     value={feedback}
-                                    onChange={(e) => setFeedback(e.target.value)}
+                                    onChange={(e) =>
+                                        setFeedback(e.target.value)
+                                    }
                                     required
                                     placeholder="Feedback"
                                 />
-                                {warnings?.feedback && (
+                                {warnings?.feedback ? (
                                     <Typography component="small" color="error">
                                         {warnings.feedback}
                                     </Typography>
-                                )}
+                                ) : null}
                             </Box>
                             <Box className="d-flex justify-content-center align-items-stretch bg-success mt-2">
                                 <Button
                                     disabled={loading}
                                     type="submit"
-                                    style={{ color:'white' }}
+                                    style={{ color: "white" }}
                                 >
-                                    Submit
+                                    {loading ? "Loading..." : "Submit"}
                                 </Button>
                             </Box>
                         </Box>
                     </DialogContent>
                 </Dialog>
-            ): null}
+            ) : null}
         </>
     );
 }

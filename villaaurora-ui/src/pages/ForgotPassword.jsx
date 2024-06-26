@@ -29,7 +29,7 @@ export default function ForgotPassword() {
     const [forgotpassword, setForgotPassword] = useState(false);
     const [token, setToken] = useState("");
     const [loading, setLoading] = useState(false);
-    
+
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const getToken = params.get("token");
@@ -60,6 +60,7 @@ export default function ForgotPassword() {
 
     const onForgotPassword = (e) => {
         e.preventDefault();
+        setLoading(true);
         forgotPassword({
             email,
         }).then((res) => {
@@ -68,12 +69,13 @@ export default function ForgotPassword() {
                     res?.message ??
                         "Password reset instructions sent to your email."
                 );
+                setLoading(false);
             } else {
                 toast.error(res?.message ?? "Something went wrong.");
+                setLoading(false);
             }
         });
     };
-
 
     const onResetPassword = (e) => {
         e.preventDefault();
@@ -88,11 +90,13 @@ export default function ForgotPassword() {
             resetPassword(body)
                 .then((res) => {
                     if (res?.ok) {
-                        toast.success(res?.message ?? "Password reset successfully.");
-                
+                        toast.success(
+                            res?.message ?? "Password reset successfully."
+                        );
+
                         navigate("/login");
 
-                        setWarnings({})
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                         setWarnings(res?.errors);
@@ -107,27 +111,84 @@ export default function ForgotPassword() {
     return (
         <Box>
             {forgotpassword ? (
-                <Box className="d-flex justify-content-center align-items-center" style={{ height: '100vh', margin:0 , padding:0 }}>
-                    <AppBar style={{display: 'flex',  justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}} id="forgotpassword">
-                    <img src={logo} alt="Logo" className="custom-logo" style={{margin:2}}/>
-                        <Typography sx={{  marginLeft:"10px" , color:'white'}}>Villa Aurora Private Resort</Typography>
-
+                <Box
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ height: "100vh", margin: 0, padding: 0 }}
+                >
+                    <AppBar
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            flexDirection: "row",
+                        }}
+                        id="forgotpassword"
+                    >
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            className="custom-logo"
+                            style={{ margin: 2 }}
+                        />
+                        <Typography sx={{ marginLeft: "10px", color: "white" }}>
+                            Villa Aurora Private Resort
+                        </Typography>
                     </AppBar>
-                    <Box component="form" onSubmit={onResetPassword} sx={{ border: '1px solid black', padding: 5, borderRadius: 10, boxShadow: '2px 2px 4px black' }}>
+                    <Box
+                        component="form"
+                        onSubmit={onResetPassword}
+                        sx={{
+                            border: "1px solid black",
+                            padding: 5,
+                            borderRadius: 10,
+                            boxShadow: "2px 2px 4px black",
+                        }}
+                    >
                         <Box className="d-flex justify-content-end">
-                        <FontAwesomeIcon icon={faArrowRotateBack} onClick={() => setForgotPassword(false)} style={{cursor:'pointer', backgroundColor:'#379ae8', padding:10, fontSize: 20, borderRadius: 10, boxShadow: '2px 2px 4px black'}}/>
+                            <FontAwesomeIcon
+                                icon={faArrowRotateBack}
+                                onClick={() => setForgotPassword(false)}
+                                style={{
+                                    cursor: "pointer",
+                                    backgroundColor: "#379ae8",
+                                    padding: 10,
+                                    fontSize: 20,
+                                    borderRadius: 10,
+                                    boxShadow: "2px 2px 4px black",
+                                }}
+                            />
                         </Box>
                         <Box className="d-flex align-items-center">
-                        <Typography style={{marginRight:"10px"}}>Reset Password</Typography>
-                        <FontAwesomeIcon icon={faKey}/> 
+                            <Typography style={{ marginRight: "10px" }}>
+                                Reset Password
+                            </Typography>
+                            <FontAwesomeIcon icon={faKey} />
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <TextField label="New Password" id="password" type="password"/>
+                            <TextField
+                                label="New Password"
+                                id="password"
+                                type="password"
+                            />
                         </Box>
                         <Box sx={{ mt: 2 }}>
-                            <TextField label="Password Confirmation" id="password_confirmation" type="password"/>
+                            <TextField
+                                label="Password Confirmation"
+                                id="password_confirmation"
+                                type="password"
+                            />
                         </Box>
-                        <Button type="submit" id="submit-btn" style={{display:'block', margin:"auto", marginTop:10}} >Submit</Button>
+                        <Button
+                            type="submit"
+                            id="submit-btn"
+                            style={{
+                                display: "block",
+                                margin: "auto",
+                                marginTop: 10,
+                            }}
+                        >
+                            Submit
+                        </Button>
                     </Box>
                 </Box>
             ) : (
@@ -139,10 +200,21 @@ export default function ForgotPassword() {
                             onSubmit={onSubmit}
                         >
                             <Box className="d-flex align-items-center">
-                            <img src={logo} alt="Logo" className="custom-logo" style={{margin:2}}/>
-                            <Typography variant="h6" style={{marginLeft:"10px", color:'white'}}>
-                                Villa Aurora Private Resort
-                            </Typography>
+                                <img
+                                    src={logo}
+                                    alt="Logo"
+                                    className="custom-logo"
+                                    style={{ margin: 2 }}
+                                />
+                                <Typography
+                                    variant="h6"
+                                    style={{
+                                        marginLeft: "10px",
+                                        color: "white",
+                                    }}
+                                >
+                                    Villa Aurora Private Resort
+                                </Typography>
                             </Box>
                             <Box className="d-flex justify-content-around align-items-center">
                                 <Box sx={{ marginLeft: "10px" }}>
@@ -224,8 +296,12 @@ export default function ForgotPassword() {
                                             Cancel
                                         </Link>
                                     </Button>
-                                    <Button id="search-btn" type="submit">
-                                        Search
+                                    <Button
+                                        id="search-btn"
+                                        type="submit"
+                                        disabled={loading}
+                                    >
+                                        {loading ? "Searching..." : "Search"}
                                     </Button>
                                 </Box>
                             </Box>

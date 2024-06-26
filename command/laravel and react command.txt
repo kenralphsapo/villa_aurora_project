@@ -13,6 +13,7 @@ php artisan passport:client --personal
 composer i
 -- command is used to update the dependencies of a PHP project to their latest versions 
 composer u
+npm install react-big-calendar moment react-dom-confetti react-google-recaptcha
 
 php artisan queue:work
 php artisan cache:table
