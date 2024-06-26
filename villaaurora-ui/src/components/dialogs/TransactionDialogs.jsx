@@ -174,8 +174,10 @@ export function TransactionDialogs() {
                         toast.success(res?.message ?? "Transaction updated successfully.");
                         setEditTransactionDialog(null);
                         refreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Failed to update transaction.");
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -319,7 +321,9 @@ export function TransactionDialogs() {
                     onClick={() => setCreateTransactionDialog(true)}
                 >
                 {user?.role == "admin" && (
+                    <Tooltip title="Add Transaction">
                     <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                    </Tooltip>
                 )}
                 </Button>
             </Box>
@@ -516,6 +520,7 @@ export function TransactionDialogs() {
                 <DialogTitle>Edit Transaction</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={onEditTransaction} sx={{ p: 2 }}>
+                        <Box>
                         <TextField
                             fullWidth
                             label="User ID"
@@ -529,7 +534,14 @@ export function TransactionDialogs() {
                             variant="outlined"
                             margin="normal"
                         />
-                        <TextField
+                           {warnings?.user_id ? (
+                            <Typography component="small" color="error">
+                                {warnings.user_id}
+                            </Typography>
+                        ) : null}
+                        </Box>
+                       <Box>
+                       <TextField
                             fullWidth
                             label="Room ID"
                             value={editTransactionDialog?.room_id ?? ""}
@@ -542,6 +554,13 @@ export function TransactionDialogs() {
                             variant="outlined"
                             margin="normal"
                         />
+                           {warnings?.room_id ? (
+                            <Typography component="small" color="error">
+                                {warnings.room_id}
+                            </Typography>
+                        ) : null}
+                       </Box>
+                        <Box>
                         <TextField
                             fullWidth
                             label="Rent Start"
@@ -559,6 +578,13 @@ export function TransactionDialogs() {
                                 shrink: true,
                             }}
                         />
+                           {warnings?.rent_start ? (
+                            <Typography component="small" color="error">
+                                {warnings.rent_start}
+                            </Typography>
+                        ) : null}
+                        </Box>
+                        <Box>
                         <TextField
                             fullWidth
                             label="Rent End"
@@ -576,6 +602,14 @@ export function TransactionDialogs() {
                                 shrink: true,
                             }}
                         />
+                           {warnings?.rent_end ? (
+                            <Typography component="small" color="error">
+                                {warnings.rent_end}
+                            </Typography>
+                        ) : null}
+                        </Box>
+                        <Box>
+                        <Box>
                         <FormControl fullWidth variant="outlined" margin="normal">
                             <InputLabel>Select Service ID</InputLabel>
                             <Select
@@ -590,6 +624,13 @@ export function TransactionDialogs() {
                                 ))}
                             </Select>
                         </FormControl>
+                        {warnings?.service_id ? (
+                            <Typography component="small" color="error">
+                                {warnings.service_id}
+                            </Typography>
+                        ) : null}
+                        </Box>
+                        </Box>
                         <Box mt={2}>
                             {serviceid.map((service, index) => (
                                 <Box

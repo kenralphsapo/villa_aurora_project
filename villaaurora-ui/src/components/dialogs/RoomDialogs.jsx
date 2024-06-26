@@ -91,7 +91,6 @@ export function RoomDialog() {
                 editRoomDialog.id
             )
                 .then((res) => {
-                    console.log(res);
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
                         setEditRoomDialog(null);

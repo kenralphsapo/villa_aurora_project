@@ -28,6 +28,7 @@ import Navigation from "../components/Navigation";
 import { login } from "../api/auth";
 import BookingForm from "../components/BookingForm";
 import MyCalendar from "../components/MyCalendar";
+import MyRating from "../components/MyRating";
 
 
 function Home() {
@@ -487,6 +488,7 @@ function Home() {
                 </section>
                 <Divider sx={{border: '5px solid black', marginBottom: 5}}/>
                 <MyCalendar/>
+                <MyRating/>
               
                 {/* Booking Section */}
 

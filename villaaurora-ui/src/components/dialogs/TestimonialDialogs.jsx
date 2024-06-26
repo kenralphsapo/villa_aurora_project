@@ -8,7 +8,8 @@ import {
     DialogTitle,
     TextField,
     Typography,
-    Rating
+    Rating,
+    Tooltip
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
@@ -85,7 +86,6 @@ export function TestimonialDialogs() {
 
             addTestimonial(body)
                 .then((res) => {
-                    console.log(res);
                     if (res?.ok) {
                         toast.success(res?.message ?? "Testimonial successful");
                         setCreateTestimonialDialog(false);
@@ -130,8 +130,10 @@ export function TestimonialDialogs() {
                         toast.success(res?.message ?? "Testimonial has updated");
                         setEditTestimonialDialog(null);
                         refreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -187,8 +189,9 @@ export function TestimonialDialogs() {
                 columns={testimonialcolumns}
                 rows={testiomonialRows}
             />
+            {/* Create testimonial */}
             <Dialog open={createTestimonialDialog}>
-                <DialogTitle>Create Transaction Form</DialogTitle>
+                <DialogTitle>Create Testimonial Form</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={onCreateTestimonial}>
                         <Box>
@@ -200,6 +203,11 @@ export function TestimonialDialogs() {
                                 fullWidth
                                 required
                             />
+                              {warnings?.transaction_id ? (
+                            <Typography component="small" color="error">
+                                {warnings.transaction_id}
+                            </Typography>
+                        ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -210,6 +218,11 @@ export function TestimonialDialogs() {
                                 fullWidth
                                 required
                             />
+                              {warnings?.feedback ? (
+                            <Typography component="small" color="error">
+                                {warnings.feedback}
+                            </Typography>
+                        ) : null}
                         </Box>
                         <Box>
                             <Box sx={{ mt: 1 }}>
@@ -221,6 +234,11 @@ export function TestimonialDialogs() {
                                         setRating(newValue);
                                     }}
                                 />
+                                  {warnings?.rating ? (
+                            <Typography component="small" color="error">
+                                {warnings.rating}
+                            </Typography>
+                        ) : null}
                             </Box>
                         </Box>
 
@@ -270,7 +288,7 @@ export function TestimonialDialogs() {
                 </DialogActions>
             </Dialog>
             {/* EDIT Testimonial */}
-            <Dialog open={!!editTestimonialDialog}>
+            <Dialog open={!!editTestimonialDialog} >
                 <DialogTitle>Edit Testimonial</DialogTitle>
                 <DialogContent>
                     <Box
@@ -294,6 +312,11 @@ export function TestimonialDialogs() {
                                 type="text"
                                 fullWidth
                             />
+                                {warnings?.feedback ? (
+                            <Typography component="small" color="error">
+                                {warnings.feedback}
+                            </Typography>
+                        ) : null}
                         </Box>
                         <Box sx={{ mt: 1 }}>
                             <TextField
@@ -309,6 +332,11 @@ export function TestimonialDialogs() {
                                 type="number"
                                 fullWidth
                             />
+                                {warnings?.rating ? (
+                            <Typography component="small" color="error">
+                                {warnings.rating}
+                            </Typography>
+                        ) : null}
                         </Box>
                         <Button
                             id="testimonial-btn"
