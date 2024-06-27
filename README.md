@@ -34,56 +34,6 @@ php artisan passport:client --personal
 
 # Start the server
 php artisan serve
-
-# Navigate to the UI directory and install Node.js dependencies
-cd villaaurora-ui
-npm install
-
-# If any issues arise, install necessary packages
-npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @mui/material @mui/x-data-grid react-toastify react-redux react-cookie react-big-calendar moment react-dom-confetti react-google-recaptcha
-
-
-ChatGPT
-Certainly! Here's the entire README file formatted in Markdown with code formatting:
-
-markdown
-Copy code
-# Booking Management System for Villa Aurora Private Resort
-
-## Group 1 (System Analysis and Design)
-
-### Purpose
-The purpose of this project is to provide a comprehensive solution to enhance the visibility of Villa Aurora Private Resort by implementing a functional booking management system.
-
-### Features
-- **Feature 1:** Registration and Login
-- **Feature 2:** Admin, Guest, Scheduler roles
-- **Feature 3:** Booking confirmation sent via Email
-- **Feature 4:** Ability to rate the site
-- **Feature 5:** Purchase options include in-person and via GCash
-
-### Installation
-To use this project, follow these steps:
-
-```bash
-# Clone the repository
-git clone https://github.com/kenralphsap/villa_aurora_project.git
-cd villa_aurora_project
-
-# Install dependencies
-composer install
-
-# Before running `composer install`, ensure you have Composer, MySQL, and Node.js installed.
-
-# Set up the database and seed
-php artisan migrate:fresh --seed
-
-# Generate Passport keys
-php artisan passport:keys
-php artisan passport:client --personal
-
-# Start the server
-php artisan serve
 bash
 Copy code
 # Navigate to the UI directory and install Node.js dependencies
