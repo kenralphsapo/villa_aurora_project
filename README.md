@@ -3,6 +3,10 @@
 # Booking Management System for Villa Aurora Private Resort
 
 ## Group 1 (System Analysis and Design)
+[![PHP](https://img.shields.io/badge/PHP-%3E%3D%207.0-8892BF.svg)](https://www.php.net/)
+[![React](https://img.shields.io/badge/React-%3E%3D%2016-61DAFB.svg)](https://reactjs.org/)
+[![Blade](https://img.shields.io/badge/Blade-Laravel%20Template%20Engine-orange.svg)](https://laravel.com/docs/blade)
+[![Laravel](https://img.shields.io/badge/Laravel-%5E8.x-red.svg)](https://laravel.com/)
 
 ### Purpose
 The purpose of this project is to provide a comprehensive solution to enhance the visibility of Villa Aurora Private Resort by implementing a functional booking management system.
