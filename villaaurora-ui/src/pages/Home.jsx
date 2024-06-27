@@ -81,17 +81,19 @@ function Home() {
         setDrawerOpen(!drawerOpen);
     };
 
-    const ServicerefreshData = () => {
-        showAllServices(cookies.AUTH_TOKEN).then((res) => {
-            if (res?.ok) {
-                setServiceRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    useEffect(ServicerefreshData, []);
+    if(cookies.AUTH_TOKEN){
+        const ServicerefreshData = () => {
+            showAllServices(cookies.AUTH_TOKEN).then((res) => {
+                if (res?.ok) {
+                    setServiceRows(res.data);
+                } else {
+                    toast.error(res?.message ?? "Something went wrong.");
+                }
+            });
+        };
+    
+        useEffect(ServicerefreshData, []);
+    }
 
     return (
         <Box id="homebg">
