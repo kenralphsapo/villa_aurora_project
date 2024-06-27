@@ -12,7 +12,7 @@
 The purpose of this project is to provide a comprehensive solution to enhance the visibility of Villa Aurora Private Resort by implementing a functional booking management system.
 
 ### Features
-- **Feature 1:** Registration and Login
+- **Feature 1:** Registration and Login with cookie
 - **Feature 2:** Admin, Guest, Scheduler roles
 - **Feature 3:** Booking confirmation sent via Email
 - **Feature 4:** Ability to rate the site
