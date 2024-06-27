@@ -45,8 +45,6 @@ npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @mu
 Example
 Here's an example of how to use the project:
 
-python
-Copy code
 # Insert sample code or usage example
 Contributing
 We welcome contributions from the community. If you'd like to contribute to this project, please follow our contribution guidelines.
