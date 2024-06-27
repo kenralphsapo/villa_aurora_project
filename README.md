@@ -19,6 +19,7 @@ The purpose of this project is to provide a comprehensive solution to enhance th
 - **Feature 5:** Purchase options include in-person and via GCash
 - **Feature 6:** Has a recaptcha for the security
 - **Feature 7:** Also has calendar that show the transaction id of the user who booked that day
+- **Feature 8:** And has an https for security purposes
 
 ### Installation
 To use this project, follow these steps:
