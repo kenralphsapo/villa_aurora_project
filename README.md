@@ -1,6 +1,4 @@
-## Group 1 (System Analysis and Design)
-
-# Project Name
+# Booking Management System in Villa Aurora Private Resort
 
 ## Group 1 (System Analysis and Design)
 
