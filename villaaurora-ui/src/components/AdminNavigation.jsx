@@ -4,6 +4,7 @@ import {
     Typography,
     ToggleButton,
     ToggleButtonGroup,
+    Tooltip,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import {
@@ -79,13 +80,16 @@ export default function AdminNavigation({
                 exclusive
             >
                 <ToggleButton value="home" component={Link} to="/">
+                    <Tooltip title="Go Back to Homepage">
                     <FontAwesomeIcon
                         icon={faHome}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
+                   
                     <Typography sx={{ m: 1, color: "white" }} id="home">
                         Home
                     </Typography>
+                    </Tooltip>
                 </ToggleButton>
 
                 <ToggleButton
@@ -94,6 +98,7 @@ export default function AdminNavigation({
                         onSelectNav("usernav", [setTableVisible])
                     }
                 >
+                    <Tooltip title="Go to Users Table">
                     <FontAwesomeIcon
                         icon={faUser}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -101,6 +106,7 @@ export default function AdminNavigation({
                     <Typography sx={{ m: 1, color: "white" }} id="usernav">
                         Users
                     </Typography>
+                    </Tooltip>
                 </ToggleButton>
 
                 <ToggleButton
@@ -111,13 +117,15 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                    <FontAwesomeIcon
+                   <Tooltip title="Go to Services Table">
+                   <FontAwesomeIcon
                         icon={faBriefcase}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
                     <Typography sx={{ m: 1, color: "white" }} id="servicenav">
                         Services
                     </Typography>
+                   </Tooltip>
                 </ToggleButton>
 
                 <ToggleButton
@@ -126,13 +134,15 @@ export default function AdminNavigation({
                         onSelectNav("roomnav", [setRoomDialogVisible])
                     }
                 >
-                    <FontAwesomeIcon
+                  <Tooltip title="Go to Rooms Table">
+                  <FontAwesomeIcon
                         icon={faBed}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
                     <Typography sx={{ m: 1, color: "white" }} id="roomnav">
                         Rooms
                     </Typography>
+                  </Tooltip>
                 </ToggleButton>
 
                 <ToggleButton
@@ -143,7 +153,8 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                    <FontAwesomeIcon
+                   <Tooltip title="Go to Transactions Table">
+                   <FontAwesomeIcon
                         icon={faReceipt}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
@@ -153,6 +164,7 @@ export default function AdminNavigation({
                     >
                         Transactions
                     </Typography>
+                   </Tooltip>
                 </ToggleButton>
 
                 <ToggleButton
@@ -163,7 +175,8 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                    <FontAwesomeIcon
+                   <Tooltip title="Go to Testimonials Table">
+                   <FontAwesomeIcon
                         icon={faComment}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
@@ -173,6 +186,7 @@ export default function AdminNavigation({
                     >
                         Testimonials
                     </Typography>
+                   </Tooltip>
                 </ToggleButton>
             </ToggleButtonGroup>
         </Box>
