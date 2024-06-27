@@ -18,13 +18,14 @@ import { toast } from "react-toastify";
 import { addRoom, deleteRoom, showAllRooms, updateRoom } from "../../api/room";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useCookies } from "react-cookie";
 
 export function RoomDialog() {
     const [roomRows, setRoomRows] = useState([]);
     const [deleteRoomDialog, setRoomDeleteDialog] = useState(null);
     const [editRoomDialog, setEditRoomDialog] = useState(null);
     const [createRoomDialog, setCreateRoomDialog] = useState(false);
-
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
 
@@ -70,7 +71,7 @@ export function RoomDialog() {
     ];
 
     const refreshData = () => {
-        showAllRooms().then((res) => {
+        showAllRooms(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setRoomRows(res.data);
             } else {
@@ -88,8 +89,9 @@ export function RoomDialog() {
                     name: editRoomDialog.name,
                     price: editRoomDialog.price,
                 },
-                editRoomDialog.id
-            )
+                editRoomDialog.id,
+                cookies.AUTH_TOKEN
+                )
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
@@ -116,8 +118,7 @@ export function RoomDialog() {
                 name: $("#name").val(),
                 price: $("#price").val(),
             };
-
-            addRoom(body)
+            addRoom(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has been created");
@@ -137,7 +138,7 @@ export function RoomDialog() {
     const onDeleteRoom = (e) => {
         if (!loading) {
             setLoading(true);
-            deleteRoom(deleteRoomDialog)
+            deleteRoom(deleteRoomDialog, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has deleted");
