@@ -5,13 +5,14 @@ import moment from "moment";
 import { showAllTransactions } from "../api/transaction";
 import { toast } from "react-toastify";
 import { Box } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 export default function MyCalendar() {
     const localizer = momentLocalizer(moment);
     const [events, setEvents] = useState([]);
-
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
     useEffect(() => {
-        showAllTransactions().then((res) => {
+        showAllTransactions(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 const mapevents = res.data.map((transaction) => {
                     return {

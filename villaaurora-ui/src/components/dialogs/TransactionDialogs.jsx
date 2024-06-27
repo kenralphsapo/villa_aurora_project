@@ -121,7 +121,7 @@ export function TransactionDialogs() {
                 service_id: serviceIds,
             };
 
-            addTransaction(body)
+            addTransaction(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction successful");
@@ -168,7 +168,7 @@ export function TransactionDialogs() {
                 rent_start: editTransactionDialog.rent_start,
                 rent_end: editTransactionDialog.rent_end,
                 service_id: serviceid.map((service) => service.id)
-            }, editTransactionDialog.id)
+            }, editTransactionDialog.id,  cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction updated successfully.");
@@ -205,7 +205,7 @@ export function TransactionDialogs() {
 
 
     const ServiceRefreshData = () => {
-        showAllServices().then((res) => {
+        showAllServices(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
             } else {
@@ -225,7 +225,7 @@ export function TransactionDialogs() {
     };
 
     const RoomrefreshData = () => {
-        showAllRooms().then((res) => {
+        showAllRooms(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setRoomRows(res.data);
             } else {
@@ -250,7 +250,7 @@ export function TransactionDialogs() {
     const onDeleteTransaction = () => {
         if (!loading) {
             setLoading(true);
-            deleteTransaction(deleteTransactionDialog)
+            deleteTransaction(deleteTransactionDialog, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(
@@ -281,7 +281,7 @@ export function TransactionDialogs() {
     ];
 
     const refreshData = () => {
-        showAllTransactions().then((res) => {
+        showAllTransactions(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 const services = res.data.flatMap((transaction) =>
                     transaction.services.map((service) => ({

@@ -4,6 +4,7 @@ import {
     Typography,
     ToggleButton,
     ToggleButtonGroup,
+    Tooltip,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import {
@@ -78,22 +79,28 @@ export default function AdminNavigation({
                 value={selectedNav}
                 exclusive
             >
+                                 <Tooltip title="Go Back to Homepage">
                 <ToggleButton value="home" component={Link} to="/">
+   
                     <FontAwesomeIcon
                         icon={faHome}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
+                   
                     <Typography sx={{ m: 1, color: "white" }} id="home">
                         Home
                     </Typography>
+                   
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Users Table">
                 <ToggleButton
                     value="usernav"
                     onClick={() =>
                         onSelectNav("usernav", [setTableVisible])
                     }
                 >
+          
                     <FontAwesomeIcon
                         icon={faUser}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -101,8 +108,10 @@ export default function AdminNavigation({
                     <Typography sx={{ m: 1, color: "white" }} id="usernav">
                         Users
                     </Typography>
+                   
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Services Table">
                 <ToggleButton
                     value="servicenav"
                     onClick={() =>
@@ -111,30 +120,36 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                    <FontAwesomeIcon
+             
+                   <FontAwesomeIcon
                         icon={faBriefcase}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
                     <Typography sx={{ m: 1, color: "white" }} id="servicenav">
                         Services
                     </Typography>
+            
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Rooms Table">
                 <ToggleButton
                     value="roomnav"
                     onClick={() =>
                         onSelectNav("roomnav", [setRoomDialogVisible])
                     }
                 >
-                    <FontAwesomeIcon
+               
+                  <FontAwesomeIcon
                         icon={faBed}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
                     <Typography sx={{ m: 1, color: "white" }} id="roomnav">
                         Rooms
                     </Typography>
+            
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Transactions Table">
                 <ToggleButton
                     value="transactionnav"
                     onClick={() =>
@@ -143,7 +158,7 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                    <FontAwesomeIcon
+                   <FontAwesomeIcon
                         icon={faReceipt}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
@@ -153,8 +168,10 @@ export default function AdminNavigation({
                     >
                         Transactions
                     </Typography>
+                 
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Testimonials Table">
                 <ToggleButton
                     value="testimonialnav"
                     onClick={() =>
@@ -163,7 +180,8 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                    <FontAwesomeIcon
+          
+                   <FontAwesomeIcon
                         icon={faComment}
                         style={{ color: "white", paddingLeft: "10px" }}
                     />
@@ -173,7 +191,9 @@ export default function AdminNavigation({
                     >
                         Testimonials
                     </Typography>
+                 
                 </ToggleButton>
+                </Tooltip>
             </ToggleButtonGroup>
         </Box>
     );

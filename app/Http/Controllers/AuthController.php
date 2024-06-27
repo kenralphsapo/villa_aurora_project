@@ -152,7 +152,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'ok' => false,
-                'message' => 'Validation failed',
+                'message' => 'Email does not exist, please try again!',
                 'errors' => $validator->errors(),
             ], 400);
         }
@@ -179,14 +179,22 @@ class AuthController extends Controller
      * @param  mixed $request
      * @return void
      */
-    public function resetPassword(Request $request)
-    {
-    ;
+    public function resetPassword(Request $request){
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
             'token' => 'required',
-            'password' => 'required|min:8|max:32|string|confirmed',
+            "password" => [
+                "required",
+                "min:8",
+                "max:32",
+                "string",
+                "confirmed",
+                "regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/"
+            ]
+        ], [
+            "password.regex" => "The password must contain at least one letter, one number, and one special character."
         ]);
+        
     
         if ($validator->fails()) {
             return response()->json([

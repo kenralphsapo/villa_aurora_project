@@ -3,6 +3,7 @@ import { Box, Button, Dialog, DialogContent, DialogTitle, Rating, TextField, Tex
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { addTestimonial } from '../api/testimonial';
+import { useCookies } from 'react-cookie';
 
 
 export default function MyRating() {
@@ -14,6 +15,7 @@ export default function MyRating() {
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
     const location = useLocation();
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -34,7 +36,7 @@ export default function MyRating() {
                 feedback,
                 rating,
             };
-            addTestimonial(body)
+            addTestimonial(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res && res.ok) {
                         toast.success(res.message ?? "Testimonial successful");
@@ -46,10 +48,6 @@ export default function MyRating() {
                         toast.error(res?.message ?? "Testimonial creation failed.");
                         setWarnings(res?.errors ?? {});
                     }
-                })
-                .catch((error) => {
-                    console.error("Error adding testimonial:", error);
-                    toast.error("An error occurred while submitting the testimonial.");
                 })
                 .finally(() => {
                     setLoading(false); 

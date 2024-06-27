@@ -42,9 +42,11 @@ function BookingForm() {
     const [recaptchaValue, setRecaptchaValue] = useState(null);
     const sitekey = "6LfWSv8pAAAAAL2M3-5GYvTMpysv01VOjrEbmmEg";
     const [warnings, setWarnings] = useState({});
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
+    const [transactionRows, setTransactionRows] = useState([]);
 
     const ServicefreshData = () => {
-        showAllServices().then((res) => {
+        showAllServices(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
             } else {
@@ -55,7 +57,7 @@ function BookingForm() {
     useEffect(ServicefreshData, []);
 
     const RoomrefreshData = () => {
-        showAllRooms().then((res) => {
+        showAllRooms(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setRoomRows(res.data);
             } else {
@@ -85,7 +87,7 @@ function BookingForm() {
                 service_id: serviceIds,
             };
             setLoading(true)
-            addTransaction(body)
+            addTransaction(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.success) {
                         toast.success(res?.message ?? "Transaction successful");

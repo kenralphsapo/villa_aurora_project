@@ -82,7 +82,7 @@ function Home() {
     };
 
     const ServicerefreshData = () => {
-        showAllServices().then((res) => {
+        showAllServices(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
             } else {
