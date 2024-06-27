@@ -4,7 +4,7 @@
 }
 
 /*---------------------------------------
-  Root/ Ugat ni Tuguro          
+  Root For Colors          
 -----------------------------------------*/
 
 :root {
@@ -281,7 +281,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     width: 400px;
-    padding: 30px;
+    padding: 10px;
 }
 
 #submit-button {
