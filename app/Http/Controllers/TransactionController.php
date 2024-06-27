@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Service;
 use App\Models\ServiceTransaction;
 use App\Models\Room;
@@ -24,14 +25,24 @@ class TransactionController extends Controller
         'service_id.*' => 'exists:services,id',
     ]);
 
-    if($validator->fails()){
-        return response()->json([
-        "ok" => false,
-        "message" => "Transaction creation Failed",
-        "errors" => $validator->errors()
-        ], 400);
+    $existingBooking = Transaction::whereRaw("((rent_start <= ? AND rent_end >= ?) OR (rent_start <= ? AND rent_end >= ?)) OR (? <= rent_start AND ? >= rent_end)", [$request->rent_start, $request->rent_start, $request->rent_end, $request->rent_end, $request->rent_start, $request->rent_end])
+    ->where("room_id", $request->room_id)
+    ->first();
+        if($existingBooking){
+            $validator->errors()->add("schedule", "The schedule you've selected is conflicted with another schedule");
+            return response()->json([
+                "ok" => false,
+                "message" => "Transaction creation Failed",
+                "errors" => $validator->errors()
+                ], 400);
         }
-
+        if($validator->fails() || count($validator->errors()) > 0){
+            return response()->json([
+            "ok" => false,
+            "message" => "Transaction creation Failed",
+            "errors" => $validator->errors()
+            ], 400);
+        }
         $validated = $validator->validated();
         $transaction_input = $validator->safe()->only(['user_id','room_id','rent_start', 'rent_end']);
         //Get Price from Room based on Room's ID
@@ -39,8 +50,23 @@ class TransactionController extends Controller
  
         $transaction_input["room_price"] = $room->price;
         $transaction = Transaction::create($transaction_input);
-        //dd($validated["service_id"]);
-        
+
+
+        //Check for existing booking
+        $existingBooking = Transaction::where('rent_start', $request->rent_start)
+        ->where('rent_start','<=', $request->rent_start)
+        ->where('rent_end','=>', $request->rent_end)
+        ->where('room_id','!=',$request->room_id)
+        ->where('id', '!=', $transaction->id)
+        ->first();
+
+        if ($existingBooking) {
+        return response()->json([
+        "ok" => false,
+        "message" => "Selected date has already been booked."
+        ], 400); 
+        }
+
         //Service Price
         $arrayServicePrice = [];
         foreach($validated["service_id"] as $service_id){
@@ -57,7 +83,6 @@ class TransactionController extends Controller
 
     }
 
-//TO-DO: MUST INCLUDE PRICE FROM SERVICES
     /**
     * RETRIEVE all transactions
     * GET: /api/transactions
