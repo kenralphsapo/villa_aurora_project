@@ -23,6 +23,7 @@ import $ from "jquery";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { useCookies } from "react-cookie";
 
 export function ServiceDialog() {
     const [serviceRows, setServiceRows] = useState([]);
@@ -30,7 +31,7 @@ export function ServiceDialog() {
     const [createServDialog, setCreateServDialog] = useState(false);
     const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
     const [editServiceDialog, setEditServiceDialog] = useState(null);
-
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
 
@@ -90,7 +91,7 @@ export function ServiceDialog() {
     ];
 
     const refreshData = () => {
-        showAllServices().then((res) => {
+        showAllServices(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
             } else {
@@ -112,7 +113,7 @@ export function ServiceDialog() {
             body.append("price", $("#price").val());
             body.append("image", imageFile);
 
-            addService(body)
+            addService(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(
@@ -134,7 +135,7 @@ export function ServiceDialog() {
     const onDeleteService = (e) => {
         if (!loading) {
             setLoading(true);
-            deleteService(deleteServiceDialog)
+            deleteService(deleteServiceDialog, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Service has deleted");
@@ -159,7 +160,8 @@ export function ServiceDialog() {
                     name: editServiceDialog.name,
                     price: editServiceDialog.price,
                 },
-                editServiceDialog.id
+                editServiceDialog.id,
+                cookies.AUTH_TOKEN
             )
                 .then((res) => {
                     if (res?.ok) {
@@ -175,6 +177,7 @@ export function ServiceDialog() {
                 });
         }
     };
+
 
     return (
         <Box id="section2">
