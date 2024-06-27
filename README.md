@@ -1,3 +1,5 @@
+![Background Image](https://github.com/kenralphsapo/villa_aurora_project/blob/featurebranch/public/images/background.jpg?raw=true)
+
 # Booking Management System for Villa Aurora Private Resort
 
 ## Group 1 (System Analysis and Design)
