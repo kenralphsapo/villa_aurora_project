@@ -4,7 +4,7 @@
 
 ## Group 1 (System Analysis and Design)
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.0-8892BF.svg)](https://www.php.net/)
-[![React](https://img.shields.io/badge/React-%3E%3D%2016-61DAFB.svg)](https://reactjs.org/)
+[![React](https://img.shields.io/badge/React-%3E%3D%2018-61DAFB.svg)](https://reactjs.org/)
 [![Blade](https://img.shields.io/badge/Blade-Laravel%20Template%20Engine-orange.svg)](https://laravel.com/docs/blade)
 [![Laravel](https://img.shields.io/badge/Laravel-%5E11.x-red.svg)](https://laravel.com/)
 
