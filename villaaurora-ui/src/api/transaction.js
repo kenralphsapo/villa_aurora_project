@@ -1,41 +1,54 @@
 import { url } from "./configuration";
 
-export const showAllTransactions = async () => {
+export const showAllTransactions = async (token) => {
     const response = await fetch(`${url}/transactions`, {
         method: "GET",
-    });
-
-    return await response.json();
-};
-
-export const addTransaction = async (body) => {
-    const response = await fetch(`${url}/transactions`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-    });
-
-    return await response.json();
-};
-
-export const updateTransaction = async (body, id) => {
-    const response = await fetch(`${url}/transactions/${id}?_method=PATCH`, {
-        method: "POST",
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
+            Authorization: `Bearer ${token}`
+          },
     });
+  
     return await response.json();
-};
+  };
 
-export const deleteTransaction = async (id) => {
+  export const addTransaction = async (body, token) => {
+    const response = await fetch(`${url}/transactions`, {
+      method: 'POST',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(body)
+    });
+  
+    return await response.json();
+  };
+
+  export const updateTransaction = async (body, id, token) => {
+    const response = await fetch(`${url}/transactions/${id}?_method=PATCH`, {
+      method: 'POST',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(body)
+    });
+  
+    return await response.json();
+  };
+  
+
+  export const deleteTransaction = async (id, token) => {
     const response = await fetch(`${url}/transactions/${id}?_method=DELETE`, {
-        method: "POST",
+      method: 'POST',
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
     });
-
+  
     return await response.json();
-};
+  };
