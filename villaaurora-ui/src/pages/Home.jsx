@@ -30,6 +30,7 @@ import BookingForm from "../components/BookingForm";
 import MyCalendar from "../components/MyCalendar";
 import MyRating from "../components/MyRating";
 
+
 function Home() {
     const user = useSelector((state) => state.auth.user);
     const [cookies, setCookie, removeCookie] = useCookies();
@@ -38,7 +39,7 @@ function Home() {
     const [scrollVisible, setScrollVisible] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [serviceRows, setServiceRows] = useState([]);
-
+    
     const logout = () => {
         removeCookie("AUTH_TOKEN");
         toast.success(res?.message ?? "Logged out successfully.");
@@ -81,7 +82,7 @@ function Home() {
     };
 
     const ServicerefreshData = () => {
-        showAllServices().then((res) => {
+        showAllServices(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
             } else {
