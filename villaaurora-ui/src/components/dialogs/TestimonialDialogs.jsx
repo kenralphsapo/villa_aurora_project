@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+mport React, { useState, useEffect } from "react";
 import {
     Box,
     Button,
@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 import { useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 
 export function TestimonialDialogs() {
     // For Testimonials
@@ -29,7 +30,7 @@ export function TestimonialDialogs() {
     const [loading, setLoading] = useState(false);
     const [warnings, setWarnings] = useState({});
     const [rating, setRating] = useState(0);
-
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
     const testimonialcolumns = [
         { field: "id", headerName: "Transaction ID", width: 150 },
         { field: "feedback", headerName: "Feedback", width: 250 },
@@ -84,7 +85,7 @@ export function TestimonialDialogs() {
                 rating: rating,
             };
 
-            addTestimonial(body)
+            addTestimonial(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Testimonial successful");
@@ -104,7 +105,7 @@ export function TestimonialDialogs() {
     };
 
     const refreshData = () => {
-        showAllTestimonials().then((res) => {
+        showAllTestimonials(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setTestimonialRows(res.data);
             } else {
@@ -123,8 +124,8 @@ export function TestimonialDialogs() {
                     feedback: editTestimonialDialog.feedback,
                     rating: editTestimonialDialog.rating,
                 },
-                editTestimonialDialog.id
-            )
+                editTestimonialDialog.id,
+                cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Testimonial has updated");
@@ -146,7 +147,7 @@ export function TestimonialDialogs() {
         e.preventDefault();
         if (!loading) {
             setLoading(true);
-            deleteTestimonial(deleteTestimonialDialog)
+            deleteTestimonial(deleteTestimonialDialog, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has deleted");
