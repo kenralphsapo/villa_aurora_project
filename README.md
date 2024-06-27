@@ -17,6 +17,8 @@ The purpose of this project is to provide a comprehensive solution to enhance th
 - **Feature 3:** Booking confirmation sent via Email
 - **Feature 4:** Ability to rate the site
 - **Feature 5:** Purchase options include in-person and via GCash
+- **Feature 6:** Has a recaptcha for the security
+- **Feature 7:** Also has calendar that show the transaction id of the user who booked that day
 
 ### Installation
 To use this project, follow these steps:
@@ -40,16 +42,20 @@ php artisan passport:client --personal
 
 # Start the server
 php artisan serve
-bash
-Copy code
+
 # Navigate to the UI directory and install Node.js dependencies
 cd villaaurora-ui
 npm install
 
 # If any issues arise, install necessary packages
 npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @mui/material @mui/x-data-grid react-toastify react-redux react-cookie react-big-calendar moment react-dom-confetti react-google-recaptcha
+
 Example
 Here's an example of how to use the project:
+--Step 1: You have to login first if you do no have account just press register
+--Step 2: After you finish register there is a message sent to your email and saying as a welcome mesage
+--Step 3: Then you can now book in you website but simply filling all needing in data
+--Step 4: And once you sucessfully booke there is another email sent to you for the total price and how do you want to pay also below the qrcode there is a link that go to our testimonial to rate our site
 
 # Insert sample code or usage example
 Contributing
