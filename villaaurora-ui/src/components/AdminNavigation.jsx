@@ -79,8 +79,9 @@ export default function AdminNavigation({
                 value={selectedNav}
                 exclusive
             >
+                                 <Tooltip title="Go Back to Homepage">
                 <ToggleButton value="home" component={Link} to="/">
-                    <Tooltip title="Go Back to Homepage">
+   
                     <FontAwesomeIcon
                         icon={faHome}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -89,16 +90,17 @@ export default function AdminNavigation({
                     <Typography sx={{ m: 1, color: "white" }} id="home">
                         Home
                     </Typography>
-                    </Tooltip>
+                   
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Users Table">
                 <ToggleButton
                     value="usernav"
                     onClick={() =>
                         onSelectNav("usernav", [setTableVisible])
                     }
                 >
-                    <Tooltip title="Go to Users Table">
+          
                     <FontAwesomeIcon
                         icon={faUser}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -106,9 +108,10 @@ export default function AdminNavigation({
                     <Typography sx={{ m: 1, color: "white" }} id="usernav">
                         Users
                     </Typography>
-                    </Tooltip>
+                   
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Services Table">
                 <ToggleButton
                     value="servicenav"
                     onClick={() =>
@@ -117,7 +120,7 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                   <Tooltip title="Go to Services Table">
+             
                    <FontAwesomeIcon
                         icon={faBriefcase}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -125,16 +128,17 @@ export default function AdminNavigation({
                     <Typography sx={{ m: 1, color: "white" }} id="servicenav">
                         Services
                     </Typography>
-                   </Tooltip>
+            
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Rooms Table">
                 <ToggleButton
                     value="roomnav"
                     onClick={() =>
                         onSelectNav("roomnav", [setRoomDialogVisible])
                     }
                 >
-                  <Tooltip title="Go to Rooms Table">
+               
                   <FontAwesomeIcon
                         icon={faBed}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -142,9 +146,10 @@ export default function AdminNavigation({
                     <Typography sx={{ m: 1, color: "white" }} id="roomnav">
                         Rooms
                     </Typography>
-                  </Tooltip>
+            
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Transactions Table">
                 <ToggleButton
                     value="transactionnav"
                     onClick={() =>
@@ -153,7 +158,6 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                   <Tooltip title="Go to Transactions Table">
                    <FontAwesomeIcon
                         icon={faReceipt}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -164,9 +168,10 @@ export default function AdminNavigation({
                     >
                         Transactions
                     </Typography>
-                   </Tooltip>
+                 
                 </ToggleButton>
-
+                </Tooltip>
+                <Tooltip title="Go to Testimonials Table">
                 <ToggleButton
                     value="testimonialnav"
                     onClick={() =>
@@ -175,7 +180,7 @@ export default function AdminNavigation({
                         ])
                     }
                 >
-                   <Tooltip title="Go to Testimonials Table">
+          
                    <FontAwesomeIcon
                         icon={faComment}
                         style={{ color: "white", paddingLeft: "10px" }}
@@ -186,8 +191,9 @@ export default function AdminNavigation({
                     >
                         Testimonials
                     </Typography>
-                   </Tooltip>
+                 
                 </ToggleButton>
+                </Tooltip>
             </ToggleButtonGroup>
         </Box>
     );
