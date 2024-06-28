@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import Admin from "./pages/Admin";
 import ForgotPassword from "./pages/ForgotPassword";
 import Myaccount from "./pages/Myaccount";
-import Undead from "./pages/Undead";
 
 function App() {
     const router = createBrowserRouter([
@@ -41,10 +40,6 @@ function App() {
             path: "*",
             element: <NotFound />,
         },
-        {
-            path: "/hi",
-            element: <Undead />,
-        }
     ]);
 
     return (
