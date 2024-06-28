@@ -39,7 +39,7 @@ export function UserDialogs() {
     const [rows, setRows] = useState([]);
 
     const columns = [
-        { field: "id", headerName: "ID",width:10 },
+        { field: "id", headerName: "ID", width: 10 },
         { field: "username", headerName: "Username", width: 150 },
         { field: "mobile", headerName: "Mobile", width: 150 },
         { field: "email", headerName: "Email" },
@@ -62,31 +62,29 @@ export function UserDialogs() {
                     }}
                 >
                     {user?.role == "admin" && (
-                   <>
-                    <Button
-                        variant="contained"
-                        color="warning"
-                        onClick={() => setEditDialog({ ...params.row })}
-                    >
-                        Edit
-                    </Button>
-            
-                        <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => setDeleteDialog(params.row.id)}
-                    >
-                        Delete
-                    </Button>
-                   </>
-                )}
-                   
+                        <>
+                            <Button
+                                variant="contained"
+                                color="warning"
+                                onClick={() => setEditDialog({ ...params.row })}
+                            >
+                                Edit
+                            </Button>
+
+                            <Button
+                                variant="contained"
+                                color="error"
+                                onClick={() => setDeleteDialog(params.row.id)}
+                            >
+                                Delete
+                            </Button>
+                        </>
+                    )}
                 </Box>
             ),
             width: 200,
-        }
+        },
     ];
-
 
     const onCreate = (e) => {
         e.preventDefault();
@@ -181,7 +179,7 @@ export function UserDialogs() {
                 });
         }
     };
-    
+
     return (
         <Box className="mt-2" id="section1">
             <Box
@@ -193,11 +191,11 @@ export function UserDialogs() {
             >
                 <Typography variant="h2">Users</Typography>
                 <Button sx={{ mr: 5 }} onClick={() => setCreateDialog(true)}>
-                {user?.role == "admin" && (
+                    {user?.role == "admin" && (
                         <Tooltip title="Add User">
-                            <FontAwesomeIcon icon={faAdd} className="addbtn"/>
+                            <FontAwesomeIcon icon={faAdd} className="addbtn" />
                         </Tooltip>
-                )}
+                    )}
                 </Button>
             </Box>
             <DataGrid autoHeight columns={columns} rows={rows} />
@@ -300,7 +298,11 @@ export function UserDialogs() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="info" onClick={() => setCreateDialog(false)} style={{border:"2px solid blue"}}>
+                    <Button
+                        color="info"
+                        onClick={() => setCreateDialog(false)}
+                        style={{ border: "2px solid blue" }}
+                    >
                         Close
                     </Button>
                     <Button
@@ -309,7 +311,7 @@ export function UserDialogs() {
                         }}
                         id="submitbtn"
                         color="success"
-                        style={{border: "2px solid green"}}
+                        style={{ border: "2px solid green" }}
                     >
                         Create
                     </Button>
@@ -329,10 +331,18 @@ export function UserDialogs() {
                         display: !!deleteDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setDeleteDialog(null)} style={{border: "2px solid blue"}}>
+                    <Button
+                        onClick={() => setDeleteDialog(null)}
+                        style={{ border: "2px solid blue" }}
+                    >
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDelete} color="error" style={{border: '2px solid red'}}>
+                    <Button
+                        disabled={loading}
+                        onClick={onDelete}
+                        color="error"
+                        style={{ border: "2px solid red" }}
+                    >
                         Confirm
                     </Button>
                 </DialogActions>
@@ -437,14 +447,19 @@ export function UserDialogs() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button style={{border: "2px solid lightblue"}} onClick={() => setEditDialog(null)}>Cancel</Button>
+                    <Button
+                        style={{ border: "2px solid lightblue" }}
+                        onClick={() => setEditDialog(null)}
+                    >
+                        Cancel
+                    </Button>
                     <Button
                         disabled={loading}
                         onClick={() => {
                             $("#edit-btn").trigger("click");
                         }}
                         color="success"
-                        style={{border: "2px solid lightgreen"}}
+                        style={{ border: "2px solid lightgreen" }}
                     >
                         Update
                     </Button>

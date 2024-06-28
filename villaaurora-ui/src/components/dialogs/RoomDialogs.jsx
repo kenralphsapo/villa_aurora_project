@@ -91,7 +91,7 @@ export function RoomDialog() {
                 },
                 editRoomDialog.id,
                 cookies.AUTH_TOKEN
-                )
+            )
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
@@ -169,9 +169,8 @@ export function RoomDialog() {
                     onClick={() => setCreateRoomDialog(true)}
                 >
                     <Tooltip title="Add Room">
-                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                        <FontAwesomeIcon icon={faAdd} className="addbtn" />
                     </Tooltip>
-
                 </Button>
             </Box>
             <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
@@ -215,7 +214,7 @@ export function RoomDialog() {
                             <Button
                                 color="info"
                                 onClick={() => setCreateRoomDialog(false)}
-                                style={{border:"2px solid blue"}}
+                                style={{ border: "2px solid blue" }}
                             >
                                 Close
                             </Button>
@@ -224,7 +223,10 @@ export function RoomDialog() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
-                                style={{border:"2px solid green", marginLeft:"10px"}}
+                                style={{
+                                    border: "2px solid green",
+                                    marginLeft: "10px",
+                                }}
                             >
                                 Submit
                             </Button>
@@ -245,10 +247,18 @@ export function RoomDialog() {
                         display: !!deleteRoomDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setRoomDeleteDialog(null)} style={{border: "2px solid blue"}}>
+                    <Button
+                        onClick={() => setRoomDeleteDialog(null)}
+                        style={{ border: "2px solid blue" }}
+                    >
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteRoom} color="error" style={{border: "2px solid red"}}>
+                    <Button
+                        disabled={loading}
+                        onClick={onDeleteRoom}
+                        color="error"
+                        style={{ border: "2px solid red" }}
+                    >
                         Confirm
                     </Button>
                 </DialogActions>
@@ -309,7 +319,10 @@ export function RoomDialog() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button style={{border: "2px solid lightblue"}} onClick={() => setEditRoomDialog(null)}>
+                    <Button
+                        style={{ border: "2px solid lightblue" }}
+                        onClick={() => setEditRoomDialog(null)}
+                    >
                         Cancel
                     </Button>
                     <Button
@@ -318,7 +331,7 @@ export function RoomDialog() {
                             $("#room-btn").trigger("click");
                         }}
                         color="success"
-                        style={{border: "2px solid lightgreen"}}
+                        style={{ border: "2px solid lightgreen" }}
                     >
                         Update
                     </Button>

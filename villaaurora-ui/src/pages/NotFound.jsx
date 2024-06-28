@@ -7,7 +7,7 @@ export default function NotFound() {
         <Box
             id="notfoundbg"
             className="d-flex flex-column align-items-center justify-content-center"
-            >
+        >
             <Typography variant="h1" align="center" gutterBottom>
                 404
             </Typography>

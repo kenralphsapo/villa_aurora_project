@@ -90,13 +90,13 @@
     color: var(--color-white);
 }
 
-#search-btn{
+#search-btn {
     background-color: var(--color-green);
     margin-left: 10px;
     color: var(--color-white);
 }
 
-#submit-btn{
+#submit-btn {
     background-color: var(--color-green);
     margin-left: 10px;
     color: var(--color-white);
@@ -241,7 +241,6 @@
     font-size: 1.6rem;
 }
 
-
 /*---------------------------------------
   Home Appearance 
 -----------------------------------------*/
@@ -281,7 +280,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     width: 400px;
-    padding: 10px;
+    padding: 30px;
 }
 
 #submit-button {
@@ -340,7 +339,7 @@
     text-align: center;
 }
 
-#btn-close{
+#btn-close {
     background-color: var(--color-green);
     color: var(--color-white);
     width: 100px;
@@ -348,7 +347,7 @@
     text-align: right;
 }
 
-.dialog-logo{
+.dialog-logo {
     width: 150px;
     box-shadow: 0 0 10px var(--color-black);
     display: block;
@@ -486,7 +485,6 @@ strong {
     text-transform: uppercase;
     position: relative;
 }
-
 
 #sidebarMenu .nav-link.active,
 #sidebarMenu .nav-link:hover {
@@ -871,9 +869,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
     -moz-appearance: textfield;
-    appearance: textfield; 
+    appearance: textfield;
 }
-
 
 /*---------------------------------------
   CUSTOM FORM               
@@ -1083,8 +1080,6 @@ input[type="number"] {
         font-size: 18px;
     }
 
-  
-
     .section-padding,
     .hero-section {
         padding: 50px 25px;
@@ -1156,8 +1151,6 @@ input[type="number"] {
         background-color: var(--primary-color);
     }
 }
-
-
 
 @media screen and (max-width: 480px) {
     h1 {

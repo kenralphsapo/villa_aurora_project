@@ -79,120 +79,110 @@ export default function AdminNavigation({
                 value={selectedNav}
                 exclusive
             >
-                                 <Tooltip title="Go Back to Homepage">
-                <ToggleButton value="home" component={Link} to="/">
-   
-                    <FontAwesomeIcon
-                        icon={faHome}
-                        style={{ color: "white", paddingLeft: "10px" }}
-                    />
-                   
-                    <Typography sx={{ m: 1, color: "white" }} id="home">
-                        Home
-                    </Typography>
-                   
-                </ToggleButton>
+                <Tooltip title="Go Back to Homepage">
+                    <ToggleButton value="home" component={Link} to="/">
+                        <FontAwesomeIcon
+                            icon={faHome}
+                            style={{ color: "white", paddingLeft: "10px" }}
+                        />
+
+                        <Typography sx={{ m: 1, color: "white" }} id="home">
+                            Home
+                        </Typography>
+                    </ToggleButton>
                 </Tooltip>
                 <Tooltip title="Go to Users Table">
-                <ToggleButton
-                    value="usernav"
-                    onClick={() =>
-                        onSelectNav("usernav", [setTableVisible])
-                    }
-                >
-          
-                    <FontAwesomeIcon
-                        icon={faUser}
-                        style={{ color: "white", paddingLeft: "10px" }}
-                    />
-                    <Typography sx={{ m: 1, color: "white" }} id="usernav">
-                        Users
-                    </Typography>
-                   
-                </ToggleButton>
+                    <ToggleButton
+                        value="usernav"
+                        onClick={() =>
+                            onSelectNav("usernav", [setTableVisible])
+                        }
+                    >
+                        <FontAwesomeIcon
+                            icon={faUser}
+                            style={{ color: "white", paddingLeft: "10px" }}
+                        />
+                        <Typography sx={{ m: 1, color: "white" }} id="usernav">
+                            Users
+                        </Typography>
+                    </ToggleButton>
                 </Tooltip>
                 <Tooltip title="Go to Services Table">
-                <ToggleButton
-                    value="servicenav"
-                    onClick={() =>
-                        onSelectNav("servicenav", [
-                            setServiceDialogVisible,
-                        ])
-                    }
-                >
-             
-                   <FontAwesomeIcon
-                        icon={faBriefcase}
-                        style={{ color: "white", paddingLeft: "10px" }}
-                    />
-                    <Typography sx={{ m: 1, color: "white" }} id="servicenav">
-                        Services
-                    </Typography>
-            
-                </ToggleButton>
+                    <ToggleButton
+                        value="servicenav"
+                        onClick={() =>
+                            onSelectNav("servicenav", [setServiceDialogVisible])
+                        }
+                    >
+                        <FontAwesomeIcon
+                            icon={faBriefcase}
+                            style={{ color: "white", paddingLeft: "10px" }}
+                        />
+                        <Typography
+                            sx={{ m: 1, color: "white" }}
+                            id="servicenav"
+                        >
+                            Services
+                        </Typography>
+                    </ToggleButton>
                 </Tooltip>
                 <Tooltip title="Go to Rooms Table">
-                <ToggleButton
-                    value="roomnav"
-                    onClick={() =>
-                        onSelectNav("roomnav", [setRoomDialogVisible])
-                    }
-                >
-               
-                  <FontAwesomeIcon
-                        icon={faBed}
-                        style={{ color: "white", paddingLeft: "10px" }}
-                    />
-                    <Typography sx={{ m: 1, color: "white" }} id="roomnav">
-                        Rooms
-                    </Typography>
-            
-                </ToggleButton>
+                    <ToggleButton
+                        value="roomnav"
+                        onClick={() =>
+                            onSelectNav("roomnav", [setRoomDialogVisible])
+                        }
+                    >
+                        <FontAwesomeIcon
+                            icon={faBed}
+                            style={{ color: "white", paddingLeft: "10px" }}
+                        />
+                        <Typography sx={{ m: 1, color: "white" }} id="roomnav">
+                            Rooms
+                        </Typography>
+                    </ToggleButton>
                 </Tooltip>
                 <Tooltip title="Go to Transactions Table">
-                <ToggleButton
-                    value="transactionnav"
-                    onClick={() =>
-                        onSelectNav("transactionnav", [
-                            setTransactionDialogVisible,
-                        ])
-                    }
-                >
-                   <FontAwesomeIcon
-                        icon={faReceipt}
-                        style={{ color: "white", paddingLeft: "10px" }}
-                    />
-                    <Typography
-                        sx={{ m: 1, color: "white" }}
-                        id="transactionnav"
+                    <ToggleButton
+                        value="transactionnav"
+                        onClick={() =>
+                            onSelectNav("transactionnav", [
+                                setTransactionDialogVisible,
+                            ])
+                        }
                     >
-                        Transactions
-                    </Typography>
-                 
-                </ToggleButton>
+                        <FontAwesomeIcon
+                            icon={faReceipt}
+                            style={{ color: "white", paddingLeft: "10px" }}
+                        />
+                        <Typography
+                            sx={{ m: 1, color: "white" }}
+                            id="transactionnav"
+                        >
+                            Transactions
+                        </Typography>
+                    </ToggleButton>
                 </Tooltip>
                 <Tooltip title="Go to Testimonials Table">
-                <ToggleButton
-                    value="testimonialnav"
-                    onClick={() =>
-                        onSelectNav("testimonialnav", [
-                            setTestimonialDialogVisible,
-                        ])
-                    }
-                >
-          
-                   <FontAwesomeIcon
-                        icon={faComment}
-                        style={{ color: "white", paddingLeft: "10px" }}
-                    />
-                    <Typography
-                        sx={{ m: 1, color: "white" }}
-                        id="testimonialnav"
+                    <ToggleButton
+                        value="testimonialnav"
+                        onClick={() =>
+                            onSelectNav("testimonialnav", [
+                                setTestimonialDialogVisible,
+                            ])
+                        }
                     >
-                        Testimonials
-                    </Typography>
-                 
-                </ToggleButton>
+                        <FontAwesomeIcon
+                            icon={faComment}
+                            style={{ color: "white", paddingLeft: "10px" }}
+                        />
+                        <Typography
+                            sx={{ m: 1, color: "white" }}
+                            id="testimonialnav"
+                        >
+                            Testimonials
+                        </Typography>
+                    </ToggleButton>
                 </Tooltip>
             </ToggleButtonGroup>
         </Box>

@@ -45,29 +45,30 @@ function BookingForm() {
     const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [transactionRows, setTransactionRows] = useState([]);
 
-    const ServicefreshData = () => {
-        showAllServices(cookies.AUTH_TOKEN).then((res) => {
-            if (res?.ok) {
-                setServiceRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Failed to fetch services.");
-            }
-        });
-    };
-    useEffect(ServicefreshData, []);
+    if (cookies.AUTH_TOKEN) {
+        const ServicefreshData = () => {
+            showAllServices(cookies.AUTH_TOKEN).then((res) => {
+                if (res?.ok) {
+                    setServiceRows(res.data);
+                } else {
+                    toast.error(res?.message ?? "Failed to fetch services.");
+                }
+            });
+        };
+        useEffect(ServicefreshData, []);
 
-    const RoomrefreshData = () => {
-        showAllRooms(cookies.AUTH_TOKEN).then((res) => {
-            if (res?.ok) {
-                setRoomRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
+        const RoomrefreshData = () => {
+            showAllRooms(cookies.AUTH_TOKEN).then((res) => {
+                if (res?.ok) {
+                    setRoomRows(res.data);
+                } else {
+                    toast.error(res?.message ?? "Something went wrong.");
+                }
+            });
+        };
 
-    useEffect(RoomrefreshData, []);
-
+        useEffect(RoomrefreshData, []);
+    }
 
     const onCreateTransaction = (e) => {
         e.preventDefault();
@@ -86,7 +87,7 @@ function BookingForm() {
                 rent_end: $("#rent_end").val(),
                 service_id: serviceIds,
             };
-            setLoading(true)
+            setLoading(true);
             addTransaction(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.success) {
@@ -119,7 +120,6 @@ function BookingForm() {
         }
     }, [showConfetti]);
 
-    
     const onSelectService = (service) => {
         setSelectedServices((prevServices) => {
             const services = prevServices.some((s) => s.id == service.id);
@@ -139,8 +139,8 @@ function BookingForm() {
             <Box className="container">
                 <Box className="row">
                     <Box className="col-lg-10 col-12 mx-auto">
-                        <Box 
-                        component="form"
+                        <Box
+                            component="form"
                             className="custom-form booking-form"
                             onSubmit={onCreateTransaction}
                         >
@@ -158,7 +158,7 @@ function BookingForm() {
                                         <TextField
                                             id="name"
                                             label="Fullname"
-                                            variant="outlined" 
+                                            variant="outlined"
                                             margin="normal"
                                             fullWidth
                                             required
@@ -358,12 +358,16 @@ function BookingForm() {
                                                     display: "inline-block",
                                                 }}
                                             >
-                                                {!loading && <ReCAPTCHA
-                                                    sitekey={sitekey}
-                                                    onChange={(value) =>
-                                                        setRecaptchaValue(value)
-                                                    }
-                                                />}
+                                                {!loading && (
+                                                    <ReCAPTCHA
+                                                        sitekey={sitekey}
+                                                        onChange={(value) =>
+                                                            setRecaptchaValue(
+                                                                value
+                                                            )
+                                                        }
+                                                    />
+                                                )}
                                             </Box>
                                             <Button
                                                 type="submit"
@@ -372,8 +376,11 @@ function BookingForm() {
                                             >
                                                 Submit
                                             </Button>
-                                            {loading && <CircularProgress sx={{mt:2}}/>}
-
+                                            {loading && (
+                                                <CircularProgress
+                                                    sx={{ mt: 2 }}
+                                                />
+                                            )}
                                         </Grid>
                                     </Grid>
                                     <Confetti active={showConfetti} />

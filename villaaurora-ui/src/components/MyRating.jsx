@@ -14,8 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addTestimonial } from "../api/testimonial";
 import $ from "jquery";
-import { useCookies } from 'react-cookie';
-
+import { useCookies } from "react-cookie";
 
 export default function MyRating() {
     const [open, setOpen] = useState(false);
@@ -28,8 +27,7 @@ export default function MyRating() {
     const [loading, setLoading] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-        const [cookies] = useCookies(["AUTH_TOKEN"]);
-    
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -51,7 +49,7 @@ export default function MyRating() {
                 rating: rating,
             };
             setLoading(true);
-               addTestimonial(body, cookies.AUTH_TOKEN)
+            addTestimonial(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Testimonial successful");

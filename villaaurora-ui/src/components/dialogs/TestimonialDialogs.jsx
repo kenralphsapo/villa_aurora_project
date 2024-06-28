@@ -9,11 +9,16 @@ import {
     TextField,
     Typography,
     Rating,
-    Tooltip
+    Tooltip,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-import { addTestimonial, deleteTestimonial, showAllTestimonials, updateTestimonial } from "../../api/testimonial";
+import {
+    addTestimonial,
+    deleteTestimonial,
+    showAllTestimonials,
+    updateTestimonial,
+} from "../../api/testimonial";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
@@ -22,11 +27,13 @@ import { useCookies } from "react-cookie";
 
 export function TestimonialDialogs() {
     // For Testimonials
-    const user = useSelector((state) => state.auth.user)
+    const user = useSelector((state) => state.auth.user);
     const [testiomonialRows, setTestimonialRows] = useState([]);
-    const [deleteTestimonialDialog, setDeleteTestimonialDialog] = useState(null);
+    const [deleteTestimonialDialog, setDeleteTestimonialDialog] =
+        useState(null);
     const [editTestimonialDialog, setEditTestimonialDialog] = useState(null);
-    const [createTestimonialDialog, setCreateTestimonialDialog] = useState(false);
+    const [createTestimonialDialog, setCreateTestimonialDialog] =
+        useState(false);
     const [loading, setLoading] = useState(false);
     const [warnings, setWarnings] = useState({});
     const [rating, setRating] = useState(0);
@@ -94,7 +101,9 @@ export function TestimonialDialogs() {
                         setWarnings({});
                         setRating(0);
                     } else {
-                        toast.error(res?.message ?? "Testimonial creation failed.");
+                        toast.error(
+                            res?.message ?? "Testimonial creation failed."
+                        );
                         setWarnings(res?.errors);
                     }
                 })
@@ -125,10 +134,13 @@ export function TestimonialDialogs() {
                     rating: editTestimonialDialog.rating,
                 },
                 editTestimonialDialog.id,
-                cookies.AUTH_TOKEN)
+                cookies.AUTH_TOKEN
+            )
                 .then((res) => {
                     if (res?.ok) {
-                        toast.success(res?.message ?? "Testimonial has updated");
+                        toast.success(
+                            res?.message ?? "Testimonial has updated"
+                        );
                         setEditTestimonialDialog(null);
                         refreshData();
                         setWarnings({});
@@ -177,11 +189,11 @@ export function TestimonialDialogs() {
                     sx={{ mr: 5 }}
                     onClick={() => setCreateTestimonialDialog(true)}
                 >
-                {user?.role == "admin" && (
+                    {user?.role == "admin" && (
                         <Tooltip title="Add Testimonial">
-                        <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                            <FontAwesomeIcon icon={faAdd} className="addbtn" />
                         </Tooltip>
-                )}
+                    )}
                 </Button>
             </Box>
 
@@ -204,11 +216,11 @@ export function TestimonialDialogs() {
                                 fullWidth
                                 required
                             />
-                              {warnings?.transaction_id ? (
-                            <Typography component="small" color="error">
-                                {warnings.transaction_id}
-                            </Typography>
-                        ) : null}
+                            {warnings?.transaction_id ? (
+                                <Typography component="small" color="error">
+                                    {warnings.transaction_id}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -219,11 +231,11 @@ export function TestimonialDialogs() {
                                 fullWidth
                                 required
                             />
-                              {warnings?.feedback ? (
-                            <Typography component="small" color="error">
-                                {warnings.feedback}
-                            </Typography>
-                        ) : null}
+                            {warnings?.feedback ? (
+                                <Typography component="small" color="error">
+                                    {warnings.feedback}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box>
                             <Box sx={{ mt: 1 }}>
@@ -235,11 +247,11 @@ export function TestimonialDialogs() {
                                         setRating(newValue);
                                     }}
                                 />
-                                  {warnings?.rating ? (
-                            <Typography component="small" color="error">
-                                {warnings.rating}
-                            </Typography>
-                        ) : null}
+                                {warnings?.rating ? (
+                                    <Typography component="small" color="error">
+                                        {warnings.rating}
+                                    </Typography>
+                                ) : null}
                             </Box>
                         </Box>
 
@@ -249,7 +261,7 @@ export function TestimonialDialogs() {
                                 onClick={() =>
                                     setCreateTestimonialDialog(false)
                                 }
-                                style={{border:"2px solid blue"}}
+                                style={{ border: "2px solid blue" }}
                             >
                                 Close
                             </Button>
@@ -257,7 +269,10 @@ export function TestimonialDialogs() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
-                                style={{ marginLeft: "10px", border:"2px solid green"}}
+                                style={{
+                                    marginLeft: "10px",
+                                    border: "2px solid green",
+                                }}
                             >
                                 Submit
                             </Button>
@@ -280,16 +295,24 @@ export function TestimonialDialogs() {
                         display: !!deleteTestimonialDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setDeleteTestimonialDialog(null)} style={{border: "2px solid blue"}}>
+                    <Button
+                        onClick={() => setDeleteTestimonialDialog(null)}
+                        style={{ border: "2px solid blue" }}
+                    >
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteTestimonial} color="error" style={{border: "2px solid red"}}>
+                    <Button
+                        disabled={loading}
+                        onClick={onDeleteTestimonial}
+                        color="error"
+                        style={{ border: "2px solid red" }}
+                    >
                         Confirm
                     </Button>
                 </DialogActions>
             </Dialog>
             {/* EDIT Testimonial */}
-            <Dialog open={!!editTestimonialDialog} >
+            <Dialog open={!!editTestimonialDialog}>
                 <DialogTitle>Edit Testimonial</DialogTitle>
                 <DialogContent>
                     <Box
@@ -305,19 +328,17 @@ export function TestimonialDialogs() {
                                         feedback: e.target.value,
                                     })
                                 }
-                                value={
-                                    editTestimonialDialog?.feedback ?? ""
-                                }
+                                value={editTestimonialDialog?.feedback ?? ""}
                                 size="small"
                                 label="Feedback"
                                 type="text"
                                 fullWidth
                             />
-                                {warnings?.feedback ? (
-                            <Typography component="small" color="error">
-                                {warnings.feedback}
-                            </Typography>
-                        ) : null}
+                            {warnings?.feedback ? (
+                                <Typography component="small" color="error">
+                                    {warnings.feedback}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Box sx={{ mt: 1 }}>
                             <TextField
@@ -333,11 +354,11 @@ export function TestimonialDialogs() {
                                 type="number"
                                 fullWidth
                             />
-                                {warnings?.rating ? (
-                            <Typography component="small" color="error">
-                                {warnings.rating}
-                            </Typography>
-                        ) : null}
+                            {warnings?.rating ? (
+                                <Typography component="small" color="error">
+                                    {warnings.rating}
+                                </Typography>
+                            ) : null}
                         </Box>
                         <Button
                             id="testimonial-btn"
@@ -349,7 +370,10 @@ export function TestimonialDialogs() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button style={{border: "2px solid lightblue"}} onClick={() => setEditTestimonialDialog(null)}>
+                    <Button
+                        style={{ border: "2px solid lightblue" }}
+                        onClick={() => setEditTestimonialDialog(null)}
+                    >
                         Cancel
                     </Button>
                     <Button
@@ -357,8 +381,8 @@ export function TestimonialDialogs() {
                         onClick={() => {
                             $("#testimonial-btn").trigger("click");
                         }}
-                                     color="success"
-                        style={{border: "2px solid lightgreen"}}
+                        color="success"
+                        style={{ border: "2px solid lightgreen" }}
                     >
                         Update
                     </Button>

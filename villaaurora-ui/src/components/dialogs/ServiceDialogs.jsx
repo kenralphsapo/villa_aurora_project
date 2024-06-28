@@ -178,7 +178,6 @@ export function ServiceDialog() {
         }
     };
 
-
     return (
         <Box id="section2">
             <Box
@@ -194,7 +193,7 @@ export function ServiceDialog() {
                     onClick={() => setCreateServDialog(true)}
                 >
                     <Tooltip title="Add Service">
-                    <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                        <FontAwesomeIcon icon={faAdd} className="addbtn" />
                     </Tooltip>
                 </Button>
             </Box>
@@ -255,8 +254,8 @@ export function ServiceDialog() {
                             <Button
                                 color="info"
                                 onClick={() => setCreateServDialog(false)}
-                                style={{border:"2px solid blue", }} 
-                                >
+                                style={{ border: "2px solid blue" }}
+                            >
                                 Close
                             </Button>
                             <Button
@@ -264,7 +263,10 @@ export function ServiceDialog() {
                                 disabled={loading}
                                 type="submit"
                                 color="success"
-                                style={{border:"2px solid green", marginLeft:"10px"}} 
+                                style={{
+                                    border: "2px solid green",
+                                    marginLeft: "10px",
+                                }}
                             >
                                 Submit
                             </Button>
@@ -287,10 +289,18 @@ export function ServiceDialog() {
                         display: !!deleteServiceDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setServiceDeleteDialog(null) } style={{border: "2px solid blue"}}>
+                    <Button
+                        onClick={() => setServiceDeleteDialog(null)}
+                        style={{ border: "2px solid blue" }}
+                    >
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteService} color="error" style={{border: "2px solid red"}}>
+                    <Button
+                        disabled={loading}
+                        onClick={onDeleteService}
+                        color="error"
+                        style={{ border: "2px solid red" }}
+                    >
                         Confirm
                     </Button>
                 </DialogActions>
@@ -358,7 +368,10 @@ export function ServiceDialog() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button style={{border: "2px solid lightblue"}} onClick={() => setEditServiceDialog(null)}>
+                    <Button
+                        style={{ border: "2px solid lightblue" }}
+                        onClick={() => setEditServiceDialog(null)}
+                    >
                         Cancel
                     </Button>
                     <Button
@@ -367,7 +380,7 @@ export function ServiceDialog() {
                             $("#service-btn").trigger("click");
                         }}
                         color="success"
-                        style={{border: "2px solid lightgreen"}}
+                        style={{ border: "2px solid lightgreen" }}
                     >
                         Update
                     </Button>

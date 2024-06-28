@@ -33,7 +33,7 @@ import { showAllServices } from "../../api/service";
 import { useSelector } from "react-redux";
 
 export function TransactionDialogs() {
-    const user = useSelector((state) => state.auth.user)
+    const user = useSelector((state) => state.auth.user);
     const [transactionRows, setTransactionRows] = useState([]);
     const [createTransactionDialog, setCreateTransactionDialog] =
         useState(false);
@@ -51,17 +51,17 @@ export function TransactionDialogs() {
     const [addId, setAddId] = useState("");
     const [position, setPosition] = useState(false);
 
-     // For  users
-     const [rows, setRows] = useState([]);
-     const [selectedUserId, setSelectedUserId] = useState("");
- 
-     // for rooms   
-     const [roomRows, setRoomRows] = useState([]);
-     const [selectedRoomId, setSelectedRoomId] = useState("");
- 
+    // For  users
+    const [rows, setRows] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState("");
+
+    // for rooms
+    const [roomRows, setRoomRows] = useState([]);
+    const [selectedRoomId, setSelectedRoomId] = useState("");
+
     const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [serviceid, setServiceId] = useState([]);
-   
+
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
         { field: "user_id", headerName: "User ID" },
@@ -133,7 +133,9 @@ export function TransactionDialogs() {
                         setRoomRows([]);
                         setRows([]);
                     } else {
-                        toast.error(res?.message ?? "Transaction creation failed.");
+                        toast.error(
+                            res?.message ?? "Transaction creation failed."
+                        );
                         setWarnings(res?.errors);
                     }
                 })
@@ -143,7 +145,6 @@ export function TransactionDialogs() {
         }
     };
 
-    
     const onAddService = () => {
         const addservice = addId.trim();
         if (addservice !== "") {
@@ -156,27 +157,34 @@ export function TransactionDialogs() {
         setServiceIds(serviceIds.filter((service) => service.id !== id));
     };
 
-
     //  Edit transaction Area
-      const onEditTransaction = (e) => {
+    const onEditTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
             setLoading(true);
-            updateTransaction({
-                user_id: editTransactionDialog.user_id,
-                room_id: editTransactionDialog.room_id,
-                rent_start: editTransactionDialog.rent_start,
-                rent_end: editTransactionDialog.rent_end,
-                service_id: serviceid.map((service) => service.id)
-            }, editTransactionDialog.id,  cookies.AUTH_TOKEN)
+            updateTransaction(
+                {
+                    user_id: editTransactionDialog.user_id,
+                    room_id: editTransactionDialog.room_id,
+                    rent_start: editTransactionDialog.rent_start,
+                    rent_end: editTransactionDialog.rent_end,
+                    service_id: serviceid.map((service) => service.id),
+                },
+                editTransactionDialog.id,
+                cookies.AUTH_TOKEN
+            )
                 .then((res) => {
                     if (res?.success) {
-                        toast.success(res?.message ?? "Transaction updated successfully.");
+                        toast.success(
+                            res?.message ?? "Transaction updated successfully."
+                        );
                         setEditTransactionDialog(null);
                         refreshData();
                         setWarnings({});
                     } else {
-                        toast.error(res?.message ?? "Failed to update transaction.");
+                        toast.error(
+                            res?.message ?? "Failed to update transaction."
+                        );
                         setWarnings(res?.errors);
                     }
                 })
@@ -188,9 +196,7 @@ export function TransactionDialogs() {
 
     const addServiceId = (e) => {
         const value = e.target.value;
-        const service = serviceRows.find(
-            (service) => service.id == value
-        );
+        const service = serviceRows.find((service) => service.id == value);
         if (service) {
             setServiceId([...serviceid, service]);
         }
@@ -202,7 +208,6 @@ export function TransactionDialogs() {
         );
         setServiceId(updatedserviceid);
     };
-
 
     const ServiceRefreshData = () => {
         showAllServices(cookies.AUTH_TOKEN).then((res) => {
@@ -245,7 +250,6 @@ export function TransactionDialogs() {
     useEffect(() => {
         ServiceRefreshData();
     }, []);
-
 
     const onDeleteTransaction = () => {
         if (!loading) {

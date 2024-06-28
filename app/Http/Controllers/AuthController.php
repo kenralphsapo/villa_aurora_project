@@ -41,7 +41,7 @@ class AuthController extends Controller
         ], [
             "password.regex" => "The password must contain at least one letter, one number, and one special character."
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 "ok" => false,
@@ -50,21 +50,21 @@ class AuthController extends Controller
             ], 400);
         }
 
-    
+
         $user = User::create($validator->validated());
         $user->token = $user->createToken("registration_token")->accessToken;
-    
+
         // Send welcome email
         Mail::to($user->email)->send(new WelcomeMail($user));
-    
+
         return response()->json([
             "ok" => true,
             "message" => "Register Successfully!",
             "data" => $user,
         ], 201);
     }
-    
-    
+
+
 
     /**
      * LOGIN
@@ -89,8 +89,10 @@ class AuthController extends Controller
 
         $credentials = $request->only("username", "password");
         // Check if the user can be authenticated using either email or username
-        if (auth()->attempt(["email" => $credentials["username"], "password" => $credentials["password"]]) ||
-            auth()->attempt(["username" => $credentials["username"], "password" => $credentials["password"]])) {
+        if (
+            auth()->attempt(["email" => $credentials["username"], "password" => $credentials["password"]]) ||
+            auth()->attempt(["username" => $credentials["username"], "password" => $credentials["password"]])
+        ) {
             $user = auth()->user();
             $user->token = $user->createToken("api-token")->accessToken;
             return response()->json([
@@ -134,7 +136,7 @@ class AuthController extends Controller
     }
 
 
-        
+
     /**
      * forgotPassword
      *
@@ -148,7 +150,7 @@ class AuthController extends Controller
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'ok' => false,
@@ -156,30 +158,31 @@ class AuthController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-    
+
         $user = User::where('email', $request->email)->first();
-    
-        $token = Str::random(10); 
-    
+
+        $token = Str::random(10);
+
         $user->token = $token;
         $user->save();
 
         Mail::to($user->email)->send(new ResetPasswordMail($user, $token));
-    
+
         return response()->json([
             'ok' => true,
             'message' => 'Password reset instructions sent to your email',
         ]);
     }
-    
-    
+
+
     /**
      * resetPassword
      *
      * @param  mixed $request
      * @return void
      */
-    public function resetPassword(Request $request){
+    public function resetPassword(Request $request)
+    {
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
             'token' => 'required',
@@ -194,8 +197,8 @@ class AuthController extends Controller
         ], [
             "password.regex" => "The password must contain at least one letter, one number, and one special character."
         ]);
-        
-    
+
+
         if ($validator->fails()) {
             return response()->json([
                 'ok' => false,
@@ -203,31 +206,31 @@ class AuthController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-    
+
         $user = User::where('email', $request->email)->where('token', $request->token)->first();
-    
+
         if (!$user) {
             return response()->json([
                 'ok' => false,
                 'message' => 'Invalid email or temporary code',
             ], 400);
         }
-    
+
         $user->update([
             'password',
             'temporary_code' => null,
         ]);
-        
-    
+
+
         return response()->json([
             'ok' => true,
             'message' => 'Password reset successfully',
         ]);
     }
-    
-    
 
-    
+
+
+
 
 
 

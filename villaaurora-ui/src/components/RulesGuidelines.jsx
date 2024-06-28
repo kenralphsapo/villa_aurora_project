@@ -16,13 +16,28 @@ import logo from "../pages/images/logo.jpg";
 export default function RulesGuideLines({ createDialog, setCreateDialog }) {
     return (
         <Dialog open={createDialog} maxWidth="sm" fullWidth>
-            <DialogTitle style={{ background: '#d6a354', color: "white", textAlign: 'center', marginBottom:10 }}>
+            <DialogTitle
+                style={{
+                    background: "#d6a354",
+                    color: "white",
+                    textAlign: "center",
+                    marginBottom: 10,
+                }}
+            >
                 Rules and Guidelines - Villa Aurora Private Resort Swimming Pool
             </DialogTitle>
             <DialogContent>
                 <Grid container spacing={2}>
                     <Grid item xs={12} className="text-center">
-                        <img src={logo} alt="Logo" style={{ maxWidth: '200px', height: 'auto', boxShadow: '2px 2px 4px black' }} />
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            style={{
+                                maxWidth: "200px",
+                                height: "auto",
+                                boxShadow: "2px 2px 4px black",
+                            }}
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <List>
@@ -60,8 +75,14 @@ export default function RulesGuideLines({ createDialog, setCreateDialog }) {
                     </Grid>
                 </Grid>
             </DialogContent>
-            <DialogActions style={{ justifyContent: 'center', paddingBottom: 20 }}>
-                <Button variant="contained" onClick={() => setCreateDialog(false)} style={{ background: '#d6a354', color: 'white' }}>
+            <DialogActions
+                style={{ justifyContent: "center", paddingBottom: 20 }}
+            >
+                <Button
+                    variant="contained"
+                    onClick={() => setCreateDialog(false)}
+                    style={{ background: "#d6a354", color: "white" }}
+                >
                     Close
                 </Button>
             </DialogActions>

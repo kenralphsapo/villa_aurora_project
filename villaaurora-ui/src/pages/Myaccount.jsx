@@ -75,7 +75,7 @@ function Myaccout() {
                         navigate("/");
                         dispatch(login(res.data));
                         removeCookie("AUTH_TOKEN");
-                        window.location.reload()
+                        window.location.reload();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -95,7 +95,6 @@ function Myaccout() {
         e.preventDefault();
         setAccount(false);
     };
-
 
     return (
         <Box>
@@ -280,7 +279,9 @@ function Myaccout() {
                                                     onClick={() =>
                                                         setDeleteDialog(null)
                                                     }
-                                                    style={{border: "2px solid blue"}}
+                                                    style={{
+                                                        border: "2px solid blue",
+                                                    }}
                                                 >
                                                     Cancel
                                                 </Button>
@@ -290,10 +291,11 @@ function Myaccout() {
                                                         setDeletePermanentDialog(
                                                             user.id
                                                         )
-                                                        
                                                     }
                                                     color="error"
-                                                    style={{border:"2px solid red"}}
+                                                    style={{
+                                                        border: "2px solid red",
+                                                    }}
                                                 >
                                                     Confirm
                                                 </Button>
@@ -321,7 +323,9 @@ function Myaccout() {
                                                             disabled={loading}
                                                             onClick={onDelete}
                                                             color="error"
-                                                            style={{border:"2px solid red"}}
+                                                            style={{
+                                                                border: "2px solid red",
+                                                            }}
                                                         >
                                                             Delete Permanently
                                                         </Button>

@@ -99,7 +99,7 @@ class ServiceController extends Controller
             "price" => "sometimes|min:1|max:100000|numeric",
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 "ok" => false,
@@ -107,26 +107,26 @@ class ServiceController extends Controller
                 "errors" => $validator->errors(),
             ], 400);
         }
-    
+
         $validatedData = $validator->validated();
-    
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = $image->getClientOriginalName();
             $image->move(public_path('images'), $imageName);
             $validatedData['image'] = $imageName;
         }
-    
+
         $service->update($validatedData);
-    
+
         return response()->json([
             "ok" => true,
             "message" => "Service has been updated!",
             "data" => $service,
         ], 200);
     }
-    
-    
+
+
     /**
      * DELETE specific user using ID
      * GET: /api/services/{service}

@@ -75,7 +75,7 @@ class UserController extends Controller
         ], 200);
     }
 
-   
+
     /**
      *  Retrieve specific user using ID
      * GET: /api/users/{user}
@@ -84,16 +84,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function show(Request $request, User $user)
-     {
-         
-         return response()->json([
-             "ok" => true,
-             "message" => "User has been retrieved.",
-             "data" => $user,
-         ], 200);
-     }
-     
+    public function show(Request $request, User $user)
+    {
+
+        return response()->json([
+            "ok" => true,
+            "message" => "User has been retrieved.",
+            "data" => $user,
+        ], 200);
+    }
+
 
     /**
      * Update specific user using inputs from request and id from URI
