@@ -107,7 +107,7 @@ export function ServiceDialog() {
         if (!loading) {
             const imageInput = $("#image")[0];
             const imageFile = imageInput.files[0];
-
+            // https://stackoverflow.com/questions/68161053/how-can-i-upload-image-to-database-with-react-image-upload-dependency
             const body = new FormData();
             body.append("name", $("#name").val());
             body.append("price", $("#price").val());

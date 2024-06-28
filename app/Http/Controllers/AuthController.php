@@ -143,6 +143,8 @@ class AuthController extends Controller
      * @param  mixed $request
      * @return void
      * https://stackoverflow.com/questions/23015874/laravel-str-random-or-custom-function
+     * The Str::random method generates a random string of the specified length. This function uses PHP's random_bytes function:
+     * https://laravel.com/docs/11.x/strings
      */
     public function forgotPassword(Request $request)
     {
@@ -220,6 +222,7 @@ class AuthController extends Controller
             'password',
             'temporary_code' => null,
         ]);
+        // remove the token
 
 
         return response()->json([
