@@ -45,31 +45,6 @@ function BookingForm() {
     const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [transactionRows, setTransactionRows] = useState([]);
 
-    if (cookies.AUTH_TOKEN) {
-        const ServicefreshData = () => {
-            showAllServices(cookies.AUTH_TOKEN).then((res) => {
-                if (res?.ok) {
-                    setServiceRows(res.data);
-                } else {
-                    toast.error(res?.message ?? "Failed to fetch services.");
-                }
-            });
-        };
-        useEffect(ServicefreshData, []);
-
-        const RoomrefreshData = () => {
-            showAllRooms(cookies.AUTH_TOKEN).then((res) => {
-                if (res?.ok) {
-                    setRoomRows(res.data);
-                } else {
-                    toast.error(res?.message ?? "Something went wrong.");
-                }
-            });
-        };
-
-        useEffect(RoomrefreshData, []);
-    }
-
     const onCreateTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
@@ -131,6 +106,31 @@ function BookingForm() {
             }
         });
     };
+
+    if (cookies.AUTH_TOKEN) {
+        const ServicefreshData = () => {
+            showAllServices(cookies.AUTH_TOKEN).then((res) => {
+                if (res?.ok) {
+                    setServiceRows(res.data);
+                } else {
+                    toast.error(res?.message ?? "Failed to fetch services.");
+                }
+            });
+        };
+        useEffect(ServicefreshData, []);
+
+        const RoomrefreshData = () => {
+            showAllRooms(cookies.AUTH_TOKEN).then((res) => {
+                if (res?.ok) {
+                    setRoomRows(res.data);
+                } else {
+                    toast.error(res?.message ?? "Something went wrong.");
+                }
+            });
+        };
+
+        useEffect(RoomrefreshData, []);
+    }
     return (
         <section
             className="booking-section section-padding"

@@ -8,6 +8,7 @@ import { Box } from "@mui/material";
 import { useCookies } from "react-cookie";
 
 export default function MyCalendar() {
+    // use of moment =  simplifies working with dates, times, and calendars in React Native applications
     const localizer = momentLocalizer(moment);
     const [events, setEvents] = useState([]);
     const [cookies] = useCookies(["AUTH_TOKEN"]);
