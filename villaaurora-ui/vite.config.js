@@ -4,15 +4,16 @@ import fs from "fs";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        react({
-            include: "**/*.jsx",
-        }),
-    ],
-    server: {
-        https: {
-            key: fs.readFileSync("./localhost.key"),
-            cert: fs.readFileSync("./localhost.crt"),
-        },
+  base: '/BookingManageSys/', // Corrected base URL with ending slash
+  plugins: [
+    react({
+      include: "**/*.jsx",
+    }),
+  ],
+  server: {
+    https: {
+      key: fs.readFileSync("./localhost.key"),
+      cert: fs.readFileSync("./localhost.crt"),
     },
+  },
 });
