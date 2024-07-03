@@ -4,7 +4,7 @@
 
 ## Group 1 (System Analysis and Design)
 
-##To Navigate the Ui React just type 
+## To Navigate the Ui React just type 
 ### cd villaaurora-ui 
 or just go to the villaaurora-ui folder
 
