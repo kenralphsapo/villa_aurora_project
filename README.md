@@ -3,6 +3,12 @@
 # Booking Management System for Villa Aurora Private Resort
 
 ## Group 1 (System Analysis and Design)
+
+##To Navigate the Ui React just type 
+### cd villaaurora-ui 
+or just go to the villaaurora-ui folder
+
+## And to see the complete output just go to the ("finaloutputbranch")
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.0-8892BF.svg)](https://www.php.net/)
 [![React](https://img.shields.io/badge/React-%3E%3D%2018-61DAFB.svg)](https://reactjs.org/)
 [![Blade](https://img.shields.io/badge/Blade-Laravel%20Template%20Engine-orange.svg)](https://laravel.com/docs/blade)
@@ -65,11 +71,4 @@ We welcome contributions from the community. If you'd like to contribute to this
 License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-Acknowledgements
-We would like to thank the following contributors for their valuable input and feedback:
 
-William B Jr. Adornado
-Ken Ralph Sapo
-Sir Jeco Conception
-Sir Mark Elrey De Vera
-Ms Mary Lajato
