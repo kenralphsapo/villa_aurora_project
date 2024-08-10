@@ -33,12 +33,6 @@ class AuthController extends Controller
     
         $user = User::create($validator->validated());
     
-        if ($user->id == 1) {
-            $user = User::find(1);
-            $user->role = 'admin';
-            $user->save();
-        }
-    
         $user->token = $user->createToken("registration_token")->accessToken;
     
         return response()->json([

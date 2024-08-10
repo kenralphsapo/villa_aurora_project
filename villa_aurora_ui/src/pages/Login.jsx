@@ -6,8 +6,7 @@ import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../redux/authSlice";
-import "./css/bootstrap-resort.css";
-import logo from "./images/logo.jpg";
+import images from "../images/index";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -35,7 +34,7 @@ export default function Login() {
 
     return (
         <Box id="bglogin">
-            <img src={logo} alt="Logo" className="custom-logo" />
+            <img src={images.logo} alt="Logo" className="custom-logo" />
             <Typography variant="h1" id="custom-sign">
                 Sign in to Villa Aurora
             </Typography>

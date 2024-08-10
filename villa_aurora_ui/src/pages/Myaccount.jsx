@@ -14,12 +14,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
 
-import logo from "./images/logo.jpg";
-
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import "./css/bootstrap-resort.css";
-import "./css/bootstrap-min.css";
+import images from "../images/index";
 import { destroy, update } from "../api/user";
 import NotFound from "./NotFound";
 
@@ -94,7 +91,7 @@ function Myaccout() {
                             <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                                 <Link to="/" id="link" className="navbar-brand">
                                     <img
-                                        src={logo}
+                                        src={images.logo}
                                         alt="Logo"
                                         className="logo-image img-fluid"
                                     />

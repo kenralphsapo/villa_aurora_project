@@ -1,7 +1,5 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-import "./css/bootstrap-resort.css";
-
 export default function NotFound() {
     return (
         <Box

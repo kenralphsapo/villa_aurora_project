@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../pages/images/logo.jpg";
+
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";

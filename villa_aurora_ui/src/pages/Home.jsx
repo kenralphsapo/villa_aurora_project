@@ -12,20 +12,10 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
-
-import logo from "./images/logo.jpg";
-import bgmockup from "./images/background.jpg";
-import event from "./images/event.jpg";
-import balcony from "./images/balcony.jpg";
-import room from "./images/room.jpg";
-import karaoke from "./images/karaoke.jpg";
-import kiddiepool from "./images/kiddiepool.jpg";
-import billiard from "./images/billiard.jpg";
-import catering from "./images/catering.jpg";
+import images from "../images";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import "./css/bootstrap-resort.css";
-import "./css/bootstrap-min.css";
+
 import {
     faArrowUp,
     faEnvelope,
@@ -136,119 +126,11 @@ function Home() {
                 <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
                     <Navigation logout={logout} toggleDrawer={toggleDrawer} />
                 </Drawer>
-                <Box
-                    id="sidebarMenu"
-                    className="col-md-4 col-lg-2 d-md-block sidebar collapse p-0"
-                >
-                    <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
-                        <Link to="/" id="link" className="navbar-brand">
-                            <img
-                                src={logo}
-                                alt="Logo"
-                                className="logo-image img-fluid"
-                            />
-                            <h5 id="customheader">
-                                Villa Aurora Private Resort
-                            </h5>
-                        </Link>
-                        {user ? (
-                            <Typography variant="h6" className="mt-2">
-                                {user?.username}
-                            </Typography>
-                        ) : null}
-                        <Box id="nav-column" className="nav flex-column">
-                            <Box variant="li" className="nav-item">
-                                <a
-                                    href="#section_1"
-                                    className="nav-link click-scroll text-black"
-                                >
-                                    Home
-                                </a>
-                            </Box>
-
-                            <Box variant="li" className="nav-item">
-                                <a
-                                    href="#section_2"
-                                    className="nav-link click-scroll text-black"
-                                >
-                                    Services
-                                </a>
-                            </Box>
-
-                            <Box variant="li" className="nav-item">
-                                <a
-                                    href="#section_3"
-                                    className="nav-link click-scroll text-black"
-                                >
-                                    Features
-                                </a>
-                            </Box>
-
-                            <Box variant="li" className="nav-item">
-                                <a
-                                    href="#section_4"
-                                    className="nav-link click-scroll text-black"
-                                >
-                                    Price List
-                                </a>
-                            </Box>
-
-                            <Box variant="li" className="nav-item">
-                                <a
-                                    href="#section_5"
-                                    className="nav-link click-scroll text-black"
-                                >
-                                    Contact
-                                </a>
-                            </Box>
-                            {user ? (
-                                <>
-                                    {user?.role == "guest" && (
-                                        <Box variant="li" className="nav-item">
-                                            <Link
-                                                to="/guest"
-                                                className="nav-link click-scroll text-black"
-                                            >
-                                                Myaccount
-                                            </Link>
-                                        </Box>
-                                    )}
-
-                                    {user?.role == "admin" && (
-                                        <Box variant="li" className="nav-item">
-                                            <Link
-                                                to="/admin"
-                                                className="nav-link click-scroll text-black"
-                                            >
-                                                {user?.role}
-                                            </Link>
-                                        </Box>
-                                    )}
-
-                                    <Box variant="li" className="nav-item">
-                                        <Link
-                                            onClick={logout}
-                                            className="nav-link click-scroll text-black"
-                                        >
-                                            Logout
-                                        </Link>
-                                    </Box>
-                                </>
-                            ) : (
-                                <Box variant="li" className="nav-item">
-                                    <Link
-                                        to="/login"
-                                        className="nav-link click-scroll text-black"
-                                    >
-                                        Login
-                                    </Link>
-                                </Box>
-                            )}
-                        </Box>
-                    </Box>
-                </Box>
             </Box>
-            <Box className="col-md-8 ms-sm-auto col-lg-10 p-0">
+
+            {/* Navigation */}
+
+            <Box>
                 <Button
                     style={{
                         position: "fixed",
@@ -306,7 +188,7 @@ function Home() {
 
                     <Box className="custom-block d-lg-flex flex-column justify-content-center align-items-center">
                         <img
-                            src={bgmockup}
+                            src={images.bgmockup}
                             className="custom-block-image"
                             alt="Background"
                         />
@@ -352,7 +234,7 @@ function Home() {
 
                             <Box className="col-lg-5 col-12 custom-block-bg-overlay-wrap me-lg-5 mb-5 mb-lg-0">
                                 <img
-                                    src={catering}
+                                    src={images.catering}
                                     className="custom-block-bg-overlay-image"
                                     alt="Catering"
                                 />
@@ -364,7 +246,7 @@ function Home() {
 
                             <Box className="col-lg-5 col-12 custom-block-bg-overlay-wrap mt-4 mt-lg-0 mb-5 mb-lg-0">
                                 <img
-                                    src={event}
+                                    src={images.event}
                                     className="custom-block-bg-overlay-image"
                                     alt="Event"
                                 />
@@ -426,7 +308,7 @@ function Home() {
                             <Box className="col-lg-6 col-12 mb-4">
                                 <Box className="features-thumb">
                                     <img
-                                        src={room}
+                                        src={images.room}
                                         className="service-image img-fluid"
                                         alt="Event"
                                     />
@@ -440,7 +322,7 @@ function Home() {
                             <Box className="col-lg-6 col-12 mb-4">
                                 <Box className="features-thumb">
                                     <img
-                                        src={karaoke}
+                                        src={images.karaoke}
                                         className="service-image img-fluid"
                                         alt="Event"
                                     />
@@ -454,7 +336,7 @@ function Home() {
                             <Box className="col-lg-6 col-12 mb-4 mb-lg-0">
                                 <Box className="features-thumb">
                                     <img
-                                        src={billiard}
+                                        src={images.billiard}
                                         className="service-image img-fluid"
                                         alt="Event"
                                     />
@@ -468,7 +350,7 @@ function Home() {
                             <Box className="col-lg-6 col-12">
                                 <Box className="features-thumb">
                                     <img
-                                        src={kiddiepool}
+                                        src={images.kiddiepool}
                                         className="service-image img-fluid"
                                         alt="Event"
                                     />
@@ -684,7 +566,7 @@ function Home() {
                             {/* ============================== */}
                             <Box className="col-lg-4 col-12 custom-block-bg-overlay-wrap mt-5 mb-5 mb-lg-0 mt-lg-0 pt-3 pt-lg-0">
                                 <img
-                                    src={balcony}
+                                    src={images.balcony}
                                     className="custom-block-bg-overlay-image img-fluid"
                                     alt="balcony"
                                 />

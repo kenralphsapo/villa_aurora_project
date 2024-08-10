@@ -13,7 +13,6 @@ import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../redux/authSlice";
-import "./css/bootstrap-resort.css";
 
 export default function ForgotPassword() {
     const [username, setUsername] = useState("");

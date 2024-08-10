@@ -4,7 +4,7 @@
 }
 
 /*---------------------------------------
-  NOT FOUND PAGE           
+NOT FOUND PAGE           
 -----------------------------------------*/
 
 #notfoundbg {
@@ -12,14 +12,14 @@
 }
 
 /*---------------------------------------
-  Login              
+Login              
 -----------------------------------------*/
 #bglogin {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url(../images/bglogin.jpg);
+    background-image: url(./images/bglogin.jpg);
     flex-direction: column;
     background-position: center;
     background-size: cover;
@@ -70,8 +70,8 @@
 }
 
 /*---------------------------------------
-  CUSTOMIZATION for LOGIN, REGISTER,
-   ADMIN and MYACCOUNT
+CUSTOMIZATION for LOGIN, REGISTER,
+ADMIN and MYACCOUNT
 -----------------------------------------*/
 #custom-iframe {
     height: 70vh;
@@ -187,7 +187,7 @@
 }
 
 /*---------------------------------------
-  Home Appearance 
+Home Appearance 
 -----------------------------------------*/
 
 #homebg {
@@ -210,7 +210,7 @@
 }
 
 /*---------------------------------------
-  Login and Register UI 
+Login and Register UI 
 -----------------------------------------*/
 
 .login-form {
@@ -288,8 +288,8 @@
 }
 
 /*---------------------------------------
-    TYPOGRAPHY               
-  -----------------------------------------*/
+TYPOGRAPHY               
+-----------------------------------------*/
 
 h2,
 h3,
@@ -370,7 +370,7 @@ strong {
 }
 
 /*---------------------------------------
-  NAVIGATION              
+NAVIGATION              
 -----------------------------------------*/
 
 #navcolumn ul li {
@@ -500,7 +500,7 @@ strong {
 }
 
 /*---------------------------------------
-  SECTION               
+SECTION               
 -----------------------------------------*/
 .section-padding {
     padding: 100px 50px;
@@ -530,10 +530,10 @@ strong {
 }
 
 /*---------------------------------------
-  HERO OR LANDING PAGE
+HERO OR LANDING PAGE
 -----------------------------------------*/
 .hero-section {
-    background-image: url(../images/background.jpg);
+    background-image: url(./images/background.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -608,7 +608,7 @@ strong {
 }
 
 /*---------------------------------------
-  CUSTOM BLOCK BACKGROUND OVERLAY               
+CUSTOM BLOCK BACKGROUND OVERLAY               
 -----------------------------------------*/
 .custom-block-bg-overlay-wrap {
     background: #d6a354;
@@ -635,7 +635,7 @@ strong {
 }
 
 /*---------------------------------------
-  CUSTOM BUTTON               
+CUSTOM BUTTON               
 -----------------------------------------*/
 .custom-btn {
     background: #c12828;
@@ -670,7 +670,7 @@ strong {
 }
 
 /*---------------------------------------
-  SERVICE           
+SERVICE           
 -----------------------------------------*/
 .service-section h6 {
     color: #c12828;
@@ -698,10 +698,10 @@ strong {
 }
 
 /*---------------------------------------
-  MOCKUP        
+MOCKUP        
 -----------------------------------------*/
 .mockup-section {
-    background-image: url(../images/background.jpg);
+    background-image: url(./images/background.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -726,7 +726,7 @@ strong {
 }
 
 /*---------------------------------------
-  FEATURES            
+FEATURES            
 -----------------------------------------*/
 .features-thumb {
     border-radius: 20px;
@@ -776,10 +776,10 @@ strong {
 }
 
 /*---------------------------------------
-  BOOKING               
+BOOKING               
 -----------------------------------------*/
 .booking-section {
-    background-image: url(../images/background.jpg);
+    background-image: url(./images/background.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -793,7 +793,7 @@ strong {
 }
 
 /*---------------------------------------
-  CUSTOM FORM               
+CUSTOM FORM               
 -----------------------------------------*/
 .custom-form .form-control {
     color: #717275;
@@ -828,7 +828,7 @@ strong {
 }
 
 /*---------------------------------------
-  CONTACT               
+CONTACT               
 -----------------------------------------*/
 
 .iframe-container {
@@ -894,7 +894,7 @@ strong {
 }
 
 /*---------------------------------------
-  SOCIAL ICON               
+SOCIAL ICON               
 -----------------------------------------*/
 .social-icon {
     margin: 0;
@@ -931,7 +931,7 @@ strong {
 }
 
 /*---------------------------------------
-  RESPONSIVE STYLES               
+RESPONSIVE STYLES               
 -----------------------------------------*/
 @media screen and (max-width: 1200px) {
     h1 {
@@ -1067,8 +1067,8 @@ strong {
     .close-btn {
         /* background-color: red; */
         /* float: inline-end;
-        padding: 1px 10px;
-        display: block; */
+    padding: 1px 10px;
+    display: block; */
         position: fixed;
         right: 0;
         top: 0;
