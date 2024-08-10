@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'email'=>'admin@gmail.com',
             'mobile'=>'09296407470',
             'role'=>'admin',
-            'image'=>'default.png'
         ]);
     }
 }

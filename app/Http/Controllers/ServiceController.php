@@ -7,129 +7,76 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    //CRUD on Services Table
+    /**
+     * CREATE a service from request
+     * POST: /api/services
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addService(Request $request) {
+        $validator = validator($request->all(), [
+            "name" => "required|min:1|max:50|string",
+            "price" => "required|min:1|max:100000|numeric"
+        ]);
 
-/**
- * CREATE a user data from request
- * POST: /api/services
- * @param Request
- * @return \Illuminate\Http\Response
- */
+        if ($validator->fails()) {
+            return $this->BadRequest($validator);
+        }
 
- public function addService(Request $request)
- {
-     $validator = validator($request->all(), [
-         "name" => "required|min:1|max:50|string",
-         "price" => "required|min:1|max:100000|numeric"
-     ]);
- 
- 
-     if($validator->fails()){
-         return response()->json([
-         "ok" => false,
-         "message" => "Service Creation failed.",
-         "errors" => $validator->errors()
-         ], 400);
-     }
- //error 400, response status code, 200 (ok) 201 (created) 400 (bad request/client error)
- 
-     $service = Service::create($validator->validated());
-     //$service->service; show service when inserting
- 
-     return response()->json([
-         "ok" => true,
-         "message" => "Service has been created!",
-         "data" => $service
-         ], 201);
- }
- 
- 
+        $service = Service::create($validator->validated());
 
-/**
- * RETRIEVE all services
- * GET: /api/services
- * @return \Illuminate\Http\Response
- */
-
- public function showAllServices(){
-    return response()->json([
-    "ok" => true,
-    "message" => "All Services has been retrieved",
-    "data" => Service::all()
-    ]);
-}
-
-
-
-//Retrieve specific service using ID
-/**
- * GET: /api/services/{service}
- * @param Service
- * @return \Illuminate\Http\Response
- */
-
-
- public function showService(Service $service){
-    return response()->json([
-        "ok" =>true,
-        "message" => "Service has been retrieved.",
-        "data" => $service
-    ]);
+        return $this->Ok($service, "Service has been created!");
     }
 
-
-/**
-    * PATCH: /api/services/{service}
-    * @param Request
-    * @param Service
-    * @return \Illuminate\Http\Response
-    */
-
-    public function updateService(Request $request, Service $service){
-            $validator = validator($request->all(), [
-                "name" => "sometimes|min:1|max:50|unique:services|string",
-                "price" => "sometimes|min:1|max:100000|numeric"
-            ]);
-        
-            if($validator->fails()){
-                return response()->json([
-                    "ok" => false,
-                    "message" => "Service Update failed.",
-                    "errors" => $validator->errors()
-                ], 400);
-            }
-        
-            // $service->update($request->only(['name', 'price']));
-            $service->update($validator->validated());
-            return response()->json([
-                "ok" => true,
-                "message" => "Service has been updated!",
-                "data" => $service
-            ], 200);
-        
+    /**
+     * RETRIEVE all services
+     * GET: /api/services
+     * @return \Illuminate\Http\Response
+     */
+    public function showAllServices() {
+        return $this->Ok(Service::all(), "All Services have been retrieved");
     }
 
-
-
-
-//DELETE specific user using ID
-/**
- * GET: /api/services/{service}
- * @param Service
- * @return \Illuminate\Http\Response
- */
-
-
- public function deleteService(Service $service){
-    $service->delete();
-    return response()->json([
-        "ok" =>true,
-        "message" => "Service has been deleted.",
-        "data" => $service
-    ]);
+    /**
+     * RETRIEVE specific service using ID
+     * GET: /api/services/{service}
+     * @param Service $service
+     * @return \Illuminate\Http\Response
+     */
+    public function showService(Service $service) {
+        return $this->Ok($service, "Service has been retrieved.");
     }
 
+    /**
+     * UPDATE a service using request data
+     * PATCH: /api/services/{service}
+     * @param Request $request
+     * @param Service $service
+     * @return \Illuminate\Http\Response
+     */
+    public function updateService(Request $request, Service $service) {
+        $validator = validator($request->all(), [
+            "name" => "sometimes|min:1|max:50|unique:services|string",
+            "price" => "sometimes|min:1|max:100000|numeric"
+        ]);
 
+        if ($validator->fails()) {
+            return $this->BadRequest($validator);
+        }
 
+        $service->update($validator->validated());
 
+        return $this->Ok($service, "Service has been updated!");
+    }
+
+    /**
+     * DELETE specific service using ID
+     * DELETE: /api/services/{service}
+     * @param Service $service
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteService(Service $service) {
+        $service->delete();
+        return $this->Ok($service, "Service has been deleted.");
+    }
 }

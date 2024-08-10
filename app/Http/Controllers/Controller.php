@@ -7,8 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 abstract class Controller
 {
     use AuthorizesRequests, ValidatesRequests;
-    // RESPONSES
-    // the number codes works now in react native
+    
     protected function BadRequest($validator){
         return response()->json(['ok' => false, 'errors' => $validator->errors()], 400);
     }

@@ -10,28 +10,25 @@ use Illuminate\Support\Facades\Route;
 //POST: http://localhost:8000/api/register
     Route::post("/register", [App\Http\Controllers\AuthController::class,'register']);
 //User Login
-//POST: http://localhost:8000/api/login
+//POST: http://localhost:8000/api/login 
     Route::post("/login", [App\Http\Controllers\AuthController::class,'login']);
 //User CheckToken
-//POST: http://localhost:8000/api/checkToken
+//POST: http://localhost:8000/api/checkToken 
     Route::middleware("auth:api")->get("/checkToken", [App\Http\Controllers\AuthController::class,"checkToken"]);
 
 
 //Users
 Route::prefix("users")->middleware("auth:api")->group(function(){
-    //POST: http://localhost:8000/api/users Register
+    //POST: http://localhost:8000/api/users Add User
     Route::post("/", [App\Http\Controllers\UserController::class, 'store']);
 
-    //GET: http://localhost:8000/api/users  showAll
-    Route::get("/", [App\Http\Controllers\UserController::class, 'index']);
+    //GET: http://localhost:8000/api/users  show All Users
+    Route::get("/", [App\Http\Controllers\UserController::class, 'retrieve']);
 
-    //GET: http://localhost:8000/api/users/{user} showSpecific
-    Route::get("/{user}", [App\Http\Controllers\UserController::class, 'show']);
-
-    //PATCH: http://localhost:8000/api/users/{user}
+    //PATCH: http://localhost:8000/api/users/{user} update User
     Route::post("/{user}", [App\Http\Controllers\UserController::class, 'update']);
 
-    //DELETE: http://localhost:8000/api/users/{user}
+    //DELETE: http://localhost:8000/api/users/{user} delete User
     Route::delete("/{user}", [App\Http\Controllers\UserController::class, 'destroy']);
 
 });

@@ -8,98 +8,67 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
-     * LOGIN
-     * POST: /api/login
-     * @param Request
-     * @param \Illuminate\Http\Response
+     * REGISTER a new user
+     * POST: /api/register
+     * @param Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function register(Request $request){
+    public function register(Request $request) {
         $validator = validator($request->all(), [
             "username" => "required|min:4|string|unique:users|max:32",
             "password" => "required|min:8|max:32|string|confirmed",
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin",
-            "image" => "sometimes|min:0|string",
+        
         ]);
-    
-        if($validator->fails()){
-            return response()->json([
-                "ok" => false,
-                "message" => "Request didn't pass the validation.",
-                "errors" => $validator->errors()
-            ], 400);
+
+        if ($validator->fails()) {
+            return $this->BadRequest($validator);
         }
-    
-        $user = User::create($validator->validated());
-    
-        $user->token = $user->createToken("registration_token")->accessToken;
-    
-        return response()->json([
-            "ok" => true,
-            "message" => "Register Successfully!",
-            "data" => $user
-        ], 201);
-    }
-    
 
-    public function login(Request $request){
+        $user = User::create($validator->validated());
+        $user->token = $user->createToken("registration_token")->accessToken;
+
+        return $this->Ok($user, "Register Succesfully!");
+    }
+
+    /**
+     * LOGIN a user
+     * POST: /api/login
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request) {
         $validator = validator($request->all(), [
-            'username'=>"required ",
-            'password'=>"required"
+            'username' => "required",
+            'password' => "required"
         ]);
 
-        if($validator->fails()){
-            return response()->json([
-            "ok" => false,
-            "message"=>"Request didn't pass validation",
-            "errors"=>$validator->errors()
-        ], 400);
+        if ($validator->fails()) {
+            return $this->BadRequest($validator);
+        }
+
+        $credentials = $request->only("username", "password");
+
+        if (auth()->attempt(["email" => $credentials["username"], "password" => $credentials["password"]]) ||
+            auth()->attempt(["username" => $credentials["username"], "password" => $credentials["password"]])) {
+            $user = auth()->user();
+            $user->token = $user->createToken("api-token")->accessToken;
+
+            return $this->Ok($user, "Login Success");
+        }
+
+        return $this->Unauthorized("Incorrect username or password");
     }
 
-    $credentials = $request->only("username", "password");
-    // Check if the user can be authenticated using either email or username
-    if(auth()->attempt(["email" => $credentials["username"], "password" => $credentials["password"]]) ||
-       auth()->attempt(["username" => $credentials["username"], "password" => $credentials["password"]])) {
-        $user = auth()->user();
-        $user->token = $user->createToken("api-token")->accessToken;
-        return response()->json([
-            "ok" => true,
-            "message" => "Login Success",
-            "data" => $user
-        ], 200);
-    }
-    
-    // if(auth()->attempt($validator->validated())){
-    //     $user=auth()->user();
-    //     $user->token = $user->createToken("api-token")->accessToken;
-    //     return response()->json([
-    //         "ok" => true,
-    //         "message" =>"Login Success",
-    //         "data" => $user
-    //     ], 200);
-        
-    //     }
-        
-        // Fail message
-        return response()->json([
-            "ok"=>false,
-            "message"=>"Incorrect username or password",
-        ], 401);
-}
     /**
      * Retrieve the user info using bearer token
      * GET: /api/checkToken
-     * @param Request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    
-     public function checkToken(Request $request){
-        return response()->json([
-            "ok" => true,
-            "message"=>"User info has been retrieved",
-            "data"=> $request->user()
-        ], 200);
+    public function checkToken(Request $request) {
+        return $this->Ok($request->user(), "User info has been retrieved");
     }
-
 }
