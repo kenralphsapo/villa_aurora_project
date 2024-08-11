@@ -1,7 +1,7 @@
 import { url } from "./configuration";
 
 export const index = async (token) => {
-    const response = await fetch(`${url}/users`, {
+    const response = await fetch(`${url}/users/retrieveUser`, {
         method: "GET",
         headers: {
             Accept: "application/json",
@@ -13,7 +13,7 @@ export const index = async (token) => {
 };
 
 export const store = async (body, token) => {
-    const response = await fetch(`${url}/users`, {
+    const response = await fetch(`${url}/users/insertUser`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -27,7 +27,7 @@ export const store = async (body, token) => {
 };
 
 export const destroy = async (id, token) => {
-    const response = await fetch(`${url}/users/${id}?_method=DELETE`, {
+    const response = await fetch(`${url}/users/deleteUser`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -39,7 +39,7 @@ export const destroy = async (id, token) => {
 };
 
 export const update = async (body, id, token) => {
-    const response = await fetch(`${url}/users/${id}?_method=PATCH`, {
+    const response = await fetch(`${url}/users/updateUser`, {
         method: "POST",
         headers: {
             Accept: "application/json",

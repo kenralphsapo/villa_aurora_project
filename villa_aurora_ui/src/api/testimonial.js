@@ -1,7 +1,7 @@
 import { url } from "./configuration";
 
 export const showAllTestimonials = async () => {
-    const response = await fetch(`${url}/testimonials`, {
+    const response = await fetch(`${url}/testimonials/retrieveTestimonial`, {
         method: "GET",
     });
 
@@ -9,7 +9,7 @@ export const showAllTestimonials = async () => {
 };
 
 export const updateTestimonial = async (body, id) => {
-    const response = await fetch(`${url}/testimonials/${id}?_method=PATCH`, {
+    const response = await fetch(`${url}/testimonials/updateTestimonial`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export const updateTestimonial = async (body, id) => {
 };
 
 export const deleteTestimonial = async (id) => {
-    const response = await fetch(`${url}/testimonials/${id}?_method=DELETE`, {
+    const response = await fetch(`${url}/testimonials/deleteTestimonial`, {
         method: "POST",
     });
 

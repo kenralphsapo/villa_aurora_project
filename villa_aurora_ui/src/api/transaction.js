@@ -1,7 +1,7 @@
 import { url } from "./configuration";
 
 export const showAllTransactions = async () => {
-    const response = await fetch(`${url}/transactions`, {
+    const response = await fetch(`${url}/transactions/retrieveTransaction`, {
         method: "GET",
     });
 
@@ -9,7 +9,7 @@ export const showAllTransactions = async () => {
 };
 
 export const updateTransaction = async (body, id) => {
-    const response = await fetch(`${url}/transactions/${id}?_method=PATCH`, {
+    const response = await fetch(`${url}/transactions/updateTransaction`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const updateTransaction = async (body, id) => {
 };
 
 export const deleteTransaction = async (id) => {
-    const response = await fetch(`${url}/transactions/${id}?_method=DELETE`, {
+    const response = await fetch(`${url}/transactions/deleteTransaction`, {
         method: "POST",
     });
 

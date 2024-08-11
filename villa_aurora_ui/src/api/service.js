@@ -1,7 +1,7 @@
 import { url } from "./configuration";
 
 export const showAllServices = async () => {
-    const response = await fetch(`${url}/services`, {
+    const response = await fetch(`${url}/services/retrieveService`, {
         method: "GET",
     });
 
@@ -9,7 +9,7 @@ export const showAllServices = async () => {
 };
 
 export const addService = async (body) => {
-    const response = await fetch(`${url}/services`, {
+    const response = await fetch(`${url}/services/insertService`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export const addService = async (body) => {
 };
 
 export const updateService = async (body, id) => {
-    const response = await fetch(`${url}/services/${id}?_method=PATCH`, {
+    const response = await fetch(`${url}/services/updateService`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export const updateService = async (body, id) => {
 };
 
 export const deleteService = async (id) => {
-    const response = await fetch(`${url}/services/${id}?_method=DELETE`, {
+    const response = await fetch(`${url}/servicesdeleteService`, {
         method: "POST",
     });
 

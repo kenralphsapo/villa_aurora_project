@@ -3,14 +3,14 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import images from "../images/index";
+import images from "../utils/index";
 
 export default function Navigation({ toggleDrawer, logout }) {
     const user = useSelector((state) => state.auth.user);
     return (
         <Box id="sidebarMenu">
             <button className="close-btn" id="closeBtn" onClick={toggleDrawer}>
-                &#10006;
+                <i className="fas fa-times"></i>
             </button>
             <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                 <Link to="/" id="link" className="navbar-brand">
@@ -87,7 +87,7 @@ export default function Navigation({ toggleDrawer, logout }) {
                                 </Box>
                             )}
 
-                            {user?.role == "admin" && (
+                            {user?.role !== "admin" && (
                                 <Box variant="li" className="nav-item">
                                     <Link
                                         to="/admin"

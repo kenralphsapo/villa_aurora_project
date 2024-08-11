@@ -1,7 +1,7 @@
 import { url } from "./configuration";
 
 export const showAllRooms = async () => {
-    const response = await fetch(`${url}/rooms`, {
+    const response = await fetch(`${url}/rooms/retrieveRoom`, {
         method: "GET",
     });
 
@@ -9,7 +9,7 @@ export const showAllRooms = async () => {
 };
 
 export const addRoom = async (body) => {
-    const response = await fetch(`${url}/rooms`, {
+    const response = await fetch(`${url}/rooms/insertRoom`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -21,7 +21,7 @@ export const addRoom = async (body) => {
 };
 
 export const updateRoom = async (body, id) => {
-    const response = await fetch(`${url}/rooms/${id}?_method=PATCH`, {
+    const response = await fetch(`${url}/rooms/updateRoom`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export const updateRoom = async (body, id) => {
 };
 
 export const deleteRoom = async (id) => {
-    const response = await fetch(`${url}/rooms/${id}?_method=DELETE`, {
+    const response = await fetch(`${url}/rooms/deleteRoom`, {
         method: "POST",
     });
 

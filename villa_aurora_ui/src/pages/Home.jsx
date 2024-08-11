@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-    Box,
-    Typography,
-    Button,
-    Grid,
-    TextField,
-    TextareaAutosize,
-    Autocomplete,
-    Drawer,
-} from "@mui/material";
+import { Box, Typography, Button, Drawer } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import checkAuth from "../hoc/checkAuth";
-import images from "../images";
+import images from "../utils/index";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 
@@ -24,18 +15,13 @@ import {
     faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { showAllServices } from "../api/service";
-import { showAllRooms } from "../api/room";
-import Navigation from "../components/Navigation";
+import Navigation from "../../src/components/Navigation";
 
 function Home() {
     const user = useSelector((state) => state.auth.user);
     const [cookies, setCookie, removeCookie] = useCookies();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const [selectedService, setSelectedService] = useState(null);
-    const [serviceRows, setServiceRows] = useState([]);
 
     const logout = () => {
         removeCookie("AUTH_TOKEN");

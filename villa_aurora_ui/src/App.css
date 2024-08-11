@@ -394,6 +394,8 @@ NAVIGATION
     overflow-y: auto;
     text-align: center;
     position: relative;
+    background: #d6a354;
+    padding: 10px;
 }
 
 .navbar {
@@ -435,6 +437,21 @@ NAVIGATION
     width: 55px;
     height: 55px;
     outline: none;
+}
+
+.close-btn {
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 999;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 25px;
+    margin: 5px;
+}
+.close-btn:hover {
+    background-color: #bc840c;
 }
 
 .navbar-toggler:focus {
@@ -1059,17 +1076,6 @@ RESPONSIVE STYLES
 
     #sidebarMenu {
         background-color: #d6a354;
-    }
-
-    .close-btn {
-        /* background-color: red; */
-        /* float: inline-end;
-    padding: 1px 10px;
-    display: block; */
-        position: fixed;
-        right: 0;
-        top: 0;
-        z-index: 999;
     }
 
     #custom-iframe {

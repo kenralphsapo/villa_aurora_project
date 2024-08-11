@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../redux/authSlice";
-import images from "../images/index";
+import images from "../utils/index";
 
 export default function Login() {
     const [username, setUsername] = useState("");

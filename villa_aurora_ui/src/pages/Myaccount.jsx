@@ -16,7 +16,7 @@ import checkAuth from "../hoc/checkAuth";
 
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import images from "../images/index";
+import images from "../utils/index";
 import { destroy, update } from "../api/user";
 import NotFound from "./NotFound";
 
