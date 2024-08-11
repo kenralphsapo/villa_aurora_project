@@ -16,7 +16,7 @@ class AuthController extends Controller
     public function register(Request $request) {
         $validator = validator($request->all(), [
             "username" => "required|min:4|string|unique:users|max:32",
-            "password" => "required|min:8|max:32|string|confirmed",
+            "password" => "required|min:8|max:32|string|confirmed|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/",
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin",
@@ -70,5 +70,10 @@ class AuthController extends Controller
      */
     public function checkToken(Request $request) {
         return $this->Ok($request->user(), "User info has been retrieved");
+    }
+
+    public function revokeToken(Request $request){
+        $request->user()->token()->revoke();
+        return $this->Ok([],"Token has been revoked!");
     }
 }

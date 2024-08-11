@@ -10,8 +10,14 @@ Route::post("/register", [App\Http\Controllers\AuthController::class, 'register'
 Route::post("/login", [App\Http\Controllers\AuthController::class, 'login']); 
 // URL: POST http://localhost:8000/api/login - User login
 
-Route::middleware("auth:api")->get("/checkToken", [App\Http\Controllers\AuthController::class, "checkToken"]); 
-// URL: GET http://localhost:8000/api/checkToken - Check token validity (requires authentication)
+Route::middleware(['auth:api'])->group(function(){
+    Route::get('checkToken',[App\Http\Controllers\AuthController::class,'checkToken']);
+    // URL: GET http://localhost:8000/api/checkToken - Check token validity (requires authentication)
+    Route::post('revokeToken',[App\Http\Controllers\AuthController::class,'revokeToken']);
+    // URL: POST http://localhost:8000/api/revokeToken - Revoke token (requires authentication)
+});
+
+
 
 // User Routes
 Route::prefix("users")->group(function() {
