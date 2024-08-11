@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Room;
@@ -12,12 +11,13 @@ class TransactionController extends Controller
 {
     /**
      * CREATE a transaction from request
-     * POST: /api/transactions
+     * POST: /api/transactions/insertTransaction
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function addTransaction(Request $request) {
-        $validator = Validator::make($request->all(), [
+        $data = $request->all();
+        $validator = validator($data, [
             'user_id' => 'required|exists:users,id',
             'room_id' => 'sometimes|exists:rooms,id',
             'rent_start' => 'required|date|date_format:Y-m-d',
@@ -47,11 +47,11 @@ class TransactionController extends Controller
 
         $transaction = Transaction::create($transaction_input);
 
-        $existingBooking = Transaction::where('rent_start', $request->rent_start)
-            ->where('rent_start', '<=', $request->rent_start)
-            ->where('rent_end', '>=', $request->rent_end)
-            ->where('room_id', '!=', $request->room_id)
-            ->where('id', '!=', $transaction->id)
+        $existingBooking = Transaction::where('rent_start', $data)
+            ->where('rent_start', '<=', $data)
+            ->where('rent_end', '>=', $data)
+            ->where('room_id', '!=', $data)
+            ->where('id', '!=', $data)
             ->first();
 
         if ($existingBooking) {
@@ -69,7 +69,7 @@ class TransactionController extends Controller
 
     /**
      * RETRIEVE all transactions
-     * GET: /api/transactions
+     * GET: /api/transactions/retrieveTransaction
      * @return \Illuminate\Http\Response
      */
     public function showAllTransactions() {
@@ -78,13 +78,15 @@ class TransactionController extends Controller
     }
 
     /**
-     * PATCH: /api/transactions/{transaction}
+     * PATCH: /api/transactions/updateTransaction
      * @param Request $request
      * @param Transaction $transaction
      * @return \Illuminate\Http\Response
      */
-    public function updateTransaction(Request $request, Transaction $transaction) {
-        $validator = Validator::make($request->all(), [
+    public function updateTransaction(Request $request) {
+        $data = $request->all();
+        $validator = validator($data, [
+            'id' => 'required|exists:transactions,id',
             'user_id' => 'sometimes|exists:users,id',
             'room_id' => 'sometimes|exists:rooms,id',
             'room_price' => 'sometimes|min:1|max:100000|numeric',
@@ -98,9 +100,11 @@ class TransactionController extends Controller
             return $this->BadRequest($validator);
         }
 
+        $transaction = Transaction::find($data['id']);
         $validated = $validator->validated();
         $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
         $room = Room::find($validated["room_id"]);
+        
         $transaction_input["room_price"] = $room->price;
 
         $transaction->update($transaction_input);
@@ -114,24 +118,28 @@ class TransactionController extends Controller
         return $this->Ok($transaction, 'Transaction updated successfully');
     }
 
-    /**
-     * RETRIEVE a specific transaction using ID
-     * GET: /api/transactions/{transaction}
-     * @param Transaction $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function showTransaction(Transaction $transaction) {
-        return $this->Ok($transaction, "Transaction has been retrieved.");
-    }
 
     /**
      * DELETE a specific transaction using ID
-     * DELETE: /api/transactions/{transaction}
+     * DELETE: /api/transactions/deleteTransaction
      * @param Transaction $transaction
      * @return \Illuminate\Http\Response
      */
-    public function deleteTransaction(Transaction $transaction) {
-        $transaction->delete();
-        return $this->Ok($transaction, "Transaction has been deleted.");
+    
+    public function deleteTransaction(Request $request){
+        $data = $request->all();
+        $validator = validator($data, [
+            'id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->BadRequest($validator);
+        }
+
+        if(Transaction::where('id',$data['id'])->delete()){
+            return $this->Ok("","Transaction is deleted!");
+        }
+
+    return $this->Specific("Transaction Deletion failed!");
     }
 }

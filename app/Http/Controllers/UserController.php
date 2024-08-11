@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     /**
      * CREATE a user data from request
-     * POST: /api/users
+     * POST: /api/users/insertUser
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -21,10 +21,6 @@ class UserController extends Controller
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin"
         ]);
-
-        if ($request->user()->role !== "admin") {
-            unset($validator->rules()['role']);
-        }
 
         if ($validator->fails()) {
             return $this->BadRequest($validator);
@@ -48,40 +44,70 @@ class UserController extends Controller
         return $this->Ok($users, "Retrieved Users!");
     }
 
+
     /**
-     * Update specific user using inputs from request and id from URI
-     * PATCH: /api/users/{user}
-     * @param Request $request
-     * @param User $user
+     * UPDATE a user data from request
+     * PATCH/PUT: /api/users/updateUser
+     * 
+     * @param Request $request The request containing user data to be updated
+     * @throws \Exception If the update operation fails
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user) {
-        $validator = validator($request->all(), [
-            "username" => "sometimes|min:4|max:32|unique:users,username," . $user->id,
-            "password" => "sometimes|min:8|max:32|string|confirmed",
-            "mobile" => "sometimes|min:11|max:13|phone:PH",
-            "email" => "sometimes|email|max:64|unique:users,email," . $user->id,
-            "role" => "sometimes|in:guest,scheduler,admin"
+    public function update(Request $request){
+        $data = $request->all();
+    
+        $validator = validator($data, [
+            'id' => 'required',
+            'username' => 'required',
+            'password' => 'required|confirmed', 
+            'email' => 'required|email',
+            'mobile' => 'required',
+            'role' => 'required'
+        ]);
+    
+        if($validator->fails()){
+            return $this->BadRequest($validator);
+        }
+    
+        try {
+            User::where($data['id']); 
+            $user->update([
+                'username' => $data['username'],
+                'password' => $data['password'], 
+                'email' => $data['email'],
+                'mobile' => $data['mobile'],
+                'role' => $data['role']
+            ]);
+    
+            return $this->Ok($data, "User has been updated!");
+        } catch (\Exception $e) {
+            return $this->Specific("", "User Update Failed!");
+        }
+    }
+    
+
+    /**
+     * A description of the entire PHP function.
+     *
+     * @param Request $request The request containing user data to be updated
+     * @throws \Exception If the update operation fails
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request){
+        $data = $request->all();
+        $validator = validator($data, [
+            'id' => 'required',
         ]);
 
-        if ($validator->fails()) {
+        if($validator->fails()){
             return $this->BadRequest($validator);
         }
 
-        $user->update($validator->validated());
+        //delete function can be inside an if statement
+        if(User::where('id',$data['id'])->delete()){
+            return $this->Ok("","User is deleted!");
+        }
 
-        return $this->Ok($user, "User has been updated!");
-    }
-
-    /**
-     * DELETE specific user using ID
-     * DELETE: /api/users/{user}
-     * @param Request $request
-     * @param User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, User $user) {
-        $user->delete();
-        return $this->Ok($user, "User has been deleted.");
+        return $this->Specific("User Deletion failed!");
     }
 }

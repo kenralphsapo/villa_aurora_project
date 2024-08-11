@@ -38,45 +38,63 @@ class ServiceController extends Controller
     }
 
     /**
-     * RETRIEVE specific service using ID
-     * GET: /api/services/{service}
-     * @param Service $service
-     * @return \Illuminate\Http\Response
-     */
-    public function showService(Service $service) {
-        return $this->Ok($service, "Service has been retrieved.");
-    }
-
-    /**
      * UPDATE a service using request data
-     * PATCH: /api/services/{service}
+     * PATCH: /api/services/updateService
      * @param Request $request
      * @param Service $service
      * @return \Illuminate\Http\Response
      */
-    public function updateService(Request $request, Service $service) {
-        $validator = validator($request->all(), [
-            "name" => "sometimes|min:1|max:50|unique:services|string",
-            "price" => "sometimes|min:1|max:100000|numeric"
+    public function updateService(Request $request){
+        $data = $request->all();
+    
+        $validator = validator($data, [
+            'id' => 'required|exists:services,id',
+            'name' => 'required',
+            'price' => 'required|numeric', 
         ]);
-
-        if ($validator->fails()) {
+    
+        if($validator->fails()){
             return $this->BadRequest($validator);
         }
-
-        $service->update($validator->validated());
-
-        return $this->Ok($service, "Service has been updated!");
+    
+        try {
+            $service = Service::find($data['id']);
+        
+            if (!$service) {
+                return $this->Specific("", "Service not found!");
+            }
+            $service->update([
+                'name' => $data['name'],
+                'price' => $data['price'],
+            ]);
+    
+            return $this->Ok($data, "Service has been updated!");
+        } catch (\Exception $e) {
+            return $this->Specific("", "Service Update Failed! Error: " . $e->getMessage());
+        }
     }
-
+    
     /**
      * DELETE specific service using ID
      * DELETE: /api/services/{service}
      * @param Service $service
      * @return \Illuminate\Http\Response
      */
-    public function deleteService(Service $service) {
-        $service->delete();
-        return $this->Ok($service, "Service has been deleted.");
+
+    public function deleteService(Request $request){
+        $data = $request->all();
+        $validator = validator($data, [
+            'id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->BadRequest($validator);
+        }
+
+        if(Service::where('id',$data['id'])->delete()){
+            return $this->Ok("","Service is deleted!");
+        }
+
+        return $this->Specific("Service Deletion failed!");
     }
 }

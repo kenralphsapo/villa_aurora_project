@@ -3,110 +3,87 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-//create Route:
-//is case sensitive, must use proper casing
+// Authentication Routes
+Route::post("/register", [App\Http\Controllers\AuthController::class, 'register']); 
+// URL: POST http://localhost:8000/api/register - User registration
 
-//User Register
-//POST: http://localhost:8000/api/register
-    Route::post("/register", [App\Http\Controllers\AuthController::class,'register']);
-//User Login
-//POST: http://localhost:8000/api/login 
-    Route::post("/login", [App\Http\Controllers\AuthController::class,'login']);
-//User CheckToken
-//POST: http://localhost:8000/api/checkToken 
-    Route::middleware("auth:api")->get("/checkToken", [App\Http\Controllers\AuthController::class,"checkToken"]);
+Route::post("/login", [App\Http\Controllers\AuthController::class, 'login']); 
+// URL: POST http://localhost:8000/api/login - User login
 
+Route::middleware("auth:api")->get("/checkToken", [App\Http\Controllers\AuthController::class, "checkToken"]); 
+// URL: GET http://localhost:8000/api/checkToken - Check token validity (requires authentication)
 
-//Users
-Route::prefix("users")->middleware("auth:api")->group(function(){
-    //POST: http://localhost:8000/api/users Add User
-    Route::post("/", [App\Http\Controllers\UserController::class, 'store']);
+// User Routes
+Route::prefix("users")->group(function() {
+    Route::post("/insertUser", [App\Http\Controllers\UserController::class, 'store']); 
+    // URL: POST http://localhost:8000/api/users/insertUser - Insert a new user
 
-    //GET: http://localhost:8000/api/users  show All Users
-    Route::get("/", [App\Http\Controllers\UserController::class, 'retrieve']);
+    Route::get("/retrieveUser", [App\Http\Controllers\UserController::class, 'retrieve']); 
+    // URL: GET http://localhost:8000/api/users/retrieveUser - Retrieve user details
 
-    //PATCH: http://localhost:8000/api/users/{user} update User
-    Route::post("/{user}", [App\Http\Controllers\UserController::class, 'update']);
+    Route::post("/updateUser", [App\Http\Controllers\UserController::class, 'update']); 
+    // URL: POST http://localhost:8000/api/users/updateUser - Update user information
 
-    //DELETE: http://localhost:8000/api/users/{user} delete User
-    Route::delete("/{user}", [App\Http\Controllers\UserController::class, 'destroy']);
-
+    Route::post("/deleteUser", [App\Http\Controllers\UserController::class, 'destroy']); 
+    // URL: POST http://localhost:8000/api/users/deleteUser - Delete a user
 });
 
+// Service Routes
+Route::prefix("services")->group(function() {
+    Route::post("/insertService", [App\Http\Controllers\ServiceController::class, 'addService']); 
+    // URL: POST http://localhost:8000/api/services/insertService - Add a new service
 
+    Route::get("/retrieveService", [App\Http\Controllers\ServiceController::class, 'showAllServices']); 
+    // URL: GET http://localhost:8000/api/services/retrieveService - Retrieve all services
 
-//Services
-Route::prefix("services")->group(function(){
-    //POST: http://localhost:8000/api/services Add Service
-    Route::post("/", [App\Http\Controllers\ServiceController::class, 'addService']);
+    Route::post("/updateService", [App\Http\Controllers\ServiceController::class, 'updateService']); 
+    // URL: POST http://localhost:8000/api/services/updateService - Update service details
 
-    //GET: http://localhost:8000/api/services  show All Services
-    Route::get("/", [App\Http\Controllers\ServiceController::class, 'showAllServices']);
-
-    //GET: http://localhost:8000/api/services {service} show specific service
-    Route::get("/{service}", [App\Http\Controllers\ServiceController::class, 'showService']);
-
-    //PATCH: http://localhost:8000/api/services/{service} update service
-    Route::PATCH("/{service}", [App\Http\Controllers\ServiceController::class, 'updateService']);
-
-    //DELETE: http://localhost:8000/api/services/{service} delete service
-    Route::delete("/{service}", [App\Http\Controllers\ServiceController::class, 'deleteService']);    
+    Route::post("/deleteService", [App\Http\Controllers\ServiceController::class, 'deleteService']); 
+    // URL: POST http://localhost:8000/api/services/deleteService - Delete a service
 });
 
+// Room Routes
+Route::prefix("rooms")->group(function() {
+    Route::post("/insertRoom", [App\Http\Controllers\RoomController::class, 'addRoom']); 
+    // URL: POST http://localhost:8000/api/rooms/insertRoom - Add a new room
 
-//Rooms
-Route::prefix("rooms")->group(function(){
-    //POST: http://localhost:8000/api/rooms Add Room
-    Route::post("/", [App\Http\Controllers\RoomController::class, 'addRoom']);
+    Route::get("/retrieveRoom", [App\Http\Controllers\RoomController::class, 'showAllRooms']); 
+    // URL: GET http://localhost:8000/api/rooms/retrieveRoom - Retrieve all rooms
 
-    //GET: http://localhost:8000/api/rooms  show All Rooms
-    Route::get("/", [App\Http\Controllers\RoomController::class, 'showAllRooms']);
+    Route::post("/updateRoom", [App\Http\Controllers\RoomController::class, 'updateRoom']); 
+    // URL: POST http://localhost:8000/api/rooms/updateRoom - Update room details
 
-    //GET: http://localhost:8000/api/rooms {room} show specific room
-    Route::get("/{room}", [App\Http\Controllers\RoomController::class, 'showRoom']);
-
-    //PATCH: http://localhost:8000/api/services/{service} update service
-    Route::PATCH("/{room}", [App\Http\Controllers\RoomController::class, 'updateRoom']);
-
-    //DELETE: http://localhost:8000/api/services/{service} delete service
-    Route::delete("/{room}", [App\Http\Controllers\RoomController::class, 'deleteRoom']);    
+    Route::post("/deleteRoom", [App\Http\Controllers\RoomController::class, 'deleteRoom']); 
+    // URL: POST http://localhost:8000/api/rooms/deleteRoom - Delete a room
 });
 
+// Transaction Routes
+Route::prefix("transactions")->group(function() {
+    Route::post("/insertTransaction", [App\Http\Controllers\TransactionController::class, 'addTransaction']); 
+    // URL: POST http://localhost:8000/api/transactions/insertTransaction - Add a new transaction
 
-//Transaction
-Route::prefix("transactions")->group(function(){
-    //POST: http://localhost:8000/api/transactions
-    Route::post("/", [App\Http\Controllers\TransactionController::class, 'addTransaction']);
+    Route::get("/retrieveTransaction", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']); 
+    // URL: GET http://localhost:8000/api/transactions/retrieveTransaction - Retrieve all transactions
 
-    //GET: http://localhost:8000/api/transactions {transaction} show specific transaction
-    Route::get("/{transaction}", [App\Http\Controllers\TransactionController::class, 'showTransaction']);
+    Route::post("/updateTransaction", [App\Http\Controllers\TransactionController::class, 'updateTransaction']); 
+    // URL: POST http://localhost:8000/api/transactions/updateTransaction - Update transaction details
 
-    //GET: http://localhost:8000/api/transactions  show All Transactions
-    Route::get("/", [App\Http\Controllers\TransactionController::class, 'showAllTransactions']);
-
-    //PATCH: http://localhost:8000/api/transactions/{transaction} update transaction
-    Route::PATCH("/{transaction}", [App\Http\Controllers\TransactionController::class, 'updateTransaction']);
-
-    
-    //DELETE: http://localhost:8000/api/transactions/{transaction} delete transaction
-    Route::delete("/{transaction}", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']);
+    Route::post("/deleteTransaction", [App\Http\Controllers\TransactionController::class, 'deleteTransaction']); 
+    // URL: POST http://localhost:8000/api/transactions/deleteTransaction - Delete a transaction
 });
 
+// Testimonial Routes
+Route::prefix("testimonials")->group(function() {
+    Route::post("/insertTestimonial", [App\Http\Controllers\TestimonialController::class, 'addTestimonial']); 
+    // URL: POST http://localhost:8000/api/testimonials/insertTestimonial - Add a new testimonial
 
-//TestimonialS
-Route::prefix("testimonials")->group(function(){
-    //POST: http://localhost:8000/api/testimonials Add Testimonial
-    Route::post("/", [App\Http\Controllers\TestimonialController::class, 'addTestimonial']);
+    Route::get("/retrieveTestimonial", [App\Http\Controllers\TestimonialController::class, 'showAllTestimonials']); 
+    // URL: GET http://localhost:8000/api/testimonials/retrieveTestimonial - Retrieve all testimonials
 
-    //GET: http://localhost:8000/api/testimonials  show Allestimonials
-    Route::get("/", [App\Http\Controllers\TestimonialController::class, 'showAllTestimonials']);
+    Route::post("/updateTestimonial", [App\Http\Controllers\TestimonialController::class, 'updateTestimonial']); 
+    // URL: POST http://localhost:8000/api/testimonials/updateTestimonial - Update testimonial details
 
-    //GET: http://localhost:8000/api/testimonials {testimonial} show specific testimonial
-    Route::get("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'showTestimonal']);
-
-    //PATCH: http://localhost:8000/api/testimonials/{testimonial} update testimonial
-    Route::PATCH("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'updateTestimonial']);
-
-    //DELETE: http://localhost:8000/api/testimonials/{testimonial} delete testimonial
-    Route::delete("/{testimonial}", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']);    
+    Route::post("/deleteTestimonial", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']); 
+    // URL: POST http://localhost:8000/api/testimonials/deleteTestimonial - Delete a testimonial
 });

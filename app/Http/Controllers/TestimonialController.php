@@ -9,7 +9,7 @@ class TestimonialController extends Controller
 {
     /**
      * CREATE a testimonial from request
-     * POST: /api/testimonials
+     * POST: /api/testimonials/insertTestimonial
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -31,7 +31,7 @@ class TestimonialController extends Controller
 
     /**
      * RETRIEVE all testimonials
-     * GET: /api/testimonials
+     * GET: /api/testimonials/retrieveTestimonial
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -40,25 +40,15 @@ class TestimonialController extends Controller
     }
 
     /**
-     * RETRIEVE specific testimonial using ID
-     * GET: /api/testimonials/{testimonial}
-     * @param Request $request
-     * @param Testimonial $testimonial
-     * @return \Illuminate\Http\Response
-     */
-    public function showTestimonial(Request $request, Testimonial $testimonial) {
-        return $this->Ok($testimonial, "Testimonial has been retrieved.");
-    }
-
-    /**
      * UPDATE a testimonial using request data
-     * PATCH: /api/testimonials/{testimonial}
+     * PATCH: /api/testimonials/updateTestimonial
      * @param Request $request
      * @param Testimonial $testimonial
      * @return \Illuminate\Http\Response
      */
-    public function updateTestimonial(Request $request, Testimonial $testimonial) {
-        $validator = validator($request->all(), [
+    public function updateTestimonial(Request $request) {
+        $data = $request->all();
+        $validator = validator($data, [
             "feedback" => "sometimes|min:4|string|max:500",
             "rating" => "sometimes|min:0|max:5|int",
             "transaction_id" => 'sometimes|exists:transactions,id'
@@ -67,7 +57,7 @@ class TestimonialController extends Controller
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
-
+        $testimonial = Testimonial::find($data['id']);
         $testimonial->update($validator->validated());
 
         return $this->Ok($testimonial, "Testimonial has been updated!");
@@ -75,13 +65,25 @@ class TestimonialController extends Controller
 
     /**
      * DELETE specific testimonial using ID
-     * DELETE: /api/testimonials/{testimonial}
+     * DELETE: /api/testimonials/deleteTestimonial
      * @param Request $request
      * @param Testimonial $testimonial
      * @return \Illuminate\Http\Response
      */
-    public function deleteTestimonial(Request $request, Testimonial $testimonial) {
-        $testimonial->delete();
-        return $this->Ok($testimonial, "Testimonial has been deleted.");
+    public function deleteTestimonial(Request $request) {
+        $data = $request->all();
+        $validator = validator($data, [
+            'id' => 'required|exists:testimonials,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->BadRequest($validator);
+        }
+
+        if (Testimonial::where('id', $data['id'])->delete()) {
+            return $this->Ok("Testimonial is deleted!");
+        }
+
+        return $this->Specific("Testimonial Deletion failed!");
     }
 }

@@ -9,7 +9,7 @@ class RoomController extends Controller
 {
     /**
      * CREATE a room from request
-     * POST: /api/rooms
+     * POST: /api/rooms/insertRoom
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -30,7 +30,7 @@ class RoomController extends Controller
 
     /**
      * RETRIEVE all rooms
-     * GET: /api/rooms
+     * GET: /api/rooms/retrieveRoom
      * @return \Illuminate\Http\Response
      */
     public function showAllRooms() {
@@ -38,45 +38,64 @@ class RoomController extends Controller
     }
 
     /**
-     * RETRIEVE specific room using ID
-     * GET: /api/rooms/{room}
-     * @param Room $room
-     * @return \Illuminate\Http\Response
-     */
-    public function showRoom(Room $room) {
-        return $this->Ok($room, "This Room has been retrieved.");
-    }
-
-    /**
      * UPDATE a room using request data
-     * PATCH: /api/rooms/{room}
+     * PATCH: /api/rooms/updateRoom
      * @param Request $request
      * @param Room $room
      * @return \Illuminate\Http\Response
      */
-    public function updateRoom(Request $request, Room $room) {
-        $validator = validator($request->all(), [
-            "name" => "sometimes|min:1|max:50|unique:rooms|string",
-            "price" => "sometimes|min:1|max:100000|numeric"
-        ]);
 
-        if ($validator->fails()) {
+    public function updateRoom(Request $request){
+        $data = $request->all();
+    
+        $validator = validator($data, [
+            'id' => 'required|exists:rooms,id',
+            'name' => 'required',
+            'price' => 'required|numeric', 
+        ]);
+    
+        if($validator->fails()){
             return $this->BadRequest($validator);
         }
-
-        $room->update($validator->validated());
-
-        return $this->Ok($room, "Room has been updated!");
+    
+        try {
+            $room = Room::find($data['id']);
+        
+            if (!$room) {
+                return $this->Specific("", "Service not found!");
+            }
+            $room->update([
+                'name' => $data['name'],
+                'price' => $data['price'],
+            ]);
+    
+            return $this->Ok($data, "Room has been updated!");
+        } catch (\Exception $e) {
+            return $this->Specific("", "Room Update Failed! Error: " . $e->getMessage());
+        }
     }
 
     /**
      * DELETE specific room using ID
-     * DELETE: /api/rooms/{room}
+     * DELETE: /api/rooms/deleteRoom
      * @param Room $room
      * @return \Illuminate\Http\Response
      */
-    public function deleteRoom(Room $room) {
-        $room->delete();
-        return $this->Ok($room, "Room has been deleted.");
+
+    public function deleteRoom(Request $request){
+        $data = $request->all();
+        $validator = validator($data, [
+            'id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->BadRequest($validator);
+        }
+
+        if(Room::where('id',$data['id'])->delete()){
+            return $this->Ok("","Room is deleted!");
+        }
+
+        return $this->Specific("Room Deletion failed!");
     }
 }
