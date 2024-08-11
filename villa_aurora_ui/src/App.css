@@ -202,11 +202,8 @@ Home Appearance
     font-style: normal;
 }
 
-#btnchange {
-    background-color: #d6a354;
-    border-radius: 20px;
-    width: 40px;
-    margin-top: 10px;
+#sidebartoogle:hover {
+    background-color: #bc840c;
 }
 
 /*---------------------------------------

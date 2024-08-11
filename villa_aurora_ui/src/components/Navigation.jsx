@@ -3,6 +3,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import images from "../images/index";
 
 export default function Navigation({ toggleDrawer, logout }) {
     const user = useSelector((state) => state.auth.user);
@@ -14,7 +15,7 @@ export default function Navigation({ toggleDrawer, logout }) {
             <Box className="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                 <Link to="/" id="link" className="navbar-brand">
                     <img
-                        src={logo}
+                        src={images.logo}
                         alt="Logo"
                         className="logo-image img-fluid"
                     />

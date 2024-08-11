@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 
 import {
     faArrowUp,
+    faBars,
     faEnvelope,
     faPhone,
     faSun,
@@ -35,33 +36,6 @@ function Home() {
 
     const [selectedService, setSelectedService] = useState(null);
     const [serviceRows, setServiceRows] = useState([]);
-
-    const SrefreshData = () => {
-        showAllServices().then((res) => {
-            if (res?.ok) {
-                setServiceRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    useEffect(SrefreshData, []);
-
-    const [roomRows, setRoomRows] = useState([]);
-    const [selectedRoom, setSelectedRoom] = useState(null);
-
-    const RrefreshData = () => {
-        showAllRooms().then((res) => {
-            if (res?.ok) {
-                setRoomRows(res.data);
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
-    };
-
-    useEffect(RrefreshData, []);
 
     const logout = () => {
         removeCookie("AUTH_TOKEN");
@@ -111,23 +85,37 @@ function Home() {
         <Box id="homebg">
             <Box className="row">
                 <Button
-                    className="navbar-toggler d-md-none collapsed position-fixed"
-                    id="btnchange"
+                    id="sidebartoogle"
                     type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#sidebarMenu"
-                    aria-controls="sidebarMenu"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
                     onClick={toggleDrawer}
+                    sx={{
+                        color: "white",
+                        position: "fixed",
+                        top: "20px",
+                        right: "20px",
+                        zIndex: "999",
+                        backgroundColor: "#d6a354",
+                        borderRadius: "5px",
+                        padding: "10px 20px",
+                        width: "max-content",
+                        fontSize: "20px",
+                    }}
                 >
-                    <Box variant="span" className="navbar-toggler-icon"></Box>
+                    <FontAwesomeIcon icon={faBars} />
                 </Button>
                 <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
                     <Navigation logout={logout} toggleDrawer={toggleDrawer} />
                 </Drawer>
             </Box>
-
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
+                <Box></Box>
+            </Box>
             {/* Navigation */}
 
             <Box>
@@ -365,7 +353,7 @@ function Home() {
                 </section>
 
                 {/* Booking Section */}
-                <section
+                {/* <section
                     className="booking-section section-padding"
                     id="booking-section"
                 >
@@ -529,7 +517,7 @@ function Home() {
                             </Box>
                         </Box>
                     </Box>
-                </section>
+                </section> */}
 
                 {/* Price Section */}
                 <section
