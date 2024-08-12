@@ -12,13 +12,46 @@ NOT FOUND PAGE
 }
 
 /*---------------------------------------
+Bootstrap           
+-----------------------------------------*/
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.custom-marginleft {
+    margin-left: 10px;
+}
+
+.custom-marginright {
+    margin-right: 10px;
+}
+
+.custom-fontweight-bold {
+    font-size: 1.6rem;
+}
+
+#custom-iframe {
+    height: 70vh;
+}
+
+#custom-colorup {
+    background-color: #d6a354;
+}
+
+/* #custom-header {
+    font-size: 6rem;
+    color: #fff;
+    text-shadow: 5px 5px 10px #000;
+    margin-bottom: 20px;
+} */
+/*---------------------------------------
 Login              
 -----------------------------------------*/
 #bglogin {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-image: url(./images/bglogin.jpg);
     flex-direction: column;
     background-position: center;
@@ -45,145 +78,6 @@ Login
     font-weight: bold;
     unicode-bidi: isolate;
     text-align: center;
-}
-
-.none1,
-.none2,
-.none3,
-.none4,
-.none5 {
-    display: none;
-}
-
-.appear1,
-.appear2,
-.appear3,
-.appear4,
-.appear5 {
-    display: block;
-}
-
-#circle {
-    border: 1px solid black;
-    border-radius: 50%;
-    padding: 1px 5px;
-}
-
-/*---------------------------------------
-CUSTOMIZATION for LOGIN, REGISTER,
-ADMIN and MYACCOUNT
------------------------------------------*/
-#custom-iframe {
-    height: 70vh;
-}
-
-#custom-colorup {
-    background-color: #d6a354;
-}
-
-#custom-deletebtn {
-    float: right;
-    background-color: lightcoral;
-    color: white;
-    margin: 10px;
-    transition: all 1s ease-in;
-}
-
-#custom-deletebtn:hover {
-    transition: all 1s ease-in;
-    background-color: #b22727;
-}
-
-#custom-submit {
-    background-color: lightskyblue;
-    color: white;
-    margin: 10px;
-    transition: all 1s ease-in;
-}
-
-#custom-submit:hover {
-    transition: all 1s ease-in;
-    background-color: #379ae8;
-}
-
-#custom-edit {
-    background-color: lightgreen;
-    color: white;
-    margin: 10px;
-    transition: all 1s ease-in;
-}
-
-#custom-edit:hover {
-    transition: all 1s ease-in;
-    background-color: #112d3f;
-}
-
-#customheader {
-    text-wrap: wrap;
-    font-weight: bold;
-    text-shadow: 0 0 10px #000000;
-    color: white;
-}
-
-#custom-blue {
-    color: #3799e8;
-}
-
-#custompass b {
-    color: #379ae8;
-}
-
-#custom-navbar {
-    background-color: #379ae8;
-}
-
-#custom-navbar .custom-list {
-    text-decoration: none;
-    padding: 1px 10px;
-}
-
-.custom-list:hover {
-    background-color: #153554;
-}
-
-.custom-list:nth-child(1) {
-    background-color: #76b9ed;
-}
-
-.customback-color:hover {
-    background-color: #153554;
-}
-
-#custom-breakLine {
-    width: 100%;
-    display: block;
-    margin: auto;
-    height: 1px;
-    background-color: #a3a5a7;
-}
-
-.custom-logo {
-    width: 100px;
-    height: 100px;
-    box-shadow: 0 0 10px black;
-    border-radius: 50%;
-}
-
-#custom-header {
-    font-size: 6rem;
-    color: #fff;
-}
-
-.custom-marginleft {
-    margin-left: 10px;
-}
-
-.custom-marginright {
-    margin-right: 10px;
-}
-
-.custom-fontweight-bold {
-    font-size: 1.6rem;
 }
 
 /*---------------------------------------
@@ -288,23 +182,6 @@ Login and Register UI
 TYPOGRAPHY               
 -----------------------------------------*/
 
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #000000;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-weight: 20px;
-}
-
 h1 {
     font-size: 74px;
 }
@@ -347,170 +224,8 @@ button {
     transition: all 0.3s;
 }
 
-a {
-    display: inline-block;
-    color: #d6a354;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #b22727;
-}
-
-b,
-strong {
-    font-weight: 20px;
-}
-
 .trans-scale:hover {
     transform: scale(1.1);
-}
-
-/*---------------------------------------
-NAVIGATION              
------------------------------------------*/
-
-#navcolumn ul li {
-    list-style-type: none;
-    text-align: center;
-}
-
-.sidebar {
-    background: #d6a354;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    padding: 50px 0 0;
-}
-
-.sidebar-sticky {
-    height: calc(100vh - 48px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align: center;
-    position: relative;
-    background: #d6a354;
-    padding: 10px;
-}
-
-.navbar {
-    background: transparent;
-    z-index: 9;
-}
-
-.logo-image {
-    width: 154px;
-    height: auto;
-    margin-bottom: 10px;
-}
-
-#sidebarMenu .nav-link {
-    color: #000000;
-    font-size: 20px;
-    font-weight: 20px;
-    text-transform: uppercase;
-    position: relative;
-}
-
-#sidebarMenu .nav-link.active,
-#sidebarMenu .nav-link:hover {
-    color: #fff;
-}
-
-.navbar-toggler {
-    background: #d6a354;
-    border-radius: 100px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 222;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-    margin: 25px;
-    width: 55px;
-    height: 55px;
-    outline: none;
-}
-
-.close-btn {
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 999;
-    background-color: transparent;
-    border: none;
-    padding: 10px;
-    font-size: 25px;
-    margin: 5px;
-}
-.close-btn:hover {
-    background-color: #bc840c;
-}
-
-.navbar-toggler:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
-    background: transparent;
-}
-
-.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:before,
-.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:after {
-    transition: top 300ms 50ms ease, -webkit-transform 300ms 350ms ease;
-    transition: top 300ms 50ms ease, transform 300ms 350ms ease;
-    transition: top 300ms 50ms ease, transform 300ms 350ms ease,
-        -webkit-transform 300ms 350ms ease;
-    top: 0;
-}
-
-.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:before {
-    transform: rotate(45deg);
-}
-
-.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:after {
-    transform: rotate(-45deg);
-}
-
-.navbar-toggler .navbar-toggler-icon {
-    background: #fff;
-    transition: background 10ms 300ms ease;
-    display: block;
-    margin: auto;
-    width: 25px;
-    height: 2px;
-    position: relative;
-}
-
-.navbar-toggler .navbar-toggler-icon:before,
-.navbar-toggler .navbar-toggler-icon:after {
-    transition: top 300ms 350ms ease, -webkit-transform 300ms 50ms ease;
-    transition: top 300ms 350ms ease, transform 300ms 50ms ease;
-    transition: top 300ms 350ms ease, transform 300ms 50ms ease,
-        -webkit-transform 300ms 50ms ease;
-    position: absolute;
-    right: 0;
-    left: 0;
-    background: white;
-    width: 25px;
-    height: 2px;
-    content: "";
-}
-
-.navbar-toggler .navbar-toggler-icon::before {
-    top: -8px;
-}
-
-.navbar-toggler .navbar-toggler-icon::after {
-    top: 8px;
 }
 
 /*---------------------------------------
@@ -594,11 +309,12 @@ HERO OR LANDING PAGE
     height: 360px;
 }
 
-.custom-block .custom-btn {
-    background: #d6a354;
+.custom-btn {
+    display: inline-block;
+    box-shadow: 2px 2px 0 black;
 }
 
-.custom-block .custom-btn:hover {
+.custom-block .custom-btn {
     background: #c12828;
 }
 
@@ -663,11 +379,6 @@ CUSTOM BUTTON
     padding: 10px 20px;
 }
 
-.custom-btn:hover {
-    background: #fdbb2d;
-    color: white;
-}
-
 .custom-border-btn {
     background: transparent;
     border: 2px solid #c12828;
@@ -677,6 +388,8 @@ CUSTOM BUTTON
 .custom-btn-bg-white {
     border-color: #fff;
     color: #fff;
+    font-weight: bold;
+    text-shadow: 0 0 10px black;
 }
 
 .custom-btn-italic {

@@ -8,6 +8,7 @@ import { RoomDialog } from "../components/dialogs/RoomDialogs";
 import { TransactionDialogs } from "../components/dialogs/TransactionDialogs";
 import { TestimonialDialogs } from "../components/dialogs/TestimonialDialogs";
 import { UserDialogs } from "../components/dialogs/UserDialogs";
+import BottomNav from "../components/BottomNav";
 
 function Admin() {
     const user = useSelector((state) => state.auth.user);
@@ -82,6 +83,7 @@ function Admin() {
                         <TransactionDialogs />
                         <TestimonialDialogs />
                     </Box>
+                    <BottomNav />
                 </Box>
             </Box>
         </Box>

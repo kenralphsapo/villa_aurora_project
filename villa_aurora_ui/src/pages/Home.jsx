@@ -69,39 +69,7 @@ function Home() {
 
     return (
         <Box id="homebg">
-            <Box className="row">
-                <Button
-                    id="sidebartoogle"
-                    type="button"
-                    onClick={toggleDrawer}
-                    sx={{
-                        color: "white",
-                        position: "fixed",
-                        top: "20px",
-                        right: "20px",
-                        zIndex: "999",
-                        backgroundColor: "#d6a354",
-                        borderRadius: "5px",
-                        padding: "10px 20px",
-                        width: "max-content",
-                        fontSize: "20px",
-                    }}
-                >
-                    <FontAwesomeIcon icon={faBars} />
-                </Button>
-                <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
-                    <Navigation logout={logout} toggleDrawer={toggleDrawer} />
-                </Drawer>
-            </Box>
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <Box></Box>
-            </Box>
+            <Navigation />
             {/* Navigation */}
 
             <Box>
@@ -214,7 +182,9 @@ function Home() {
                                 />
 
                                 <Box className="team-info d-flex align-items-center flex-wrap">
-                                    <p className="mb-0">Birthday</p>
+                                    <p className="mb-0 font-weight-bold">
+                                        Birthday
+                                    </p>
                                 </Box>
                             </Box>
 
@@ -226,7 +196,9 @@ function Home() {
                                 />
 
                                 <Box className="team-info d-flex align-items-center flex-wrap">
-                                    <p className="mb-0">Wedding</p>
+                                    <p className="mb-0 font-weight-bold">
+                                        Wedding
+                                    </p>
                                 </Box>
                             </Box>
                         </Box>
@@ -551,18 +523,6 @@ function Home() {
 
                 {/* Contact Section */}
                 <section className="contact-section" id="section_5">
-                    <Box className="section-padding section-bg">
-                        <Box className="container">
-                            <Box className="row">
-                                <Box className="col-lg-8 col-12 mx-auto">
-                                    <h2 className="text-center">
-                                        What are you waiting for?
-                                    </h2>
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Box>
-
                     <Box className="section-padding">
                         <Box className="container">
                             <Box className="row">
@@ -573,7 +533,7 @@ function Home() {
 
                                     <Box className="text-white d-flex mb-1">
                                         <Box className="site-footer-link">
-                                            <ul>
+                                            <ul className="text-black">
                                                 <li>
                                                     <Link to="tel:+639453200320">
                                                         <FontAwesomeIcon
