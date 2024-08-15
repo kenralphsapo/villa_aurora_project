@@ -95,10 +95,21 @@ function Home() {
                     <Box className="container">
                         <Box className="row">
                             <Box className="col-lg-8 col-12">
-                                <h1 id="custom-header">
+                                <h1
+                                    style={{
+                                        color: "#fff",
+                                        textShadow: "2px 2px 0 black",
+                                    }}
+                                >
                                     Villa Aurora Private Resort
                                 </h1>
-                                <Typography id="custom-text-big">
+                                <Typography
+                                    style={{
+                                        color: "black",
+                                        fontSize: "20px",
+                                        fontWeight: "bold",
+                                    }}
+                                >
                                     Don't miss out! Reserve your spot at our
                                     luxurious resort today.
                                 </Typography>
@@ -502,7 +513,7 @@ function Home() {
                                         </h6>
                                     </Box>
 
-                                    <Box className="price-list-thumb">
+                                    <Box className="price-list-thumb mb-5">
                                         <h6 className="custom-fontweight-bold">
                                             22 hours stay: P5,000
                                         </h6>
@@ -531,9 +542,9 @@ function Home() {
                                         Contact Us
                                     </Typography>
 
-                                    <Box className="text-white d-flex mb-1">
-                                        <Box className="site-footer-link">
-                                            <ul className="text-black">
+                                    <Box>
+                                        <Box>
+                                            <ul>
                                                 <li>
                                                     <Link to="tel:+639453200320">
                                                         <FontAwesomeIcon
@@ -611,8 +622,8 @@ function Home() {
                                             </Link>
                                         </li>
                                     </ul>
-                                    <Box className="col-lg-9 col-12 contact-block-wrap mt-lg-0 pt-4 pt-lg-0 mx-auto">
-                                        <Box className="contact-block mt-5">
+                                    <Box className="col-lg-9 col-12 contact-block-wrap mt-lg-0  pt-4 pt-lg-0 mx-auto">
+                                        <Box className="contact-block mt-1">
                                             <Typography
                                                 variant="h6"
                                                 className="mb-0 text-black"

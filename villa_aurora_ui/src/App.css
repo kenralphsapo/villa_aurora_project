@@ -215,7 +215,9 @@ p {
 ul li {
     color: #717275;
     font-size: 20px;
-    font-weight: 300;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 a,
@@ -329,12 +331,6 @@ HERO OR LANDING PAGE
     height: 120px;
     margin: auto;
     object-fit: cover;
-}
-
-#custom-text-big {
-    color: black;
-    font-size: 20px;
-    font-weight: 300;
 }
 
 /*---------------------------------------
@@ -581,19 +577,17 @@ CONTACT
     background: #22c1c3;
     border-radius: 20px;
     min-height: 200px;
-    margin-top: 10px;
 }
 
 .contact-block {
     background-color: #d6a354;
     border-radius: 20px;
-    transform: rotate(8deg);
-    height: 100%;
+    transform: rotate(2deg);
     padding: 20px 40px;
 }
 
 .contact-block h6 {
-    transform: rotate(-8deg);
+    transform: rotate(-1deg);
 }
 
 .contact-block .custom-icon {
@@ -626,6 +620,7 @@ SOCIAL ICON
 .social-icon {
     margin: 0;
     padding: 0;
+    margin-bottom: 20px;
 }
 
 .social-icon-item {

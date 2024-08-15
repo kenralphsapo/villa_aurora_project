@@ -21,6 +21,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import ServicesIcon from "@mui/icons-material/Work";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import LoginIcon from "@mui/icons-material/Login";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -38,7 +39,7 @@ function Navigation() {
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
-            style={{ width: drawerWidth, paddingTop: 64 }} // Padding to avoid overlap with close button
+            style={{ width: drawerWidth, paddingTop: 64 }}
         >
             <IconButton
                 edge="end"
@@ -49,36 +50,44 @@ function Navigation() {
                     position: "absolute",
                     top: 8,
                     right: 8,
-                    zIndex: 1201, // Ensure close button is above drawer content
+                    zIndex: 10,
                 }}
             >
                 <CloseIcon />
             </IconButton>
             <List>
-                <ListItem button>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Home" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <InfoIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="About" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <ServicesIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Services" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <ContactMailIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Contact" />
-                </ListItem>
+                <a href="#section_1" style={{ textDecoration: "none" }}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Home" />
+                    </ListItem>
+                </a>
+                <a href="#section_5" style={{ textDecoration: "none" }}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <InfoIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="About" />
+                    </ListItem>
+                </a>
+                <a href="#section_2" style={{ textDecoration: "none" }}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <ServicesIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Services" />
+                    </ListItem>
+                </a>
+                <a href="#section_5" style={{ textDecoration: "none" }}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <ContactMailIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Contact" />
+                    </ListItem>
+                </a>
             </List>
         </div>
     );
@@ -87,13 +96,13 @@ function Navigation() {
         <>
             <AppBar
                 id="appbar"
-                position="fixed" // Change position to fixed
+                position="fixed"
                 sx={{
                     borderBottom: isMobile
                         ? "none"
-                        : "1px solid rgba(0, 0, 0, 0.12)", // Add border to normal nav bar
-                    width: "100%", // Ensure it spans the full width
-                    zIndex: (theme) => theme.zIndex.drawer + 1, // Ensure it is above other content
+                        : "1px solid rgba(0, 0, 0, 0.12)",
+                    width: "100%",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
                 }}
             >
                 <Toolbar>
@@ -125,12 +134,14 @@ function Navigation() {
                                 >
                                     <LoginIcon />
                                 </IconButton>
-                                <Typography
-                                    variant="body2"
-                                    sx={{ ml: 1, color: "white", mr: 2 }}
-                                >
-                                    Sign Up
-                                </Typography>
+                                <Link to="/login">
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ ml: 1, color: "white", mr: 2 }}
+                                    >
+                                        Sign Up
+                                    </Typography>
+                                </Link>
                             </Box>
                             <Drawer
                                 anchor="left"
@@ -179,12 +190,14 @@ function Navigation() {
                                 >
                                     <LoginIcon />
                                 </IconButton>
-                                <Typography
-                                    variant="body2"
-                                    sx={{ ml: 1, color: "white" }}
-                                >
-                                    Sign Up
-                                </Typography>
+                                <Link to="/login">
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ ml: 1, color: "white", mr: 2 }}
+                                    >
+                                        Sign Up
+                                    </Typography>
+                                </Link>
                             </Box>
                         </>
                     )}

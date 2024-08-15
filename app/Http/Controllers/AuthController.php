@@ -15,12 +15,14 @@ class AuthController extends Controller
      */
     public function register(Request $request) {
         $validator = validator($request->all(), [
-            "username" => "required|min:4|string|unique:users|max:32",
-            "password" => "required|min:8|max:32|string|confirmed|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/",
+            "username" => "required|min:4|string|unique:users|max:32|regex:/^\w+$/",
+            "password" => "required|min:8|max:32|string|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*/d)(?=.*?[!$#%]).*P@55w0rd$/",
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin",
-        
+        ], [
+            "username.regex" => "The username must contain only letters, numbers, and underscores.",
+            "password.regex" => "The password must contain at least one letter, one number, and one special character."
         ]);
 
         if ($validator->fails()) {

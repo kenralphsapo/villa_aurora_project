@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate } from "react-router-dom";
 import { login as loginAPI } from "../api/auth";
 import { useCookies } from "react-cookie";
@@ -34,11 +35,34 @@ export default function Login() {
 
     return (
         <Box id="bglogin">
-            <img src={images.logo} alt="Logo" className="custom-logo" />
+            <img
+                src={images.logo}
+                alt="Logo"
+                style={{ width: "100px", borderRadius: "10px" }}
+            />
             <Typography variant="h1" id="custom-sign">
                 Sign in to Villa Aurora
             </Typography>
-            <Box component="form" onSubmit={onSubmit} className="login-form">
+            <Box
+                component="form"
+                onSubmit={onSubmit}
+                className="login-form"
+                position="relative"
+            >
+                <IconButton
+                    onClick={() => {
+                        navigate("/");
+                    }}
+                    sx={{
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        color: "text.primary",
+                        zIndex: 10,
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
                 <Typography id="login-logo" variant="h2">
                     Login
                 </Typography>
