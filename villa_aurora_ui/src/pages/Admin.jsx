@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import {
+    AppBar,
+    Box,
+    Button,
+    IconButton,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 import checkAuth from "../hoc/checkAuth";
 import { useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
@@ -9,16 +16,14 @@ import { TransactionDialogs } from "../components/dialogs/TransactionDialogs";
 import { TestimonialDialogs } from "../components/dialogs/TestimonialDialogs";
 import { UserDialogs } from "../components/dialogs/UserDialogs";
 import BottomNav from "../components/BottomNav";
-
+import CloseIcon from "@mui/icons-material/Close";
+import { Link, useNavigate } from "react-router-dom";
 function Admin() {
     const user = useSelector((state) => state.auth.user);
-    const [createDialog, setCreateDialog] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(null);
     const [editDialog, setEditDialog] = useState(null);
     const [rows, setRows] = useState([]);
-
-    const [loading, setLoading] = useState(false);
-    const [warnings, setWarnings] = useState({});
+    const navigate = useNavigate();
     const [cookies] = useCookies(["AUTH_TOKEN"]);
 
     const columns = [
@@ -67,14 +72,36 @@ function Admin() {
     return (
         <Box>
             <Box id="custom-admin">
-                <Box>
-                    <Box id="custom-navbar">
-                        <Typography variant="h3">
-                            Welcome
-                            {user?.username ?? "Wait, Who are you??"}
-                        </Typography>
-                    </Box>
-                </Box>
+                <AppBar
+                    id="custom-navbar"
+                    position="static"
+                    style={{ textAlign: "center" }}
+                >
+                    <Toolbar
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Box sx={{ flexGrow: 1, textAlign: "center" }}>
+                            <Typography variant="h3">
+                                Welcome{" "}
+                                {user?.username ?? "Wait, Who are you??"}
+                            </Typography>
+                        </Box>
+                        <IconButton
+                            edge="end"
+                            color="inherit"
+                            onClick={() => {
+                                navigate("/");
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+
                 <Box>
                     <Box id="table">
                         <UserDialogs />

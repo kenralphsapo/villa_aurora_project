@@ -23,13 +23,6 @@ function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const logout = () => {
-        removeCookie("AUTH_TOKEN");
-        toast.success(res?.message ?? "Logged out successfully.");
-        navigate("/");
-        dispatch();
-    };
-
     const [scrollVisible, setScrollVisible] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -171,7 +164,7 @@ function Home() {
 
                                 <Box className="border-bottom pb-3 mb-5">
                                     <p>
-                                        Perfect place for you to
+                                        Perfect place for you to{" "}
                                         <strong>
                                             rest, relax, recharge, and enjoy!
                                         </strong>

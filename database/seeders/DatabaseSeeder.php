@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
             'mobile'=>'09296407470',
             'role'=>'admin',
         ]);
+        Artisan::call('passport:keys');
+
+        Artisan::call('passport:client --personal --no-interaction');
     }
 }

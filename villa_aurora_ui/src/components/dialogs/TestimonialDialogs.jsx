@@ -136,7 +136,19 @@ export function TestimonialDialogs() {
 
     return (
         <Box id="section5">
-            <Typography variant="h2">Testimonials</Typography>
+            <Box
+                sx={{ display: "flex", justifyContent: "space-between", py: 2 }}
+            >
+                <Typography variant="h2">Testimonials</Typography>
+                <Button
+                    sx={{ mr: 5 }}
+                    variant="contained"
+                    color="info"
+                    onClick={() => setCreateDialog(true)}
+                >
+                    Create Testimonial
+                </Button>
+            </Box>
             <DataGrid
                 autoHeight
                 columns={testimonialcolumns}

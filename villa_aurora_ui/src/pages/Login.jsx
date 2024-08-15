@@ -12,9 +12,11 @@ import images from "../utils/index";
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies();
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -29,6 +31,7 @@ export default function Login() {
                 toast.success(res?.message ?? "Logged in successfully.");
             } else {
                 toast.error(res?.message ?? "Something went wrong.");
+                setError(true);
             }
         });
     };
@@ -73,6 +76,8 @@ export default function Login() {
                         id="username"
                         label="Username or Email"
                         fullWidth
+                        error={error}
+                        helperText={error ? "Invalid input" : ""}
                     />
                 </Box>
                 <Box className="input-container">
@@ -83,6 +88,8 @@ export default function Login() {
                         label="Password"
                         type="password"
                         fullWidth
+                        error={error}
+                        helperText={error ? "Invalid input" : ""}
                     />
                 </Box>
                 <Button type="submit" id="submit-button" fullWidth>

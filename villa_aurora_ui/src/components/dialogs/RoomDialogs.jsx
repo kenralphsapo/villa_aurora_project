@@ -155,6 +155,8 @@ export function RoomDialog() {
             >
                 <Typography variant="h2">Rooms</Typography>
                 <Button
+                    variant="contained"
+                    color="info"
                     sx={{ mr: 5 }}
                     onClick={() => setCreateRoomDialog(true)}
                 >

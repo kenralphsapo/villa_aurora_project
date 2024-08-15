@@ -21,17 +21,33 @@ import InfoIcon from "@mui/icons-material/Info";
 import ServicesIcon from "@mui/icons-material/Work";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link } from "react-router-dom";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
 
 const drawerWidth = 240;
 
 function Navigation() {
+    const user = useSelector((state) => state.auth.user);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const [cookies, setCookie, removeCookie] = useCookies();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const toggleDrawer = (open) => () => {
         setDrawerOpen(open);
+    };
+
+    const logout = () => {
+        removeCookie("AUTH_TOKEN");
+        toast.success(res?.message ?? "Logged out successfully.");
+        navigate("/");
+        dispatch();
     };
 
     const drawerItems = (
@@ -88,6 +104,22 @@ function Navigation() {
                         <ListItemText primary="Contact" />
                     </ListItem>
                 </a>
+                <Link to="/admin" style={{ textDecoration: "none" }}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <AdminPanelSettingsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Admin" />
+                    </ListItem>
+                </Link>
+                <Link href="/guest" style={{ textDecoration: "none" }}>
+                    <ListItem>
+                        <ListItemIcon>
+                            <AccountCircleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="My Account" />
+                    </ListItem>
+                </Link>
             </List>
         </div>
     );
@@ -134,14 +166,37 @@ function Navigation() {
                                 >
                                     <LoginIcon />
                                 </IconButton>
-                                <Link to="/login">
-                                    <Typography
-                                        variant="body2"
-                                        sx={{ ml: 1, color: "white", mr: 2 }}
+                                {user ? (
+                                    <Link
+                                        to="/login"
+                                        style={{ textDecoration: "none" }}
                                     >
-                                        Sign Up
-                                    </Typography>
-                                </Link>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                ml: 1,
+                                                color: "white",
+                                                mr: 2,
+                                            }}
+                                        >
+                                            Sign up
+                                        </Typography>
+                                    </Link>
+                                ) : (
+                                    <Button onClick={logout}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                ml: 1,
+                                                color: "white",
+                                                mr: 2,
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            Logout
+                                        </Typography>
+                                    </Button>
+                                )}
                             </Box>
                             <Drawer
                                 anchor="left"
@@ -163,24 +218,75 @@ function Navigation() {
                             >
                                 Villa Aurora
                             </Typography>
-                            <Button color="inherit" startIcon={<HomeIcon />}>
+                            <Button
+                                color="inherit"
+                                startIcon={<HomeIcon />}
+                                href="#section_1"
+                            >
                                 Home
                             </Button>
-                            <Button color="inherit" startIcon={<InfoIcon />}>
+                            <Button
+                                color="inherit"
+                                startIcon={<InfoIcon />}
+                                href="#section_5"
+                            >
                                 About
                             </Button>
                             <Button
                                 color="inherit"
                                 startIcon={<ServicesIcon />}
+                                href="#section_2"
                             >
                                 Services
                             </Button>
                             <Button
                                 color="inherit"
                                 startIcon={<ContactMailIcon />}
+                                href="#section_5"
                             >
                                 Contact
                             </Button>
+                            {user ? (
+                                <>
+                                    {user?.role == "admin" ? (
+                                        <Link
+                                            to="/admin"
+                                            style={{
+                                                textDecoration: "none",
+                                                color: "white",
+                                            }}
+                                        >
+                                            <Button
+                                                color="inherit"
+                                                startIcon={
+                                                    <AdminPanelSettingsIcon />
+                                                }
+                                            >
+                                                Admin
+                                            </Button>
+                                        </Link>
+                                    ) : null}
+                                    {user?.role == "guest" ? (
+                                        <Link
+                                            to="/guest"
+                                            style={{
+                                                textDecoration: "none",
+                                                color: "white",
+                                            }}
+                                        >
+                                            <Button
+                                                color="inherit"
+                                                startIcon={
+                                                    <AccountCircleIcon />
+                                                }
+                                                href="#section_5"
+                                            >
+                                                My Account
+                                            </Button>
+                                        </Link>
+                                    ) : null}
+                                </>
+                            ) : null}
                             <Box display="flex" alignItems="center">
                                 <IconButton
                                     edge="end"
@@ -190,14 +296,37 @@ function Navigation() {
                                 >
                                     <LoginIcon />
                                 </IconButton>
-                                <Link to="/login">
-                                    <Typography
-                                        variant="body2"
-                                        sx={{ ml: 1, color: "white", mr: 2 }}
+                                {user ? (
+                                    <Button onClick={logout}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                ml: 1,
+                                                color: "white",
+                                                mr: 2,
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            Logout
+                                        </Typography>
+                                    </Button>
+                                ) : (
+                                    <Link
+                                        to="/login"
+                                        style={{ textDecoration: "none" }}
                                     >
-                                        Sign Up
-                                    </Typography>
-                                </Link>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                ml: 1,
+                                                color: "white",
+                                                mr: 2,
+                                            }}
+                                        >
+                                            Sign up
+                                        </Typography>
+                                    </Link>
+                                )}
                             </Box>
                         </>
                     )}

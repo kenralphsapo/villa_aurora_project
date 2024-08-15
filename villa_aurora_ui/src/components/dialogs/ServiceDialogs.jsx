@@ -165,6 +165,8 @@ export function ServiceDialog() {
             >
                 <Typography variant="h2">Services</Typography>
                 <Button
+                    variant="contained"
+                    color="info"
                     sx={{ mr: 5 }}
                     onClick={() => setCreateServDialog(true)}
                 >

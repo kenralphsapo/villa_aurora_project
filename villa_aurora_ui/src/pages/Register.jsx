@@ -7,7 +7,7 @@ import {
     LinearProgress,
     IconButton,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close"; // Import the Close icon
+import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../api/auth";
 import { toast } from "react-toastify";
@@ -69,7 +69,6 @@ export default function Register() {
                 position="relative"
             >
                 <IconButton
-                    o
                     onClick={() => {
                         navigate("/");
                     }}
@@ -96,12 +95,8 @@ export default function Register() {
                         fullWidth
                         required
                         error={!!warnings.username}
+                        helperText={warnings.username}
                     />
-                    {warnings?.username ? (
-                        <Typography component="small" color="error">
-                            {warnings.username}
-                        </Typography>
-                    ) : null}
                 </Box>
                 <Box>
                     <TextField
@@ -114,12 +109,8 @@ export default function Register() {
                         fullWidth
                         required
                         error={!!warnings.password}
+                        helperText={warnings.password}
                     />
-                    {warnings?.password ? (
-                        <Typography component="small" color="error">
-                            {warnings.password}
-                        </Typography>
-                    ) : null}
                 </Box>
                 <Box>
                     <TextField
@@ -132,12 +123,8 @@ export default function Register() {
                         fullWidth
                         required
                         error={!!warnings.password_confirmation}
+                        helperText={warnings.password_confirmation}
                     />
-                    {warnings?.password_confirmation ? (
-                        <Typography component="small" color="error">
-                            {warnings.password_confirmation}
-                        </Typography>
-                    ) : null}
                 </Box>
                 <Box>
                     <TextField
@@ -149,12 +136,8 @@ export default function Register() {
                         fullWidth
                         required
                         error={!!warnings.mobile}
+                        helperText={warnings.mobile}
                     />
-                    {warnings?.mobile ? (
-                        <Typography component="small" color="error">
-                            {warnings.mobile}
-                        </Typography>
-                    ) : null}
                 </Box>
                 <Box>
                     <TextField
@@ -166,12 +149,8 @@ export default function Register() {
                         fullWidth
                         required
                         error={!!warnings.email}
+                        helperText={warnings.email}
                     />
-                    {warnings?.email ? (
-                        <Typography component="small" color="error">
-                            {warnings.email}
-                        </Typography>
-                    ) : null}
                 </Box>
 
                 <Box>

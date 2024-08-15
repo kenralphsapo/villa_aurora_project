@@ -186,8 +186,13 @@ export function UserDialogs() {
                 }}
             >
                 <Typography variant="h2">Users</Typography>
-                <Button sx={{ mr: 5 }} onClick={() => setCreateDialog(true)}>
-                    Create Service
+                <Button
+                    sx={{ mr: 5 }}
+                    variant="contained"
+                    color="info"
+                    onClick={() => setCreateDialog(true)}
+                >
+                    Create User
                 </Button>
             </Box>
             <DataGrid autoHeight columns={columns} rows={rows} />

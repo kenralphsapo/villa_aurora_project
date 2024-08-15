@@ -26,6 +26,19 @@ export const checkToken = async (token) => {
     return await response.json();
 };
 
+export const revokeToken = async (token) => {
+    const response = await fetch(`${url}/revokeToken`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return await response.json();
+};
+
 export const login = async (body) => {
     const response = await fetch(`${url}/login`, {
         method: "POST",

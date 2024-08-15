@@ -15,16 +15,39 @@ class AuthController extends Controller
      */
     public function register(Request $request) {
         $validator = validator($request->all(), [
-            "username" => "required|min:4|string|unique:users|max:32|regex:/^\w+$/",
-            "password" => "required|min:8|max:32|string|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*/d)(?=.*?[!$#%]).*P@55w0rd$/",
-            "mobile" => "required|min:11|max:13|phone:PH",
-            "email" => "required|email|max:64|unique:users",
-            "role" => "sometimes|in:guest,scheduler,admin",
+            'username' => [
+                'required',
+                'min:4',
+                'string',
+                'unique:users',
+                'max:32',
+                'regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).+$/',
+            ],
+            'password' => [
+                'required',
+                'min:8',
+                'max:32',
+                'string',
+                'confirmed',
+                'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[!$#%]).+$/',
+            ],
+            'mobile' => [
+                'required',
+                'min:11',
+                'max:13',
+                'phone:PH',
+            ],
+            'email' => [
+                'required',
+                'email',
+                'max:20',
+                'unique:users',
+            ],
         ], [
-            "username.regex" => "The username must contain only letters, numbers, and underscores.",
-            "password.regex" => "The password must contain at least one letter, one number, and one special character."
+            'username.regex' => 'The username must contain at least one letter, one number, and one special character.',
+            'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
-
+        
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
