@@ -27,6 +27,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
+import { logoutUser } from "../redux/authSlice";
 
 const drawerWidth = 240;
 
@@ -42,14 +43,19 @@ function Navigation() {
     const toggleDrawer = (open) => () => {
         setDrawerOpen(open);
     };
-
-    const logout = () => {
-        removeCookie("AUTH_TOKEN");
-        toast.success(res?.message ?? "Logged out successfully.");
-        navigate("/");
-        dispatch();
+    const handleLogout = () => {
+        const token = cookies.AUTH_TOKEN;
+        dispatch(logoutUser(token))
+            .unwrap() // Unwrap to directly handle fulfilled/rejected cases
+            .then(() => {
+                removeCookie("AUTH_TOKEN");
+                navigate("/login");
+                toast.success("Logged out successfully.");
+            })
+            .catch((err) => {
+                toast.error("Logout failed: " + err);
+            });
     };
-
     const drawerItems = (
         <div
             role="presentation"
@@ -167,6 +173,20 @@ function Navigation() {
                                     <LoginIcon />
                                 </IconButton>
                                 {user ? (
+                                    <Button onClick={handleLogout}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                ml: 1,
+                                                color: "white",
+                                                mr: 2,
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            Logout
+                                        </Typography>
+                                    </Button>
+                                ) : (
                                     <Link
                                         to="/login"
                                         style={{ textDecoration: "none" }}
@@ -182,20 +202,6 @@ function Navigation() {
                                             Sign up
                                         </Typography>
                                     </Link>
-                                ) : (
-                                    <Button onClick={logout}>
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                ml: 1,
-                                                color: "white",
-                                                mr: 2,
-                                                cursor: "pointer",
-                                            }}
-                                        >
-                                            Logout
-                                        </Typography>
-                                    </Button>
                                 )}
                             </Box>
                             <Drawer
@@ -297,7 +303,7 @@ function Navigation() {
                                     <LoginIcon />
                                 </IconButton>
                                 {user ? (
-                                    <Button onClick={logout}>
+                                    <Button onClick={handleLogout}>
                                         <Typography
                                             variant="body2"
                                             sx={{

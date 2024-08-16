@@ -26,6 +26,7 @@ export const checkToken = async (token) => {
     return await response.json();
 };
 
+// api/auth.js
 export const revokeToken = async (token) => {
     const response = await fetch(`${url}/revokeToken`, {
         method: "POST",
@@ -35,8 +36,7 @@ export const revokeToken = async (token) => {
             Authorization: `Bearer ${token}`,
         },
     });
-
-    return await response.json();
+    return response;
 };
 
 export const login = async (body) => {

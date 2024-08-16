@@ -92,7 +92,12 @@ export default function Login() {
                         helperText={error ? "Invalid input" : ""}
                     />
                 </Box>
-                <Button type="submit" id="submit-button" fullWidth>
+                <Button
+                    type="submit"
+                    id="submit-button"
+                    disabled={loading}
+                    fullWidth
+                >
                     Login
                 </Button>
                 <Box className="forgot-password">
