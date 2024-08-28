@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     AppBar,
     Toolbar,
@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { logoutUser } from "../redux/authSlice";
+import { index } from "../api/user";
 
 const drawerWidth = 240;
 
@@ -39,6 +40,7 @@ function Navigation() {
     const [cookies, setCookie, removeCookie] = useCookies();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [active, setActive] = useState(false);
 
     const toggleDrawer = (open) => () => {
         setDrawerOpen(open);
@@ -46,7 +48,7 @@ function Navigation() {
     const handleLogout = () => {
         const token = cookies.AUTH_TOKEN;
         dispatch(logoutUser(token))
-            .unwrap() // Unwrap to directly handle fulfilled/rejected cases
+            .unwrap()
             .then(() => {
                 removeCookie("AUTH_TOKEN");
                 navigate("/login");
@@ -56,6 +58,21 @@ function Navigation() {
                 toast.error("Logout failed: " + err);
             });
     };
+
+    const checkActive = () => {
+        index(cookies.AUTH_TOKEN).then((res) => {
+            if (res?.ok) {
+                setActive(true);
+            } else {
+                setActive(false);
+            }
+        });
+    };
+
+    useEffect(() => {
+        checkActive();
+    }, []);
+
     const drawerItems = (
         <div
             role="presentation"
@@ -172,7 +189,7 @@ function Navigation() {
                                 >
                                     <LoginIcon />
                                 </IconButton>
-                                {user ? (
+                                {active ? (
                                     <Button onClick={handleLogout}>
                                         <Typography
                                             variant="body2"
@@ -252,7 +269,7 @@ function Navigation() {
                             >
                                 Contact
                             </Button>
-                            {user ? (
+                            {active ? (
                                 <>
                                     {user?.role == "admin" ? (
                                         <Link
@@ -302,7 +319,7 @@ function Navigation() {
                                 >
                                     <LoginIcon />
                                 </IconButton>
-                                {user ? (
+                                {active ? (
                                     <Button onClick={handleLogout}>
                                         <Typography
                                             variant="body2"

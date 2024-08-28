@@ -71,7 +71,7 @@ export function ServiceDialog() {
         },
     ];
 
-    const SrefreshData = () => {
+    const ServicerefreshData = () => {
         showAllServices().then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
@@ -81,7 +81,7 @@ export function ServiceDialog() {
         });
     };
 
-    useEffect(SrefreshData, []);
+    useEffect(ServicerefreshData, []);
 
     const onCreateService = (e) => {
         e.preventDefault();
@@ -98,7 +98,7 @@ export function ServiceDialog() {
                             res?.message ?? "Service has been created"
                         );
                         setCreateServDialog(false);
-                        SrefreshData();
+                        ServicerefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -117,7 +117,7 @@ export function ServiceDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Service has deleted");
                         setServiceDeleteDialog(null);
-                        SrefreshData();
+                        ServicerefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -143,7 +143,7 @@ export function ServiceDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Service has updated");
                         setEditServiceDialog(null);
-                        SrefreshData();
+                        ServicerefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }

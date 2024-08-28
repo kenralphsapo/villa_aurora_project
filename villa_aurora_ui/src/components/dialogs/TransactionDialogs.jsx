@@ -40,7 +40,7 @@ export function TransactionDialogs() {
     const [deleteTransactionDialog, setDeleteTransactionDialog] =
         useState(null);
     const [editTransactionDialog, setEditTransactionDialog] = useState(null);
-
+    const [serviceNames, setServiceNames] = useState([]);
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
 
@@ -110,6 +110,20 @@ export function TransactionDialogs() {
     ];
 
     //  Create transaction Area
+    const onAddService = () => {
+        const service = serviceNames.find((s) => s.name === addId);
+        if (service && !serviceIds.includes(service.id)) {
+            setServiceIds([...serviceIds, service.id]);
+            setAddId("");
+        } else {
+            toast.error("Service name is invalid or already added.");
+        }
+    };
+
+    const onRemoveService = (id) => {
+        setServiceIds(serviceIds.filter((serviceId) => serviceId !== id));
+    };
+
     const onCreateTransaction = (e) => {
         e.preventDefault();
         if (!loading) {
@@ -143,18 +157,6 @@ export function TransactionDialogs() {
                     setLoading(false);
                 });
         }
-    };
-
-    const onAddService = () => {
-        const addservice = addId.trim();
-        if (addservice !== "") {
-            setServiceIds([...serviceIds, addservice]);
-            setAddId("");
-        }
-    };
-
-    const onRemoveService = (id) => {
-        setServiceIds(serviceIds.filter((service) => service.id !== id));
     };
 
     //  Edit transaction Area
@@ -241,13 +243,7 @@ export function TransactionDialogs() {
 
     useEffect(() => {
         UserrefreshData();
-    }, []);
-
-    useEffect(() => {
         RoomrefreshData();
-    }, []);
-
-    useEffect(() => {
         ServiceRefreshData();
     }, []);
 
@@ -443,13 +439,13 @@ export function TransactionDialogs() {
 
                         <TextField
                             id="service_id"
-                            label="Service ID(s)"
+                            label="Service Name"
                             variant="outlined"
                             margin="normal"
                             fullWidth
                             value={addId}
                             onChange={(e) => setAddId(e.target.value)}
-                            helperText="Enter service ID and click Add"
+                            helperText="Enter service name and click Add"
                         />
                         {warnings?.service_id ? (
                             <Typography component="small" color="error">
@@ -464,36 +460,48 @@ export function TransactionDialogs() {
                         >
                             Add
                         </Button>
-                        {serviceIds.map((serviceId, index) => (
-                            <Box
-                                key={index}
-                                mt={1}
-                                display="flex"
-                                alignItems="center"
-                            >
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    fullWidth
-                                    value={serviceId}
-                                    disabled
-                                />
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() => onRemoveService(serviceId)}
-                                    style={{ marginLeft: "10px" }}
+                        {serviceIds.map((serviceId, index) => {
+                            const service = serviceNames.find(
+                                (s) => s.id === serviceId
+                            );
+                            return (
+                                <Box
+                                    key={index}
+                                    mt={1}
+                                    display="flex"
+                                    alignItems="center"
                                 >
-                                    Remove
-                                </Button>
-                            </Box>
-                        ))}
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        value={service?.name || ""}
+                                        disabled
+                                    />
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() =>
+                                            onRemoveService(serviceId)
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                    >
+                                        Remove
+                                    </Button>
+                                </Box>
+                            );
+                        })}
                         <Box className="d-flex justify-content-end align-items-center mt-2">
                             <Button
                                 color="info"
-                                onClick={() =>
-                                    setCreateTransactionDialog(false)
-                                }
+                                onClick={() => {
+                                    setCreateTransactionDialog(false);
+                                    setWarnings({});
+                                    setServiceIds([]);
+                                    setAddId("");
+                                    setRoomRows([]);
+                                    setRows([]);
+                                }}
                                 style={{ border: "2px solid blue" }}
                             >
                                 Close

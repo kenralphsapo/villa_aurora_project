@@ -26,7 +26,7 @@ export const store = async (body, token) => {
     return await response.json();
 };
 
-export const destroy = async (id, token) => {
+export const destroy = async (token) => {
     const response = await fetch(`${url}/users/deleteUser`, {
         method: "POST",
         headers: {
@@ -38,7 +38,7 @@ export const destroy = async (id, token) => {
     return await response.json();
 };
 
-export const update = async (body, id, token) => {
+export const update = async (body, token) => {
     const response = await fetch(`${url}/users/updateUser`, {
         method: "POST",
         headers: {

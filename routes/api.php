@@ -15,7 +15,7 @@ Route::middleware(['auth:api'])->group(function(){
     // URL: GET http://localhost:8000/api/checkToken - Check token validity (requires authentication)
     Route::post('revokeToken',[App\Http\Controllers\AuthController::class,'revokeToken']);
     // URL: POST http://localhost:8000/api/revokeToken - Revoke token (requires authentication)
-});
+
 
 
 
@@ -32,6 +32,8 @@ Route::prefix("users")->group(function() {
 
     Route::post("/deleteUser", [App\Http\Controllers\UserController::class, 'destroy']); 
     // URL: POST http://localhost:8000/api/users/deleteUser - Delete a user
+});
+
 });
 
 // Service Routes

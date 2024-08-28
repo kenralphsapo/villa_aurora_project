@@ -1,177 +1,98 @@
 import React, { useState } from "react";
 import {
-    Box,
     TextField,
     Button,
     Typography,
-    AppBar,
-    Toolbar,
+    Container,
+    IconButton,
+    Box,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { login as loginAPI } from "../api/auth";
-import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { login } from "../redux/authSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+
+const ForgotPasswordContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: theme.spacing(4),
+    borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#fff",
+    position: "relative",
+    maxWidth: "400px",
+    margin: "0 auto",
+}));
+
+const CloseButton = styled(IconButton)(({ theme }) => ({
+    position: "absolute",
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+}));
 
 export default function ForgotPassword() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [cookies, setCookie, removeCookie] = useCookies();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-    const onSubmit = (e) => {
+    const mavigate = useNavigate();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        loginAPI({
-            username,
-            password,
-        }).then((res) => {
-            if (res?.ok) {
-                setCookie("AUTH_TOKEN", res.data.token);
-                dispatch(login(res.data));
-                navigate("/");
-                toast.success(res?.message ?? "Logged in successfully.");
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
-            }
-        });
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+            toast.info(
+                "If an account with that email exists, a password reset link will be sent."
+            );
+            setEmail("");
+        }, 2000);
     };
 
     return (
-        <Box>
-            <AppBar
-                position="static"
-                sx={{ boxShadow: "0 0 10px black", padding: "2px 10px" }}
-            >
-                <Toolbar
+        <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center" }}>
+            <Container maxWidth="xs">
+                <ForgotPasswordContainer
                     sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
+                        boxShadow: "4px 4px 10px black",
                     }}
-                    component="form"
-                    onSubmit={onSubmit}
                 >
-                    <Typography variant="h6" sx={{ color: "white" }}>
-                        Villa Aurora Private Resort
+                    <CloseButton onClick={() => mavigate("/login")}>
+                        <CloseIcon />
+                    </CloseButton>
+                    <Typography variant="h4" gutterBottom>
+                        Forgot Password
                     </Typography>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Box sx={{ marginLeft: "10px" }}>
-                            <TextField
-                                type="text"
-                                value={username}
-                                placeholder="Username or Email"
-                                sx={{ backgroundColor: "white" }}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </Box>
-                        <Box sx={{ marginLeft: "10px" }}>
-                            <TextField
-                                type="password"
-                                value={password}
-                                placeholder="Password"
-                                sx={{ backgroundColor: "white" }}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </Box>
-                        <Box>
-                            <Button
-                                variant="contained"
-                                sx={{ marginLeft: "10px" }}
-                                color="success"
-                                type="submit"
-                            >
-                                Login
-                            </Button>
-                        </Box>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "80vh",
-                }}
-            >
-                <Box
-                    sx={{
-                        height: "300px",
-                        width: "500px",
-                        boxShadow: "0 0 10px black",
-                        padding: "10px",
-                        borderRadius: "5px",
-                    }}
-                >
-                    <Box component="form">
-                        <Typography
-                            variant="h6"
-                            id="font-TimesRoman"
-                            sx={{
-                                borderBottom: "2px #b0b0b0 solid",
-                                paddingBottom: "10px",
-                                marginLeft: "10px",
-                            }}
-                        >
-                            Find your account
-                        </Typography>
-                        <Typography
-                            id="font-TimesRoman"
-                            sx={{
-                                fontSize: "20px",
-                                marginLeft: "10px",
-                                marginBottom: "10px",
-                            }}
-                        >
-                            Please enter your email to search for your account.
-                        </Typography>
+                    <Typography variant="body1" paragraph>
+                        Enter your email address and we'll send you a link to
+                        reset your password.
+                    </Typography>
+                    <form onSubmit={handleSubmit}>
                         <TextField
-                            type="text"
-                            placeholder="Email"
-                            sx={{
-                                height: "50px",
-                                fontSize: "20px",
-                                margin: "auto",
-                                display: "block",
-                                mt: 5,
-                            }}
+                            label="Email"
+                            type="email"
                             fullWidth
+                            margin="normal"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            variant="outlined"
                         />
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                alignItems: "flex-end",
-                                mt: 5,
-                            }}
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            disabled={isLoading}
+                            style={{ marginTop: "16px" }}
                         >
-                            <Button variant="contained">
-                                <Link
-                                    to="/login"
-                                    className="text-white text-decoration-none"
-                                >
-                                    Cancel
-                                </Link>
-                            </Button>
-                            <Button
-                                variant="contained"
-                                sx={{ marginLeft: "10px" }}
-                            >
-                                Search
-                            </Button>
-                        </Box>
-                    </Box>
-                </Box>
-            </Box>
+                            {isLoading ? "Sending..." : "Send Reset Link"}
+                        </Button>
+                    </form>
+                </ForgotPasswordContainer>
+                <ToastContainer />
+            </Container>
         </Box>
     );
 }

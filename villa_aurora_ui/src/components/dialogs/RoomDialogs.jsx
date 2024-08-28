@@ -66,7 +66,7 @@ export function RoomDialog() {
         },
     ];
 
-    const RrefreshData = () => {
+    const RoomrefreshData = () => {
         showAllRooms().then((res) => {
             if (res?.ok) {
                 setRoomRows(res.data);
@@ -90,7 +90,7 @@ export function RoomDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
                         setEditRoomDialog(null);
-                        RrefreshData();
+                        RoomrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -101,7 +101,7 @@ export function RoomDialog() {
         }
     };
 
-    useEffect(RrefreshData, []);
+    useEffect(RoomrefreshData, []);
 
     const onCreateRoom = (e) => {
         e.preventDefault();
@@ -116,7 +116,7 @@ export function RoomDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has been created");
                         setCreateRoomDialog(false);
-                        RrefreshData();
+                        RoomrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -134,7 +134,7 @@ export function RoomDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has deleted");
                         setRoomDeleteDialog(null);
-                        RrefreshData();
+                        RoomrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }

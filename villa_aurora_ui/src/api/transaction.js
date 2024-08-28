@@ -26,7 +26,7 @@ export const addTransaction = async (body, token) => {
     return await response.json();
 };
 
-export const updateTransaction = async (body, id, token) => {
+export const updateTransaction = async (body, token) => {
     const response = await fetch(`${url}/transactions/updateTransaction`, {
         method: "POST",
         headers: {
@@ -40,7 +40,7 @@ export const updateTransaction = async (body, id, token) => {
     return await response.json();
 };
 
-export const deleteTransaction = async (id, token) => {
+export const deleteTransaction = async (token) => {
     const response = await fetch(`${url}/transactions/deleteTransaction`, {
         method: "POST",
         headers: {
