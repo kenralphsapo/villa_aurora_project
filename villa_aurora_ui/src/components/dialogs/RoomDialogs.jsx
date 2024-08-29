@@ -9,12 +9,11 @@ import {
     Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-
 import { DataGrid } from "@mui/x-data-grid";
-
 import $ from "jquery";
 import { toast } from "react-toastify";
 import { addRoom, deleteRoom, showAllRooms, updateRoom } from "../../api/room";
+import { useCookies } from "react-cookie";
 
 export function RoomDialog() {
     // For Rooms
@@ -22,8 +21,9 @@ export function RoomDialog() {
     const [deleteDialog, setDeleteDialog] = useState(null);
     const [editDialog, setEditDialog] = useState(null);
     const [createDialog, setCreateDialog] = useState(null);
-
+    const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
     // For Rooms
     const roomcolumns = [
         { field: "id", headerName: "ID" },
@@ -66,8 +66,8 @@ export function RoomDialog() {
         },
     ];
 
-    const RoomrefreshData = () => {
-        showAllRooms().then((res) => {
+    const refreshData = () => {
+        showAllRooms(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setRoomRows(res.data);
             } else {
@@ -82,17 +82,22 @@ export function RoomDialog() {
             setLoading(true);
             updateRoom(
                 {
+                    id: editDialog.id,
                     name: editDialog.name,
+                    price: editDialog.price,
                 },
-                editDialog.id
+                cookies.AUTH_TOKEN
             )
                 .then((res) => {
+                    console.log(res);
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
                         setEditDialog(null);
-                        RoomrefreshData();
+                        refreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -101,7 +106,7 @@ export function RoomDialog() {
         }
     };
 
-    useEffect(RoomrefreshData, []);
+    useEffect(refreshData, []);
 
     const onCreateRoom = (e) => {
         e.preventDefault();
@@ -116,9 +121,11 @@ export function RoomDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has been created");
                         setCreateDialog(false);
-                        RoomrefreshData();
+                        refreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -134,7 +141,7 @@ export function RoomDialog() {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has deleted");
                         setDeleteDialog(null);
-                        RoomrefreshData();
+                        refreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
                     }
@@ -189,24 +196,40 @@ export function RoomDialog() {
                                 required
                             />
                         </Box>
-                        <Box className="d-flex justify-content-center align-items-center">
+                        <Box>
                             <Button
-                                color="info"
-                                onClick={() => setCreateDialog(false)}
-                            >
-                                Close
-                            </Button>
-                            <Button
-                                id="roombtn"
+                                id="submit_btn"
                                 disabled={loading}
                                 type="submit"
-                                color="success"
+                                sx={{ display: "none" }}
                             >
                                 Submit
                             </Button>
                         </Box>
                     </Box>
                 </DialogContent>
+                <DialogActions>
+                    <Button
+                        color="info"
+                        onClick={() => {
+                            setWarnings({});
+                            setCreateDialog(false);
+                        }}
+                        style={{ border: "2px solid #077bff" }}
+                    >
+                        Close
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            $("#submit_btn").trigger("click");
+                        }}
+                        id="submitbtn"
+                        disabled={loading}
+                        style={{ border: "2px solid green", color: "green" }}
+                    >
+                        Create
+                    </Button>
+                </DialogActions>
             </Dialog>
             {/* Delete Room */}
             <Dialog open={!!deleteDialog}>
@@ -221,10 +244,17 @@ export function RoomDialog() {
                         display: !!deleteDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setDeleteDialog(null)}>
+                    <Button
+                        onClick={() => setDeleteDialog(null)}
+                        style={{ border: "2px solid #077bff" }}
+                    >
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteRoom}>
+                    <Button
+                        disabled={loading}
+                        onClick={onDeleteRoom}
+                        style={{ border: "2px solid red", color: "red" }}
+                    >
                         Confirm
                     </Button>
                 </DialogActions>
@@ -250,6 +280,21 @@ export function RoomDialog() {
                                 fullWidth
                             />
                         </Box>
+                        <Box sx={{ mt: 1 }}>
+                            <TextField
+                                onChange={(e) =>
+                                    setEditDialog({
+                                        ...editDialog,
+                                        price: e.target.value,
+                                    })
+                                }
+                                value={editDialog?.price ?? ""}
+                                size="small"
+                                label="Price"
+                                type="number"
+                                fullWidth
+                            />
+                        </Box>
                         <Button
                             id="room-btn"
                             type="submit"
@@ -260,11 +305,20 @@ export function RoomDialog() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setEditDialog(null)}>Cancel</Button>
+                    <Button
+                        onClick={() => setEditDialog(null)}
+                        style={{ border: "2px solid #077bff" }}
+                    >
+                        Cancel
+                    </Button>
                     <Button
                         disabled={loading}
                         onClick={() => {
                             $("#room-btn").trigger("click");
+                        }}
+                        style={{
+                            border: "2px solid orangered",
+                            color: "orangered",
                         }}
                     >
                         Update

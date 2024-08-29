@@ -15,7 +15,7 @@ class RoomController extends Controller
      */
     public function addRoom(Request $request) {
         $validator = validator($request->all(), [
-            "name" => "required|min:1|max:50|string",
+            "name" => "required|min:1|max:50|string|unique:services",
             "price" => "required|min:1|max:100000|numeric"
         ]);
 
@@ -50,7 +50,7 @@ class RoomController extends Controller
     
         $validator = validator($data, [
             'id' => 'required|exists:rooms,id',
-            'name' => 'required',
+            'name' => 'sometimes|min:1|max:50|unique:services,name,' . $data['id'] . '|string',
             'price' => 'required|numeric', 
         ]);
     

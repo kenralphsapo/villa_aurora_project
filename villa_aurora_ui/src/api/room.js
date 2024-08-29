@@ -20,11 +20,13 @@ export const addRoom = async (body) => {
     return await response.json();
 };
 
-export const updateRoom = async (body, id) => {
+export const updateRoom = async (body, token) => {
     const response = await fetch(`${url}/rooms/updateRoom`, {
         method: "POST",
         headers: {
+            Accept: "application/json",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
     });
@@ -32,9 +34,15 @@ export const updateRoom = async (body, id) => {
     return await response.json();
 };
 
-export const deleteRoom = async (id) => {
+export const deleteRoom = async (id, token) => {
     const response = await fetch(`${url}/rooms/deleteRoom`, {
         method: "POST",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
     });
 
     return await response.json();
