@@ -76,7 +76,7 @@ export function RoomDialog() {
         });
     };
 
-    const onEditRoom = (e) => {
+    const onEdit = (e) => {
         e.preventDefault();
         if (!loading) {
             setLoading(true);
@@ -89,7 +89,6 @@ export function RoomDialog() {
                 cookies.AUTH_TOKEN
             )
                 .then((res) => {
-                    console.log(res);
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
                         setEditDialog(null);
@@ -108,7 +107,7 @@ export function RoomDialog() {
 
     useEffect(refreshData, []);
 
-    const onCreateRoom = (e) => {
+    const onCreate = (e) => {
         e.preventDefault();
         if (!loading) {
             const body = {
@@ -116,8 +115,9 @@ export function RoomDialog() {
                 price: $("#price").val(),
             };
 
-            addRoom(body)
+            addRoom(body, cookies.AUTH_TOKEN)
                 .then((res) => {
+                    console.log(res);
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has been created");
                         setCreateDialog(false);
@@ -133,7 +133,8 @@ export function RoomDialog() {
                 });
         }
     };
-    const onDeleteRoom = (e) => {
+    const onDelete = (e) => {
+        e.preventDefault();
         if (!loading) {
             setLoading(true);
             deleteRoom(deleteDialog)
@@ -175,7 +176,7 @@ export function RoomDialog() {
             <Dialog open={!!createDialog}>
                 <DialogTitle>Create Room Form</DialogTitle>
                 <DialogContent>
-                    <Box component="form" onSubmit={onCreateRoom}>
+                    <Box component="form" onSubmit={onCreate}>
                         <Box>
                             <TextField
                                 id="name"
@@ -184,6 +185,8 @@ export function RoomDialog() {
                                 margin="normal"
                                 fullWidth
                                 required
+                                errors={!!warnings?.name}
+                                helperText={warnings?.name}
                             />
                         </Box>
                         <Box>
@@ -194,6 +197,8 @@ export function RoomDialog() {
                                 margin="normal"
                                 fullWidth
                                 required
+                                errors={!!warnings?.price}
+                                helperText={warnings?.price}
                             />
                         </Box>
                         <Box>
@@ -252,7 +257,7 @@ export function RoomDialog() {
                     </Button>
                     <Button
                         disabled={loading}
-                        onClick={onDeleteRoom}
+                        onClick={onDelete}
                         style={{ border: "2px solid red", color: "red" }}
                     >
                         Confirm
@@ -264,7 +269,7 @@ export function RoomDialog() {
             <Dialog open={!!editDialog}>
                 <DialogTitle>Edit Room</DialogTitle>
                 <DialogContent>
-                    <Box component="form" sx={{ p: 1 }} onSubmit={onEditRoom}>
+                    <Box component="form" sx={{ p: 1 }} onSubmit={onEdit}>
                         <Box sx={{ mt: 1 }}>
                             <TextField
                                 onChange={(e) =>
