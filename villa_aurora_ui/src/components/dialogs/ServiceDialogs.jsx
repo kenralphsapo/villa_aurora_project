@@ -17,16 +17,17 @@ import {
     showAllServices,
     updateService,
 } from "../../api/service";
-
 import $ from "jquery";
 import { toast } from "react-toastify";
+import { useCookies } from "react-cookie";
 
 export function ServiceDialog() {
-    // For Services
     const [serviceRows, setServiceRows] = useState([]);
-    const [createServDialog, setCreateServDialog] = useState(false);
-    const [deleteServiceDialog, setServiceDeleteDialog] = useState(null);
-    const [editServiceDialog, setEditServiceDialog] = useState(null);
+    const [createDialog, setCreateDialog] = useState(false);
+    const [deleteDialog, setDeleteDialog] = useState(null);
+    const [editDialog, setEditDialog] = useState(null);
+    const [warnings, setWarnings] = useState({});
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
 
     const [loading, setLoading] = useState(false);
     // For Services
@@ -54,14 +55,14 @@ export function ServiceDialog() {
                     <Button
                         variant="contained"
                         color="warning"
-                        onClick={() => setEditServiceDialog({ ...params.row })}
+                        onClick={() => setEditDialog({ ...params.row })}
                     >
                         Edit
                     </Button>
                     <Button
                         variant="contained"
                         color="error"
-                        onClick={() => setServiceDeleteDialog(params.row.id)}
+                        onClick={() => setDeleteDialog(params.row.id)}
                     >
                         Delete
                     </Button>
@@ -71,8 +72,8 @@ export function ServiceDialog() {
         },
     ];
 
-    const ServicerefreshData = () => {
-        showAllServices().then((res) => {
+    const refreshData = () => {
+        showAllServices(cookies.AUTH_TOKEN).then((res) => {
             if (res?.ok) {
                 setServiceRows(res.data);
             } else {
@@ -81,9 +82,9 @@ export function ServiceDialog() {
         });
     };
 
-    useEffect(ServicerefreshData, []);
+    useEffect(refreshData, []);
 
-    const onCreateService = (e) => {
+    const onCreate = (e) => {
         e.preventDefault();
         if (!loading) {
             const body = {
@@ -91,16 +92,18 @@ export function ServiceDialog() {
                 price: $("#price").val(),
             };
 
-            addService(body)
+            addService(body, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(
                             res?.message ?? "Service has been created"
                         );
-                        setCreateServDialog(false);
-                        ServicerefreshData();
+                        setCreateDialog(false);
+                        refreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -109,43 +112,47 @@ export function ServiceDialog() {
         }
     };
 
-    const onDeleteService = (e) => {
-        if (!loading) {
-            setLoading(true);
-            deleteService(deleteServiceDialog)
-                .then((res) => {
-                    if (res?.ok) {
-                        toast.success(res?.message ?? "Service has deleted");
-                        setServiceDeleteDialog(null);
-                        ServicerefreshData();
-                    } else {
-                        toast.error(res?.message ?? "Something went wrong.");
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
-
-    const onEditService = (e) => {
+    const onDelete = (e) => {
         e.preventDefault();
         if (!loading) {
             setLoading(true);
-            updateService(
-                {
-                    name: editServiceDialog.name,
-                    price: editServiceDialog.price,
-                },
-                editServiceDialog.id
-            )
+            deleteService(deleteDialog, cookies.AUTH_TOKEN)
+                .then((res) => {
+                    console.log(res);
+                    if (res?.ok) {
+                        toast.success(
+                            res?.message ?? "Service has been deleted"
+                        );
+                        setDeleteDialog(null);
+                        refreshData();
+                    } else {
+                        toast.error(res?.message ?? "Something went wrong.");
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
+
+    const onEdit = (e) => {
+        e.preventDefault();
+        if (!loading) {
+            setLoading(true);
+            updateService({
+                id: editDialog.id,
+                name: editDialog.name,
+                price: editDialog.price,
+            })
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Service has updated");
-                        setEditServiceDialog(null);
-                        ServicerefreshData();
+                        setEditDialog(null);
+                        refreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -155,7 +162,7 @@ export function ServiceDialog() {
     };
 
     return (
-        <Box id="section2">
+        <Box className="mt-2" id="section2">
             <Box
                 sx={{
                     display: "flex",
@@ -168,17 +175,17 @@ export function ServiceDialog() {
                     variant="contained"
                     color="info"
                     sx={{ mr: 5 }}
-                    onClick={() => setCreateServDialog(true)}
+                    onClick={() => setCreateDialog(true)}
                 >
                     Create Service
                 </Button>
             </Box>
             <DataGrid autoHeight columns={servicecolumns} rows={serviceRows} />
             {/* Create Service */}
-            <Dialog open={!!createServDialog}>
+            <Dialog open={!!createDialog}>
                 <DialogTitle>Create Service Form</DialogTitle>
                 <DialogContent>
-                    <Box component="form" onSubmit={onCreateService}>
+                    <Box component="form" onSubmit={onCreate}>
                         <Box>
                             <TextField
                                 id="name"
@@ -187,6 +194,8 @@ export function ServiceDialog() {
                                 margin="normal"
                                 fullWidth
                                 required
+                                error={!!warnings?.name}
+                                helperText={warnings?.name}
                             />
                         </Box>
                         <Box>
@@ -198,88 +207,115 @@ export function ServiceDialog() {
                                 type="number"
                                 fullWidth
                                 required
+                                error={!!warnings?.price}
+                                helperText={warnings?.price}
                             />
                         </Box>
-                        <Box className="d-flex justify-content-center align-items-center">
+                        <Box>
                             <Button
-                                color="info"
-                                onClick={() => setCreateServDialog(false)}
-                            >
-                                Close
-                            </Button>
-                            <Button
-                                id="submitbtn"
+                                id="submit_btn"
                                 disabled={loading}
                                 type="submit"
-                                color="success"
+                                sx={{ display: "none" }}
                             >
                                 Submit
                             </Button>
                         </Box>
                     </Box>
                 </DialogContent>
+                <DialogActions>
+                    <Button
+                        color="info"
+                        onClick={() => {
+                            setWarnings({});
+                            setCreateDialog(false);
+                        }}
+                        style={{ border: "2px solid #077bff" }}
+                    >
+                        Close
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            $("#submit_btn").trigger("click");
+                        }}
+                        id="submitbtn"
+                        disabled={loading}
+                        color="success"
+                        style={{ border: "2px solid green" }}
+                    >
+                        Create
+                    </Button>
+                </DialogActions>
             </Dialog>
 
             {/* Delete Service */}
-            <Dialog open={!!deleteServiceDialog}>
+            <Dialog open={!!deleteDialog}>
                 <DialogTitle>Are you sure?</DialogTitle>
                 <DialogContent>
                     <Typography>
-                        Do you want to delete this Service ID:{" "}
-                        {deleteServiceDialog}
+                        Do you want to delete this Service ID: {deleteDialog}
                     </Typography>
                 </DialogContent>
                 <DialogActions
                     sx={{
-                        display: !!deleteServiceDialog ? "flex" : "none",
+                        display: !!deleteDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setServiceDeleteDialog(null)}>
+                    <Button
+                        onClick={() => setDeleteDialog(null)}
+                        style={{ border: "1px solid #077bff" }}
+                    >
                         Cancel
                     </Button>
-                    <Button disabled={loading} onClick={onDeleteService}>
+                    <Button
+                        disabled={loading}
+                        onClick={onDelete}
+                        style={{ border: "1px solid red", color: "red" }}
+                    >
                         Confirm
                     </Button>
                 </DialogActions>
             </Dialog>
 
             {/* Edit Service */}
-            <Dialog open={!!editServiceDialog}>
+            <Dialog open={!!editDialog}>
                 <DialogTitle>Edit Service</DialogTitle>
                 <DialogContent>
-                    <Box
-                        component="form"
-                        sx={{ p: 1 }}
-                        onSubmit={onEditService}
-                    >
+                    <Box component="form" sx={{ p: 1 }} onSubmit={onEdit}>
                         <Box sx={{ mt: 1 }}>
                             <TextField
                                 onChange={(e) =>
-                                    setEditServiceDialog({
-                                        ...editServiceDialog,
+                                    setEditDialog({
+                                        ...editDialog,
                                         name: e.target.value,
                                     })
                                 }
-                                value={editServiceDialog?.name ?? ""}
+                                value={editDialog?.name ?? ""}
                                 size="small"
                                 label="Service name"
                                 type="text"
                                 fullWidth
+                                required
+                                error={!!warnings?.name}
+                                helperText={warnings?.name}
                             />
                         </Box>
                         <Box sx={{ mt: 1 }}>
                             <TextField
                                 onChange={(e) =>
-                                    setEditServiceDialog({
-                                        ...editServiceDialog,
+                                    setEditDialog({
+                                        ...editDialog,
                                         price: e.target.value,
                                     })
                                 }
-                                value={editServiceDialog?.price ?? ""}
+                                value={editDialog?.price ?? ""}
                                 size="small"
                                 label="Price"
                                 type="number"
                                 fullWidth
+                                required
+                                error={!!warnings?.price}
+                                helperText={warnings?.price}
                             />
                         </Box>
                         <Button
@@ -292,13 +328,20 @@ export function ServiceDialog() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setEditServiceDialog(null)}>
+                    <Button
+                        onClick={() => setEditDialog(null)}
+                        style={{ border: "1px solid #077bff" }}
+                    >
                         Cancel
                     </Button>
                     <Button
                         disabled={loading}
                         onClick={() => {
                             $("#service-btn").trigger("click");
+                        }}
+                        style={{
+                            border: "2px solid orangered",
+                            color: "orangered",
                         }}
                     >
                         Update

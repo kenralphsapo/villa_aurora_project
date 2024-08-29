@@ -15,11 +15,21 @@ class UserController extends Controller
      */
     public function store(Request $request) {
         $validator = validator($request->all(), [
-            "username" => "required|min:4|string|unique:users|max:32",
-            "password" => "required|min:8|max:32|string|confirmed|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/",
+            "username" => "required|min:4|string|unique:users|max:32|regex:/^[a-zA-Z]+$/",
+            'password' => [
+            'required',
+            'string',
+            'min:8',
+            'max:32',
+            'confirmed',
+            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/',
+            ],
             "mobile" => "required|min:11|max:13|phone:PH",
             "email" => "required|email|max:64|unique:users",
             "role" => "sometimes|in:guest,scheduler,admin"
+        ], [
+            'username.regex' => 'The username must contain only letters and no special characters, numbers, or spaces.',
+            'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
 
         if ($validator->fails()) {
@@ -53,37 +63,40 @@ class UserController extends Controller
      * @throws \Exception If the update operation fails
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request){
+    public function update(Request $request) {
         $data = $request->all();
     
+        
         $validator = validator($data, [
-            'id' => 'required',
-            'username' => 'required',
-            'password' => 'required|confirmed', 
-            'email' => 'required|email',
-            'mobile' => 'required|phone:PH",',
-            'role' => 'required'
+            'id' => 'required|exists:users,id', 
+            'username' => 'required|string|regex:/^[a-zA-Z]+$/', 
+            'email' => 'required|email|unique:users,email,'.$data['id'], 
+            'mobile' => 'required|min:11|max:13|phone:PH', 
+            'role' => 'required|string',
+        ], [
+            'username.regex' => 'The username must contain only letters and no special characters, numbers, or spaces.',
         ]);
     
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
     
         try {
-            User::where($data['id']); 
+            $user = User::findOrFail($data['id']);  
             $user->update([
                 'username' => $data['username'],
-                'password' => $data['password'], 
                 'email' => $data['email'],
                 'mobile' => $data['mobile'],
-                'role' => $data['role']
+                'role' => $data['role'],
             ]);
     
-            return $this->Ok($data, "User has been updated!");
+            return $this->Ok($user, "User has been updated!");
         } catch (\Exception $e) {
-            return $this->Specific("", "User Update Failed!");
+            
+            return $this->Specific($e->getMessage(), "User Update Failed!");
         }
     }
+    
     
 
     /**
@@ -103,7 +116,7 @@ class UserController extends Controller
             return $this->BadRequest($validator);
         }
 
-        //delete function can be inside an if statement
+        
         if(User::where('id',$data['id'])->delete()){
             return $this->Ok("","User is deleted!");
         }

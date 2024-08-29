@@ -60,11 +60,7 @@ function Admin() {
 
                     <Box>
                         <Box id="table">
-                            <UserDialogs />
-                            <ServiceDialog />
                             <RoomDialog />
-                            <TransactionDialogs />
-                            <TestimonialDialogs />
                         </Box>
                         <BottomNav />
                     </Box>

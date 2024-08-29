@@ -21,42 +21,43 @@ class AuthController extends Controller
                 'string',
                 'unique:users',
                 'max:32',
-                'regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).+$/',
+                'regex:/^[a-zA-Z]+$/', 
             ],
             'password' => [
                 'required',
+                'string',
                 'min:8',
                 'max:32',
-                'string',
                 'confirmed',
-                'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[!$#%]).+$/',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/', 
             ],
             'mobile' => [
                 'required',
                 'min:11',
                 'max:13',
-                'phone:PH',
+                'phone:PH', 
             ],
             'email' => [
                 'required',
                 'email',
-                'max:20',
+                'max:30',
                 'unique:users',
             ],
         ], [
-            'username.regex' => 'The username must contain at least one letter, one number, and one special character.',
+           'username.regex' => 'The username must contain only letters and no special characters, numbers, or spaces.',
             'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
         
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
-
+    
         $user = User::create($validator->validated());
         $user->token = $user->createToken("registration_token")->accessToken;
-
-        return $this->Ok($user, "Register Succesfully!");
+    
+        return $this->Ok($user, "Register Successfully!");
     }
+    
 
     /**
      * LOGIN a user
@@ -97,18 +98,14 @@ class AuthController extends Controller
         return $this->Ok($request->user(), "User info has been retrieved");
     }
 
-    public function revokeToken(Request $request)
-    {
-        // Ensure the user is authenticated
+    public function revokeToken(Request $request){
         $user = $request->user();
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
     
-        // Revoke the user's token
         $user->token()->revoke();
-    
-        // Respond with a success message
+
         return response()->json(['message' => 'Token has been revoked!'], 200);
     }
     

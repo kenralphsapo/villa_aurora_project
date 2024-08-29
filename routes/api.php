@@ -51,6 +51,8 @@ Route::prefix("services")->group(function() {
     // URL: POST http://localhost:8000/api/services/deleteService - Delete a service
 });
 
+
+
 // Room Routes
 Route::prefix("rooms")->group(function() {
     Route::post("/insertRoom", [App\Http\Controllers\RoomController::class, 'addRoom']); 

@@ -19,9 +19,9 @@ import { addRoom, deleteRoom, showAllRooms, updateRoom } from "../../api/room";
 export function RoomDialog() {
     // For Rooms
     const [roomRows, setRoomRows] = useState([]);
-    const [deleteRoomDialog, setRoomDeleteDialog] = useState(null);
-    const [editRoomDialog, setEditRoomDialog] = useState(null);
-    const [createRoomDialog, setCreateRoomDialog] = useState(null);
+    const [deleteDialog, setDeleteDialog] = useState(null);
+    const [editDialog, setEditDialog] = useState(null);
+    const [createDialog, setCreateDialog] = useState(null);
 
     const [loading, setLoading] = useState(false);
     // For Rooms
@@ -49,14 +49,14 @@ export function RoomDialog() {
                     <Button
                         variant="contained"
                         color="warning"
-                        onClick={() => setEditRoomDialog({ ...params.row })}
+                        onClick={() => setEditDialog({ ...params.row })}
                     >
                         Edit
                     </Button>
                     <Button
                         variant="contained"
                         color="error"
-                        onClick={() => setRoomDeleteDialog(params.row.id)}
+                        onClick={() => setDeleteDialog(params.row.id)}
                     >
                         Delete
                     </Button>
@@ -82,14 +82,14 @@ export function RoomDialog() {
             setLoading(true);
             updateRoom(
                 {
-                    name: editRoomDialog.name,
+                    name: editDialog.name,
                 },
-                editRoomDialog.id
+                editDialog.id
             )
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has updated");
-                        setEditRoomDialog(null);
+                        setEditDialog(null);
                         RoomrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
@@ -115,7 +115,7 @@ export function RoomDialog() {
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has been created");
-                        setCreateRoomDialog(false);
+                        setCreateDialog(false);
                         RoomrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
@@ -129,11 +129,11 @@ export function RoomDialog() {
     const onDeleteRoom = (e) => {
         if (!loading) {
             setLoading(true);
-            deleteRoom(deleteRoomDialog)
+            deleteRoom(deleteDialog)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has deleted");
-                        setRoomDeleteDialog(null);
+                        setDeleteDialog(null);
                         RoomrefreshData();
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
@@ -158,14 +158,14 @@ export function RoomDialog() {
                     variant="contained"
                     color="info"
                     sx={{ mr: 5 }}
-                    onClick={() => setCreateRoomDialog(true)}
+                    onClick={() => setCreateDialog(true)}
                 >
                     Create Room
                 </Button>
             </Box>
             <DataGrid autoHeight columns={roomcolumns} rows={roomRows} />
             {/* Create Room */}
-            <Dialog open={!!createRoomDialog}>
+            <Dialog open={!!createDialog}>
                 <DialogTitle>Create Room Form</DialogTitle>
                 <DialogContent>
                     <Box component="form" onSubmit={onCreateRoom}>
@@ -192,7 +192,7 @@ export function RoomDialog() {
                         <Box className="d-flex justify-content-center align-items-center">
                             <Button
                                 color="info"
-                                onClick={() => setCreateRoomDialog(false)}
+                                onClick={() => setCreateDialog(false)}
                             >
                                 Close
                             </Button>
@@ -209,19 +209,19 @@ export function RoomDialog() {
                 </DialogContent>
             </Dialog>
             {/* Delete Room */}
-            <Dialog open={!!deleteRoomDialog}>
+            <Dialog open={!!deleteDialog}>
                 <DialogTitle>Are you sure?</DialogTitle>
                 <DialogContent>
                     <Typography>
-                        Do you want to delete this Room ID: {deleteRoomDialog}
+                        Do you want to delete this Room ID: {deleteDialog}
                     </Typography>
                 </DialogContent>
                 <DialogActions
                     sx={{
-                        display: !!deleteRoomDialog ? "flex" : "none",
+                        display: !!deleteDialog ? "flex" : "none",
                     }}
                 >
-                    <Button onClick={() => setRoomDeleteDialog(null)}>
+                    <Button onClick={() => setDeleteDialog(null)}>
                         Cancel
                     </Button>
                     <Button disabled={loading} onClick={onDeleteRoom}>
@@ -231,19 +231,19 @@ export function RoomDialog() {
             </Dialog>
 
             {/* Edit Room */}
-            <Dialog open={!!editRoomDialog}>
+            <Dialog open={!!editDialog}>
                 <DialogTitle>Edit Room</DialogTitle>
                 <DialogContent>
                     <Box component="form" sx={{ p: 1 }} onSubmit={onEditRoom}>
                         <Box sx={{ mt: 1 }}>
                             <TextField
                                 onChange={(e) =>
-                                    setEditRoomDialog({
-                                        ...editRoomDialog,
+                                    setEditDialog({
+                                        ...editDialog,
                                         name: e.target.value,
                                     })
                                 }
-                                value={editRoomDialog?.name ?? ""}
+                                value={editDialog?.name ?? ""}
                                 size="small"
                                 label="Room name"
                                 type="text"
@@ -260,9 +260,7 @@ export function RoomDialog() {
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setEditRoomDialog(null)}>
-                        Cancel
-                    </Button>
+                    <Button onClick={() => setEditDialog(null)}>Cancel</Button>
                     <Button
                         disabled={loading}
                         onClick={() => {

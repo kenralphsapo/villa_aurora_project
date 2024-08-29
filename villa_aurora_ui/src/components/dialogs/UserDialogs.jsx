@@ -27,15 +27,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export function UserDialogs() {
-    const user = useSelector((state) => state.auth.user);
     const [createDialog, setCreateDialog] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(null);
     const [editDialog, setEditDialog] = useState(null);
-
     const [loading, setLoading] = useState(false);
     const [warnings, setWarnings] = useState({});
     const [cookies] = useCookies(["AUTH_TOKEN"]);
-
     const [rows, setRows] = useState([]);
 
     const columns = [
@@ -128,6 +125,7 @@ export function UserDialogs() {
     }, []);
 
     const onDelete = (e) => {
+        e.preventDefault();
         if (!loading) {
             setLoading(true);
             destroy(deleteDialog, cookies.AUTH_TOKEN)
@@ -152,12 +150,12 @@ export function UserDialogs() {
             setLoading(true);
             update(
                 {
+                    id: editDialog.id,
                     username: editDialog.username,
                     mobile: editDialog.mobile,
                     email: editDialog.email,
                     role: editDialog.role,
                 },
-                editDialog.id,
                 cookies.AUTH_TOKEN
             )
                 .then((res) => {
@@ -213,12 +211,9 @@ export function UserDialogs() {
                                 margin="normal"
                                 fullWidth
                                 required
+                                error={!!warnings?.username}
+                                helperText={warnings?.username}
                             />
-                            {warnings?.username ? (
-                                <Typography component="small" color="error">
-                                    {warnings.username}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -229,12 +224,9 @@ export function UserDialogs() {
                                 type="password"
                                 fullWidth
                                 required
+                                error={!!warnings?.password}
+                                helperText={warnings?.password}
                             />
-                            {warnings?.password ? (
-                                <Typography component="small" color="error">
-                                    {warnings.password}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -245,12 +237,9 @@ export function UserDialogs() {
                                 type="password"
                                 fullWidth
                                 required
+                                error={!!warnings?.password_confirmation}
+                                helperText={warnings?.password_confirmation}
                             />
-                            {warnings?.password_confirmation ? (
-                                <Typography component="small" color="error">
-                                    {warnings.password_confirmation}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -260,12 +249,9 @@ export function UserDialogs() {
                                 margin="normal"
                                 fullWidth
                                 required
+                                error={!!warnings?.mobile}
+                                helperText={warnings?.mobile}
                             />
-                            {warnings?.mobile ? (
-                                <Typography component="small" color="error">
-                                    {warnings.mobile}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box>
                             <TextField
@@ -275,12 +261,9 @@ export function UserDialogs() {
                                 margin="normal"
                                 fullWidth
                                 required
+                                error={!!warnings?.email}
+                                helperText={warnings?.email}
                             />
-                            {warnings?.email ? (
-                                <Typography component="small" color="error">
-                                    {warnings.email}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box>
                             <Button
@@ -297,8 +280,11 @@ export function UserDialogs() {
                 <DialogActions>
                     <Button
                         color="info"
-                        onClick={() => setCreateDialog(false)}
-                        style={{ border: "2px solid blue" }}
+                        onClick={() => {
+                            setCreateDialog(false);
+                            setWarnings({});
+                        }}
+                        style={{ border: "2px solid #077bff" }}
                     >
                         Close
                     </Button>
@@ -307,6 +293,7 @@ export function UserDialogs() {
                             $("#submit_btn").trigger("click");
                         }}
                         id="submitbtn"
+                        disabled={loading}
                         color="success"
                         style={{ border: "2px solid green" }}
                     >
@@ -330,7 +317,7 @@ export function UserDialogs() {
                 >
                     <Button
                         onClick={() => setDeleteDialog(null)}
-                        style={{ border: "2px solid blue" }}
+                        style={{ border: "2px solid #077bff" }}
                     >
                         Cancel
                     </Button>
@@ -366,12 +353,9 @@ export function UserDialogs() {
                                 label="Username"
                                 type="text"
                                 fullWidth
+                                error={!!warnings?.username}
+                                helperText={warnings?.username}
                             />
-                            {warnings?.username ? (
-                                <Typography component="small" color="error">
-                                    {warnings.username}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box sx={{ mt: 1 }}>
                             <TextField
@@ -386,12 +370,9 @@ export function UserDialogs() {
                                 label="Mobile"
                                 type="mobile"
                                 fullWidth
+                                error={!!warnings?.mobile}
+                                helperText={warnings?.mobile}
                             />
-                            {warnings?.mobile ? (
-                                <Typography component="small" color="error">
-                                    {warnings.mobile}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box sx={{ mt: 1 }}>
                             <TextField
@@ -406,18 +387,14 @@ export function UserDialogs() {
                                 label="Email"
                                 type="email"
                                 fullWidth
+                                error={!!warnings?.email}
+                                helperText={warnings?.email}
                             />
-                            {warnings?.email ? (
-                                <Typography component="small" color="error">
-                                    {warnings.email}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box sx={{ mt: 1 }}>
                             <FormControl fullWidth size="small">
                                 <InputLabel id="role-label">Role</InputLabel>
                                 <Select
-                                    labelId="role-label"
                                     value={editDialog?.role ?? ""}
                                     onChange={(e) =>
                                         setEditDialog({
@@ -425,6 +402,8 @@ export function UserDialogs() {
                                             role: e.target.value,
                                         })
                                     }
+                                    label="Role"
+                                    required
                                 >
                                     <MenuItem value="admin">Admin</MenuItem>
                                     <MenuItem value="scheduler">
@@ -445,8 +424,11 @@ export function UserDialogs() {
                 </DialogContent>
                 <DialogActions>
                     <Button
-                        style={{ border: "2px solid lightblue" }}
-                        onClick={() => setEditDialog(null)}
+                        style={{ border: "2px solid #077bff" }}
+                        onClick={() => {
+                            setEditDialog(null);
+                            setWarnings({});
+                        }}
                     >
                         Cancel
                     </Button>
@@ -455,8 +437,10 @@ export function UserDialogs() {
                         onClick={() => {
                             $("#edit-btn").trigger("click");
                         }}
-                        color="success"
-                        style={{ border: "2px solid lightgreen" }}
+                        style={{
+                            border: "2px solid orangered",
+                            color: "orangered",
+                        }}
                     >
                         Update
                     </Button>

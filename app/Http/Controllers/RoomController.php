@@ -71,7 +71,7 @@ class RoomController extends Controller
     
             return $this->Ok($data, "Room has been updated!");
         } catch (\Exception $e) {
-            return $this->Specific("", "Room Update Failed! Error: " . $e->getMessage());
+            return $this->Specific($e->getMessage(), "Room Update Failed!" );
         }
     }
 

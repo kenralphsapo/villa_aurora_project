@@ -15,7 +15,7 @@ class ServiceController extends Controller
      */
     public function addService(Request $request) {
         $validator = validator($request->all(), [
-            "name" => "required|min:1|max:50|string",
+            "name" => "required|min:1|max:50|string|unique:services",
             "price" => "required|min:1|max:100000|numeric"
         ]);
 
@@ -49,8 +49,8 @@ class ServiceController extends Controller
     
         $validator = validator($data, [
             'id' => 'required|exists:services,id',
-            'name' => 'required',
-            'price' => 'required|numeric', 
+            'name' => 'sometimes|min:1|max:50|unique:services,name,' . $data['id'] . '|string',
+            "price" => "required|min:1|max:100000|numeric" 
         ]);
     
         if($validator->fails()){
@@ -70,7 +70,7 @@ class ServiceController extends Controller
     
             return $this->Ok($data, "Service has been updated!");
         } catch (\Exception $e) {
-            return $this->Specific("", "Service Update Failed! Error: " . $e->getMessage());
+            return $this->Specific($e->getMessage(), "Service Update Failed! ");
         }
     }
     
