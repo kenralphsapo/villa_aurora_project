@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import NotFound from "./NotFound";
 
 function Admin() {
-    const [selectedDialog, setSelectedDialog] = useState("user"); // Default to 'user' dialog
+    const [selectedDialog, setSelectedDialog] = useState("user");
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ function Admin() {
 
     return (
         <Box>
-            {user?.role === "admin" || user?.role === "scheduler" ? (
+            {user?.role == "admin" || user?.role == "scheduler" ? (
                 <Box id="custom-admin">
                     <AppBar
                         id="custom-navbar"
@@ -79,13 +79,13 @@ function Admin() {
 
                     <Box>
                         <Box id="table">
-                            {selectedDialog === "user" && <UserDialogs />}
-                            {selectedDialog === "service" && <ServiceDialog />}
-                            {selectedDialog === "room" && <RoomDialog />}
-                            {selectedDialog === "transaction" && (
+                            {selectedDialog == "user" && <UserDialogs />}
+                            {selectedDialog == "service" && <ServiceDialog />}
+                            {selectedDialog == "room" && <RoomDialog />}
+                            {selectedDialog == "transaction" && (
                                 <TransactionDialogs />
                             )}
-                            {selectedDialog === "testimonial" && (
+                            {selectedDialog == "testimonial" && (
                                 <TestimonialDialogs />
                             )}
                         </Box>

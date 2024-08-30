@@ -6,8 +6,13 @@ import {
     Typography,
     LinearProgress,
     IconButton,
+    InputAdornment,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Lock from "@mui/icons-material/Lock";
+import Phone from "@mui/icons-material/Phone";
+import Email from "@mui/icons-material/Email";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../api/auth";
 import { toast } from "react-toastify";
@@ -96,6 +101,13 @@ export default function Register() {
                         required
                         error={!!warnings.username}
                         helperText={warnings.username}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
                 <Box>
@@ -110,6 +122,13 @@ export default function Register() {
                         required
                         error={!!warnings.password}
                         helperText={warnings.password}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Lock />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
                 <Box>
@@ -124,6 +143,13 @@ export default function Register() {
                         required
                         error={!!warnings.password_confirmation}
                         helperText={warnings.password_confirmation}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Lock />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
                 <Box>
@@ -137,6 +163,13 @@ export default function Register() {
                         required
                         error={!!warnings.mobile}
                         helperText={warnings.mobile}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Phone />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
                 <Box>
@@ -150,6 +183,13 @@ export default function Register() {
                         required
                         error={!!warnings.email}
                         helperText={warnings.email}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Email />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
 

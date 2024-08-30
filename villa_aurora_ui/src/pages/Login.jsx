@@ -1,6 +1,15 @@
-import React, { useState } from "react";
-import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+    Box,
+    TextField,
+    Button,
+    Typography,
+    IconButton,
+    InputAdornment,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Lock from "@mui/icons-material/Lock";
 import { Link, useNavigate } from "react-router-dom";
 import { login as loginAPI } from "../api/auth";
 import { useCookies } from "react-cookie";
@@ -8,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../redux/authSlice";
 import images from "../utils/index";
+import { index } from "../api/user";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -18,23 +28,54 @@ export default function Login() {
     const [cookies, setCookie, removeCookie] = useCookies();
     const [loading, setLoading] = useState(false);
 
+    const [active, setActive] = useState(false);
+
     const onSubmit = (e) => {
         e.preventDefault();
+        if (cookies.AUTH_TOKEN) {
+            toast.error("You are already logged in.");
+            return;
+        }
+
+        setLoading(true);
+
         loginAPI({
             username,
             password,
-        }).then((res) => {
-            if (res?.ok) {
-                setCookie("AUTH_TOKEN", res.data.token);
-                dispatch(login(res.data));
-                navigate("/");
-                toast.success(res?.message ?? "Logged in successfully.");
-            } else {
-                toast.error(res?.message ?? "Something went wrong.");
+        })
+            .then((res) => {
+                setLoading(false);
+
+                if (res?.ok) {
+                    setCookie("AUTH_TOKEN", res.data.token);
+                    dispatch(login(res.data));
+                    navigate("/");
+                    toast.success(res?.message ?? "Logged in successfully.");
+                } else {
+                    toast.error(res?.message ?? "Something went wrong.");
+                    setError(true);
+                }
+            })
+            .catch((error) => {
+                setLoading(false);
+                toast.error("An unexpected error occurred." + error);
                 setError(true);
+            });
+    };
+
+    const checkActive = () => {
+        index(cookies.AUTH_TOKEN).then((res) => {
+            if (res?.ok) {
+                setActive(true);
+            } else {
+                setActive(false);
             }
         });
     };
+
+    useEffect(() => {
+        checkActive();
+    }, []);
 
     return (
         <Box id="bglogin">
@@ -78,6 +119,14 @@ export default function Login() {
                         fullWidth
                         error={error}
                         helperText={error ? "Invalid input" : ""}
+                        disabled={active}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
                 <Box className="input-container">
@@ -90,6 +139,14 @@ export default function Login() {
                         fullWidth
                         error={error}
                         helperText={error ? "Invalid input" : ""}
+                        disabled={active}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Lock />
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Box>
                 <Button

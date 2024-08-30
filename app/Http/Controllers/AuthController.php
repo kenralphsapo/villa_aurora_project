@@ -107,7 +107,7 @@ class AuthController extends Controller
 
         $user->token()->revoke();
 
-        return $this->Ok(null, 'Token has been revoked!');
+        return $this->Ok("Success", 'Token has been revoked!');
     }
     
 }
