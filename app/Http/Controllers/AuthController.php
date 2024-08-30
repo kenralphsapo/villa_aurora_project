@@ -100,13 +100,14 @@ class AuthController extends Controller
 
     public function revokeToken(Request $request){
         $user = $request->user();
+
         if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return $this->Unauthorized('Unauthorized');
         }
-    
+
         $user->token()->revoke();
 
-        return response()->json(['message' => 'Token has been revoked!'], 200);
+        return $this->Ok(null, 'Token has been revoked!');
     }
     
 }

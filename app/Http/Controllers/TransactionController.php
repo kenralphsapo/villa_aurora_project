@@ -6,18 +6,13 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Room;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
-    /**
-     * CREATE a transaction from request
-     * POST: /api/transactions/insertTransaction
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function addTransaction(Request $request) {
-        $data = $request->all();
-        $validator = validator($data, [
+    public function addTransaction(Request $request){
+        // Validation rules
+        $validator = validator($request->all(), [
             'user_id' => 'required|exists:users,id',
             'room_id' => 'sometimes|exists:rooms,id',
             'rent_start' => 'required|date|date_format:Y-m-d',
@@ -26,43 +21,41 @@ class TransactionController extends Controller
             'service_id.*' => 'exists:services,id',
         ]);
 
-        $existingBooking = Transaction::whereRaw(
-            "((rent_start <= ? AND rent_end >= ?) OR (rent_start <= ? AND rent_end >= ?)) OR (? <= rent_start AND ? >= rent_end)",
-            [$request->rent_start, $request->rent_start, $request->rent_end, $request->rent_end, $request->rent_start, $request->rent_end]
-        )->where("room_id", $request->room_id)->first();
-
-        if ($existingBooking) {
-            $validator->errors()->add("schedule", "The schedule you've selected is conflicted with another schedule");
-            return $this->BadRequest($validator);
-        }
-
+        // Check if validation fails
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
 
         $validated = $validator->validated();
+
+        // Check for existing booking conflict
+        $existingBooking = Transaction::whereRaw("((rent_start <= ? AND rent_end >= ?) OR (rent_start <= ? AND rent_end >= ?)) OR (? <= rent_start AND ? >= rent_end)", [
+            $request->rent_start, $request->rent_start,
+            $request->rent_end, $request->rent_end,
+            $request->rent_start, $request->rent_end
+        ])->where('room_id', $request->room_id)
+        ->first();
+
+        if ($existingBooking) {
+            return $this->Specific("The schedule you've selected is conflicted with another schedule");
+        }
+
+        // Create a new transaction
         $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
         $room = Room::find($validated["room_id"]);
         $transaction_input["room_price"] = $room->price;
-
         $transaction = Transaction::create($transaction_input);
 
-        $existingBooking = Transaction::where('rent_start', $data)
-            ->where('rent_start', '<=', $data)
-            ->where('rent_end', '>=', $data)
-            ->where('room_id', '!=', $data)
-            ->where('id', '!=', $data)
-            ->first();
-
-        if ($existingBooking) {
-            return $this->BadRequest($validator->errors()->add("date", "Selected date has already been booked."));
-        }
-
+        // Attach services to the transaction
         $arrayServicePrice = [];
         foreach ($validated["service_id"] as $service_id) {
-            $arrayServicePrice[$service_id] = ["price" => Service::find($service_id)->price];
+            $service = Service::find($service_id);
+            if ($service) {
+                $arrayServicePrice[$service_id] = ["price" => $service->price];
+            }
         }
         $transaction->services()->sync($arrayServicePrice);
+        $transaction->load('services');
 
         return $this->Ok($transaction, 'Transaction successful');
     }
@@ -114,6 +107,7 @@ class TransactionController extends Controller
             $arrayServicePrice[$service_id] = ["price" => Service::find($service_id)->price];
         }
         $transaction->services()->sync($arrayServicePrice);
+        $transaction->services;
 
         return $this->Ok($transaction, 'Transaction updated successfully');
     }

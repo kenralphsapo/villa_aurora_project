@@ -8,7 +8,6 @@ export const showAllTransactions = async (token) => {
             Authorization: `Bearer ${token}`,
         },
     });
-
     return await response.json();
 };
 
@@ -40,13 +39,15 @@ export const updateTransaction = async (body, token) => {
     return await response.json();
 };
 
-export const deleteTransaction = async (token) => {
+export const deleteTransaction = async (id, token) => {
     const response = await fetch(`${url}/transactions/deleteTransaction`, {
         method: "POST",
         headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
         },
+        body: JSON.stringify({ id }),
     });
 
     return await response.json();

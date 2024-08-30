@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-    AppBar,
-    Box,
-    Button,
-    IconButton,
-    Toolbar,
-    Typography,
-} from "@mui/material";
-import checkAuth from "../hoc/checkAuth";
+import React, { useState } from "react";
+import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import checkAuth from "../hoc/checkAuth";
 import { ServiceDialog } from "../components/dialogs/ServiceDialogs";
 import { RoomDialog } from "../components/dialogs/RoomDialogs";
 import { TransactionDialogs } from "../components/dialogs/TransactionDialogs";
@@ -17,16 +10,42 @@ import { TestimonialDialogs } from "../components/dialogs/TestimonialDialogs";
 import { UserDialogs } from "../components/dialogs/UserDialogs";
 import BottomNav from "../components/BottomNav";
 import CloseIcon from "@mui/icons-material/Close";
-import { Link, useNavigate } from "react-router-dom";
 import NotFound from "./NotFound";
 
 function Admin() {
+    const [selectedDialog, setSelectedDialog] = useState("user"); // Default to 'user' dialog
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
 
+    const handleNavigation = (newValue) => {
+        switch (newValue) {
+            case 0:
+                setSelectedDialog("user");
+                break;
+            case 1:
+                setSelectedDialog("service");
+                break;
+            case 2:
+                setSelectedDialog("room");
+                break;
+            case 3:
+                setSelectedDialog("transaction");
+                break;
+            case 4:
+                setSelectedDialog("pivot");
+                break;
+            case 5:
+                setSelectedDialog("testimonial");
+                break;
+            default:
+                setSelectedDialog("user");
+                break;
+        }
+    };
+
     return (
         <Box>
-            {user?.role == "admin" || user?.role == "scheduler" ? (
+            {user?.role === "admin" || user?.role === "scheduler" ? (
                 <Box id="custom-admin">
                     <AppBar
                         id="custom-navbar"
@@ -60,9 +79,17 @@ function Admin() {
 
                     <Box>
                         <Box id="table">
-                            <TestimonialDialogs />
+                            {selectedDialog === "user" && <UserDialogs />}
+                            {selectedDialog === "service" && <ServiceDialog />}
+                            {selectedDialog === "room" && <RoomDialog />}
+                            {selectedDialog === "transaction" && (
+                                <TransactionDialogs />
+                            )}
+                            {selectedDialog === "testimonial" && (
+                                <TestimonialDialogs />
+                            )}
                         </Box>
-                        <BottomNav />
+                        <BottomNav onNavigate={handleNavigation} />
                     </Box>
                 </Box>
             ) : (
