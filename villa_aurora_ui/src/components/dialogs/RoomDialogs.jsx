@@ -137,7 +137,7 @@ export function RoomDialog() {
         e.preventDefault();
         if (!loading) {
             setLoading(true);
-            deleteRoom(deleteDialog)
+            deleteRoom(deleteDialog, cookies.AUTH_TOKEN)
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Room has deleted");
@@ -153,7 +153,7 @@ export function RoomDialog() {
         }
     };
     return (
-        <Box id="section3">
+        <Box className="mt-2" id="section3">
             <Box
                 sx={{
                     display: "flex",

@@ -81,9 +81,11 @@ class TestimonialController extends Controller
         }
 
         if (Testimonial::where('id', $data['id'])->delete()) {
-            return $this->Ok("Testimonial is deleted!");
+            return $this->Ok("","Testimonial is deleted!");
         }
 
         return $this->Specific("Testimonial Deletion failed!");
     }
+
+   
 }

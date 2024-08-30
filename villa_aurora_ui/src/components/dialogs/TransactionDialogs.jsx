@@ -313,7 +313,7 @@ export function TransactionDialogs() {
     }, []);
 
     return (
-        <Box id="section4">
+        <Box className="mt-2" id="section4">
             <Box
                 sx={{ display: "flex", justifyContent: "space-between", py: 2 }}
             >

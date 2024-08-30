@@ -118,7 +118,6 @@ export function ServiceDialog() {
             setLoading(true);
             deleteService(deleteDialog, cookies.AUTH_TOKEN)
                 .then((res) => {
-                    console.log(res);
                     if (res?.ok) {
                         toast.success(
                             res?.message ?? "Service has been deleted"
@@ -139,11 +138,14 @@ export function ServiceDialog() {
         e.preventDefault();
         if (!loading) {
             setLoading(true);
-            updateService({
-                id: editDialog.id,
-                name: editDialog.name,
-                price: editDialog.price,
-            })
+            updateService(
+                {
+                    id: editDialog.id,
+                    name: editDialog.name,
+                    price: editDialog.price,
+                },
+                cookies.AUTH_TOKEN
+            )
                 .then((res) => {
                     if (res?.ok) {
                         toast.success(res?.message ?? "Service has updated");
