@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -5,32 +6,60 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    Rating,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
     TextField,
+    Tooltip,
     Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import $ from "jquery";
 import { toast } from "react-toastify";
-import { useCookies } from "react-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import $ from "jquery";
+
 import {
     addTransaction,
     deleteTransaction,
     showAllTransactions,
     updateTransaction,
 } from "../../api/transaction";
+import { showAllRooms } from "../../api/room";
+import { index } from "../../api/user";
+import { useCookies } from "react-cookie";
+import { showAllServices } from "../../api/service";
+import { useSelector } from "react-redux";
 
 export function TransactionDialogs() {
+    const user = useSelector((state) => state.auth.user);
     const [transactionRows, setTransactionRows] = useState([]);
-    const [deleteDialog, setDeleteDialog] = useState(null);
-    const [editDialog, setEditDialog] = useState(null);
-    const [createDialog, setCreateDialog] = useState(false);
+    const [createTransactionDialog, setCreateTransactionDialog] =
+        useState(false);
+    const [deleteTransactionDialog, setDeleteTransactionDialog] =
+        useState(null);
+    const [editTransactionDialog, setEditTransactionDialog] = useState(null);
+
     const [warnings, setWarnings] = useState({});
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [loading, setLoading] = useState(false);
-    const [rating, setRating] = useState(0);
-    // For Testimonials
+
+    const [serviceRows, setServiceRows] = useState([]);
+    const [serviceIds, setServiceIds] = useState([]);
+    const [selectedServiceName, setSelectedServiceName] = useState("");
+    const [position, setPosition] = useState(false);
+
+    // For users
+    const [rows, setRows] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState("");
+
+    // For rooms
+    const [roomRows, setRoomRows] = useState([]);
+    const [selectedRoomId, setSelectedRoomId] = useState("");
+
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
+    const [serviceMap, setServiceMap] = useState({});
+
     const transactioncolumns = [
         { field: "id", headerName: "ID" },
         { field: "user_id", headerName: "User ID" },
@@ -57,14 +86,18 @@ export function TransactionDialogs() {
                     <Button
                         variant="contained"
                         color="warning"
-                        onClick={() => setEditDialog({ ...params.row })}
+                        onClick={() =>
+                            setEditTransactionDialog({ ...params.row })
+                        }
                     >
                         Edit
                     </Button>
                     <Button
                         variant="contained"
                         color="error"
-                        onClick={() => setDeleteDialog(params.row.id)}
+                        onClick={() =>
+                            setDeleteTransactionDialog(params.row.id)
+                        }
                     >
                         Delete
                     </Button>
@@ -73,6 +106,170 @@ export function TransactionDialogs() {
             width: 200,
         },
     ];
+
+    const onCreateTransaction = (e) => {
+        e.preventDefault();
+        if (!loading) {
+            const body = {
+                user_id: selectedUserId,
+                room_id: selectedRoomId,
+                rent_start: $("#rent_start").val(),
+                rent_end: $("#rent_end").val(),
+                service_id: serviceIds,
+            };
+
+            addTransaction(body, cookies.AUTH_TOKEN)
+                .then((res) => {
+                    if (res?.ok) {
+                        toast.success(res?.message ?? "Transaction successful");
+                        setCreateTransactionDialog(false);
+                        refreshData();
+                        setWarnings({});
+                        setServiceIds([]);
+                        setSelectedServiceName("");
+                        setRoomRows([]);
+                        setRows([]);
+                    } else {
+                        toast.error(
+                            res?.message ?? "Transaction creation failed."
+                        );
+                        setWarnings(res?.errors);
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
+
+    const onAddService = () => {
+        const serviceId = serviceMap[selectedServiceName];
+
+        if (!serviceId) {
+            toast.error("Service not found.");
+            return;
+        }
+
+        if (serviceIds.includes(serviceId)) {
+            toast.error("Service has already been added.");
+            return;
+        }
+
+        setServiceIds([...serviceIds, serviceId]);
+        setSelectedServiceName("");
+    };
+
+    const onRemoveService = (id) => {
+        setServiceIds(serviceIds.filter((service) => service !== id));
+    };
+
+    // Edit transaction Area
+    const onEditTransaction = (e) => {
+        e.preventDefault();
+        if (!loading) {
+            setLoading(true);
+            updateTransaction(
+                {
+                    user_id: editTransactionDialog.user_id,
+                    room_id: editTransactionDialog.room_id,
+                    rent_start: editTransactionDialog.rent_start,
+                    rent_end: editTransactionDialog.rent_end,
+                    service_id: serviceIds,
+                },
+                editTransactionDialog.id,
+                cookies.AUTH_TOKEN
+            )
+                .then((res) => {
+                    if (res?.success) {
+                        toast.success(
+                            res?.message ?? "Transaction updated successfully."
+                        );
+                        setEditTransactionDialog(null);
+                        refreshData();
+                        setWarnings({});
+                    } else {
+                        toast.error(
+                            res?.message ?? "Failed to update transaction."
+                        );
+                        setWarnings(res?.errors);
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
+
+    const ServiceRefreshData = () => {
+        showAllServices(cookies.AUTH_TOKEN).then((res) => {
+            if (res?.ok) {
+                const services = res.data;
+                setServiceRows(services);
+
+                // Create a map from service name to ID
+                const serviceMap = services.reduce((acc, service) => {
+                    acc[service.name] = service.id;
+                    return acc;
+                }, {});
+                setServiceMap(serviceMap);
+            } else {
+                toast.error(res?.message ?? "Failed to fetch services.");
+            }
+        });
+    };
+
+    const UserrefreshData = () => {
+        index(cookies.AUTH_TOKEN).then((res) => {
+            if (res?.ok) {
+                setRows(res.data);
+            } else {
+                toast.error(res?.message ?? "Something went wrong.");
+            }
+        });
+    };
+
+    const RoomrefreshData = () => {
+        showAllRooms(cookies.AUTH_TOKEN).then((res) => {
+            if (res?.ok) {
+                setRoomRows(res.data);
+            } else {
+                toast.error(res?.message ?? "Something went wrong.");
+            }
+        });
+    };
+
+    useEffect(() => {
+        UserrefreshData();
+    }, []);
+
+    useEffect(() => {
+        RoomrefreshData();
+    }, []);
+
+    useEffect(() => {
+        ServiceRefreshData();
+    }, []);
+
+    const onDeleteTransaction = () => {
+        if (!loading) {
+            setLoading(true);
+            deleteTransaction(deleteTransactionDialog, cookies.AUTH_TOKEN)
+                .then((res) => {
+                    if (res?.ok) {
+                        toast.success(
+                            res?.message ?? "Transaction has been deleted"
+                        );
+                        setDeleteTransactionDialog(null);
+                        refreshData();
+                    } else {
+                        toast.error(res?.message ?? "Something went wrong.");
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
 
     const refreshData = () => {
         showAllTransactions(cookies.AUTH_TOKEN).then((res) => {
@@ -83,95 +280,24 @@ export function TransactionDialogs() {
             }
         });
     };
-    useEffect(refreshData, []);
 
-    const onEdit = (e) => {
-        e.preventDefault();
-        if (!loading) {
-            setLoading(true);
-            updateTransaction({}, cookies.AUTH_TOKEN)
-                .then((res) => {
-                    if (res?.ok) {
-                        toast.success(
-                            res?.message ?? "Testimonial has updated"
-                        );
-                        setEditDialog(null);
-                        refreshData();
-                    } else {
-                        toast.error(res?.message ?? "Something went wrong.");
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
-
-    const onDelete = (e) => {
-        e.preventDefault();
-        if (!loading) {
-            setLoading(true);
-            deleteTransaction(deleteDialog, cookies.AUTH_TOKEN)
-                .then((res) => {
-                    if (res?.ok) {
-                        toast.success(
-                            res?.message ?? "Testimonial has deleted"
-                        );
-                        setDeleteDialog(null);
-                        refreshData();
-                    } else {
-                        toast.error(res?.message ?? "Something went wrong.");
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
-
-    const onCreate = (e) => {
-        e.preventDefault();
-        if (!loading) {
-            const body = {
-                transaction_id: $("#transaction_id").val(),
-                feedback: $("#feedback").val(),
-                rating: rating,
-            };
-
-            addTransaction(body, cookies.AUTH_TOKEN)
-                .then((res) => {
-                    if (res?.ok) {
-                        toast.success(
-                            res?.message ?? "Service has been created"
-                        );
-                        setCreateDialog(false);
-                        refreshData();
-                        setWarnings({});
-                        setRating(0);
-                    } else {
-                        toast.error(res?.message ?? "Something went wrong.");
-                        setWarnings(res?.errors);
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
+    useEffect(() => {
+        refreshData();
+    }, []);
 
     return (
-        <Box className="mt-2" id="section5">
-            <Box
-                sx={{ display: "flex", justifyContent: "space-between", py: 2 }}
-            >
+        <Box id="section4">
+            <Box sx={{ display: "flex", justifyContent: "flex-start", py: 2 }}>
                 <Typography variant="h2">Transactions</Typography>
                 <Button
                     sx={{ mr: 5 }}
-                    variant="contained"
-                    color="info"
-                    onClick={() => setCreateDialog(true)}
+                    onClick={() => setCreateTransactionDialog(true)}
                 >
-                    Create Transaction
+                    {user?.role == "admin" && (
+                        <Tooltip title="Add Transaction">
+                            <FontAwesomeIcon icon={faAdd} className="addbtn" />
+                        </Tooltip>
+                    )}
                 </Button>
             </Box>
             <DataGrid
@@ -179,177 +305,168 @@ export function TransactionDialogs() {
                 columns={transactioncolumns}
                 rows={transactionRows}
             />
-            <Dialog open={!!createDialog}>
+
+            {/* Create Transaction Dialog */}
+            <Dialog open={!!createTransactionDialog}>
                 <DialogTitle>Create Transaction Form</DialogTitle>
                 <DialogContent>
-                    <Box component="form" onSubmit={onCreate}>
+                    <Box component="form" onSubmit={onCreateTransaction}>
+                        <FormControl fullWidth sx={{ mt: 2 }}>
+                            <InputLabel>User Id/Name</InputLabel>
+                            <Select
+                                value={selectedUserId}
+                                onChange={(e) =>
+                                    setSelectedUserId(e.target.value)
+                                }
+                                fullWidth
+                                label="User"
+                            >
+                                {rows.map((user) => (
+                                    <MenuItem key={user.id} value={user.id}>
+                                        {user.username}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        {warnings?.user_id ? (
+                            <Typography component="small" color="error">
+                                {warnings.user_id}
+                            </Typography>
+                        ) : null}
+                        <FormControl fullWidth sx={{ mt: 2 }}>
+                            <InputLabel>Room ID</InputLabel>
+                            <Select
+                                value={selectedRoomId}
+                                onChange={(e) =>
+                                    setSelectedRoomId(e.target.value)
+                                }
+                                fullWidth
+                                label="Room"
+                            >
+                                {roomRows.map((room) => (
+                                    <MenuItem key={room.id} value={room.id}>
+                                        {room.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        {warnings?.room_id ? (
+                            <Typography component="small" color="error">
+                                {warnings.room_id}
+                            </Typography>
+                        ) : null}
                         <Box>
                             <TextField
-                                id="transaction_id"
-                                label="Transaction ID"
-                                variant="outlined"
-                                margin="normal"
                                 fullWidth
-                                required
-                            />
-                        </Box>
-                        <Box>
-                            <TextField
-                                id="feedback"
-                                label="Feedback"
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                required
-                                error={!!warnings?.feedback}
-                                helperText={warnings?.feedback}
-                            />
-                        </Box>
-                        <Box>
-                            <Typography>Rating</Typography>
-                            <Rating
-                                name="simple-controlled"
-                                value={rating}
-                                onChange={(e, newValue) => {
-                                    setRating(newValue);
+                                id="rent_start"
+                                label="Rent Start"
+                                type="date"
+                                InputLabelProps={{
+                                    shrink: true,
                                 }}
                             />
-                            {warnings?.rating ? (
-                                <Typography component="small" color="error">
-                                    {warnings.rating}
-                                </Typography>
-                            ) : null}
                         </Box>
                         <Box>
+                            <TextField
+                                fullWidth
+                                id="rent_end"
+                                label="Rent End"
+                                type="date"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </Box>
+                        <FormControl fullWidth sx={{ mt: 2 }}>
+                            <InputLabel>Service</InputLabel>
+                            <Select
+                                value={selectedServiceName}
+                                onChange={(e) =>
+                                    setSelectedServiceName(e.target.value)
+                                }
+                                fullWidth
+                                label="Service"
+                            >
+                                {serviceRows.map((service) => (
+                                    <MenuItem
+                                        key={service.id}
+                                        value={service.name}
+                                    >
+                                        {service.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+
+                        {warnings?.service_id ? (
+                            <Typography component="small" color="error">
+                                {warnings.service_id}
+                            </Typography>
+                        ) : null}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={onAddService}
+                            style={{ marginTop: "10px" }}
+                        >
+                            Add
+                        </Button>
+
+                        {serviceIds.map((serviceId, index) => {
+                            const serviceName = Object.keys(serviceMap).find(
+                                (name) => serviceMap[name] === serviceId
+                            );
+                            return (
+                                <Box
+                                    key={index}
+                                    mt={1}
+                                    display="flex"
+                                    alignItems="center"
+                                >
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        fullWidth
+                                        value={serviceName}
+                                        disabled
+                                    />
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() =>
+                                            onRemoveService(serviceId)
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                    >
+                                        Remove
+                                    </Button>
+                                </Box>
+                            );
+                        })}
+                        <Box className="d-flex justify-content-end align-items-center mt-2">
                             <Button
-                                id="submit_btn"
+                                color="info"
+                                onClick={() =>
+                                    setCreateTransactionDialog(false)
+                                }
+                                style={{ border: "2px solid blue" }}
+                            >
+                                Close
+                            </Button>
+                            <Button
                                 disabled={loading}
                                 type="submit"
-                                sx={{ display: "none" }}
+                                color="success"
+                                style={{
+                                    marginLeft: "10px",
+                                    border: "2px solid green",
+                                }}
                             >
                                 Submit
                             </Button>
                         </Box>
                     </Box>
                 </DialogContent>
-                <DialogActions>
-                    <Button
-                        color="info"
-                        onClick={() => {
-                            setWarnings({});
-                            setCreateDialog(false);
-                            setRating(0);
-                        }}
-                        style={{ border: "2px solid #077bff" }}
-                    >
-                        Close
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            $("#submit_btn").trigger("click");
-                        }}
-                        id="submitbtn"
-                        disabled={loading}
-                        color="success"
-                        style={{ border: "2px solid green" }}
-                    >
-                        Create
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            {/* Delete Testimonial */}
-            {/* Delete Transaction Dialog */}
-            <Dialog open={!!deleteTransactionDialog}>
-                <DialogTitle>Are you sure?</DialogTitle>
-                <DialogContent>
-                    <Typography>
-                        Do you want to delete this Transaction ID:{" "}
-                        {deleteTransactionDialog}
-                    </Typography>
-                </DialogContent>
-                <DialogActions
-                    sx={{
-                        display: !!deleteDialog ? "flex" : "none",
-                    }}
-                >
-                    <Button
-                        onClick={() => setDeleteDialog(null)}
-                        style={{ border: "2px solid blue" }}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        disabled={loading}
-                        onClick={onDelete}
-                        color="error"
-                        style={{ border: "2px solid red" }}
-                    >
-                        Confirm
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            {/* EDIT Testimonial */}
-            <Dialog open={!!editDialog}>
-                <DialogTitle>Edit Testimonial</DialogTitle>
-                <DialogContent>
-                    <Box component="form" sx={{ p: 1 }} onSubmit={onEdit}>
-                        <Box sx={{ mt: 1 }}>
-                            <TextField
-                                onChange={(e) =>
-                                    setEditDialog({
-                                        ...editDialog,
-                                        feedback: e.target.value,
-                                    })
-                                }
-                                value={editDialog?.feedback ?? ""}
-                                size="small"
-                                label="Feedback"
-                                type="text"
-                                fullWidth
-                            />
-                        </Box>
-                        <Box sx={{ mt: 1 }}>
-                            <Typography>Rating</Typography>
-                            <Rating
-                                name="rating-edit"
-                                value={editDialog?.rating ?? 0}
-                                onChange={(e, newValue) =>
-                                    setEditDialog({
-                                        ...editDialog,
-                                        rating: newValue,
-                                    })
-                                }
-                            />
-                        </Box>
-                        <Button
-                            id="testimonial-btn"
-                            type="submit"
-                            sx={{ display: "none" }}
-                        >
-                            Submit
-                        </Button>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={() => setEditDialog(null)}
-                        style={{ border: "2px solid #077bff" }}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        disabled={loading}
-                        onClick={() => {
-                            $("#testimonial-btn").trigger("click");
-                        }}
-                        style={{
-                            border: "2px solid orangered",
-                            color: "orangered",
-                        }}
-                    >
-                        Update
-                    </Button>
-                </DialogActions>
             </Dialog>
         </Box>
     );
