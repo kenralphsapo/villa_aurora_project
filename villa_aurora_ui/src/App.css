@@ -437,10 +437,6 @@ MOCKUP
     text-align: center;
 }
 
-.mockup-section h2 {
-    color: #c12828;
-}
-
 .mockup-section p {
     color: #fff;
 }
@@ -793,6 +789,17 @@ RESPONSIVE STYLES
 
     #custom-iframe {
         height: 30vh;
+    }
+}
+
+#captcha {
+    width: 100%;
+}
+
+@media screen and (max-width: 400px) {
+    #captcha {
+        transform: scale(0.66);
+        transform-origin: 0;
     }
 }
 

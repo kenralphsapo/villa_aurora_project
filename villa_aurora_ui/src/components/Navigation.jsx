@@ -288,26 +288,14 @@ function Navigation() {
                                                 Admin
                                             </Button>
                                         </Link>
-                                    ) : null}
-                                    {user?.role == "guest" ? (
-                                        <Link
-                                            to="/guest"
-                                            style={{
-                                                textDecoration: "none",
-                                                color: "white",
-                                            }}
+                                    ) : (
+                                        <Button
+                                            color="inherit"
+                                            startIcon={<AccountCircleIcon />}
                                         >
-                                            <Button
-                                                color="inherit"
-                                                startIcon={
-                                                    <AccountCircleIcon />
-                                                }
-                                                href="#section_5"
-                                            >
-                                                My Account
-                                            </Button>
-                                        </Link>
-                                    ) : null}
+                                            My Account
+                                        </Button>
+                                    )}
                                 </>
                             ) : null}
                             <Box display="flex" alignItems="center">

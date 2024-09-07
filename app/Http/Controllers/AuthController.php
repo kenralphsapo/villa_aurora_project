@@ -127,21 +127,15 @@ class AuthController extends Controller
      */
     public function forgotPassword(Request $request)
     {
-
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'ok' => false,
-                'message' => 'Email does not exist, please try again!',
-                'errors' => $validator->errors(),
-            ], 400);
+            return $this->BadRequest($validator);
         }
 
         $user = User::where('email', $request->email)->first();
-
         $token = Str::random(100);
 
         $user->token = $token;
@@ -149,65 +143,41 @@ class AuthController extends Controller
 
         Mail::to($user->email)->queue(new ResetPasswordMail($user, $token));
 
-        return response()->json([
-            'ok' => true,
-            'message' => 'Password reset instructions sent to your email',
-        ]);
+        return $this->Ok(null, 'Password reset instructions sent to your email');
     }
 
-
-    /**
-     * resetPassword
-     *
-     * @param  mixed $request
-     * @return void
-     */
-    public function resetPassword(Request $request)
-    {
+    public function resetPassword(Request $request){
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
             'token' => 'required',
-            "password" => [
-                "required",
-                "min:8",
-                "max:32",
-                "string",
-                "confirmed",
-                "regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/"
+            'password' => [
+                'required',
+                'min:8',
+                'max:32',
+                'string',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/', 
             ]
         ], [
-            "password.regex" => "The password must contain at least one letter, one number, and one special character."
+            'password.regex' => 'The password must contain at least one letter, one number, and one special character.'
         ]);
 
-
         if ($validator->fails()) {
-            return response()->json([
-                'ok' => false,
-                'message' => 'Token has been expired or used',
-                'errors' => $validator->errors(),
-            ], 400);
+            return $this->BadRequest($validator);
         }
 
         $user = User::where('email', $request->email)->where('token', $request->token)->first();
 
         if (!$user) {
-            return response()->json([
-                'ok' => false,
-                'message' => 'Invalid email or temporary code',
-            ], 400);
+            return $this->Specific('Invalid email or temporary code');
         }
 
         $user->update([
-            'password',
-            'temporary_code' => null,
+            'password' => $request->password,
+            'token' => null,
         ]);
-        // remove the token
 
-
-        return response()->json([
-            'ok' => true,
-            'message' => 'Password reset successfully',
-        ]);
+        return $this->Ok(null, 'Password reset successfully');
     }
     
 }

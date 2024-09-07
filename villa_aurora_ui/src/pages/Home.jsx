@@ -16,6 +16,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navigation from "../../src/components/Navigation";
+import BookingForm from "../components/BookingForm";
+import MyCalendar from "../components/MyCalendar";
 
 function Home() {
     const user = useSelector((state) => state.auth.user);
@@ -75,7 +77,7 @@ function Home() {
                         color: "white",
                         display: scrollVisible ? "block" : "none",
                     }}
-                    id="custom-colorup"
+                    id="custom-primary-color"
                     onClick={handleScrollToTop}
                 >
                     <FontAwesomeIcon icon={faArrowUp} />
@@ -314,172 +316,9 @@ function Home() {
                     </Box>
                 </section>
 
-                {/* Booking Section */}
-                {/* <section
-                    className="booking-section section-padding"
-                    id="booking-section"
-                >
-                    <Box className="container">
-                        <Box className="row">
-                            <Box className="col-lg-10 col-12 mx-auto">
-                                <form
-                                    action="#"
-                                    method="post"
-                                    className="custom-form booking-form"
-                                    id="bb-booking-form"
-                                    role="form"
-                                >
-                                    <Box className="text-center mb-5">
-                                        <h2 className="mb-1">
-                                            Make a Reservation
-                                        </h2>
-
-                                        <p>
-                                            Please fill out the form and we get
-                                            back to you
-                                        </p>
-                                    </Box>
-
-                                    <Box className="booking-form-body">
-                                        <Box className="row">
-                                            <Grid container spacing={2}>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="name"
-                                                        label="Fullname"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        fullWidth
-                                                        required
-                                                        value={
-                                                            user?.username || ""
-                                                        }
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="mobile"
-                                                        label="Mobile"
-                                                        type="number"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        fullWidth
-                                                        required
-                                                        value={
-                                                            user?.mobile ?? ""
-                                                        }
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="date-start"
-                                                        type="date"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        fullWidth
-                                                        required
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} lg={6}>
-                                                    <TextField
-                                                        id="date-end"
-                                                        type="date"
-                                                        variant="outlined"
-                                                        margin="normal"
-                                                        fullWidth
-                                                        required
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    xs={12}
-                                                    lg={6}
-                                                    style={{
-                                                        marginBottom: "10px",
-                                                        marginTop: "5px",
-                                                    }}
-                                                >
-                                                    <Autocomplete
-                                                        options={serviceRows.map(
-                                                            (row) => row.name
-                                                        )}
-                                                        value={selectedService}
-                                                        onChange={(
-                                                            event,
-                                                            newValue
-                                                        ) => {
-                                                            setSelectedService(
-                                                                newValue
-                                                            );
-                                                        }}
-                                                        renderInput={(
-                                                            params
-                                                        ) => (
-                                                            <TextField
-                                                                {...params}
-                                                                label="Service Name"
-                                                                variant="outlined"
-                                                            />
-                                                        )}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    xs={12}
-                                                    lg={6}
-                                                    style={{
-                                                        marginBottom: "10px",
-                                                        marginTop: "5px",
-                                                    }}
-                                                >
-                                                    <Autocomplete
-                                                        options={roomRows.map(
-                                                            (row) => row.name
-                                                        )}
-                                                        value={selectedRoom}
-                                                        onChange={(
-                                                            event,
-                                                            newValue
-                                                        ) => {
-                                                            setSelectedRoom(
-                                                                newValue
-                                                            );
-                                                        }}
-                                                        renderInput={(
-                                                            params
-                                                        ) => (
-                                                            <TextField
-                                                                {...params}
-                                                                label="Room Name"
-                                                                variant="outlined"
-                                                            />
-                                                        )}
-                                                    />
-                                                </Grid>
-                                            </Grid>
-                                            <TextareaAutosize
-                                                name="message"
-                                                rows="3"
-                                                className="form-control"
-                                                id="message"
-                                                placeholder="Comments (Optional)"
-                                            ></TextareaAutosize>
-                                        </Box>
-
-                                        <Box className="col-lg-4 col-md-10 col-8 mx-auto">
-                                            <Button
-                                                type="submit"
-                                                className="form-control mt-5"
-                                            >
-                                                Submit
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                </form>
-                            </Box>
-                        </Box>
-                    </Box>
-                </section> */}
+                {/* Booking Form */}
+                <MyCalendar />
+                <BookingForm />
 
                 {/* Price Section */}
                 <section
