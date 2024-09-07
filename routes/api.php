@@ -15,7 +15,8 @@ Route::middleware(['auth:api'])->group(function(){
     // URL: GET http://localhost:8000/api/checkToken - Check token validity (requires authentication)
     Route::post('revokeToken',[App\Http\Controllers\AuthController::class,'revokeToken']);
     // URL: POST http://localhost:8000/api/revokeToken - Revoke token (requires authentication)
-
+    Route::post('forgotPassword', [App\Http\Controllers\AuthController::class, 'forgotPassword']);
+Route::post('resetPassword', [App\Http\Controllers\AuthController::class, 'resetPassword']);
 
 
 
