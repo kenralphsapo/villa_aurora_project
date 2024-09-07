@@ -1,4 +1,4 @@
-![Background Image](https://github.com/kenralphsapo/villa_aurora_project/blob/featurebranch/public/images/background.jpg?raw=true)
+![Background Image](https://github.com/kenralphsapo/villa_aurora_project/blob/main/villaaurora-ui/src/pages/images/background.jpg?raw=true)
 
 # Booking Management System for Villa Aurora Private Resort
 
