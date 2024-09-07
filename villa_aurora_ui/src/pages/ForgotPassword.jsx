@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     TextField,
     Button,
@@ -6,12 +6,21 @@ import {
     Container,
     IconButton,
     Box,
+    AppBar,
+    Toolbar,
 } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useCookies } from "react-cookie";
+import images from "../utils/index";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import KeyIcon from "@mui/icons-material/Key";
+import $ from "jquery";
+import { forgotPassword, resetPassword } from "../api/auth";
 
 const ForgotPasswordContainer = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -34,65 +43,178 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [forgotpassword, setForgotPassword] = useState(false);
+    const [token, setToken] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [warnings, setWarnings] = useState({});
 
-    const mavigate = useNavigate();
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const getToken = params.get("token");
+        const getEmail = params.get("email");
+        if (getToken && getEmail) {
+            setToken(getToken);
+            setForgotPassword(true);
+            setEmail(getEmail);
+        }
+    }, [location.search]);
 
-    const handleSubmit = async (e) => {
+    const onForgotPassword = (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-            toast.info(
-                "If an account with that email exists, a password reset link will be sent."
-            );
-            setEmail("");
-        }, 2000);
+        setLoading(true);
+        forgotPassword({
+            email,
+        }).then((res) => {
+            if (res?.ok) {
+                toast.info(
+                    res?.message ??
+                        "If an account with that email exists, a password reset link will be sent."
+                );
+                setLoading(false);
+                setEmail("");
+            } else {
+                toast.error(res?.message ?? "Something went wrong.");
+                setLoading(false);
+            }
+        });
+    };
+
+    const onResetPassword = (e) => {
+        e.preventDefault();
+        if (!loading) {
+            const body = {
+                email: email,
+                token: token,
+                password: $("#password").val(),
+                password_confirmation: $("#password_confirmation").val(),
+            };
+            setLoading(true);
+            resetPassword(body)
+                .then((res) => {
+                    if (res?.ok) {
+                        toast.success(
+                            res?.message ?? "Password reset successfully."
+                        );
+
+                        navigate("/login");
+
+                        setWarnings({});
+                    } else {
+                        toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res?.errors);
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
     };
 
     return (
-        <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center" }}>
-            <Container maxWidth="xs">
-                <ForgotPasswordContainer
+        <Box
+            sx={{
+                minHeight: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            {forgotpassword ? (
+                <Box
+                    component="form"
+                    onSubmit={onResetPassword}
                     sx={{
-                        boxShadow: "4px 4px 10px black",
+                        border: "1px solid black",
+                        padding: 5,
+                        borderRadius: 10,
+                        boxShadow: "2px 2px 4px black",
                     }}
                 >
-                    <CloseButton onClick={() => mavigate("/login")}>
-                        <CloseIcon />
-                    </CloseButton>
-                    <Typography variant="h4" gutterBottom>
-                        Forgot Password
-                    </Typography>
-                    <Typography variant="body1" paragraph>
-                        Enter your email address and we'll send you a link to
-                        reset your password.
-                    </Typography>
-                    <form onSubmit={handleSubmit}>
+                    <Box className="d-flex justify-content-end">
+                        <CloseButton onClick={() => setForgotPassword(false)}>
+                            <CloseIcon />
+                        </CloseButton>
+                    </Box>
+                    <Box className="d-flex align-items-center">
+                        <Typography style={{ marginRight: "10px" }}>
+                            Reset Password
+                        </Typography>
+                        <KeyIcon />
+                    </Box>
+                    <Box sx={{ mt: 2 }}>
                         <TextField
-                            label="Email"
-                            type="email"
-                            fullWidth
-                            margin="normal"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            variant="outlined"
+                            label="New Password"
+                            id="password"
+                            type="password"
                         />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            disabled={isLoading}
-                            style={{ marginTop: "16px" }}
-                        >
-                            {isLoading ? "Sending..." : "Send Reset Link"}
-                        </Button>
-                    </form>
-                </ForgotPasswordContainer>
-                <ToastContainer />
-            </Container>
+                    </Box>
+                    <Box sx={{ mt: 2 }}>
+                        <TextField
+                            label="Password Confirmation"
+                            id="password_confirmation"
+                            type="password"
+                        />
+                    </Box>
+                    <Button
+                        type="submit"
+                        id="submit-btn"
+                        style={{
+                            display: "block",
+                            margin: "auto",
+                            marginTop: 10,
+                            background: "#007bff",
+                            color: "#eeeeee",
+                        }}
+                    >
+                        Submit
+                    </Button>
+                </Box>
+            ) : (
+                <Container maxWidth="xs">
+                    <ForgotPasswordContainer
+                        sx={{
+                            boxShadow: "4px 4px 10px black",
+                        }}
+                    >
+                        <CloseButton onClick={() => navigate("/login")}>
+                            <CloseIcon />
+                        </CloseButton>
+                        <Typography variant="h4" gutterBottom>
+                            Forgot Password
+                        </Typography>
+                        <Typography variant="body1" paragraph>
+                            Enter your email address and we'll send you a link
+                            to reset your password.
+                        </Typography>
+                        <form onSubmit={onForgotPassword}>
+                            <TextField
+                                label="Email"
+                                type="email"
+                                fullWidth
+                                margin="normal"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                variant="outlined"
+                            />
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                disabled={loading}
+                                style={{ marginTop: "16px" }}
+                            >
+                                {loading ? "Sending..." : "Send Reset Link"}
+                            </Button>
+                        </form>
+                    </ForgotPasswordContainer>
+                </Container>
+            )}
         </Box>
     );
 }

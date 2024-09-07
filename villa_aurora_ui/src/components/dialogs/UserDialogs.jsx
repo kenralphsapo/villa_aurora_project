@@ -406,9 +406,6 @@ export function UserDialogs() {
                                     required
                                 >
                                     <MenuItem value="admin">Admin</MenuItem>
-                                    <MenuItem value="scheduler">
-                                        Scheduler
-                                    </MenuItem>
                                     <MenuItem value="guest">Guest</MenuItem>
                                 </Select>
                             </FormControl>

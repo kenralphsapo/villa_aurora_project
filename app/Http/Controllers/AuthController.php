@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Mail\UserRegistered;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
@@ -145,7 +147,7 @@ class AuthController extends Controller
         $user->token = $token;
         $user->save();
 
-        Mail::to($user->email)->send(new ResetPasswordMail($user, $token));
+        Mail::to($user->email)->queue(new ResetPasswordMail($user, $token));
 
         return response()->json([
             'ok' => true,
