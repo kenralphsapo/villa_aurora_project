@@ -1,0 +1,440 @@
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+}
+
+$primary-bg: #d6a354;
+$secondary-bg: #4caf50;
+$notfound-bg: linear-gradient(rgb(73, 185, 223), aliceblue, white);
+
+$hero-bg: url(./images/hero-bg.jpg);
+$auth-bg: url(./images/bglogin.jpg);
+
+$black-color: #000;
+$white-color: #fff;
+$gray-color: #717275;
+$red-color: #c12828;
+
+$box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+
+/*---------------------------------------
+NOT FOUND PAGE           
+-----------------------------------------*/
+
+#notfoundbg {
+    background-image: $notfound-bg;
+}
+
+/*---------------------------------------
+Bootstrap           
+-----------------------------------------*/
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.custom-marginleft {
+    margin-left: 10px;
+}
+
+.custom-marginright {
+    margin-right: 10px;
+}
+
+.custom-fontweight-bold {
+    font-size: 1.6rem;
+}
+
+#custom-iframe {
+    height: 70vh;
+}
+
+#custom-colorup {
+    background-color: $primary-bg;
+}
+
+/*---------------------------------------
+Authentication Appearance           
+-----------------------------------------*/
+#auth-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: $auth-bg;
+    flex-direction: column;
+    background-position: center;
+    background-size: cover;
+
+    #login-text {
+        animation: appear 1s linear;
+        display: block;
+        font-size: 1.5em;
+        margin-block-start: 0.83em;
+        margin-block-end: 0.83em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+        unicode-bidi: isolate;
+        text-align: center;
+    }
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+input[type="number"] {
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/*---------------------------------------
+Home Appearance 
+-----------------------------------------*/
+
+#homebg {
+    animation: appear 2s linear;
+
+    h3 {
+        padding-top: 5px;
+        font-size: 30px;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+        font-style: normal;
+    }
+}
+
+#sidebartoogle:hover {
+    background-color: $primary-bg;
+}
+
+/*---------------------------------------
+Login and Register UI 
+-----------------------------------------*/
+
+.login-form {
+    background-color: $white-color;
+    border-radius: 10px;
+    box-shadow: $box-shadow;
+    transition: all 0.3s ease;
+    width: 400px;
+    padding: 30px;
+}
+
+.input-container {
+    margin-bottom: 15px;
+}
+
+#submit-button {
+    width: 95%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: $secondary-bg;
+    color: $white-color;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    margin: auto;
+
+    &:hover {
+        background-color: $secondary-bg;
+    }
+}
+
+.input-container {
+    width: 320px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.forgot-password #link {
+    color: $secondary-bg;
+    text-decoration: none;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link #link {
+    color: $secondary-bg;
+    text-decoration: none;
+}
+
+.register-link #link:hover {
+    text-decoration: underline;
+}
+
+#custom-sign {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    color: $white-color;
+    text-shadow: 0 0 10px gold;
+}
+
+/*---------------------------------------
+TYPOGRAPHY               
+-----------------------------------------*/
+
+h1 {
+    font-size: 74px;
+}
+
+h2 {
+    font-size: 46px;
+}
+
+h3 {
+    font-size: 32px;
+}
+
+h4 {
+    font-size: 28px;
+}
+
+h5 {
+    font-size: 24px;
+}
+
+h6 {
+    font-size: 22px;
+}
+
+p {
+    color: $gray-color;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+ul li {
+    color: $gray-color;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+a,
+button {
+    touch-action: manipulation;
+    transition: all 0.3s;
+}
+
+.trans-scale:hover {
+    transform: scale(1.1);
+}
+
+/*---------------------------------------
+SECTION               
+-----------------------------------------*/
+.section-padding {
+    padding: 100px 50px;
+}
+
+.section-bg {
+    background-color: $white-color;
+}
+
+.section-overlay {
+    background-color: $black-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    opacity: 0.45;
+}
+
+.section-overlay + .container {
+    position: relative;
+}
+
+/*---------------------------------------
+HERO OR LANDING PAGE
+-----------------------------------------*/
+.hero-section {
+    background-image: $hero-bg;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    padding: 50px;
+    padding-bottom: 0;
+    min-height: 665px;
+    border-bottom: 15px solid $primary-bg;
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    &::after {
+        content: "";
+        background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0.65;
+    }
+
+    .custom-block {
+        border: 10px solid $primary-bg;
+        border-radius: 100%;
+        position: absolute;
+        z-index: 2;
+        bottom: -60px;
+        right: -60px;
+        padding: 50px 90px 50px 50px;
+        width: 360px;
+        height: 360px;
+    }
+}
+
+@media screen and (min-width: 991px) {
+    .hero-section {
+        height: calc(100vh - 0px);
+    }
+}
+
+.custom-btn {
+    display: inline-block;
+    box-shadow: 2px 2px 0 $black-color;
+}
+
+.custom-block .custom-btn {
+    background: $red-color;
+}
+
+.custom-block-image {
+    border: 10px solid $primary-bg;
+    border-radius: 100%;
+    position: absolute;
+    top: -60px;
+    right: 20px;
+    left: 0;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    object-fit: cover;
+}
+
+/*---------------------------------------
+CUSTOM BLOCK BACKGROUND OVERLAY               
+-----------------------------------------*/
+.custom-block-bg-overlay-wrap {
+    background: $primary-bg;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
+        transform: scale(1.05);
+    }
+
+    &:hover .service-info {
+        bottom: 10px;
+    }
+}
+
+.custom-block-bg-overlay-image {
+    border-radius: 20px;
+    display: block;
+    margin: auto;
+    height: 100%;
+    object-fit: cover;
+    transform: rotate(8deg);
+}
+
+/*---------------------------------------
+CUSTOM BUTTON               
+-----------------------------------------*/
+.custom-btn {
+    background-color: $red-color;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    color: $white-color;
+    font-size: 16px;
+    font-weight: 20px;
+    line-height: normal;
+    transition: all 0.3s;
+    padding: 10px 20px;
+}
+
+.custom-border-btn {
+    background: transparent;
+    border: 2px solid $red-color;
+    color: $red-color;
+}
+
+.custom-btn-bg-white {
+    border-color: $white-color;
+    color: $white-color;
+    font-weight: bold;
+    text-shadow: 0 0 10px $black-color;
+}
+
+.custom-btn-italic {
+    font-style: italic;
+}
+
+/*---------------------------------------
+SERVICE           
+-----------------------------------------*/
+.service-section {
+    h6 {
+        color: $red-color;
+    }
+
+    .custom-block-bg-overlay-image {
+        width: 100%;
+        max-height: 250px;
+    }
+
+    .custom-block-bg-overlay-wrap {
+        position: relative;
+    }
+
+    .service-info {
+        background: $white-color;
+        border-radius: 100px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: 10px 40px;
+        padding: 10px 17px 10px 20px;
+        transition: all 0.3s ease;
+    }
+}

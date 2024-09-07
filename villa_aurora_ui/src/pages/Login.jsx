@@ -78,7 +78,7 @@ export default function Login() {
     }, []);
 
     return (
-        <Box id="bglogin">
+        <Box id="auth-bg">
             <img
                 src={images.logo}
                 alt="Logo"
@@ -107,7 +107,7 @@ export default function Login() {
                 >
                     <CloseIcon />
                 </IconButton>
-                <Typography id="login-logo" variant="h2">
+                <Typography id="login-text" variant="h2">
                     Login
                 </Typography>
                 <Box className="input-container">

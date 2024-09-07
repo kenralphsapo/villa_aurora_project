@@ -187,7 +187,7 @@ function Home() {
                                     alt="Catering"
                                 />
 
-                                <Box className="team-info d-flex align-items-center flex-wrap">
+                                <Box className="service-info d-flex align-items-center flex-wrap">
                                     <p className="mb-0 font-weight-bold">
                                         Birthday
                                     </p>
@@ -201,7 +201,7 @@ function Home() {
                                     alt="Event"
                                 />
 
-                                <Box className="team-info d-flex align-items-center flex-wrap">
+                                <Box className="service-info d-flex align-items-center flex-wrap">
                                     <p className="mb-0 font-weight-bold">
                                         Wedding
                                     </p>
