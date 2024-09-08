@@ -8,16 +8,20 @@ use App\Mail\UserRegistered;
 use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Laravolt\Avatar\Avatar;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
     /**
      * REGISTER a new user
      * POST: /api/register
+     * 
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request) {
+    public function register(Request $request){
         $validator = validator($request->all(), [
             'username' => [
                 'required',
@@ -25,7 +29,7 @@ class AuthController extends Controller
                 'string',
                 'unique:users',
                 'max:32',
-                'regex:/^[a-zA-Z]+$/', 
+                'regex:/^[a-zA-Z]+$/',
             ],
             'password' => [
                 'required',
@@ -33,13 +37,13 @@ class AuthController extends Controller
                 'min:8',
                 'max:32',
                 'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/', 
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/',
             ],
             'mobile' => [
                 'required',
                 'min:11',
                 'max:13',
-                'phone:PH', 
+                'phone:PH',
             ],
             'email' => [
                 'required',
@@ -48,43 +52,74 @@ class AuthController extends Controller
                 'unique:users',
             ],
         ], [
-           'username.regex' => 'The username must contain only letters and no special characters, numbers, or spaces.',
+            'username.regex' => 'The username must contain only letters and no special characters, numbers, or spaces.',
             'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
-        
+
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
-    
-        $user = User::create($validator->validated());
+
+        $validatedData = $validator->validated();
+        $user = User::create($validatedData);
+
+        $backgroundColors = Config::get('laravolt.avatar.backgrounds');
+
+        $backgroundColor = $backgroundColors[array_rand($backgroundColors)];
+
+        $avatar = new Avatar();
+        $avatarImage = $avatar->create($user->username)
+            ->setBackground($backgroundColor);
+
+        $filename = strtolower(str_replace(' ', '-', $user->username)) . '.png';
+        $path = storage_path('app/public/avatars/' . $filename);
+
+        $directory = dirname($path);
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true); 
+        }
+
+        try {
+            $avatarImage->save($path);
+        } catch (\Exception $e) {
+            return $this->InternalError('Could not save avatar image: ' . $e->getMessage());
+        }
+
+        $user->avatar = 'avatars/' . $filename;
+        $user->save();
+
         $user->token = $user->createToken("registration_token")->accessToken;
         Mail::to($user->email)->queue(new UserRegistered($user));
+
         return $this->Ok($user, "Register Successfully!");
     }
-    
+
+
 
     /**
      * LOGIN a user
      * POST: /api/login
+     * 
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request) {
+    public function login(Request $request){
         $validator = validator($request->all(), [
-            'username' => "required",
-            'password' => "required"
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
 
-        $credentials = $request->only("username", "password");
+        $credentials = $request->only('username', 'password');
 
-        if (auth()->attempt(["email" => $credentials["username"], "password" => $credentials["password"]]) ||
-            auth()->attempt(["username" => $credentials["username"], "password" => $credentials["password"]])) {
+        if (auth()->attempt(['email' => $credentials['username'], 'password' => $credentials['password']]) ||
+            auth()->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+            
             $user = auth()->user();
-            $user->token = $user->createToken("api-token")->accessToken;
+            $user->token = $user->createToken('api-token')->accessToken;
 
             return $this->Ok($user, "Login Success");
         }
@@ -95,13 +130,20 @@ class AuthController extends Controller
     /**
      * Retrieve the user info using bearer token
      * GET: /api/checkToken
+     * 
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function checkToken(Request $request) {
+    public function checkToken(Request $request){
         return $this->Ok($request->user(), "User info has been retrieved");
     }
 
+    /**
+     * Revoke the user's token
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function revokeToken(Request $request){
         $user = $request->user();
 
@@ -114,19 +156,13 @@ class AuthController extends Controller
         return $this->Ok("Success", 'Token has been revoked!');
     }
 
-
-
     /**
-     * forgotPassword
-     *
-     * @param  mixed $request
-     * @return void
-     * https://stackoverflow.com/questions/23015874/laravel-str-random-or-custom-function
-     * The Str::random method generates a random string of the specified length. This function uses PHP's random_bytes function:
-     * https://laravel.com/docs/11.x/strings
+     * Send password reset instructions
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function forgotPassword(Request $request)
-    {
+    public function forgotPassword(Request $request){
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
         ]);
@@ -146,7 +182,13 @@ class AuthController extends Controller
         return $this->Ok(null, 'Password reset instructions sent to your email');
     }
 
-    public function resetPassword(Request $request){
+    /**
+     * Reset the user's password
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function resetPassword(Request $request) {
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
             'token' => 'required',
@@ -156,10 +198,10 @@ class AuthController extends Controller
                 'max:32',
                 'string',
                 'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/', 
-            ]
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/',
+            ],
         ], [
-            'password.regex' => 'The password must contain at least one letter, one number, and one special character.'
+            'password.regex' => 'The password must contain at least one letter, one number, and one special character.',
         ]);
 
         if ($validator->fails()) {
@@ -179,5 +221,4 @@ class AuthController extends Controller
 
         return $this->Ok(null, 'Password reset successfully');
     }
-    
 }
