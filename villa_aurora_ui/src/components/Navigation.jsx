@@ -13,6 +13,11 @@ import {
     useTheme,
     useMediaQuery,
     Box,
+    Avatar,
+    Divider,
+    Dialog,
+    DialogTitle,
+    DialogContent,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -29,6 +34,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { logoutUser } from "../redux/authSlice";
 import { index } from "../api/user";
+import MyAccount from "./MyAccount";
 
 const drawerWidth = 240;
 
@@ -49,13 +55,14 @@ function Navigation() {
         const token = cookies.AUTH_TOKEN;
         dispatch(logoutUser(token))
             .unwrap()
-            .then(() => {
-                removeCookie("AUTH_TOKEN");
-                navigate("/login");
-                toast.success("Logged out successfully.");
-            })
-            .catch((err) => {
-                toast.error("Logout failed: " + err);
+            .then((res) => {
+                if (res?.ok) {
+                    removeCookie("AUTH_TOKEN");
+                    navigate("/login");
+                    toast.success("Logged out successfully.");
+                } else {
+                    toast.error(res?.message ?? "Something went wrong.");
+                }
             });
     };
 
@@ -73,8 +80,10 @@ function Navigation() {
         checkActive();
     }, []);
 
+    const [editDialog, setEditDialog] = useState(null);
+
     const drawerItems = (
-        <div
+        <Box
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
@@ -95,6 +104,16 @@ function Navigation() {
                 <CloseIcon />
             </IconButton>
             <List>
+                <ListItem>
+                    <ListItemIcon>
+                        <Avatar
+                            src={`http://localhost:8000/storage/${user?.avatar}`}
+                            alt={user?.username ?? ""}
+                        />
+                    </ListItemIcon>
+                    <Typography variant="h6">{user?.username ?? ""}</Typography>
+                </ListItem>
+                <hr />
                 <a href="#section_1" style={{ textDecoration: "none" }}>
                     <ListItem>
                         <ListItemIcon>
@@ -127,24 +146,35 @@ function Navigation() {
                         <ListItemText primary="Contact" />
                     </ListItem>
                 </a>
-                <Link to="/admin" style={{ textDecoration: "none" }}>
-                    <ListItem>
-                        <ListItemIcon>
-                            <AdminPanelSettingsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Admin" />
-                    </ListItem>
-                </Link>
-                <Link href="/guest" style={{ textDecoration: "none" }}>
-                    <ListItem>
-                        <ListItemIcon>
-                            <AccountCircleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="My Account" />
-                    </ListItem>
-                </Link>
+                {active ? (
+                    <>
+                        {user?.role == "admin" ? (
+                            <Link
+                                to="/admin"
+                                style={{ textDecoration: "none" }}
+                            >
+                                <ListItem>
+                                    <ListItemIcon>
+                                        <AdminPanelSettingsIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Admin" />
+                                </ListItem>
+                            </Link>
+                        ) : (
+                            <ListItem
+                                onClick={() => setEditDialog(user)}
+                                sx={{ cursor: "pointer" }}
+                            >
+                                <ListItemIcon>
+                                    <AccountCircleIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="My Account" />
+                            </ListItem>
+                        )}
+                    </>
+                ) : null}
             </List>
-        </div>
+        </Box>
     );
 
     return (
@@ -292,6 +322,7 @@ function Navigation() {
                                         <Button
                                             color="inherit"
                                             startIcon={<AccountCircleIcon />}
+                                            onClick={() => setEditDialog(user)}
                                         >
                                             My Account
                                         </Button>
@@ -343,6 +374,16 @@ function Navigation() {
                     )}
                 </Toolbar>
             </AppBar>
+            <Dialog open={!!editDialog}>
+                <DialogContent>
+                    <MyAccount
+                        setEditDialog={setEditDialog}
+                        user={user}
+                        cookies={cookies}
+                        dispatch={dispatch}
+                    />
+                </DialogContent>
+            </Dialog>
         </>
     );
 }

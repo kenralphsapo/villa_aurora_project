@@ -21,11 +21,16 @@ import $ from "jquery";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 
-export function ServiceDialog() {
+export function ServiceDialog({
+    createDialog,
+    setCreateDialog,
+    editDialog,
+    setEditDialog,
+    deleteDialog,
+    setDeleteDialog,
+}) {
     const [serviceRows, setServiceRows] = useState([]);
-    const [createDialog, setCreateDialog] = useState(false);
-    const [deleteDialog, setDeleteDialog] = useState(null);
-    const [editDialog, setEditDialog] = useState(null);
+
     const [warnings, setWarnings] = useState({});
     const [cookies] = useCookies(["AUTH_TOKEN"]);
 

@@ -18,15 +18,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navigation from "../../src/components/Navigation";
 import BookingForm from "../components/BookingForm";
 import MyCalendar from "../components/MyCalendar";
+import { getUser } from "../api/user";
 
 function Home() {
-    const user = useSelector((state) => state.auth.user);
-    const [cookies, setCookie, removeCookie] = useCookies();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const [scrollVisible, setScrollVisible] = useState(false);
-    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const handleScrollToTop = () => {
         window.scrollTo({
@@ -57,10 +52,6 @@ function Home() {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
-
-    const toggleDrawer = () => {
-        setDrawerOpen(!drawerOpen);
-    };
 
     return (
         <Box id="homebg">

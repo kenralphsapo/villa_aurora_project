@@ -87,7 +87,7 @@ export default function Register() {
                 >
                     <CloseIcon />
                 </IconButton>
-                <Typography variant="h2" id="login-logo">
+                <Typography variant="h2" id="login-text">
                     Register
                 </Typography>
                 <Box>

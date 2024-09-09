@@ -26,10 +26,14 @@ import { destroy, index, store, update } from "../../api/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
-export function UserDialogs() {
-    const [createDialog, setCreateDialog] = useState(false);
-    const [deleteDialog, setDeleteDialog] = useState(null);
-    const [editDialog, setEditDialog] = useState(null);
+export function UserDialogs({
+    createDialog,
+    setCreateDialog,
+    editDialog,
+    setEditDialog,
+    deleteDialog,
+    setDeleteDialog,
+}) {
     const [loading, setLoading] = useState(false);
     const [warnings, setWarnings] = useState({});
     const [cookies] = useCookies(["AUTH_TOKEN"]);
@@ -159,6 +163,7 @@ export function UserDialogs() {
                 cookies.AUTH_TOKEN
             )
                 .then((res) => {
+                    console.log(res);
                     if (res?.ok) {
                         toast.success(res?.message ?? "Account has updated");
                         setEditDialog(null);

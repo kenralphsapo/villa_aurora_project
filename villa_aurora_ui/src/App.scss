@@ -56,6 +56,11 @@ Bootstrap
     background-color: $primary-bg;
 }
 
+#edit-account-icon {
+    background-color: $white-color;
+    border: 1px solid $black-color;
+}
+
 /*---------------------------------------
 Authentication Appearance           
 -----------------------------------------*/
@@ -91,30 +96,6 @@ Authentication Appearance
         opacity: 1;
     }
 }
-
-/*---------------------------------------
-Home Appearance 
------------------------------------------*/
-
-#homebg {
-    animation: appear 2s linear;
-
-    h3 {
-        padding-top: 5px;
-        font-size: 30px;
-        font-family: "Lato", sans-serif;
-        font-weight: bold;
-        font-style: normal;
-    }
-}
-
-#sidebartoogle:hover {
-    background-color: $primary-bg;
-}
-
-/*---------------------------------------
-Login and Register UI 
------------------------------------------*/
 
 .login-form {
     background-color: $white-color;
@@ -188,6 +169,26 @@ Login and Register UI
     font-weight: bold;
     color: $white-color;
     text-shadow: 0 0 10px $gold-color;
+}
+
+/*---------------------------------------
+Home Appearance 
+-----------------------------------------*/
+
+#homebg {
+    animation: appear 2s linear;
+
+    h3 {
+        padding-top: 5px;
+        font-size: 30px;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+        font-style: normal;
+    }
+}
+
+#sidebartoogle:hover {
+    background-color: $primary-bg;
 }
 
 /*---------------------------------------

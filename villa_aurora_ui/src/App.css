@@ -1,789 +1,791 @@
 *,
 *::after,
 *::before {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 /*---------------------------------------
 NOT FOUND PAGE           
 -----------------------------------------*/
 #notfoundbg {
-  background-image: linear-gradient(rgb(73, 185, 223), aliceblue, white);
+    background-image: linear-gradient(rgb(73, 185, 223), aliceblue, white);
 }
 
 /*---------------------------------------
 Bootstrap           
 -----------------------------------------*/
 .font-weight-bold {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .custom-marginleft {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 .custom-marginright {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 .custom-fontweight-bold {
-  font-size: 1.6rem;
+    font-size: 1.6rem;
 }
 
 #custom-iframe {
-  height: 70vh;
+    height: 70vh;
 }
 
 #custom-colorup {
-  background-color: #d6a354;
+    background-color: #d6a354;
+}
+
+#edit-account-icon {
+    background-color: #fff;
+    border: 1px solid #000;
 }
 
 /*---------------------------------------
 Authentication Appearance           
 -----------------------------------------*/
 #auth-bg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-image: url(./images/bglogin.jpg);
-  flex-direction: column;
-  background-position: center;
-  background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url(./images/bglogin.jpg);
+    flex-direction: column;
+    background-position: center;
+    background-size: cover;
 }
 #auth-bg #login-text {
-  animation: appear 1s linear;
-  display: block;
-  font-size: 1.5em;
-  margin-block-start: 0.83em;
-  margin-block-end: 0.83em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-  unicode-bidi: isolate;
-  text-align: center;
+    animation: appear 1s linear;
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+    text-align: center;
 }
 
 @keyframes appear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
+.login-form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 400px;
+    padding: 30px;
+}
+
+.input-container {
+    margin-bottom: 15px;
+}
+
+#submit-button {
+    width: 95%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    margin: auto;
+}
+#submit-button:hover {
+    background-color: #4caf50;
+}
+
+.input-container {
+    width: 320px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.forgot-password #link {
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link #link {
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.register-link #link:hover {
+    text-decoration: underline;
+}
+
+#custom-sign {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px gold;
+}
+
 /*---------------------------------------
 Home Appearance 
 -----------------------------------------*/
 #homebg {
-  animation: appear 2s linear;
+    animation: appear 2s linear;
 }
 #homebg h3 {
-  padding-top: 5px;
-  font-size: 30px;
-  font-family: "Lato", sans-serif;
-  font-weight: bold;
-  font-style: normal;
+    padding-top: 5px;
+    font-size: 30px;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    font-style: normal;
 }
 
 #sidebartoogle:hover {
-  background-color: #d6a354;
-}
-
-/*---------------------------------------
-Login and Register UI 
------------------------------------------*/
-.login-form {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  width: 400px;
-  padding: 30px;
-}
-
-.input-container {
-  margin-bottom: 15px;
-}
-
-#submit-button {
-  width: 95%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #4caf50;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: block;
-  margin: auto;
-}
-#submit-button:hover {
-  background-color: #4caf50;
-}
-
-.input-container {
-  width: 320px;
-  display: block;
-  margin: auto;
-  margin-bottom: 20px;
-}
-
-.forgot-password {
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.forgot-password #link {
-  color: #4caf50;
-  text-decoration: none;
-}
-
-.register-link {
-  text-align: center;
-  margin-top: 15px;
-}
-
-.register-link #link {
-  color: #4caf50;
-  text-decoration: none;
-}
-
-.register-link #link:hover {
-  text-decoration: underline;
-}
-
-#custom-sign {
-  display: block;
-  font-size: 2em;
-  margin-block-start: 0.67em;
-  margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 10px gold;
+    background-color: #d6a354;
 }
 
 /*---------------------------------------
 TYPOGRAPHY               
 -----------------------------------------*/
 h1 {
-  font-size: 74px;
+    font-size: 74px;
 }
 
 h2 {
-  font-size: 46px;
+    font-size: 46px;
 }
 
 h3 {
-  font-size: 32px;
+    font-size: 32px;
 }
 
 h4 {
-  font-size: 28px;
+    font-size: 28px;
 }
 
 h5 {
-  font-size: 24px;
+    font-size: 24px;
 }
 
 h6 {
-  font-size: 22px;
+    font-size: 22px;
 }
 
 p {
-  color: #717275;
-  font-size: 20px;
-  font-weight: 600;
+    color: #717275;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 ul li {
-  color: #717275;
-  font-size: 20px;
-  font-weight: bold;
-  display: flex;
-  flex-wrap: wrap;
+    color: #717275;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 a,
 button {
-  touch-action: manipulation;
-  transition: all 0.3s;
+    touch-action: manipulation;
+    transition: all 0.3s;
 }
 
 .trans-scale:hover {
-  transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 /*---------------------------------------
 SECTION               
 -----------------------------------------*/
 .section-padding {
-  padding: 100px 50px;
+    padding: 100px 50px;
 }
 
 .section-bg {
-  background-color: #fff;
+    background-color: #fff;
 }
 
 .section-overlay {
-  background-color: #000;
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  opacity: 0.45;
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    opacity: 0.45;
 }
 
 .section-overlay + .container {
-  position: relative;
+    position: relative;
 }
 
 /*---------------------------------------
 HERO OR LANDING PAGE
 -----------------------------------------*/
 .hero-section {
-  background-image: url(./images/background.jpg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  overflow: hidden;
-  padding: 50px;
-  padding-bottom: 0;
-  min-height: 665px;
-  border-bottom: 15px solid #d6a354;
+    background-image: url(./images/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    padding: 50px;
+    padding-bottom: 0;
+    min-height: 665px;
+    border-bottom: 15px solid #d6a354;
 }
 .hero-section .container {
-  position: relative;
-  z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 .hero-section::after {
-  content: "";
-  background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  opacity: 0.65;
+    content: "";
+    background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.65;
 }
 .hero-section .custom-block {
-  border: 10px solid #d6a354;
-  border-radius: 100%;
-  position: absolute;
-  z-index: 2;
-  bottom: -60px;
-  right: -60px;
-  padding: 50px 90px 50px 50px;
-  width: 360px;
-  height: 360px;
+    border: 10px solid #d6a354;
+    border-radius: 100%;
+    position: absolute;
+    z-index: 2;
+    bottom: -60px;
+    right: -60px;
+    padding: 50px 90px 50px 50px;
+    width: 360px;
+    height: 360px;
 }
 
 .custom-btn {
-  display: inline-block;
-  box-shadow: 2px 2px 0 #000;
+    display: inline-block;
+    box-shadow: 2px 2px 0 #000;
 }
 
 .custom-block .custom-btn {
-  background: #c12828;
+    background: #c12828;
 }
 
 .custom-block-image {
-  border: 10px solid #d6a354;
-  border-radius: 100%;
-  position: absolute;
-  top: -60px;
-  right: 20px;
-  left: 0;
-  width: 120px;
-  height: 120px;
-  margin: auto;
-  object-fit: cover;
+    border: 10px solid #d6a354;
+    border-radius: 100%;
+    position: absolute;
+    top: -60px;
+    right: 20px;
+    left: 0;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    object-fit: cover;
 }
 
 /*---------------------------------------
 CUSTOM BLOCK BACKGROUND OVERLAY               
 -----------------------------------------*/
 .custom-block-bg-overlay-wrap {
-  background: #d6a354;
-  border-radius: 20px;
-  transition: all 0.3s ease;
+    background: #d6a354;
+    border-radius: 20px;
+    transition: all 0.3s ease;
 }
 .custom-block-bg-overlay-wrap:hover {
-  background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
-  transform: scale(1.05);
+    background-image: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
+    transform: scale(1.05);
 }
 .custom-block-bg-overlay-wrap:hover .service-info {
-  bottom: 10px;
+    bottom: 10px;
 }
 
 .custom-block-bg-overlay-image {
-  border-radius: 20px;
-  display: block;
-  margin: auto;
-  height: 100%;
-  object-fit: cover;
-  transform: rotate(8deg);
+    border-radius: 20px;
+    display: block;
+    margin: auto;
+    height: 100%;
+    object-fit: cover;
+    transform: rotate(8deg);
 }
 
 /*---------------------------------------
 CUSTOM BUTTON               
 -----------------------------------------*/
 .custom-btn {
-  background-color: #c12828;
-  border: 2px solid transparent;
-  border-radius: 100px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 20px;
-  line-height: normal;
-  transition: all 0.3s;
-  padding: 10px 20px;
+    background-color: #c12828;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 20px;
+    line-height: normal;
+    transition: all 0.3s;
+    padding: 10px 20px;
 }
 
 .custom-border-btn {
-  background: transparent;
-  border: 2px solid #c12828;
-  color: #c12828;
+    background: transparent;
+    border: 2px solid #c12828;
+    color: #c12828;
 }
 
 .custom-btn-bg-white {
-  border-color: #fff;
-  color: #fff;
-  font-weight: bold;
-  text-shadow: 0 0 10px #000;
+    border-color: #fff;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 0 10px #000;
 }
 
 .custom-btn-italic {
-  font-style: italic;
+    font-style: italic;
 }
 
 /*---------------------------------------
 SERVICE           
 -----------------------------------------*/
 .service-section h6 {
-  color: #c12828;
+    color: #c12828;
 }
 .service-section .custom-block-bg-overlay-image {
-  width: 100%;
-  max-height: 250px;
+    width: 100%;
+    max-height: 250px;
 }
 .service-section .custom-block-bg-overlay-wrap {
-  position: relative;
+    position: relative;
 }
 .service-section .service-info {
-  background: #fff;
-  border-radius: 100px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  margin: 10px 40px;
-  padding: 10px 17px 10px 20px;
-  transition: all 0.3s ease;
+    background: #fff;
+    border-radius: 100px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 10px 40px;
+    padding: 10px 17px 10px 20px;
+    transition: all 0.3s ease;
 }
 
 /*---------------------------------------
 MOCKUP        
 -----------------------------------------*/
 .mockup-section {
-  background-image: url(./images/background.jpg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  position: relative;
-  text-align: center;
+    background-image: url(./images/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    text-align: center;
 }
 .mockup-section p {
-  color: #fff;
+    color: #fff;
 }
 .mockup-section strong {
-  background: #d6a354;
-  border-radius: 20px;
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 20px;
+    background: #d6a354;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
 }
 
 /*---------------------------------------
 FEATURES            
 -----------------------------------------*/
 .features-thumb {
-  border-radius: 20px;
-  position: relative;
-  overflow: hidden;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
 }
 .features-thumb:hover .features-info {
-  border-color: #d6a354;
-  border-width: 5px;
+    border-color: #d6a354;
+    border-width: 5px;
 }
 .features-thumb:hover .features-image {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .features-image {
-  border-radius: 20px;
-  display: block;
-  margin: auto;
-  transition: all 0.3s;
+    border-radius: 20px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s;
 }
 
 .features-thumb-price {
-  background: #d6a354;
-  border-radius: 20px;
-  font-size: 14px;
-  margin-left: auto;
-  padding: 5px 10px;
+    background: #d6a354;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-left: auto;
+    padding: 5px 10px;
 }
 
 .features-info {
-  border-radius: 20px;
-  border: 1px solid #fff;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  margin: 20px;
-  padding: 25px 30px;
-  transition: all 0.3s ease;
+    border-radius: 20px;
+    border: 1px solid #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 20px;
+    padding: 25px 30px;
+    transition: all 0.3s ease;
 }
 .features-info h4 {
-  color: #fff;
+    color: #fff;
 }
 
 /*---------------------------------------
 BOOKING               
 -----------------------------------------*/
 .booking-section {
-  background-image: url(./images/background.jpg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
+    background-image: url(./images/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
 }
 
 .booking-form {
-  background: #fff;
-  border-radius: 20px;
-  padding: 65px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 65px;
 }
 
 #captcha {
-  width: 100%;
+    width: 100%;
 }
 
 /*---------------------------------------
 CUSTOM FORM               
 -----------------------------------------*/
 .custom-form .form-control {
-  color: #717275;
-  margin-bottom: 24px;
-  padding-top: 13px;
-  padding-bottom: 13px;
-  outline: none;
-  transition: all 0.3s;
+    color: #717275;
+    margin-bottom: 24px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    outline: none;
+    transition: all 0.3s;
 }
 
 .custom-form .form-control:hover,
 .custom-form .form-control:focus {
-  background: #fff;
-  border-color: transparent;
+    background: #fff;
+    border-color: transparent;
 }
 
-.custom-form button[type=submit] {
-  background: #c12828;
-  border: none;
-  border-radius: 100px;
-  color: #fff;
-  font-size: 20px;
-  font-weight: var(--font-weight-medium);
-  transition: all 0.3s;
-  margin-bottom: 0;
+.custom-form button[type="submit"] {
+    background: #c12828;
+    border: none;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: var(--font-weight-medium);
+    transition: all 0.3s;
+    margin-bottom: 0;
 }
 
-.custom-form button[type=submit]:hover,
-.custom-form button[type=submit]:focus {
-  background: #d6a354;
-  border-color: transparent;
+.custom-form button[type="submit"]:hover,
+.custom-form button[type="submit"]:focus {
+    background: #d6a354;
+    border-color: transparent;
 }
 
 /*---------------------------------------
 CONTACT               
 -----------------------------------------*/
 .iframe-container {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 aspect ratio */
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
 }
 
 .iframe-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .google-map {
-  border-radius: 20px;
-  filter: hue-rotate(45deg);
+    border-radius: 20px;
+    filter: hue-rotate(45deg);
 }
 
 .contact-block-wrap {
-  background: #22c1c3;
-  border-radius: 20px;
-  min-height: 200px;
+    background: #22c1c3;
+    border-radius: 20px;
+    min-height: 200px;
 }
 
 .contact-block {
-  background-color: #d6a354;
-  border-radius: 20px;
-  transform: rotate(2deg);
-  padding: 20px 40px;
+    background-color: #d6a354;
+    border-radius: 20px;
+    transform: rotate(2deg);
+    padding: 20px 40px;
 }
 
 .contact-block h6 {
-  transform: rotate(-1deg);
+    transform: rotate(-1deg);
 }
 
 .contact-block .custom-icon {
-  background: #22c1c3;
-  border-radius: 100px;
-  display: block;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  position: relative;
+    background: #22c1c3;
+    border-radius: 100px;
+    display: block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    position: relative;
 }
 
 .contact-block strong {
-  display: block;
-  color: #fff;
-  text-transform: uppercase;
-  margin-top: 20px;
-  margin-bottom: 10px;
+    display: block;
+    color: #fff;
+    text-transform: uppercase;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .h-30 {
-  background-color: #c12828;
-  height: 100px;
+    background-color: #c12828;
+    height: 100px;
 }
 
 /*---------------------------------------
 SOCIAL ICON               
 -----------------------------------------*/
 .social-icon {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .social-icon-item {
-  list-style: none;
-  display: inline-block;
-  vertical-align: top;
+    list-style: none;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .social-icon-link {
-  background: #c12828;
-  border-radius: 100px;
-  color: #fff;
-  font-size: 14px;
-  display: block;
-  margin: 0 3px;
-  text-align: center;
-  width: 35px;
-  height: 35px;
-  line-height: 36px;
-  transition: background 0.2s, color 0.2s;
+    background: #c12828;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 14px;
+    display: block;
+    margin: 0 3px;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    line-height: 36px;
+    transition: background 0.2s, color 0.2s;
 }
 .social-icon-link:hover {
-  background: #d6a354;
-  color: #fff;
+    background: #d6a354;
+    color: #fff;
 }
 .social-icon-link span {
-  display: block;
+    display: block;
 }
 
 /*---------------------------------------
 RESPONSIVE STYLES               
 -----------------------------------------*/
 @media screen and (max-width: 1200px) {
-  h1 {
-    font-size: 62px;
-  }
-  #custom-iframe {
-    height: 40vh;
-  }
+    h1 {
+        font-size: 62px;
+    }
+    #custom-iframe {
+        height: 40vh;
+    }
 }
 @media screen and (max-width: 991px) {
-  h1 {
-    font-size: 54px;
-  }
-  h2 {
-    font-size: 36px;
-  }
-  h3 {
-    font-size: 32px;
-  }
-  h4 {
-    font-size: 28px;
-  }
-  h5 {
-    font-size: 20px;
-  }
-  h6 {
-    font-size: 18px;
-  }
-  .section-padding,
-  .hero-section {
-    padding: 50px 25px;
-  }
-  .custom-block {
-    display: none;
-  }
-  .navbar {
-    background-color: #000;
-  }
-  .navbar-expand-lg .navbar-nav {
-    padding-bottom: 30px;
-  }
-  .navbar-expand-lg .navbar-nav .nav-link {
-    padding: 0;
-  }
-  .booking-form {
-    padding: 45px;
-  }
-  #custom-account {
-    box-shadow: 0 0 10px #000;
-    max-width: 800px;
-    padding: 10px;
-  }
-  #custom-account::after {
-    content: "Welcome to Villa Aurora";
-    position: fixed;
-    text-align: center;
-    top: 0;
-    right: 0;
-    left: 0;
-    font-size: 30px;
-    background-color: #d6a354;
-    z-index: 999;
-  }
+    h1 {
+        font-size: 54px;
+    }
+    h2 {
+        font-size: 36px;
+    }
+    h3 {
+        font-size: 32px;
+    }
+    h4 {
+        font-size: 28px;
+    }
+    h5 {
+        font-size: 20px;
+    }
+    h6 {
+        font-size: 18px;
+    }
+    .section-padding,
+    .hero-section {
+        padding: 50px 25px;
+    }
+    .custom-block {
+        display: none;
+    }
+    .navbar {
+        background-color: #000;
+    }
+    .navbar-expand-lg .navbar-nav {
+        padding-bottom: 30px;
+    }
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding: 0;
+    }
+    .booking-form {
+        padding: 45px;
+    }
+    #custom-account {
+        box-shadow: 0 0 10px #000;
+        max-width: 800px;
+        padding: 10px;
+    }
+    #custom-account::after {
+        content: "Welcome to Villa Aurora";
+        position: fixed;
+        text-align: center;
+        top: 0;
+        right: 0;
+        left: 0;
+        font-size: 30px;
+        background-color: #d6a354;
+        z-index: 999;
+    }
 }
 @media screen and (max-width: 767px) {
-  .custom-btn {
-    font-size: 14px;
-    padding: 10px 20px;
-  }
-  #sidebarMenu {
-    background-color: #d6a354;
-  }
+    .custom-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+    #sidebarMenu {
+        background-color: #d6a354;
+    }
 }
 @media screen and (max-width: 480px) {
-  h1 {
-    font-size: 38px;
-  }
-  #sztext {
-    font-size: 50px;
-  }
-  #bglogin {
-    height: 105vh;
-  }
-  h2 {
-    font-size: 28px;
-  }
-  h3 {
-    font-size: 26px;
-  }
-  h4 {
-    font-size: 22px;
-  }
-  h5 {
-    font-size: 20px;
-  }
-  .services-info h4 {
-    font-size: 20px;
-  }
-  .booking-form {
-    padding: 35px;
-  }
-  #sidebarMenu {
-    background-color: #d6a354;
-  }
-  #custom-iframe {
-    height: 30vh;
-  }
+    h1 {
+        font-size: 38px;
+    }
+    #sztext {
+        font-size: 50px;
+    }
+    #bglogin {
+        height: 105vh;
+    }
+    h2 {
+        font-size: 28px;
+    }
+    h3 {
+        font-size: 26px;
+    }
+    h4 {
+        font-size: 22px;
+    }
+    h5 {
+        font-size: 20px;
+    }
+    .services-info h4 {
+        font-size: 20px;
+    }
+    .booking-form {
+        padding: 35px;
+    }
+    #sidebarMenu {
+        background-color: #d6a354;
+    }
+    #custom-iframe {
+        height: 30vh;
+    }
 }
 @media screen and (max-width: 400px) {
-  #captcha {
-    transform: scale(0.66);
-    transform-origin: 0;
-  }
+    #captcha {
+        transform: scale(0.66);
+        transform-origin: 0;
+    }
 }
 @media screen and (min-width: 991px) {
-  .hero-section {
-    height: calc(100vh - 0px);
-  }
+    .hero-section {
+        height: calc(100vh - 0px);
+    }
 }
 @media screen and (max-width: 375px) {
-  #sztext {
-    font-size: 50px;
-  }
-  #custom-account {
-    box-shadow: 0 0 10px #000;
-    max-width: 300px;
-    padding: 10px;
-  }
-  #custom-account::after {
-    content: "Welcome to Villa Aurora";
-    position: fixed;
-    text-align: center;
-    top: 0;
-    right: 0;
-    left: 0;
-    font-size: 30px;
-    background-color: #d6a354;
-    z-index: 999;
-  }
-  .arrow {
-    display: none;
-  }
-  #sidebarMenu {
-    background-color: #d6a354;
-    width: 375px;
-    height: 100vh;
-  }
-  .close-btn {
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 999;
-  }
-  .login-form {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    width: 300px;
-    padding: 30px;
-  }
-  .input-container {
-    width: 220px;
-    display: block;
-    margin: auto;
-    margin-bottom: 20px;
-  }
-  #custom-iframe {
-    height: 30vh;
-  }
+    #sztext {
+        font-size: 50px;
+    }
+    #custom-account {
+        box-shadow: 0 0 10px #000;
+        max-width: 300px;
+        padding: 10px;
+    }
+    #custom-account::after {
+        content: "Welcome to Villa Aurora";
+        position: fixed;
+        text-align: center;
+        top: 0;
+        right: 0;
+        left: 0;
+        font-size: 30px;
+        background-color: #d6a354;
+        z-index: 999;
+    }
+    .arrow {
+        display: none;
+    }
+    #sidebarMenu {
+        background-color: #d6a354;
+        width: 375px;
+        height: 100vh;
+    }
+    .close-btn {
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 999;
+    }
+    .login-form {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 300px;
+        padding: 30px;
+    }
+    .input-container {
+        width: 220px;
+        display: block;
+        margin: auto;
+        margin-bottom: 20px;
+    }
+    #custom-iframe {
+        height: 30vh;
+    }
 }
 
 /*# sourceMappingURL=App.css.map */

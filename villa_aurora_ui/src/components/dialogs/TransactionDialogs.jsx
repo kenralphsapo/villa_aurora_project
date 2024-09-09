@@ -33,7 +33,6 @@ import { showAllServices } from "../../api/service";
 import { useSelector } from "react-redux";
 
 export function TransactionDialogs() {
-    const user = useSelector((state) => state.auth.user);
     const [transactionRows, setTransactionRows] = useState([]);
     const [createDialog, setCreateDialog] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(null);

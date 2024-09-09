@@ -32,10 +32,9 @@ export const update = async (body, token) => {
         method: "POST",
         headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(body),
+        body: body,
     });
 
     return await response.json();
@@ -52,5 +51,16 @@ export const destroy = async (id, token) => {
         body: JSON.stringify({ id }),
     });
 
+    return await response.json();
+};
+
+export const getUser = async (id, token) => {
+    const response = await fetch(`${url}/users/getUser/${id}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
     return await response.json();
 };

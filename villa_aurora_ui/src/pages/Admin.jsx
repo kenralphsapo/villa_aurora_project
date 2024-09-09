@@ -16,6 +16,9 @@ function Admin() {
     const [selectedDialog, setSelectedDialog] = useState("user");
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
+    const [createDialog, setCreateDialog] = useState(false);
+    const [deleteDialog, setDeleteDialog] = useState(null);
+    const [editDialog, setEditDialog] = useState(null);
 
     const handleNavigation = (newValue) => {
         switch (newValue) {
@@ -79,9 +82,36 @@ function Admin() {
 
                     <Box>
                         <Box id="table">
-                            {selectedDialog == "user" && <UserDialogs />}
-                            {selectedDialog == "service" && <ServiceDialog />}
-                            {selectedDialog == "room" && <RoomDialog />}
+                            {selectedDialog == "user" && (
+                                <UserDialogs
+                                    createDialog={createDialog}
+                                    editDialog={editDialog}
+                                    setEditDialog={setEditDialog}
+                                    setCreateDialog={setCreateDialog}
+                                    setDeleteDialog={setDeleteDialog}
+                                    deleteDialog={deleteDialog}
+                                />
+                            )}
+                            {selectedDialog == "service" && (
+                                <ServiceDialog
+                                    createDialog={createDialog}
+                                    editDialog={editDialog}
+                                    setEditDialog={setEditDialog}
+                                    setCreateDialog={setCreateDialog}
+                                    setDeleteDialog={setDeleteDialog}
+                                    deleteDialog={deleteDialog}
+                                />
+                            )}
+                            {selectedDialog == "room" && (
+                                <RoomDialog
+                                    createDialog={createDialog}
+                                    editDialog={editDialog}
+                                    setEditDialog={setEditDialog}
+                                    setCreateDialog={setCreateDialog}
+                                    setDeleteDialog={setDeleteDialog}
+                                    deleteDialog={deleteDialog}
+                                />
+                            )}
                             {selectedDialog == "transaction" && (
                                 <TransactionDialogs />
                             )}

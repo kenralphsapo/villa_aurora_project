@@ -15,12 +15,18 @@ import { toast } from "react-toastify";
 import { addRoom, deleteRoom, showAllRooms, updateRoom } from "../../api/room";
 import { useCookies } from "react-cookie";
 
-export function RoomDialog() {
+export function RoomDialog({
+    createDialog,
+    setCreateDialog,
+    editDialog,
+    setEditDialog,
+    deleteDialog,
+    setDeleteDialog,
+}) {
     // For Rooms
+
     const [roomRows, setRoomRows] = useState([]);
-    const [deleteDialog, setDeleteDialog] = useState(null);
-    const [editDialog, setEditDialog] = useState(null);
-    const [createDialog, setCreateDialog] = useState(null);
+
     const [warnings, setWarnings] = useState({});
     const [loading, setLoading] = useState(false);
     const [cookies] = useCookies(["AUTH_TOKEN"]);

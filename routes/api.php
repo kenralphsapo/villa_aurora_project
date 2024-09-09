@@ -30,7 +30,8 @@ Route::prefix("users")->group(function() {
 
     Route::get("/retrieveUser", [App\Http\Controllers\UserController::class, 'retrieve']); 
     // URL: GET http://localhost:8000/api/users/retrieveUser - Retrieve user details
-
+    Route::get('/getUser/{id}', [App\Http\Controllers\UserController::class, 'getUser']);
+    // URL: GET http://localhost:8000/api/users/getUser - Retrieve specific user details
     Route::post("/updateUser", [App\Http\Controllers\UserController::class, 'update']); 
     // URL: POST http://localhost:8000/api/users/updateUser - Update user information
 
