@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+    Avatar,
     Box,
     Button,
     Dialog,
@@ -11,20 +12,14 @@ import {
     MenuItem,
     Select,
     TextField,
-    Tooltip,
     Typography,
 } from "@mui/material";
-
-import { useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
 
 import { toast } from "react-toastify";
 import $ from "jquery";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { destroy, index, store, update } from "../../api/user";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export function UserDialogs({
     createDialog,
@@ -33,12 +28,16 @@ export function UserDialogs({
     setEditDialog,
     deleteDialog,
     setDeleteDialog,
+    loading,
+    setLoading,
+    warnings,
+    setWarnings,
+    cookies,
+    user,
 }) {
-    const [loading, setLoading] = useState(false);
-    const [warnings, setWarnings] = useState({});
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [rows, setRows] = useState([]);
-
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null);
     const columns = [
         { field: "id", headerName: "ID", width: 10 },
         { field: "username", headerName: "Username", width: 150 },
@@ -47,6 +46,18 @@ export function UserDialogs({
         { field: "role", headerName: "Role" },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
+        {
+            field: "avatar",
+            headerName: "Avatar",
+            width: 100,
+            renderCell: (params) => (
+                <Avatar
+                    src={`http://localhost:8000/storage/${params.value}`}
+                    alt="Avatar"
+                    sx={{ width: 50, height: 50 }}
+                />
+            ),
+        },
         {
             field: "actions",
             headerName: "",
@@ -152,20 +163,23 @@ export function UserDialogs({
         e.preventDefault();
         if (!loading) {
             setLoading(true);
-            update(
-                {
-                    id: editDialog.id,
-                    username: editDialog.username,
-                    mobile: editDialog.mobile,
-                    email: editDialog.email,
-                    role: editDialog.role,
-                },
-                cookies.AUTH_TOKEN
-            )
+
+            const body = new FormData();
+            body.append("id", editDialog.id);
+            body.append("username", editDialog.username);
+            body.append("mobile", editDialog.mobile);
+            body.append("email", editDialog.email);
+            body.append("role", editDialog.role);
+
+            if (file) {
+                body.append("avatar", file);
+            }
+            update(body, cookies.AUTH_TOKEN)
                 .then((res) => {
-                    console.log(res);
                     if (res?.ok) {
-                        toast.success(res?.message ?? "Account has updated");
+                        toast.success(
+                            res?.message ?? "Account has been updated"
+                        );
                         setEditDialog(null);
                         refreshData();
                     } else {
@@ -176,6 +190,19 @@ export function UserDialogs({
                 .finally(() => {
                     setLoading(false);
                 });
+        }
+    };
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+
+        const fileReader = new FileReader();
+        fileReader.onloadend = () => {
+            setPreview(fileReader.result);
+        };
+        if (selectedFile) {
+            fileReader.readAsDataURL(selectedFile);
         }
     };
 
@@ -345,6 +372,31 @@ export function UserDialogs({
                 <DialogTitle>Edit User</DialogTitle>
                 <DialogContent>
                     <Box component="form" sx={{ p: 1 }} onSubmit={onEdit}>
+                        <Box>
+                            <label
+                                htmlFor="avatar"
+                                style={{ display: "block" }}
+                            >
+                                Profile Picture:
+                            </label>
+                            <input
+                                type="file"
+                                id="avatar"
+                                name="avatar"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                style={{ display: "none" }}
+                            />
+                            <label htmlFor="avatar">
+                                <Avatar
+                                    src={
+                                        preview ??
+                                        `http://localhost:8000/storage/${editDialog?.avatar}`
+                                    }
+                                    alt="Avatar"
+                                />
+                            </label>
+                        </Box>
                         <Box sx={{ mt: 1 }}>
                             <TextField
                                 onChange={(e) =>

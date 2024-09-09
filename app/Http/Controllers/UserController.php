@@ -70,7 +70,7 @@ class UserController extends Controller
             'username' => 'required|string|regex:/^[a-zA-Z]+$/', 
             'email' => 'required|email|unique:users,email,'.$data['id'], 
             'mobile' => 'required|min:11|max:13|phone:PH', 
-            'role' => 'required|string',
+            'role' => 'sometimes|in:guest,scheduler,admin',
             'avatar' => 'sometimes|image|mimes:png,jpg,jpeg|max:2048'
         ], [
             'username.regex' => 'The username must contain only letters and no special characters, numbers, or spaces.',

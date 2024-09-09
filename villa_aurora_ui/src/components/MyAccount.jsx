@@ -26,12 +26,6 @@ const EditContainer = styled("div")({
     borderRadius: "8px",
 });
 
-const Avatar = styled("img")({
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-});
-
 const Overlay = styled("div")({
     content: '""',
     position: "absolute",
@@ -44,6 +38,12 @@ const Overlay = styled("div")({
     transform: "translate(-50%, -50%)",
     clipPath: "circle(50% at 50% 50%)",
     pointerEvents: "none",
+});
+
+const Avatar = styled("img")({
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
 });
 
 const EditIconButton = styled(IconButton)({

@@ -11,14 +11,27 @@ import { UserDialogs } from "../components/dialogs/UserDialogs";
 import BottomNav from "../components/BottomNav";
 import CloseIcon from "@mui/icons-material/Close";
 import NotFound from "./NotFound";
+import { useCookies } from "react-cookie";
 
 function Admin() {
-    const [selectedDialog, setSelectedDialog] = useState("user");
     const user = useSelector((state) => state.auth.user);
+    const [selectedDialog, setSelectedDialog] = useState("user");
     const navigate = useNavigate();
     const [createDialog, setCreateDialog] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(null);
     const [editDialog, setEditDialog] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [warnings, setWarnings] = useState({});
+    const [cookies] = useCookies(["AUTH_TOKEN"]);
+
+    // Mapping of dialog types to components
+    const dialogComponents = {
+        user: UserDialogs,
+        service: ServiceDialog,
+        room: RoomDialog,
+        transaction: TransactionDialogs,
+        testimonial: TestimonialDialogs,
+    };
 
     const handleNavigation = (newValue) => {
         switch (newValue) {
@@ -46,9 +59,11 @@ function Admin() {
         }
     };
 
+    const DialogComponent = dialogComponents[selectedDialog] ?? null;
+
     return (
         <Box>
-            {user?.role == "admin" || user?.role == "scheduler" ? (
+            {user?.role === "admin" ? (
                 <Box id="custom-admin">
                     <AppBar
                         id="custom-navbar"
@@ -71,9 +86,7 @@ function Admin() {
                             <IconButton
                                 edge="end"
                                 color="inherit"
-                                onClick={() => {
-                                    navigate("/");
-                                }}
+                                onClick={() => navigate("/")}
                             >
                                 <CloseIcon />
                             </IconButton>
@@ -82,41 +95,20 @@ function Admin() {
 
                     <Box>
                         <Box id="table">
-                            {selectedDialog == "user" && (
-                                <UserDialogs
+                            {DialogComponent && (
+                                <DialogComponent
                                     createDialog={createDialog}
                                     editDialog={editDialog}
                                     setEditDialog={setEditDialog}
                                     setCreateDialog={setCreateDialog}
                                     setDeleteDialog={setDeleteDialog}
                                     deleteDialog={deleteDialog}
+                                    loading={loading}
+                                    setLoading={setLoading}
+                                    warnings={warnings}
+                                    setWarnings={setWarnings}
+                                    cookies={cookies}
                                 />
-                            )}
-                            {selectedDialog == "service" && (
-                                <ServiceDialog
-                                    createDialog={createDialog}
-                                    editDialog={editDialog}
-                                    setEditDialog={setEditDialog}
-                                    setCreateDialog={setCreateDialog}
-                                    setDeleteDialog={setDeleteDialog}
-                                    deleteDialog={deleteDialog}
-                                />
-                            )}
-                            {selectedDialog == "room" && (
-                                <RoomDialog
-                                    createDialog={createDialog}
-                                    editDialog={editDialog}
-                                    setEditDialog={setEditDialog}
-                                    setCreateDialog={setCreateDialog}
-                                    setDeleteDialog={setDeleteDialog}
-                                    deleteDialog={deleteDialog}
-                                />
-                            )}
-                            {selectedDialog == "transaction" && (
-                                <TransactionDialogs />
-                            )}
-                            {selectedDialog == "testimonial" && (
-                                <TestimonialDialogs />
                             )}
                         </Box>
                         <BottomNav onNavigate={handleNavigation} />

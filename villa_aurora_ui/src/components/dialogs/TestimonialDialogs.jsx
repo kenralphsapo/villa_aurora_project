@@ -19,17 +19,23 @@ import {
     showAllTestimonials,
     updateTestimonial,
 } from "../../api/testimonial";
-import { useCookies } from "react-cookie";
 
-export function TestimonialDialogs() {
+export function TestimonialDialogs({
+    createDialog,
+    setCreateDialog,
+    editDialog,
+    setEditDialog,
+    deleteDialog,
+    setDeleteDialog,
+    loading,
+    setLoading,
+    warnings,
+    setWarnings,
+    cookies,
+}) {
     const [testiomonialRows, setTestimonialRows] = useState([]);
-    const [deleteDialog, setDeleteDialog] = useState(null);
-    const [editDialog, setEditDialog] = useState(null);
-    const [createDialog, setCreateDialog] = useState(false);
-    const [warnings, setWarnings] = useState({});
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
-    const [loading, setLoading] = useState(false);
     const [rating, setRating] = useState(0);
+
     // For Testimonials
     const testimonialcolumns = [
         { field: "id", headerName: "Transaction ID", width: 200 },
@@ -114,8 +120,10 @@ export function TestimonialDialogs() {
                         );
                         setEditDialog(null);
                         refreshData();
+                        setWarnings({});
                     } else {
                         toast.error(res?.message ?? "Something went wrong.");
+                        setWarnings(res?.errors);
                     }
                 })
                 .finally(() => {
@@ -208,6 +216,8 @@ export function TestimonialDialogs() {
                                 margin="normal"
                                 fullWidth
                                 required
+                                error={!!warnings?.transaction_id}
+                                helperText={warnings?.transaction_id}
                             />
                         </Box>
                         <Box>

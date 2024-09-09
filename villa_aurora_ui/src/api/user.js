@@ -1,4 +1,3 @@
-import { bnBD } from "@mui/material/locale";
 import { url } from "./configuration";
 
 export const index = async (token) => {

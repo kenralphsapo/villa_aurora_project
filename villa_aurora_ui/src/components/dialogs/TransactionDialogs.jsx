@@ -11,13 +11,10 @@ import {
     MenuItem,
     Select,
     TextField,
-    Tooltip,
     Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 
 import {
@@ -28,32 +25,31 @@ import {
 } from "../../api/transaction";
 import { showAllRooms } from "../../api/room";
 import { index } from "../../api/user";
-import { useCookies } from "react-cookie";
 import { showAllServices } from "../../api/service";
-import { useSelector } from "react-redux";
 
-export function TransactionDialogs() {
+export function TransactionDialogs({
+    createDialog,
+    setCreateDialog,
+    editDialog,
+    setEditDialog,
+    deleteDialog,
+    setDeleteDialog,
+    loading,
+    setLoading,
+    warnings,
+    setWarnings,
+    cookies,
+}) {
     const [transactionRows, setTransactionRows] = useState([]);
-    const [createDialog, setCreateDialog] = useState(false);
-    const [deleteDialog, setDeleteDialog] = useState(null);
-    const [editDialog, setEditDialog] = useState(null);
-
-    const [warnings, setWarnings] = useState({});
-    const [loading, setLoading] = useState(false);
-
     const [serviceRows, setServiceRows] = useState([]);
     const [serviceIds, setServiceIds] = useState([]);
     const [selectedServiceName, setSelectedServiceName] = useState("");
-
     // For users
     const [rows, setRows] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState("");
-
     // For rooms
     const [roomRows, setRoomRows] = useState([]);
     const [selectedRoomId, setSelectedRoomId] = useState("");
-
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
     const [serviceMap, setServiceMap] = useState({});
 
     const transactioncolumns = [

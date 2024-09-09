@@ -13,7 +13,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import { addRoom, deleteRoom, showAllRooms, updateRoom } from "../../api/room";
-import { useCookies } from "react-cookie";
 
 export function RoomDialog({
     createDialog,
@@ -22,14 +21,14 @@ export function RoomDialog({
     setEditDialog,
     deleteDialog,
     setDeleteDialog,
+    loading,
+    setLoading,
+    warnings,
+    setWarnings,
+    cookies,
 }) {
     // For Rooms
-
     const [roomRows, setRoomRows] = useState([]);
-
-    const [warnings, setWarnings] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
     // For Rooms
     const roomcolumns = [
         { field: "id", headerName: "ID" },

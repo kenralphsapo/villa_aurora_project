@@ -19,7 +19,6 @@ import {
 } from "../../api/service";
 import $ from "jquery";
 import { toast } from "react-toastify";
-import { useCookies } from "react-cookie";
 
 export function ServiceDialog({
     createDialog,
@@ -28,13 +27,14 @@ export function ServiceDialog({
     setEditDialog,
     deleteDialog,
     setDeleteDialog,
+    loading,
+    setLoading,
+    warnings,
+    setWarnings,
+    cookies,
 }) {
     const [serviceRows, setServiceRows] = useState([]);
 
-    const [warnings, setWarnings] = useState({});
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
-
-    const [loading, setLoading] = useState(false);
     // For Services
     const servicecolumns = [
         { field: "id", headerName: "ID" },
