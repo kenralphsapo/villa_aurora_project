@@ -76,6 +76,7 @@ export default function ForgotPassword() {
                 );
                 setLoading(false);
                 setEmail("");
+                setWarnings({});
             } else {
                 toast.error(res?.message ?? "This email does not exist.");
                 setLoading(false);

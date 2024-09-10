@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Mail;
 use Laravolt\Avatar\Avatar;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -233,7 +232,7 @@ class AuthController extends Controller
         }
 
         $user->update([
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'token' => null,
             'token_expires_at' => null,
         ]);

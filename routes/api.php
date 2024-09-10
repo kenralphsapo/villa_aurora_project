@@ -6,13 +6,12 @@ use Illuminate\Support\Facades\Route;
 // Authentication Routes
 Route::post("/register", [App\Http\Controllers\AuthController::class, 'register']); 
 // URL: POST http://localhost:8000/api/register - User registration
-
 Route::post("/login", [App\Http\Controllers\AuthController::class, 'login']); 
 // URL: POST http://localhost:8000/api/login - User login
 Route::post('forgotPassword', [App\Http\Controllers\AuthController::class, 'forgotPassword']);
-
+// URL: POST http://localhost:8000/api/forgotPassword - User forgot password
 Route::post('resetPassword', [App\Http\Controllers\AuthController::class, 'resetPassword']);
-
+// URL: POST http://localhost:8000/api/resetPassword - User reset password
 
 Route::middleware(['auth:api'])->group(function(){
     Route::get('checkToken',[App\Http\Controllers\AuthController::class,'checkToken']);
@@ -27,19 +26,17 @@ Route::middleware(['auth:api'])->group(function(){
 Route::prefix("users")->group(function() {
     Route::post("/insertUser", [App\Http\Controllers\UserController::class, 'store']); 
     // URL: POST http://localhost:8000/api/users/insertUser - Insert a new user
-
     Route::get("/retrieveUser", [App\Http\Controllers\UserController::class, 'retrieve']); 
     // URL: GET http://localhost:8000/api/users/retrieveUser - Retrieve user details
     Route::get('/getUser/{id}', [App\Http\Controllers\UserController::class, 'getUser']);
     // URL: GET http://localhost:8000/api/users/getUser - Retrieve specific user details
     Route::post("/updateUser", [App\Http\Controllers\UserController::class, 'update']); 
     // URL: POST http://localhost:8000/api/users/updateUser - Update user information
-
     Route::post("/deleteUser", [App\Http\Controllers\UserController::class, 'destroy']); 
     // URL: POST http://localhost:8000/api/users/deleteUser - Delete a user
 });
 
-});
+
 
 // Service Routes
 Route::prefix("services")->group(function() {
@@ -101,4 +98,7 @@ Route::prefix("testimonials")->group(function() {
 
     Route::post("/deleteTestimonial", [App\Http\Controllers\TestimonialController::class, 'deleteTestimonial']); 
     // URL: POST http://localhost:8000/api/testimonials/deleteTestimonial - Delete a testimonial
+});
+
+
 });
