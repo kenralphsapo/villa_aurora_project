@@ -23,7 +23,8 @@ class User extends Authenticatable
          'mobile', 
          'email', 
          'role',
-         'avatar'
+         'avatar',
+         'token'
     ];
 
     /**
@@ -43,7 +44,9 @@ class User extends Authenticatable
     protected $casts = [
         
         'password' => 'hashed',
+
     ];
+
 
 
 

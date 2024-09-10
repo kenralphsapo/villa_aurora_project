@@ -14,20 +14,30 @@ class TestimonialController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addTestimonial(Request $request) {
+
         $validator = validator($request->all(), [
-            "feedback" => "sometimes|min:4|string|max:500",
-            "rating" => "required|min:0|max:5|int",
-            'transaction_id' => 'required|exists:transactions,id'
+            'feedback' => 'sometimes|min:4|string|max:500',
+            'rating' => 'required|integer|min:0|max:5',
+            'transaction_id' => 'required|exists:transactions,id',
         ]);
 
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
 
-        $testimonial = Testimonial::create($validator->validated());
+        $validatedData = $validator->validated();
 
-        return $this->Ok($testimonial, "Testimonial has been created!");
+        $existingTestimonial = Testimonial::where('transaction_id', $validatedData['transaction_id'])->first();
+        if ($existingTestimonial) {
+            return $this->Specific('A testimonial has already been added for this transaction.');
+        }
+
+        $testimonial = Testimonial::create($validatedData);
+
+        return $this->Ok($testimonial, 'Testimonial has been created!');
     }
+
+    
 
     /**
      * RETRIEVE all testimonials

@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button, Drawer } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Box, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import checkAuth from "../hoc/checkAuth";
 import images from "../utils/index";
-import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
 
 import {
     faArrowUp,
-    faBars,
     faEnvelope,
     faPhone,
     faSun,
@@ -17,8 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navigation from "../../src/components/Navigation";
 import BookingForm from "../components/BookingForm";
-import MyCalendar from "../components/MyCalendar";
-import { getUser } from "../api/user";
+import MyRating from "../components/MyRating";
 
 function Home() {
     const [scrollVisible, setScrollVisible] = useState(false);
@@ -68,7 +63,7 @@ function Home() {
                         color: "white",
                         display: scrollVisible ? "block" : "none",
                     }}
-                    id="custom-primary-color"
+                    id="scroll-to-top"
                     onClick={handleScrollToTop}
                 >
                     <FontAwesomeIcon icon={faArrowUp} />
@@ -308,8 +303,8 @@ function Home() {
                 </section>
 
                 {/* Booking Form */}
-                <MyCalendar />
                 <BookingForm />
+                <MyRating />
 
                 {/* Price Section */}
                 <section
@@ -331,13 +326,13 @@ function Home() {
                                     </Box>
 
                                     <Box className="price-list-thumb">
-                                        <h6 className="custom-fontweight-bold">
+                                        <h6 className="price-fontweight-bold">
                                             10 hour stay: P3,000
                                         </h6>
                                     </Box>
 
                                     <Box className="price-list-thumb mb-5">
-                                        <h6 className="custom-fontweight-bold">
+                                        <h6 className="price-fontweight-bold">
                                             22 hours stay: P5,000
                                         </h6>
                                     </Box>
@@ -372,11 +367,11 @@ function Home() {
                                                     <Link to="tel:+639453200320">
                                                         <FontAwesomeIcon
                                                             icon={faPhone}
-                                                            className="text-black custom-marginright"
+                                                            className="text-black margin-right-10"
                                                         />
                                                         0945 3200 320
                                                     </Link>
-                                                    <span className="custom-marginleft">
+                                                    <span className="margin-left-10">
                                                         (Globe)
                                                     </span>
                                                 </li>
@@ -384,11 +379,11 @@ function Home() {
                                                     <Link to="tel:+639955185002">
                                                         <FontAwesomeIcon
                                                             icon={faPhone}
-                                                            className="text-black custom-marginright"
+                                                            className="text-black margin-right-10"
                                                         />
                                                         0995 5185 002
                                                     </Link>
-                                                    <span className="custom-marginleft">
+                                                    <span className="margin-left-10">
                                                         (Globe/Viber)
                                                     </span>
                                                 </li>
@@ -396,11 +391,11 @@ function Home() {
                                                     <Link to="example@gmail.com">
                                                         <FontAwesomeIcon
                                                             icon={faEnvelope}
-                                                            className="text-black custom-marginright"
+                                                            className="text-black margin-right-10"
                                                         />
                                                         villaarurora@gmail.com
                                                     </Link>
-                                                    <span className="custom-marginleft">
+                                                    <span className="margin-left-10">
                                                         (Email)
                                                     </span>
                                                 </li>
@@ -408,8 +403,8 @@ function Home() {
                                         </Box>
                                     </Box>
 
-                                    <ul className="social-icon">
-                                        <li className="social-icon-item">
+                                    <ul className="social-icon d-flex flex-wrap list-unstyled p-0 m-0">
+                                        <li className="social-icon-item me-2 mb-2">
                                             <Link
                                                 className="social-icon-link"
                                                 to="https://www.facebook.com/profile.php?id=100070173077878"
@@ -418,7 +413,7 @@ function Home() {
                                             </Link>
                                         </li>
 
-                                        <li className="social-icon-item">
+                                        <li className="social-icon-item me-2 mb-2">
                                             <Link
                                                 href="#"
                                                 className="social-icon-link"
@@ -427,7 +422,7 @@ function Home() {
                                             </Link>
                                         </li>
 
-                                        <li className="social-icon-item">
+                                        <li className="social-icon-item me-2 mb-2">
                                             <Link
                                                 href="#"
                                                 className="social-icon-link"
@@ -436,7 +431,7 @@ function Home() {
                                             </Link>
                                         </li>
 
-                                        <li className="social-icon-item">
+                                        <li className="social-icon-item me-2 mb-2">
                                             <Link
                                                 href="#"
                                                 className="social-icon-link"
@@ -445,6 +440,7 @@ function Home() {
                                             </Link>
                                         </li>
                                     </ul>
+
                                     <Box className="col-lg-9 col-12 contact-block-wrap mt-lg-0  pt-4 pt-lg-0 mx-auto">
                                         <Box className="contact-block mt-1">
                                             <Typography
@@ -474,7 +470,7 @@ function Home() {
                                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.135607282014!2d121.1004689148258!3d14.533207089826607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c75ea60f9533%3A0x5c7ae1dbd8f8ab5a!2sVilla%20Aurora%20Private%20Resort%2C%20G4MR%2B7P2%2C%20Lakeview%20subd%20Baytown%20Coastal%20Road%2C%201930%20Rizal!5e0!3m2!1sen!2sph!4v1647605421232!5m2!1sen!2sph"
                                             loading="lazy"
                                             referrerPolicy="no-referrer-when-downgrade"
-                                            id="custom-iframe"
+                                            id="google-iframe"
                                         ></iframe>
                                     </Box>
                                 </Box>

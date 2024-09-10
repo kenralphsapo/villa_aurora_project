@@ -36,41 +36,24 @@ Bootstrap
     font-weight: bold;
 }
 
-.custom-marginleft {
+.margin-left-10 {
     margin-left: 10px;
 }
 
-.custom-marginright {
+.margin-right-10 {
     margin-right: 10px;
 }
 
-.custom-fontweight-bold {
-    font-size: 1.6rem;
-}
-
-#custom-iframe {
-    height: 70vh;
-}
-
-#custom-colorup {
+#scroll-to-top {
     background-color: $primary-bg;
-}
-
-#edit-account-icon {
-    background-color: $white-color;
-    border: 1px solid $black-color;
 }
 
 /*---------------------------------------
 Authentication Appearance           
 -----------------------------------------*/
 #auth-bg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     background-image: $auth-bg;
-    flex-direction: column;
     background-position: center;
     background-size: cover;
 
@@ -86,14 +69,17 @@ Authentication Appearance
         unicode-bidi: isolate;
         text-align: center;
     }
-}
 
-@keyframes appear {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
+    #auth-sign {
+        display: block;
+        font-size: 2em;
+        margin-block-start: 0.67em;
+        margin-block-end: 0.67em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+        color: $white-color;
+        text-shadow: 0 0 10px $gold-color;
     }
 }
 
@@ -107,7 +93,10 @@ Authentication Appearance
 }
 
 .input-container {
-    margin-bottom: 15px;
+    width: 320px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
 }
 
 #submit-button {
@@ -127,48 +116,29 @@ Authentication Appearance
     }
 }
 
-.input-container {
-    width: 320px;
-    display: block;
-    margin: auto;
-    margin-bottom: 20px;
-}
-
 .forgot-password {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-}
 
-.forgot-password #link {
-    color: $secondary-bg;
-    text-decoration: none;
+    #link {
+        color: $secondary-bg;
+        text-decoration: none;
+    }
 }
 
 .register-link {
     text-align: center;
     margin-top: 15px;
-}
 
-.register-link #link {
-    color: $secondary-bg;
-    text-decoration: none;
-}
+    #link {
+        color: $secondary-bg;
+        text-decoration: none;
+    }
 
-.register-link #link:hover {
-    text-decoration: underline;
-}
-
-#custom-sign {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-    color: $white-color;
-    text-shadow: 0 0 10px $gold-color;
+    #link:hover {
+        text-decoration: underline;
+    }
 }
 
 /*---------------------------------------
@@ -229,8 +199,6 @@ ul li {
     color: $gray-color;
     font-size: 20px;
     font-weight: bold;
-    display: flex;
-    flex-wrap: wrap;
 }
 
 a,
@@ -263,10 +231,10 @@ SECTION
     width: 100%;
     height: 100%;
     opacity: 0.45;
-}
 
-.section-overlay + .container {
-    position: relative;
+    + .container {
+        position: relative;
+    }
 }
 
 /*---------------------------------------
@@ -336,9 +304,6 @@ HERO OR LANDING PAGE
     object-fit: cover;
 }
 
-/*---------------------------------------
-CUSTOM BLOCK BACKGROUND OVERLAY               
------------------------------------------*/
 .custom-block-bg-overlay-wrap {
     background: $primary-bg;
     border-radius: 20px;
@@ -363,9 +328,6 @@ CUSTOM BLOCK BACKGROUND OVERLAY
     transform: rotate(8deg);
 }
 
-/*---------------------------------------
-CUSTOM BUTTON               
------------------------------------------*/
 .custom-btn {
     background-color: $red-color;
     border: 2px solid transparent;
@@ -484,6 +446,10 @@ FEATURES
     padding: 5px 10px;
 }
 
+.price-fontweight-bold {
+    font-size: 1.6rem;
+}
+
 .features-info {
     border-radius: 20px;
     border: 1px solid $white-color;
@@ -525,19 +491,21 @@ BOOKING
 /*---------------------------------------
 CUSTOM FORM               
 -----------------------------------------*/
-.custom-form .form-control {
-    color: $gray-color;
-    margin-bottom: 24px;
-    padding-top: 13px;
-    padding-bottom: 13px;
-    outline: none;
-    transition: all 0.3s;
-}
+.custom-form {
+    .form-control {
+        color: $gray-color;
+        margin-bottom: 24px;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        outline: none;
+        transition: all 0.3s;
+    }
 
-.custom-form .form-control:hover,
-.custom-form .form-control:focus {
-    background: $white-color;
-    border-color: transparent;
+    .form-control:hover,
+    .form-control:focus {
+        background: $white-color;
+        border-color: transparent;
+    }
 }
 
 .custom-form button[type="submit"] {
@@ -565,19 +533,23 @@ CONTACT
     position: relative;
     width: 100%;
     padding-top: 56.25%; /* 16:9 aspect ratio */
-}
 
-.iframe-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .google-map {
     border-radius: 20px;
     filter: hue-rotate(45deg);
+}
+
+#google-iframe {
+    height: 40vh;
 }
 
 .contact-block-wrap {
@@ -614,11 +586,6 @@ CONTACT
     text-transform: uppercase;
     margin-top: 20px;
     margin-bottom: 10px;
-}
-
-.h-30 {
-    background-color: $red-color;
-    height: 100px;
 }
 
 /*---------------------------------------
@@ -665,7 +632,7 @@ RESPONSIVE STYLES
         font-size: 62px;
     }
 
-    #custom-iframe {
+    #google-iframe {
         height: 40vh;
     }
 }
@@ -791,7 +758,7 @@ RESPONSIVE STYLES
         background-color: $primary-bg;
     }
 
-    #custom-iframe {
+    #google-iframe {
         height: 30vh;
     }
 }
@@ -865,7 +832,20 @@ RESPONSIVE STYLES
         margin-bottom: 20px;
     }
 
-    #custom-iframe {
+    #google-iframe {
         height: 30vh;
+    }
+}
+
+/*---------------------------------------
+ANIMATIONS
+-----------------------------------------*/
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

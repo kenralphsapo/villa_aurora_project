@@ -52,6 +52,12 @@ const EditIconButton = styled(IconButton)({
     right: 0,
     backgroundColor: "#fff",
     borderRadius: "50%",
+    "&:hover": {
+        backgroundColor: "#f5f5f5",
+    },
+    "&:active": {
+        backgroundColor: "#e5e5e5",
+    },
 });
 
 export default function MyAccount({ setEditDialog, user, cookies, dispatch }) {

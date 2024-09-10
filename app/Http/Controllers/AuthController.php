@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Laravolt\Avatar\Avatar;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -21,7 +22,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $validator = validator($request->all(), [
             'username' => [
                 'required',
@@ -64,7 +66,6 @@ class AuthController extends Controller
         $user = User::create($validatedData);
 
         $backgroundColors = Config::get('laravolt.avatar.backgrounds');
-
         $backgroundColor = $backgroundColors[array_rand($backgroundColors)];
 
         $avatar = new Avatar();
@@ -73,10 +74,10 @@ class AuthController extends Controller
 
         $filename = strtolower(str_replace(' ', '-', $user->username)) . '.png';
         $path = storage_path('app/public/avatars/' . $filename);
-
         $directory = dirname($path);
+
         if (!is_dir($directory)) {
-            mkdir($directory, 0755, true); 
+            mkdir($directory, 0755, true);
         }
 
         try {
@@ -94,8 +95,6 @@ class AuthController extends Controller
         return $this->Ok($user, "Register Successfully!");
     }
 
-
-
     /**
      * LOGIN a user
      * POST: /api/login
@@ -103,7 +102,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $validator = validator($request->all(), [
             'username' => 'required',
             'password' => 'required',
@@ -116,8 +116,8 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (auth()->attempt(['email' => $credentials['username'], 'password' => $credentials['password']]) ||
-            auth()->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
-            
+            auth()->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])
+        ) {
             $user = auth()->user();
             $user->token = $user->createToken('api-token')->accessToken;
 
@@ -134,7 +134,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function checkToken(Request $request){
+    public function checkToken(Request $request)
+    {
         return $this->Ok($request->user(), "User info has been retrieved");
     }
 
@@ -144,7 +145,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function revokeToken(Request $request){
+    public function revokeToken(Request $request)
+    {
         $user = $request->user();
 
         if (!$user) {
@@ -153,7 +155,7 @@ class AuthController extends Controller
 
         $user->token()->revoke();
 
-        return $this->Ok("Success", 'Token has been revoked!');
+        return $this->Ok(null, 'Token has been revoked!');
     }
 
     /**
@@ -162,7 +164,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function forgotPassword(Request $request){
+    public function forgotPassword(Request $request)
+    {
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
         ]);
@@ -172,9 +175,17 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
-        $token = Str::random(100);
+
+        if (!$user) {
+            return $this->NoDataFound();
+        }
+
+        $baseToken = $user->email . ':' . now()->timestamp . ':' . Str::random(10);
+        $token = hash('sha256', $baseToken);
+        $expiresAt = now()->addHour();
 
         $user->token = $token;
+        $user->token_expires_at = $expiresAt;
         $user->save();
 
         Mail::to($user->email)->queue(new ResetPasswordMail($user, $token));
@@ -188,7 +199,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function resetPassword(Request $request) {
+    public function resetPassword(Request $request)
+    {
         $validator = validator($request->all(), [
             'email' => 'required|email|exists:users,email',
             'token' => 'required',
@@ -208,15 +220,22 @@ class AuthController extends Controller
             return $this->BadRequest($validator);
         }
 
-        $user = User::where('email', $request->email)->where('token', $request->token)->first();
+        $user = User::where('email', $request->email)
+                    ->where('token', $request->token)
+                    ->first();
 
         if (!$user) {
-            return $this->Specific('Invalid email or temporary code');
+            return $this->Specific('Invalid email or token has expired');
+        }
+
+        if ($user->token_expires_at <= now()) {
+            return $this->Specific('Token has expired');
         }
 
         $user->update([
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'token' => null,
+            'token_expires_at' => null,
         ]);
 
         return $this->Ok(null, 'Password reset successfully');

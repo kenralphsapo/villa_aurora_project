@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Room;
 use App\Models\User;
+use App\Mail\TransactionMail;
+use Illuminate\Support\Facades\Mail;
 
 class TransactionController extends Controller
 {
     public function addTransaction(Request $request){
-        // Validation rules
+        $data = $request->all();
         $validator = validator($request->all(), [
             'user_id' => 'required|exists:users,id',
             'room_id' => 'sometimes|exists:rooms,id',
@@ -21,14 +23,12 @@ class TransactionController extends Controller
             'service_id.*' => 'exists:services,id',
         ]);
 
-        // Check if validation fails
         if ($validator->fails()) {
             return $this->BadRequest($validator);
         }
 
         $validated = $validator->validated();
 
-        // Check for existing booking conflict
         $existingBooking = Transaction::whereRaw("((rent_start <= ? AND rent_end >= ?) OR (rent_start <= ? AND rent_end >= ?)) OR (? <= rent_start AND ? >= rent_end)", [
             $request->rent_start, $request->rent_start,
             $request->rent_end, $request->rent_end,
@@ -40,13 +40,11 @@ class TransactionController extends Controller
             return $this->Specific("The schedule you've selected is conflicted with another schedule");
         }
 
-        // Create a new transaction
         $transaction_input = $validator->safe()->only(['user_id', 'room_id', 'rent_start', 'rent_end']);
         $room = Room::find($validated["room_id"]);
         $transaction_input["room_price"] = $room->price;
         $transaction = Transaction::create($transaction_input);
 
-        // Attach services to the transaction
         $arrayServicePrice = [];
         foreach ($validated["service_id"] as $service_id) {
             $service = Service::find($service_id);
@@ -56,6 +54,8 @@ class TransactionController extends Controller
         }
         $transaction->services()->sync($arrayServicePrice);
         $transaction->load('services');
+        $user = User::find($validated['user_id']);
+        Mail::to($user->email)->queue(new TransactionMail($user, $transaction, $room));
 
         return $this->Ok($transaction, 'Transaction successful');
     }
@@ -134,6 +134,6 @@ class TransactionController extends Controller
             return $this->Ok("","Transaction is deleted!");
         }
 
-    return $this->Specific("Transaction Deletion failed!");
+        return $this->Specific("Transaction Deletion failed!");
     }
 }

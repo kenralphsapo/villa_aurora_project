@@ -1,42 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import React from "react";
+import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import moment from "moment";
-import { showAllTransactions } from "../api/transaction";
-import { toast } from "react-toastify";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import PinDropIcon from "@mui/icons-material/PinDrop";
-import { useCookies } from "react-cookie";
 
-export default function MyCalendar() {
-    const localizer = momentLocalizer(moment);
-    const [events, setEvents] = useState([]);
-    const [cookies] = useCookies(["AUTH_TOKEN"]);
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-    useEffect(() => {
-        if (cookies.AUTH_TOKEN) {
-            showAllTransactions(cookies.AUTH_TOKEN).then((res) => {
-                if (res?.ok) {
-                    const mapevents = res.data.map((transaction) => {
-                        return {
-                            id: transaction.id,
-                            title: `Reserve`,
-                            start: new Date(transaction.rent_start),
-                            end: new Date(transaction.rent_end),
-                            user_id: transaction.user_id,
-                            tooltip: `Room ID: ${transaction.room_id}\nRent Start: ${transaction.rent_start}\nRent End: ${transaction.rent_end}`,
-                        };
-                    });
-                    setEvents(mapevents);
-                } else {
-                    toast.error(res?.message ?? "Something went wrong.");
-                }
-            });
-        }
-    }, [cookies.AUTH_TOKEN]);
-
+export default function MyCalendar({
+    events,
+    isMobile,
+    setEvents,
+    localizer,
+    cookies,
+}) {
     const eventStyleGetter = (event) => {
         const backgroundColor = "#1E90FF";
         const style = {

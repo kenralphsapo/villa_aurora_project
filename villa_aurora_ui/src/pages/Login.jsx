@@ -78,13 +78,16 @@ export default function Login() {
     }, []);
 
     return (
-        <Box id="auth-bg">
+        <Box
+            id="auth-bg"
+            className="d-flex flex-column justify-content-center align-items-center"
+        >
             <img
                 src={images.logo}
                 alt="Logo"
                 style={{ width: "100px", borderRadius: "10px" }}
             />
-            <Typography variant="h1" id="custom-sign">
+            <Typography variant="h1" id="auth-sign">
                 Sign in to Villa Aurora
             </Typography>
             <Box

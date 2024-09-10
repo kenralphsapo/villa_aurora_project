@@ -114,8 +114,6 @@ export function TransactionDialogs({
                         setCreateDialog(false);
                         setServiceIds([]);
                         setSelectedServiceName("");
-                        setRoomRows([]);
-                        setRows([]);
                     } else {
                         toast.error(
                             res?.message ?? "Transaction creation failed."
@@ -342,6 +340,8 @@ export function TransactionDialogs({
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                error={!!warnings?.rent_start}
+                                helperText={warnings?.rent_start}
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -353,6 +353,8 @@ export function TransactionDialogs({
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                error={!!warnings?.rent_end}
+                                helperText={warnings?.rent_end}
                             />
                         </Box>
                         <FormControl fullWidth sx={{ mt: 2 }}>
@@ -364,6 +366,7 @@ export function TransactionDialogs({
                                 }
                                 fullWidth
                                 label="Service"
+                                error={!!warnings?.service_id}
                             >
                                 {serviceRows.map((service) => (
                                     <MenuItem
@@ -377,7 +380,11 @@ export function TransactionDialogs({
                         </FormControl>
 
                         {warnings?.service_id ? (
-                            <Typography component="small" color="error">
+                            <Typography
+                                component="small"
+                                color="error"
+                                sx={{ display: "block" }}
+                            >
                                 {warnings.service_id}
                             </Typography>
                         ) : null}
@@ -428,8 +435,7 @@ export function TransactionDialogs({
                                     setCreateDialog(false);
                                     setServiceIds([]);
                                     setSelectedServiceName("");
-                                    setRoomRows([]);
-                                    setRows([]);
+                                    setWarnings({});
                                 }}
                                 style={{ border: "2px solid #077bff" }}
                             >
@@ -522,12 +528,10 @@ export function TransactionDialogs({
                                     rent_start: e.target.value,
                                 }))
                             }
+                            error={!!warnings?.rent_start}
+                            helperText={warnings?.rent_start}
                         />
-                        {warnings?.rent_start && (
-                            <Typography component="small" color="error">
-                                {warnings.rent_start}
-                            </Typography>
-                        )}
+
                         <TextField
                             id="rent_end"
                             label="Rent End"
@@ -544,12 +548,9 @@ export function TransactionDialogs({
                                     rent_end: e.target.value,
                                 }))
                             }
+                            error={!!warnings?.rent_end}
+                            helperText={warnings?.rent_end}
                         />
-                        {warnings?.rent_end && (
-                            <Typography component="small" color="error">
-                                {warnings.rent_end}
-                            </Typography>
-                        )}
 
                         <FormControl fullWidth sx={{ mt: 2 }}>
                             <InputLabel>Service</InputLabel>
@@ -617,8 +618,11 @@ export function TransactionDialogs({
                         <Box className="d-flex justify-content-end align-items-center mt-2">
                             <Button
                                 color="info"
-                                onClick={() => setEditDialog(null)}
-                                style={{ border: "2px solid blue" }}
+                                onClick={() => {
+                                    setEditDialog(null);
+                                    setWarnings({});
+                                }}
+                                style={{ border: "2px solid #007bff" }}
                             >
                                 Close
                             </Button>

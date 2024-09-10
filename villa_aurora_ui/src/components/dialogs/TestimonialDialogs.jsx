@@ -55,39 +55,39 @@ export function TestimonialDialogs({
         },
         { field: "created_at", headerName: "Create At", width: 200 },
         { field: "updated_at", headerName: "Update At", width: 200 },
-        {
-            field: "actions",
-            headerName: "",
-            sortable: false,
-            filterable: false,
-            renderCell: (params) => (
-                <Box
-                    sx={{
-                        display: "flex",
-                        gap: 1,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                    }}
-                >
-                    <Button
-                        variant="contained"
-                        color="warning"
-                        onClick={() => setEditDialog({ ...params.row })}
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => setDeleteDialog(params.row.id)}
-                    >
-                        Delete
-                    </Button>
-                </Box>
-            ),
-            width: 200,
-        },
+        // {
+        //     field: "actions",
+        //     headerName: "",
+        //     sortable: false,
+        //     filterable: false,
+        //     renderCell: (params) => (
+        //         <Box
+        //             sx={{
+        //                 display: "flex",
+        //                 gap: 1,
+        //                 justifyContent: "center",
+        //                 alignItems: "center",
+        //                 height: "100%",
+        //             }}
+        //         >
+        //             <Button
+        //                 variant="contained"
+        //                 color="warning"
+        //                 onClick={() => setEditDialog({ ...params.row })}
+        //             >
+        //                 Edit
+        //             </Button>
+        //             <Button
+        //                 variant="contained"
+        //                 color="error"
+        //                 onClick={() => setDeleteDialog(params.row.id)}
+        //             >
+        //                 Delete
+        //             </Button>
+        //         </Box>
+        //     ),
+        //     width: 200,
+        // },
     ];
 
     const refreshData = () => {
@@ -191,7 +191,7 @@ export function TestimonialDialogs({
             >
                 <Typography variant="h2">Testimonials</Typography>
                 <Button
-                    sx={{ mr: 5 }}
+                    sx={{ mr: 5, display: "none" }}
                     variant="contained"
                     color="info"
                     onClick={() => setCreateDialog(true)}

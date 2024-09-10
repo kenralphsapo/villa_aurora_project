@@ -14,13 +14,16 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('token')->nullable()->after('role');
+            $table->timestamp('token_expires_at')->nullable()->after('token'); 
         });
     }
-    
+
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('temporary_code');
+            $table->dropColumn('token');
+            $table->dropColumn('token_expires_at'); 
         });
     }
+    
 };

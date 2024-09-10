@@ -67,13 +67,15 @@ function Navigation() {
     };
 
     const checkActive = () => {
-        index(cookies.AUTH_TOKEN).then((res) => {
-            if (res?.ok) {
-                setActive(true);
-            } else {
-                setActive(false);
-            }
-        });
+        if (cookies.AUTH_TOKEN) {
+            index(cookies.AUTH_TOKEN).then((res) => {
+                if (res?.ok) {
+                    setActive(true);
+                } else {
+                    setActive(false);
+                }
+            });
+        }
     };
 
     useEffect(() => {
@@ -122,14 +124,7 @@ function Navigation() {
                         <ListItemText primary="Home" />
                     </ListItem>
                 </a>
-                <a href="#section_5" style={{ textDecoration: "none" }}>
-                    <ListItem>
-                        <ListItemIcon>
-                            <InfoIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="About" />
-                    </ListItem>
-                </a>
+
                 <a href="#section_2" style={{ textDecoration: "none" }}>
                     <ListItem>
                         <ListItemIcon>
@@ -278,13 +273,7 @@ function Navigation() {
                             >
                                 Home
                             </Button>
-                            <Button
-                                color="inherit"
-                                startIcon={<InfoIcon />}
-                                href="#section_5"
-                            >
-                                About
-                            </Button>
+
                             <Button
                                 color="inherit"
                                 startIcon={<ServicesIcon />}
