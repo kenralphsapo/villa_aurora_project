@@ -658,7 +658,7 @@ export function TransactionDialogs({
                 >
                     <Button
                         onClick={() => setDeleteDialog(null)}
-                        style={{ border: "2px solid blue" }}
+                        style={{ border: "2px solid #007bff" }}
                     >
                         Cancel
                     </Button>

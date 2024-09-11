@@ -27,7 +27,6 @@ import { showAllServices } from "../api/service";
 import { showAllRooms } from "../api/room";
 import { addTransaction, showAllTransactions } from "../api/transaction";
 import checkAuth from "../hoc/checkAuth";
-import Confetti from "react-dom-confetti";
 import ReCAPTCHA from "react-google-recaptcha";
 import $ from "jquery";
 import MyCalendar from "./MyCalendar";
@@ -41,7 +40,6 @@ function BookingForm() {
     const [serviceRows, setServiceRows] = useState([]);
     const [roomRows, setRoomRows] = useState([]);
     const user = useSelector((state) => state.auth.user);
-    const [showConfetti, setShowConfetti] = useState(false);
     const [recaptchaValue, setRecaptchaValue] = useState(null);
     const sitekey = "6LfWSv8pAAAAAL2M3-5GYvTMpysv01VOjrEbmmEg";
     const [warnings, setWarnings] = useState({});
@@ -78,7 +76,6 @@ function BookingForm() {
                         setSelectedServices([]);
                         setSelectedRoom(null);
                         e.target.reset();
-                        setShowConfetti(true);
                         setOpenDialog(false);
                         setWarnings({});
                         setRecaptchaValue(null);
@@ -95,14 +92,6 @@ function BookingForm() {
                 });
         }
     };
-
-    useEffect(() => {
-        if (showConfetti) {
-            setTimeout(() => {
-                setShowConfetti(false);
-            }, 3000);
-        }
-    }, [showConfetti]);
 
     const onSelectService = (service) => {
         setSelectedServices((prevServices) => {
@@ -456,7 +445,6 @@ function BookingForm() {
                                     </Grid>
                                 </Box>
                             </Box>
-                            {showConfetti && <Confetti />}
                         </Box>
                     </Box>
                 </Box>

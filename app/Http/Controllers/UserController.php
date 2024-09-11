@@ -84,10 +84,7 @@ class UserController extends Controller
         }
     
         try {
-            // Find the user by ID
             $user = User::findOrFail($data['id']);  
-    
-            // Update user details
             $user->update([
                 'username' => $data['username'],
                 'email' => $data['email'],
