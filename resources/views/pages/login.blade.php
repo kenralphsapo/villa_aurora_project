@@ -36,7 +36,7 @@
                 </div>
                 </form>
             </div>
-            <h1>No account Yet. <a href="{{ route('register') }}">Create One</a></h1>
+            <p style="text-align: center">No account Yet. <a href="{{ route('register') }}">Create One</a></p>
         </div>
     </div>
 </div>
