@@ -36,6 +36,7 @@ import { toast } from "react-toastify";
 import { index } from "../api/user";
 import MyAccount from "./MyAccount";
 import { logout as logoutApi } from "../api/auth";
+import { logout } from "../redux/authSlice";
 
 const drawerWidth = 240;
 
@@ -57,7 +58,7 @@ function Navigation() {
             if (response?.ok) {
                 toast.success(response?.message);
                 removeCookie("AUTH_TOKEN");
-              
+                dispatch(logout(cookies.AUTH_TOKEN));
                 navigate("/login");
             } else {
                 toast.error(response?.message);
