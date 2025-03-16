@@ -26,18 +26,7 @@ export const checkToken = async (token) => {
     return await response.json();
 };
 
-// api/auth.js
-export const revokeToken = async (token) => {
-    const response = await fetch(`${url}/revokeToken`, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    return response;
-};
+
 
 export const login = async (body) => {
     const response = await fetch(`${url}/login`, {
@@ -51,6 +40,20 @@ export const login = async (body) => {
 
     return await response.json();
 };
+
+
+export const logout = async (token) => {
+    const response = await fetch(`${url}/revokeToken`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return await response.json();
+};
+
 
 export const forgotPassword = async (body) => {
     const response = await fetch(`${url}/forgotPassword`, {

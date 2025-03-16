@@ -65,5 +65,6 @@ class DatabaseSeeder extends Seeder
 
         
         Artisan::call('passport:client --personal --no-interaction');
+        Artisan::call("storage:link");
     }
 }

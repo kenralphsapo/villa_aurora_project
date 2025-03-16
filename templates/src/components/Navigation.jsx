@@ -32,9 +32,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
-import { logoutUser } from "../redux/authSlice";
+
 import { index } from "../api/user";
 import MyAccount from "./MyAccount";
+
 
 const drawerWidth = 240;
 
@@ -52,18 +53,16 @@ function Navigation() {
         setDrawerOpen(open);
     };
     const handleLogout = () => {
-        const token = cookies.AUTH_TOKEN;
-        dispatch(logoutUser(token))
-            .unwrap()
-            .then((res) => {
-                if (res?.ok) {
-                    removeCookie("AUTH_TOKEN");
-                    navigate("/login");
-                    toast.success("Logged out successfully.");
-                } else {
-                    toast.error(res?.message ?? "Something went wrong.");
-                }
-            });
+        logout(cookies.AUTH_TOKEN).then((response) => {
+            if (response?.ok) {
+                toast.success(response?.message);
+                removeCookie("AUTH_TOKEN");
+                dispatch(logout(cookies.AUTH_TOKEN));
+                navigate("/login");
+            } else {
+                toast.error(response?.message);
+            }
+        });
     };
 
     const checkActive = () => {
