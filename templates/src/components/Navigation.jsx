@@ -35,7 +35,7 @@ import { toast } from "react-toastify";
 
 import { index } from "../api/user";
 import MyAccount from "./MyAccount";
-
+import { logout as logoutApi } from "../api/auth";
 
 const drawerWidth = 240;
 
@@ -53,11 +53,11 @@ function Navigation() {
         setDrawerOpen(open);
     };
     const handleLogout = () => {
-        logout(cookies.AUTH_TOKEN).then((response) => {
+        logoutApi(cookies.AUTH_TOKEN).then((response) => {
             if (response?.ok) {
                 toast.success(response?.message);
                 removeCookie("AUTH_TOKEN");
-                dispatch(logout(cookies.AUTH_TOKEN));
+              
                 navigate("/login");
             } else {
                 toast.error(response?.message);
@@ -229,7 +229,7 @@ function Navigation() {
                                     </Button>
                                 ) : (
                                     <Link
-                                        to="/login"
+                                        to="/register"
                                         style={{ textDecoration: "none" }}
                                     >
                                         <Typography
@@ -342,7 +342,7 @@ function Navigation() {
                                     </Button>
                                 ) : (
                                     <Link
-                                        to="/login"
+                                        to="/register"
                                         style={{ textDecoration: "none" }}
                                     >
                                         <Typography
